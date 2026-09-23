@@ -1,0 +1,504 @@
+{
+  "skills": [
+    {
+      "canonical": "Python",
+      "category": "Programming languages",
+      "aliases": [
+        "python",
+        "python3",
+        "py"
+      ],
+      "regex": "\\bpython(?:3)?\\b"
+    },
+    {
+      "canonical": "SQL",
+      "category": "Programming languages",
+      "aliases": [
+        "sql",
+        "t-sql",
+        "pl-sql",
+        "plsql",
+        "tsql"
+      ],
+      "regex": "\\bsql\\b"
+    },
+    {
+      "canonical": "R",
+      "category": "Programming languages",
+      "aliases": [
+        "r-project",
+        "r-lang",
+        "r-language",
+        "r-programming"
+      ],
+      "regex": "\\b[Rr]\\b|\\b[Rr]\\s*(?:programming|scripting|studio|lang|language)\\b"
+    },
+    {
+      "canonical": "Java",
+      "category": "Programming languages",
+      "aliases": [
+        "java"
+      ],
+      "regex": "\\bjava\\b"
+    },
+    {
+      "canonical": "Scala",
+      "category": "Programming languages",
+      "aliases": [
+        "scala"
+      ],
+      "regex": "\\bscala\\b"
+    },
+    {
+      "canonical": "C++",
+      "category": "Programming languages",
+      "aliases": [
+        "c++",
+        "cpp"
+      ],
+      "regex": "\\bc\\+\\+\\b|\\bcpp\\b"
+    },
+    {
+      "canonical": "Julia",
+      "category": "Programming languages",
+      "aliases": [
+        "julia"
+      ],
+      "regex": "\\bjulia\\b"
+    },
+    {
+      "canonical": "Bash / Shell",
+      "category": "Programming languages",
+      "aliases": [
+        "bash",
+        "shell",
+        "powershell",
+        "zsh",
+        "sh"
+      ],
+      "regex": "\\b(?:bash|shell|powershell)\\b"
+    },
+    {
+      "canonical": "Go",
+      "category": "Programming languages",
+      "aliases": [
+        "golang",
+        "go-lang"
+      ],
+      "regex": "\\bgolang\\b|\\bgo\\s+programming\\b"
+    },
+    {
+      "canonical": "TypeScript",
+      "category": "Programming languages",
+      "aliases": [
+        "typescript",
+        "ts"
+      ],
+      "regex": "\\btypescript\\b"
+    },
+    {
+      "canonical": "Snowflake",
+      "category": "Databases & data warehouses",
+      "aliases": [
+        "snowflake",
+        "snowflake-data-warehouse"
+      ],
+      "regex": "\\bsnowflake\\b"
+    },
+    {
+      "canonical": "PostgreSQL",
+      "category": "Databases & data warehouses",
+      "aliases": [
+        "postgresql",
+        "postgres",
+        "psql"
+      ],
+      "regex": "\\b(?:postgres|postgresql|psql)\\b"
+    },
+    {
+      "canonical": "BigQuery",
+      "category": "Databases & data warehouses",
+      "aliases": [
+        "bigquery",
+        "google-bigquery",
+        "bq"
+      ],
+      "regex": "\\bbigquery\\b"
+    },
+    {
+      "canonical": "Amazon Redshift",
+      "category": "Databases & data warehouses",
+      "aliases": [
+        "redshift",
+        "amazon-redshift",
+        "aws-redshift"
+      ],
+      "regex": "\\bredshift\\b"
+    },
+    {
+      "canonical": "MySQL",
+      "category": "Databases & data warehouses",
+      "aliases": [
+        "mysql"
+      ],
+      "regex": "\\bmysql\\b"
+    },
+    {
+      "canonical": "MongoDB",
+      "category": "Databases & data warehouses",
+      "aliases": [
+        "mongodb",
+        "mongo"
+      ],
+      "regex": "\\bmongodb?\\b"
+    },
+    {
+      "canonical": "Redis",
+      "category": "Databases & data warehouses",
+      "aliases": [
+        "redis"
+      ],
+      "regex": "\\bredis\\b"
+    },
+    {
+      "canonical": "Cassandra",
+      "category": "Databases & data warehouses",
+      "aliases": [
+        "cassandra",
+        "apache-cassandra"
+      ],
+      "regex": "\\bcassandra\\b"
+    },
+    {
+      "canonical": "Oracle DB",
+      "category": "Databases & data warehouses",
+      "aliases": [
+        "oracle",
+        "oracle-db",
+        "oracle-database"
+      ],
+      "regex": "\\boracle\\s*(?:db|database)?\\b"
+    },
+    {
+      "canonical": "MS SQL Server",
+      "category": "Databases & data warehouses",
+      "aliases": [
+        "sql-server",
+        "mssql",
+        "microsoft-sql-server"
+      ],
+      "regex": "\\b(?:mssql|sql\\s*server)\\b"
+    },
+    {
+      "canonical": "Elasticsearch",
+      "category": "Databases & data warehouses",
+      "aliases": [
+        "elasticsearch",
+        "elastic-search",
+        "elastic"
+      ],
+      "regex": "\\belasticsearch\\b"
+    },
+    {
+      "canonical": "Power BI",
+      "category": "BI & visualization",
+      "aliases": [
+        "powerbi",
+        "power-bi",
+        "power bi",
+        "ms-power-bi"
+      ],
+      "regex": "\\bpower\\s*bi\\b"
+    },
+    {
+      "canonical": "Tableau",
+      "category": "BI & visualization",
+      "aliases": [
+        "tableau",
+        "tableau-server",
+        "tableau-desktop"
+      ],
+      "regex": "\\btableau\\b"
+    },
+    {
+      "canonical": "Excel",
+      "category": "BI & visualization",
+      "aliases": [
+        "excel",
+        "ms-excel",
+        "microsoft-excel"
+      ],
+      "regex": "\\b(?:ms\\s*)?excel\\b"
+    },
+    {
+      "canonical": "Looker",
+      "category": "BI & visualization",
+      "aliases": [
+        "looker",
+        "looker-studio",
+        "lookml"
+      ],
+      "regex": "\\blooker(?:\\s*studio)?\\b"
+    },
+    {
+      "canonical": "Qlik",
+      "category": "BI & visualization",
+      "aliases": [
+        "qlik",
+        "qlikview",
+        "qliksense",
+        "qlik-sense"
+      ],
+      "regex": "\\bqlik(?:view|sense)?\\b"
+    },
+    {
+      "canonical": "Metabase",
+      "category": "BI & visualization",
+      "aliases": [
+        "metabase"
+      ],
+      "regex": "\\bmetabase\\b"
+    },
+    {
+      "canonical": "Apache Superset",
+      "category": "BI & visualization",
+      "aliases": [
+        "superset",
+        "apache-superset"
+      ],
+      "regex": "\\bsuperset\\b"
+    },
+    {
+      "canonical": "Azure",
+      "category": "Cloud & infrastructure",
+      "aliases": [
+        "azure",
+        "microsoft-azure",
+        "azure-cloud",
+        "azure-data-factory",
+        "azure-synapse"
+      ],
+      "regex": "\\bazure\\b"
+    },
+    {
+      "canonical": "AWS",
+      "category": "Cloud & infrastructure",
+      "aliases": [
+        "aws",
+        "amazon-web-services",
+        "amazon-aws",
+        "s3",
+        "glue",
+        "emr",
+        "lambda"
+      ],
+      "regex": "\\b(?:aws|amazon\\s+web\\s+services)\\b"
+    },
+    {
+      "canonical": "GCP",
+      "category": "Cloud & infrastructure",
+      "aliases": [
+        "gcp",
+        "google-cloud",
+        "google-cloud-platform"
+      ],
+      "regex": "\\b(?:gcp|google\\s+cloud(?:\\s+platform)?)\\b"
+    },
+    {
+      "canonical": "Databricks",
+      "category": "Cloud & infrastructure",
+      "aliases": [
+        "databricks"
+      ],
+      "regex": "\\bdatabricks\\b"
+    },
+    {
+      "canonical": "Apache Spark",
+      "category": "Cloud & infrastructure",
+      "aliases": [
+        "spark",
+        "apache-spark",
+        "pyspark"
+      ],
+      "regex": "\\b(?:pyspark|apache\\s+spark|spark)\\b"
+    },
+    {
+      "canonical": "dbt",
+      "category": "Cloud & infrastructure",
+      "aliases": [
+        "dbt",
+        "data-build-tool"
+      ],
+      "regex": "\\bdbt\\b"
+    },
+    {
+      "canonical": "Apache Kafka",
+      "category": "Cloud & infrastructure",
+      "aliases": [
+        "kafka",
+        "apache-kafka"
+      ],
+      "regex": "\\bkafka\\b"
+    },
+    {
+      "canonical": "Apache Airflow",
+      "category": "Cloud & infrastructure",
+      "aliases": [
+        "airflow",
+        "apache-airflow"
+      ],
+      "regex": "\\bairflow\\b"
+    },
+    {
+      "canonical": "Docker",
+      "category": "Cloud & infrastructure",
+      "aliases": [
+        "docker"
+      ],
+      "regex": "\\bdocker\\b"
+    },
+    {
+      "canonical": "Kubernetes",
+      "category": "Cloud & infrastructure",
+      "aliases": [
+        "kubernetes",
+        "k8s"
+      ],
+      "regex": "\\b(?:kubernetes|k8s)\\b"
+    },
+    {
+      "canonical": "Terraform",
+      "category": "Cloud & infrastructure",
+      "aliases": [
+        "terraform"
+      ],
+      "regex": "\\bterraform\\b"
+    },
+    {
+      "canonical": "Git",
+      "category": "Cloud & infrastructure",
+      "aliases": [
+        "git",
+        "github",
+        "gitlab"
+      ],
+      "regex": "\\b(?:git|github|gitlab)\\b"
+    },
+    {
+      "canonical": "CI/CD",
+      "category": "Cloud & infrastructure",
+      "aliases": [
+        "ci-cd",
+        "ci/cd",
+        "cicd",
+        "continuous-integration"
+      ],
+      "regex": "\\bci[/-]?cd\\b"
+    },
+    {
+      "canonical": "PyTorch",
+      "category": "ML/AI frameworks & tools",
+      "aliases": [
+        "pytorch",
+        "torch"
+      ],
+      "regex": "\\bpytorch\\b"
+    },
+    {
+      "canonical": "TensorFlow",
+      "category": "ML/AI frameworks & tools",
+      "aliases": [
+        "tensorflow",
+        "tf",
+        "keras"
+      ],
+      "regex": "\\b(?:tensorflow|keras)\\b"
+    },
+    {
+      "canonical": "Scikit-learn",
+      "category": "ML/AI frameworks & tools",
+      "aliases": [
+        "scikit-learn",
+        "sklearn",
+        "scikit"
+      ],
+      "regex": "\\b(?:scikit-learn|sklearn)\\b"
+    },
+    {
+      "canonical": "Pandas",
+      "category": "ML/AI frameworks & tools",
+      "aliases": [
+        "pandas"
+      ],
+      "regex": "\\bpandas\\b"
+    },
+    {
+      "canonical": "NumPy",
+      "category": "ML/AI frameworks & tools",
+      "aliases": [
+        "numpy"
+      ],
+      "regex": "\\bnumpy\\b"
+    },
+    {
+      "canonical": "MLflow",
+      "category": "ML/AI frameworks & tools",
+      "aliases": [
+        "mlflow"
+      ],
+      "regex": "\\bmlflow\\b"
+    },
+    {
+      "canonical": "Hugging Face",
+      "category": "ML/AI frameworks & tools",
+      "aliases": [
+        "huggingface",
+        "hugging-face",
+        "transformers"
+      ],
+      "regex": "\\b(?:hugging\\s*face|transformers)\\b"
+    },
+    {
+      "canonical": "LangChain",
+      "category": "ML/AI frameworks & tools",
+      "aliases": [
+        "langchain",
+        "llamaindex",
+        "llama-index"
+      ],
+      "regex": "\\b(?:langchain|llamaindex)\\b"
+    },
+    {
+      "canonical": "OpenCV",
+      "category": "ML/AI frameworks & tools",
+      "aliases": [
+        "opencv",
+        "cv2"
+      ],
+      "regex": "\\bopencv\\b"
+    },
+    {
+      "canonical": "XGBoost",
+      "category": "ML/AI frameworks & tools",
+      "aliases": [
+        "xgboost",
+        "lightgbm",
+        "catboost"
+      ],
+      "regex": "\\b(?:xgboost|lightgbm|catboost)\\b"
+    },
+    {
+      "canonical": "LLMs / Generative AI",
+      "category": "ML/AI frameworks & tools",
+      "aliases": [
+        "llm",
+        "generative-ai",
+        "genai",
+        "rag",
+        "agentic-ai",
+        "large-language-models"
+      ],
+      "regex": "\\b(?:llms?|genai|generative\\s+ai|rag)\\b"
+    }
+  ]
+}
