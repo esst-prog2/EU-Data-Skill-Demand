@@ -31,6 +31,7 @@ The project describes patterns in an observed EU-27 job-posting corpus. For exam
 - Measures **job-level skill prevalence**: a skill counts once per posting, regardless of how many times it is mentioned.
 - Compares **skill prevalence** across the five occupational categories.
 - Calculates **skill lift** per category — `P(skill | category) / P(skill | overall corpus)` — to distinguish skills that are relatively characteristic of a category from skills that are simply common across the observed corpus.
+- Uses **support thresholds** of at least 20 postings and 1.5% prevalence for the distinctive-skill display. These were chosen as practical criteria to avoid rankings being driven by very rare skills. A sensitivity analysis across 25 threshold combinations showed that lower thresholds mainly add low-support, highly distinctive skills, while higher thresholds remove less-prevalent or lower-support skills; the full results are documented in `analysis/sensitivity_report.md`.
 - Shows the relative size/**composition of the five job categories** to provide context for corpus-level skill prevalence.
 - Shows a **posting-count map** by country using raw observed counts only.
 - Compares **occupational composition** across countries with at least 300 observed postings; smaller countries remain visible on the map but are excluded from this comparison.

@@ -12,4 +12,6 @@
 - 2026-09-22: Test suite covers 4 distinct pytest areas: hybrid skill extraction, prevalence/lift calculation, distinctive-skill filtering, and geographic N >= 300 thresholding. (Decided by: User)
 - 2026-09-23: Documented potential post-MVP candidate change requests in proposal.md (e.g., 2D quadrant scatter plot, regional filtering, and metadata breakdowns). (Decided by: User)
 
-
+## 2026-09-29: Sensitivity Analysis Changes
+- 2026-09-29: Evaluated distinctive-skill ranking sensitivity across a 25-combination grid (`min_count` in `[5, 10, 20, 30, 50]` and `min_prevalence` in `[0.5%, 1.0%, 1.5%, 2.0%, 3.0%]`) on the 22,985-posting EU-27 snapshot and retained the `N >= 20` and `prevalence >= 1.5%` heuristic cutoffs without changing the MVP methodology. (Decided by: User)
+- 2026-09-29: Added reproducible sensitivity-analysis artifacts (`analysis/sensitivity_analysis.py` and `analysis/sensitivity_report.md`) documenting the empirical trade-offs of lowering vs. raising the support thresholds across unequal category sizes. (Decided by: User, proposed by Agent)
