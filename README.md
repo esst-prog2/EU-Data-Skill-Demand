@@ -4,7 +4,7 @@
 
 I open the Streamlit web app in the browser and select one of five FreeHire occupational categories: Data Analytics, Data Engineering, Data Science, ML/AI, or AI Engineering.
 The app shows the category's most prevalent skills, then highlights which of those skills are *distinctive* to it rather than simply common across the observed corpus — e.g., "Python appears in 78% of Data Science postings, 1.4× its overall corpus prevalence, versus 45% in Data Analytics (0.8×)."
-A map shows where the 22,985 postings are located across the EU-27. A separate comparison shows how the occupational composition of countries with at least 300 observed postings differs across the five categories.
+A map shows where the 23,138 postings are located across the EU-27. A separate comparison shows how the occupational composition of countries with at least 300 observed postings differs across the five categories.
 The overview also shows the relative size of the five occupational categories, providing context for the overall skill-prevalence results.
 
 ### Scope Decisions
@@ -12,12 +12,13 @@ The overview also shows the relative size of the five occupational categories, p
 - **Project focus:** I cut the CV-matching and personalized skill-gap component from the original concept and focused the project on the market-analysis side, measuring technical skill demand across data-related occupations and geographic contexts in an observed EU-27 job-posting corpus.
 - **Data source:** I moved from SerpAPI and RemoteOK to FreeHire because FreeHire provides a larger, more consistently structured EU-wide job-posting corpus with occupational categories and country-level enrichment, making systematic comparison across occupations and countries more feasible.
 - **Geographic scope:** I expanded from a Hungary-focused analysis to the EU-27 because the broader corpus provides enough geographic and occupational variation to study how technical skill demand differs across both occupations and labour-market contexts.
-- **Seniority:** I moved away from using seniority as a primary analytical dimension because seniority information is missing for 59% of the corpus, making it too incomplete for a reliable comparison.
+- **Seniority:** I moved away from using seniority as a primary analytical dimension because seniority information is missing for 61.2% of the corpus, making it too incomplete for a reliable comparison.
+- **Snapshot refresh:** I recollected the EU-27 five-category dataset on 2026-09-29 because the previous FreeHire search endpoint returned job descriptions truncated to approximately 1,000 characters. The refreshed collection uses FreeHire's agent job-search endpoint, which provides the full available descriptions, making the description-based skill extraction more suitable for validation. The refreshed collection contains 23,138 unique postings, compared with 22,985 in the previous snapshot.
 
 
 ## 2. The Shape
 
-- **In:** A fixed local snapshot of **22,985 unique EU-27 job postings** from FreeHire, with job category, country, and partial seniority information from FreeHire's own enrichment.
+- **In:** A fixed local snapshot of unique EU-27 job postings from FreeHire (`data/raw/freehire_eu_raw.json`), stored as a retained snapshot containing only the fields needed for analysis and validation (`_collection_category`, `_collection_country`, `public_slug`, `url`, `title`, `company`, `posted_at`, `skills`, `description`, and `enrichment.seniority`) rather than a complete raw API dump.
 - **Out:** Overall and category-specific skill prevalence, a skill-distinctiveness (lift) score per skill per category, a posting-count map by country, the occupational composition of the corpus, and an occupational-composition comparison across countries with sufficient sample size.
 - **On screen:** The user selects an occupational category to see its skill profile and most distinctive skills; the overview shows the composition of the five categories and overall skill demand; a separate geographic view shows the EU map and, for sufficiently represented countries, how their occupational mix compares.
 The project describes patterns in an observed EU-27 job-posting corpus. For example, it can estimate the proportion of observed Data Science postings containing Python, but not the proportion of all Data Science jobs in the EU requiring Python.
@@ -26,7 +27,7 @@ The project describes patterns in an observed EU-27 job-posting corpus. For exam
 ## 3. The Size
 
 ### First Useful Version Does
-- Uses the fixed, audited **snapshot of 22,985** unique FreeHire postings across the EU-27.
+- Uses the fixed, audited **snapshot of 23,138** unique FreeHire postings across the EU-27.
 - **Extracts skills** via a controlled vocabulary with alias normalization (e.g., `PowerBI` → `Power BI`).
 - Measures **job-level skill prevalence**: a skill counts once per posting, regardless of how many times it is mentioned.
 - Compares **skill prevalence** across the five occupational categories.
@@ -35,7 +36,7 @@ The project describes patterns in an observed EU-27 job-posting corpus. For exam
 - Shows the relative size/**composition of the five job categories** to provide context for corpus-level skill prevalence.
 - Shows a **posting-count map** by country using raw observed counts only.
 - Compares **occupational composition** across countries with at least 300 observed postings; smaller countries remain visible on the map but are excluded from this comparison.
-- Reports FreeHire's **seniority** information as a descriptive fact (seniority is available for 41% of postings), without a dedicated seniority filter and without inferring missing values.
+- Reports FreeHire's **seniority** information as a descriptive fact (seniority is available for 38.8% of postings), without a dedicated seniority filter and without inferring missing values.
 - Treats each **unique posting** as one observation. No external country, occupation, or market-size weights are applied.
 - Implements skill extraction, lift calculation, and the category/geographic comparisons as **plain Python functions** in a small module, so the behaviors in Section 4 can be tested directly without running the app; Streamlit only calls these functions and renders their output.
 
@@ -62,7 +63,7 @@ The project describes patterns in an observed EU-27 job-posting corpus. For exam
 ## 5. What Could Stop This
 
 - **Snapshot/data provenance:** The FreeHire dataset may change over time or differ between collection runs.  
-  *Mitigation:* Freeze the audited 22,985-posting snapshot locally; all analysis runs from the saved data.
+  *Mitigation:* Freeze the audited 23,138-posting snapshot locally; all analysis runs from the saved data.
 - **Uneven category sizes:** The snapshot is heavily concentrated in Data Engineering.  
   *Mitigation:* Report the occupational composition explicitly and use both counts and within-category prevalence/lift rather than raw skill frequency alone.
 - **Skill extraction and vocabulary coverage:** Inconsistent terminology can cause false positives/negatives, while skills outside the controlled vocabulary cannot be detected.  
@@ -73,5 +74,5 @@ The project describes patterns in an observed EU-27 job-posting corpus. For exam
   *Mitigation:* Apply the 300-posting threshold specifically to the occupational-composition comparison; smaller countries remain visible as raw counts on the map.
 - **Source limitations:** FreeHire is one job-posting source, not a labour-market census.  
   *Mitigation:* Describe all findings as patterns within the observed FreeHire EU-27 corpus and avoid claims about the true size or structure of the entire EU labour market.
-- **Incomplete seniority metadata:** Native FreeHire seniority information is available for only 41% of postings.  
+- **Incomplete seniority metadata:** Native FreeHire seniority information is available for only 38.8% of postings.  
   *Mitigation:* Report seniority coverage as a descriptive fact only; no filter or imputation is used.

@@ -3,7 +3,7 @@ Whenever we decide something about this project – a requirement, a number, a n
 
 ## Project Overview
 **EU Data Jobs & Skill Demand Analysis**
-An interactive Streamlit web dashboard and testable analytical pipeline examining technical skill demand across data-related occupations and EU-27 countries based on an audited snapshot of 22,985 FreeHire job postings.
+An interactive Streamlit web dashboard and testable analytical pipeline examining technical skill demand across data-related occupations and EU-27 countries based on an audited snapshot of 23,138 FreeHire job postings.
 
 ### Target Occupational Categories
 - Data Analytics (`data_analytics`)

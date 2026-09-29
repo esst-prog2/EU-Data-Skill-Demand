@@ -55,7 +55,7 @@ def main() -> None:
     st.markdown(
         """
         An empirical analysis of technical skill demand across data-related occupations and EU-27 member states,
-        based on an audited snapshot of **22,985 FreeHire job postings**.
+        based on an audited snapshot of **23,138 FreeHire job postings**.
         """
     )
 
@@ -367,7 +367,7 @@ def main() -> None:
 
     st.markdown("---")
     st.caption(
-        "EU Data Jobs & Skill Demand Analysis • Built with Python & Streamlit • Data Source: FreeHire snapshot (22,985 postings)"
+        "EU Data Jobs & Skill Demand Analysis • Built with Python & Streamlit • Data Source: FreeHire snapshot (23,138 postings)"
     )
 
 

@@ -15,3 +15,11 @@
 ## 2026-09-29: Sensitivity Analysis Changes
 - 2026-09-29: Evaluated distinctive-skill ranking sensitivity across a 25-combination grid (`min_count` in `[5, 10, 20, 30, 50]` and `min_prevalence` in `[0.5%, 1.0%, 1.5%, 2.0%, 3.0%]`) on the 22,985-posting EU-27 snapshot and retained the `N >= 20` and `prevalence >= 1.5%` heuristic cutoffs without changing the MVP methodology. (Decided by: User)
 - 2026-09-29: Added reproducible sensitivity-analysis artifacts (`analysis/sensitivity_analysis.py` and `analysis/sensitivity_report.md`) documenting the empirical trade-offs of lowering vs. raising the support thresholds across unequal category sizes. (Decided by: User, proposed by Agent)
+
+## 2026-09-29: Data Collection Refresh
+- 2026-09-29: The FreeHire collector was switched from `/api/v1/jobs/search` to `/api/v1/agent/jobs/search` so the refreshed snapshot contains the full available job descriptions rather than the approximately 1,000-character search-preview descriptions. (Decided by: User, proposed by Agent)
+- 2026-09-29: `description_format=text` was selected to retain complete descriptions without the large HTML overhead; request delay was increased to 0.25 seconds and HTTP 429 responses now respect `Retry-After` before retrying. (Decided by: User, proposed by Agent)
+- 2026-09-29: The refreshed EU-27 five-category snapshot contains 23,138 unique postings, matching the live FreeHire facet total after completing the initially timed-out NL/Data Analytics query. (Decided by: User)
+- 2026-09-29: The retained project snapshot contains only the fields required by the current preprocessing, analytics, sensitivity-analysis, tests, and validation workflows, keeping the full-text dataset below GitHub's 100 MiB single-file limit while preserving the existing `data/raw/freehire_eu_raw.json` path. (Decided by: User)
+- 2026-09-29: Updated the general project description in `AGENTS.md` from the previous 22,985-posting snapshot to the refreshed 23,138-posting snapshot. (Decided by: User)
+- 2026-09-29: Updated the Streamlit app's user-facing snapshot references in `app.py` from 22,985 to 23,138 after the dataset refresh. (Decided by: User)

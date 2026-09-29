@@ -36,7 +36,7 @@ import requests
 # CONFIGURATION
 # ============================================================
 
-BASE_URL = "https://freehire.me/api/v1/jobs/search"
+BASE_URL = "https://freehire.me/api/v1/agent/jobs/search"
 
 OUTPUT_DIR = Path("data/raw")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -48,7 +48,7 @@ METADATA_OUTPUT = OUTPUT_DIR / "collection_metadata_eu.json"
 PAGE_SIZE = 100
 
 # Small pause between requests.
-REQUEST_DELAY = 0.15
+REQUEST_DELAY = 0.25
 
 # Request timeout in seconds.
 TIMEOUT = 30
@@ -139,6 +139,7 @@ def get_jobs(country_code, category):
             "offset": offset,
             "sort": "posted_at",
             "order": "desc",
+            "description_format": "text",
         }
 
         response = session.get(
@@ -146,6 +147,15 @@ def get_jobs(country_code, category):
             params=params,
             timeout=TIMEOUT,
         )
+
+        if response.status_code == 429:
+            retry_after = response.headers.get("Retry-After")
+            try:
+                wait_seconds = float(retry_after)
+            except (TypeError, ValueError):
+                wait_seconds = REQUEST_DELAY
+            time.sleep(max(wait_seconds, REQUEST_DELAY))
+            continue
 
         response.raise_for_status()
 
