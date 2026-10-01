@@ -31,7 +31,7 @@
         "r-language",
         "r-programming"
       ],
-      "regex": "\\b[Rr]\\b|\\b[Rr]\\s*(?:programming|scripting|studio|lang|language)\\b"
+      "regex": "\\b[Rr]\\s*(?:programming|scripting|studio|lang|language)\\b|(?<!\\.)(?<!-)(?<!\\b[A-Za-z]/)(?<!\\b[A-Za-z]\\.\\s)(?:(?<![\\(\\[])\\bR\\b|(?<=[\\(\\[])\\bR\\b(?!\\s*[\\)\\]]))(?!\\s*&)(?!\\.\\s*\\d)(?!\\.[A-Za-z])(?!\\.\\s*[A-Z]\\.)(?!-\\d)(?!/\\d)(?![\\$€£])"
     },
     {
       "canonical": "Java",
@@ -228,7 +228,7 @@
         "ms-excel",
         "microsoft-excel"
       ],
-      "regex": "\\b(?:ms\\s*)?excel\\b"
+      "regex": "\\b(?:ms\\s*|microsoft\\s*)?excel\\b(?!\\s+(?:in|at|within|as|with)\\b)"
     },
     {
       "canonical": "Looker",
@@ -393,7 +393,7 @@
         "cicd",
         "continuous-integration"
       ],
-      "regex": "\\bci[/-]?cd\\b"
+      "regex": "\\bci[/-]?cd\\b|\\bcontinuous\\s+(?:integration|delivery|deployment)\\b|\\b(?:running|run|runs|ran|executing|execute|evals?|testing|tests?)\\s+in\\s+ci\\b|\\bci\\s+(?:pipeline|pipelines|environment|environments|testing|test|tests|build|builds|server|servers|runner|runners|workflow|workflows|system|systems|harness)\\b|\\b(?:in|into|with)\\s+ci\\b"
     },
     {
       "canonical": "PyTorch",
@@ -498,7 +498,7 @@
         "agentic-ai",
         "large-language-models"
       ],
-      "regex": "\\b(?:llms?|genai|generative\\s+ai|rag)\\b"
+      "regex": "\\b(?:llms?|genai|generative\\s+ai|rag|ia\\s+g[eé]n[eé]rative)\\b"
     }
   ]
 }
