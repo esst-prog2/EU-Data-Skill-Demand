@@ -36,6 +36,7 @@
 - 2026-09-29: The final HW4 audit results were: 2,548 evaluable skill decisions, 256 human positives, TP=256, FP=3, FN=0, TN=2,289, precision=98.84%, recall=100.00%. (Decided by: User)
 
 ## 2026-09-30: HW4 Manual Annotation & Taxonomy Review
+- 2026-09-30: In the refreshed 23,138-posting snapshot, 50 of the 52 canonical skills appear in FreeHire's native skill tags, while R and Excel do not appear as native tags and therefore depend entirely on the description-regex fallback for detection. The production extractor retains native FreeHire tags as the primary signal and applies the regex fallback only when a skill was not already detected from native tags. (Decided by: User)
 - 2026-09-30: Manual annotation rule: A skill is labelled 1 only when the exact canonical skill is explicitly evidenced in the available posting content; 0 when sufficiently complete evidence does not support it; U when the available content is insufficient to determine it. Required and preferred skills both count. (Decided by: User)
 - 2026-09-30: Incomplete sample handling: Sample 19 (Data Engineer MLE - Insud Pharma) is incomplete/truncated, so all 52 skill decisions for that posting are marked U rather than replacing the posting or supplementing it with an external source. (Decided by: User)
 - 2026-09-30: External evidence policy: The HW4 sample is evaluated only from the retained FreeHire posting content; no LinkedIn, job-board, or other external source is used to supplement sampled postings. (Decided by: User)
