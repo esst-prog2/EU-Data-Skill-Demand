@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-29 19:26:36 UTC",
+  "generated_at": "2026-10-03 18:06:33 UTC",
   "kpis": {
     "total_postings": 23138,
     "total_countries": 27,
@@ -79,9 +79,9 @@
       {
         "skill": "CI/CD",
         "skill_group": "Cloud & infrastructure",
-        "count": 4993,
-        "prevalence": 0.21579220330192755,
-        "prevalence_pct": 21.6
+        "count": 5014,
+        "prevalence": 0.21669980119284293,
+        "prevalence_pct": 21.7
       },
       {
         "skill": "Databricks",
@@ -93,9 +93,9 @@
       {
         "skill": "LLMs / Generative AI",
         "skill_group": "ML/AI frameworks & tools",
-        "count": 4700,
-        "prevalence": 0.20312905177629872,
-        "prevalence_pct": 20.3
+        "count": 4801,
+        "prevalence": 0.20749416544212984,
+        "prevalence_pct": 20.7
       },
       {
         "skill": "GCP",
@@ -205,9 +205,9 @@
         {
           "canonical": "CI/CD",
           "skill_group": "Cloud & infrastructure",
-          "count": 3527,
-          "prevalence": 0.2433588628993307,
-          "prevalence_pct": 24.3,
+          "count": 3538,
+          "prevalence": 0.24411784999655006,
+          "prevalence_pct": 24.4,
           "lift": 1.13
         },
         {
@@ -337,10 +337,10 @@
         {
           "canonical": "R",
           "skill_group": "Programming languages",
-          "count": 701,
-          "prevalence": 0.0483681777409784,
-          "prevalence_pct": 4.8,
-          "lift": 0.63
+          "count": 357,
+          "prevalence": 0.024632581246118817,
+          "prevalence_pct": 2.5,
+          "lift": 0.56
         },
         {
           "canonical": "Java",
@@ -505,10 +505,10 @@
         {
           "canonical": "Excel",
           "skill_group": "BI & visualization",
-          "count": 221,
-          "prevalence": 0.015248740771406886,
-          "prevalence_pct": 1.5,
-          "lift": 0.36
+          "count": 185,
+          "prevalence": 0.012764782998689023,
+          "prevalence_pct": 1.3,
+          "lift": 0.33
         },
         {
           "canonical": "Looker",
@@ -641,9 +641,9 @@
         {
           "canonical": "CI/CD",
           "skill_group": "Cloud & infrastructure",
-          "count": 3527,
-          "prevalence": 0.2433588628993307,
-          "prevalence_pct": 24.3,
+          "count": 3538,
+          "prevalence": 0.24411784999655006,
+          "prevalence_pct": 24.4,
           "lift": 1.13
         },
         {
@@ -729,10 +729,10 @@
         {
           "canonical": "LLMs / Generative AI",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 1234,
-          "prevalence": 0.08514455254260678,
-          "prevalence_pct": 8.5,
-          "lift": 0.42
+          "count": 1305,
+          "prevalence": 0.09004346926102257,
+          "prevalence_pct": 9.0,
+          "lift": 0.43
         }
       ]
     },
@@ -776,10 +776,10 @@
         {
           "canonical": "Excel",
           "skill_group": "BI & visualization",
-          "count": 602,
-          "prevalence": 0.21875,
-          "prevalence_pct": 21.9,
-          "lift": 5.12
+          "count": 586,
+          "prevalence": 0.2129360465116279,
+          "prevalence_pct": 21.3,
+          "lift": 5.49
         },
         {
           "canonical": "dbt",
@@ -798,14 +798,6 @@
           "lift": 0.43
         },
         {
-          "canonical": "R",
-          "skill_group": "Programming languages",
-          "count": 345,
-          "prevalence": 0.12536337209302326,
-          "prevalence_pct": 12.5,
-          "lift": 1.63
-        },
-        {
           "canonical": "Looker",
           "skill_group": "BI & visualization",
           "count": 337,
@@ -820,16 +812,24 @@
           "prevalence": 0.11264534883720931,
           "prevalence_pct": 11.3,
           "lift": 0.9
+        },
+        {
+          "canonical": "Databricks",
+          "skill_group": "Cloud & infrastructure",
+          "count": 303,
+          "prevalence": 0.11010174418604651,
+          "prevalence_pct": 11.0,
+          "lift": 0.53
         }
       ],
       "top_distinctive": [
         {
           "canonical": "Excel",
           "skill_group": "BI & visualization",
-          "count": 602,
-          "prevalence": 0.21875,
-          "prevalence_pct": 21.9,
-          "lift": 5.12
+          "count": 586,
+          "prevalence": 0.2129360465116279,
+          "prevalence_pct": 21.3,
+          "lift": 5.49
         },
         {
           "canonical": "Looker",
@@ -874,10 +874,10 @@
         {
           "canonical": "R",
           "skill_group": "Programming languages",
-          "count": 345,
-          "prevalence": 0.12536337209302326,
-          "prevalence_pct": 12.5,
-          "lift": 1.63
+          "count": 276,
+          "prevalence": 0.1002906976744186,
+          "prevalence_pct": 10.0,
+          "lift": 2.26
         },
         {
           "canonical": "SQL",
@@ -924,10 +924,10 @@
         {
           "canonical": "R",
           "skill_group": "Programming languages",
-          "count": 345,
-          "prevalence": 0.12536337209302326,
-          "prevalence_pct": 12.5,
-          "lift": 1.63
+          "count": 276,
+          "prevalence": 0.1002906976744186,
+          "prevalence_pct": 10.0,
+          "lift": 2.26
         },
         {
           "canonical": "Java",
@@ -1092,10 +1092,10 @@
         {
           "canonical": "Excel",
           "skill_group": "BI & visualization",
-          "count": 602,
-          "prevalence": 0.21875,
-          "prevalence_pct": 21.9,
-          "lift": 5.12
+          "count": 586,
+          "prevalence": 0.2129360465116279,
+          "prevalence_pct": 21.3,
+          "lift": 5.49
         },
         {
           "canonical": "Looker",
@@ -1228,9 +1228,9 @@
         {
           "canonical": "CI/CD",
           "skill_group": "Cloud & infrastructure",
-          "count": 166,
-          "prevalence": 0.06031976744186047,
-          "prevalence_pct": 6.0,
+          "count": 167,
+          "prevalence": 0.06068313953488372,
+          "prevalence_pct": 6.1,
           "lift": 0.28
         },
         {
@@ -1316,10 +1316,10 @@
         {
           "canonical": "LLMs / Generative AI",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 228,
-          "prevalence": 0.08284883720930232,
-          "prevalence_pct": 8.3,
-          "lift": 0.41
+          "count": 237,
+          "prevalence": 0.08611918604651163,
+          "prevalence_pct": 8.6,
+          "lift": 0.42
         }
       ]
     },
@@ -1331,10 +1331,10 @@
         {
           "canonical": "LLMs / Generative AI",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 2009,
-          "prevalence": 0.7823208722741433,
-          "prevalence_pct": 78.2,
-          "lift": 3.85
+          "count": 2014,
+          "prevalence": 0.7842679127725857,
+          "prevalence_pct": 78.4,
+          "lift": 3.78
         },
         {
           "canonical": "Python",
@@ -1355,9 +1355,9 @@
         {
           "canonical": "CI/CD",
           "skill_group": "Cloud & infrastructure",
-          "count": 749,
-          "prevalence": 0.2916666666666667,
-          "prevalence_pct": 29.2,
+          "count": 754,
+          "prevalence": 0.29361370716510904,
+          "prevalence_pct": 29.4,
           "lift": 1.35
         },
         {
@@ -1429,10 +1429,10 @@
         {
           "canonical": "LLMs / Generative AI",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 2009,
-          "prevalence": 0.7823208722741433,
-          "prevalence_pct": 78.2,
-          "lift": 3.85
+          "count": 2014,
+          "prevalence": 0.7842679127725857,
+          "prevalence_pct": 78.4,
+          "lift": 3.78
         },
         {
           "canonical": "Hugging Face",
@@ -1511,10 +1511,10 @@
         {
           "canonical": "R",
           "skill_group": "Programming languages",
-          "count": 169,
-          "prevalence": 0.06580996884735202,
-          "prevalence_pct": 6.6,
-          "lift": 0.85
+          "count": 32,
+          "prevalence": 0.012461059190031152,
+          "prevalence_pct": 1.2,
+          "lift": 0.28
         },
         {
           "canonical": "Java",
@@ -1679,10 +1679,10 @@
         {
           "canonical": "Excel",
           "skill_group": "BI & visualization",
-          "count": 65,
-          "prevalence": 0.025311526479750778,
-          "prevalence_pct": 2.5,
-          "lift": 0.59
+          "count": 47,
+          "prevalence": 0.018302180685358254,
+          "prevalence_pct": 1.8,
+          "lift": 0.47
         },
         {
           "canonical": "Looker",
@@ -1815,9 +1815,9 @@
         {
           "canonical": "CI/CD",
           "skill_group": "Cloud & infrastructure",
-          "count": 749,
-          "prevalence": 0.2916666666666667,
-          "prevalence_pct": 29.2,
+          "count": 754,
+          "prevalence": 0.29361370716510904,
+          "prevalence_pct": 29.4,
           "lift": 1.35
         },
         {
@@ -1903,10 +1903,10 @@
         {
           "canonical": "LLMs / Generative AI",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 2009,
-          "prevalence": 0.7823208722741433,
-          "prevalence_pct": 78.2,
-          "lift": 3.85
+          "count": 2014,
+          "prevalence": 0.7842679127725857,
+          "prevalence_pct": 78.4,
+          "lift": 3.78
         }
       ]
     },
@@ -1934,18 +1934,10 @@
         {
           "canonical": "LLMs / Generative AI",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 702,
-          "prevalence": 0.3277310924369748,
-          "prevalence_pct": 32.8,
+          "count": 715,
+          "prevalence": 0.3338001867413632,
+          "prevalence_pct": 33.4,
           "lift": 1.61
-        },
-        {
-          "canonical": "R",
-          "skill_group": "Programming languages",
-          "count": 456,
-          "prevalence": 0.21288515406162464,
-          "prevalence_pct": 21.3,
-          "lift": 2.76
         },
         {
           "canonical": "Azure",
@@ -1978,6 +1970,14 @@
           "prevalence": 0.15592903828197946,
           "prevalence_pct": 15.6,
           "lift": 0.94
+        },
+        {
+          "canonical": "R",
+          "skill_group": "Programming languages",
+          "count": 330,
+          "prevalence": 0.15406162464985995,
+          "prevalence_pct": 15.4,
+          "lift": 3.47
         },
         {
           "canonical": "GCP",
@@ -2022,6 +2022,14 @@
           "lift": 4.21
         },
         {
+          "canonical": "R",
+          "skill_group": "Programming languages",
+          "count": 330,
+          "prevalence": 0.15406162464985995,
+          "prevalence_pct": 15.4,
+          "lift": 3.47
+        },
+        {
           "canonical": "Pandas",
           "skill_group": "ML/AI frameworks & tools",
           "count": 269,
@@ -2046,14 +2054,6 @@
           "lift": 2.84
         },
         {
-          "canonical": "R",
-          "skill_group": "Programming languages",
-          "count": 456,
-          "prevalence": 0.21288515406162464,
-          "prevalence_pct": 21.3,
-          "lift": 2.76
-        },
-        {
           "canonical": "MLflow",
           "skill_group": "ML/AI frameworks & tools",
           "count": 111,
@@ -2072,9 +2072,9 @@
         {
           "canonical": "LLMs / Generative AI",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 702,
-          "prevalence": 0.3277310924369748,
-          "prevalence_pct": 32.8,
+          "count": 715,
+          "prevalence": 0.3338001867413632,
+          "prevalence_pct": 33.4,
           "lift": 1.61
         }
       ],
@@ -2098,10 +2098,10 @@
         {
           "canonical": "R",
           "skill_group": "Programming languages",
-          "count": 456,
-          "prevalence": 0.21288515406162464,
-          "prevalence_pct": 21.3,
-          "lift": 2.76
+          "count": 330,
+          "prevalence": 0.15406162464985995,
+          "prevalence_pct": 15.4,
+          "lift": 3.47
         },
         {
           "canonical": "Java",
@@ -2266,10 +2266,10 @@
         {
           "canonical": "Excel",
           "skill_group": "BI & visualization",
-          "count": 73,
-          "prevalence": 0.034080298786181136,
-          "prevalence_pct": 3.4,
-          "lift": 0.8
+          "count": 69,
+          "prevalence": 0.03221288515406162,
+          "prevalence_pct": 3.2,
+          "lift": 0.83
         },
         {
           "canonical": "Looker",
@@ -2402,8 +2402,8 @@
         {
           "canonical": "CI/CD",
           "skill_group": "Cloud & infrastructure",
-          "count": 241,
-          "prevalence": 0.11251167133520075,
+          "count": 242,
+          "prevalence": 0.11297852474323063,
           "prevalence_pct": 11.3,
           "lift": 0.52
         },
@@ -2490,9 +2490,9 @@
         {
           "canonical": "LLMs / Generative AI",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 702,
-          "prevalence": 0.3277310924369748,
-          "prevalence_pct": 32.8,
+          "count": 715,
+          "prevalence": 0.3338001867413632,
+          "prevalence_pct": 33.4,
           "lift": 1.61
         }
       ]
@@ -2513,10 +2513,10 @@
         {
           "canonical": "LLMs / Generative AI",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 527,
-          "prevalence": 0.4454775993237532,
-          "prevalence_pct": 44.5,
-          "lift": 2.19
+          "count": 530,
+          "prevalence": 0.44801352493660185,
+          "prevalence_pct": 44.8,
+          "lift": 2.16
         },
         {
           "canonical": "PyTorch",
@@ -2545,10 +2545,10 @@
         {
           "canonical": "CI/CD",
           "skill_group": "Cloud & infrastructure",
-          "count": 310,
-          "prevalence": 0.26204564666103125,
-          "prevalence_pct": 26.2,
-          "lift": 1.21
+          "count": 313,
+          "prevalence": 0.26458157227387996,
+          "prevalence_pct": 26.5,
+          "lift": 1.22
         },
         {
           "canonical": "Azure",
@@ -2685,10 +2685,10 @@
         {
           "canonical": "R",
           "skill_group": "Programming languages",
-          "count": 114,
-          "prevalence": 0.09636517328825021,
-          "prevalence_pct": 9.6,
-          "lift": 1.25
+          "count": 31,
+          "prevalence": 0.026204564666103127,
+          "prevalence_pct": 2.6,
+          "lift": 0.59
         },
         {
           "canonical": "Java",
@@ -2853,10 +2853,10 @@
         {
           "canonical": "Excel",
           "skill_group": "BI & visualization",
-          "count": 27,
-          "prevalence": 0.02282333051563821,
-          "prevalence_pct": 2.3,
-          "lift": 0.53
+          "count": 10,
+          "prevalence": 0.0084530853761623,
+          "prevalence_pct": 0.8,
+          "lift": 0.22
         },
         {
           "canonical": "Looker",
@@ -2989,10 +2989,10 @@
         {
           "canonical": "CI/CD",
           "skill_group": "Cloud & infrastructure",
-          "count": 310,
-          "prevalence": 0.26204564666103125,
-          "prevalence_pct": 26.2,
-          "lift": 1.21
+          "count": 313,
+          "prevalence": 0.26458157227387996,
+          "prevalence_pct": 26.5,
+          "lift": 1.22
         },
         {
           "canonical": "PyTorch",
@@ -3077,10 +3077,10 @@
         {
           "canonical": "LLMs / Generative AI",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 527,
-          "prevalence": 0.4454775993237532,
-          "prevalence_pct": 44.5,
-          "lift": 2.19
+          "count": 530,
+          "prevalence": 0.44801352493660185,
+          "prevalence_pct": 44.8,
+          "lift": 2.16
         }
       ]
     }
