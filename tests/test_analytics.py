@@ -8,6 +8,8 @@ Unit tests for analytical core logic across four designated pytest areas:
 4. Geographic N >= 300 thresholding
 """
 
+from pathlib import Path
+
 import pytest
 from src.analytics import (
     SkillVocabulary,
@@ -71,6 +73,13 @@ def vocabulary():
     return SkillVocabulary(vocab_data)
 
 
+@pytest.fixture
+def production_vocabulary():
+    """Provides the actual production technical skill vocabulary."""
+    vocab_path = Path(__file__).resolve().parent.parent / "data" / "fixtures" / "skills_vocabulary.json"
+    return SkillVocabulary.load_from_file(vocab_path)
+
+
 # ==============================================================================
 # Area 1: Hybrid Skill Extraction
 # ==============================================================================
@@ -125,6 +134,21 @@ class TestHybridSkillExtraction:
         extracted = extract_skills_from_posting(posting, vocabulary)
         # Should be a set with exactly 1 element
         assert extracted == {"Python"}
+
+    def test_rd_department_mention_does_not_extract_r(self, production_vocabulary):
+        """
+        Homework 5 regression test: An advertisement mentioning R&D (Research & Development)
+        without referring to the R programming language must not extract 'R', while
+        explicit mentions of Python as a programming language must be extracted.
+        """
+        posting = {
+            "title": "R&D Software Engineer",
+            "skills": [],  # Untagged to exercise description regex fallback
+            "description": "Join our R&D department building machine learning pipelines in Python.",
+        }
+        extracted = extract_skills_from_posting(posting, production_vocabulary)
+        assert "Python" in extracted
+        assert "R" not in extracted
 
 
 # ==============================================================================
