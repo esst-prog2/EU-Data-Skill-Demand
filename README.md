@@ -18,10 +18,25 @@ The overview also shows the relative size of the five occupational categories, p
 
 ## 2. The Shape
 
-- **In:** A fixed local snapshot of unique EU-27 job postings from FreeHire (`data/raw/freehire_eu_raw.json`), stored as a retained snapshot containing only the fields needed for analysis and validation (`_collection_category`, `_collection_country`, `public_slug`, `url`, `title`, `company`, `posted_at`, `skills`, `description`, and `enrichment.seniority`) rather than a complete raw API dump.
+- **In:** A fixed snapshot of unique EU-27 job postings from FreeHire (`data/raw/freehire_eu_raw.json`), retained locally and excluded from Git due to file size, containing only the fields needed for analysis and validation (`_collection_category`, `_collection_country`, `public_slug`, `url`, `title`, `company`, `posted_at`, `skills`, `description`, and `enrichment.seniority`) rather than a complete raw API dump. The precomputed summary (`data/processed/analytics_summary.json`) is committed to the repository so the dashboard runs directly without requiring the local raw data.
 - **Out:** Overall and category-specific skill prevalence, a skill-distinctiveness (lift) score per skill per category, a posting-count map by country, the occupational composition of the corpus, and an occupational-composition comparison across countries with sufficient sample size.
 - **On screen:** The user selects an occupational category to see its skill profile and most distinctive skills; the overview shows the composition of the five categories and overall skill demand; a separate geographic view shows the EU map and, for sufficiently represented countries, how their occupational mix compares.
 The project describes patterns in an observed EU-27 job-posting corpus. For example, it can estimate the proportion of observed Data Science postings containing Python, but not the proportion of all Data Science jobs in the EU requiring Python.
+
+
+## Data and Reproducibility
+
+The dashboard can run immediately using the committed precomputed analysis in `data/processed/analytics_summary.json`. However, regenerating the processed summary or running the preprocessing pipeline requires a local raw snapshot (`data/raw/freehire_eu_raw.json`), which is retained locally and excluded from Git due to file size.
+
+Collection parameters and audit information for the historical snapshot are recorded in the collection metadata file (`data/raw/collection_metadata_eu.json`). To collect a fresh snapshot from FreeHire, regenerate the analytics summary, and run the test suite:
+
+```bash
+uv run python eu27.py
+uv run python scripts/preprocess.py
+uv run pytest
+```
+
+Because FreeHire job postings and search results change continuously over time, running a new collection with `eu27.py` will pull live postings from the API and will not reproduce the historical 23,138-posting snapshot exactly; counts, category shares, and skill rankings in the charts may differ accordingly.
 
 
 ## 3. The Size
@@ -62,17 +77,17 @@ The project describes patterns in an observed EU-27 job-posting corpus. For exam
 
 ## 5. What Could Stop This
 
-- **Snapshot/data provenance:** The FreeHire dataset may change over time or differ between collection runs.  
-  *Mitigation:* Freeze the audited 23,138-posting snapshot locally; all analysis runs from the saved data.
-- **Uneven category sizes:** The snapshot is heavily concentrated in Data Engineering.  
+- **Snapshot/data provenance:** FreeHire data can change over time and differ between collection runs; a new collection will not reproduce the historical 23,138-posting snapshot exactly.
+  *Mitigation:* Retain the audited snapshot locally (`data/raw/freehire_eu_raw.json`), document collection parameters in the collection metadata file (`data/raw/collection_metadata_eu.json`), and commit the precomputed processed summary (`data/processed/analytics_summary.json`) so the dashboard and baseline analysis run reliably without recollecting raw data.
+- **Uneven category sizes:** The snapshot is heavily concentrated in Data Engineering.
   *Mitigation:* Report the occupational composition explicitly and use both counts and within-category prevalence/lift rather than raw skill frequency alone.
-- **Skill extraction and vocabulary coverage:** Inconsistent terminology can cause false positives/negatives, while skills outside the controlled vocabulary cannot be detected.  
+- **Skill extraction and vocabulary coverage:** Inconsistent terminology can cause false positives/negatives, while skills outside the controlled vocabulary cannot be detected.
   *Mitigation:* Use a controlled vocabulary with explicit aliases, document the vocabulary and extraction rules, and manually validate the extraction on a sample.
-- **FreeHire occupational classification:** The project relies on FreeHire's occupational labels rather than building an independent classifier.  
+- **FreeHire occupational classification:** The project relies on FreeHire's occupational labels rather than building an independent classifier.
   *Mitigation:* Manually reviewed 50 postings across all five categories to assess whether the labels were broadly consistent with the posting content.
-- **Small-country noise in the geographic comparison:** Country sample sizes range from 25 to nearly 5,000.  
+- **Small-country noise in the geographic comparison:** Country sample sizes range from 25 to nearly 5,000.
   *Mitigation:* Apply the 300-posting threshold specifically to the occupational-composition comparison; smaller countries remain visible as raw counts on the map.
-- **Source limitations:** FreeHire is one job-posting source, not a labour-market census.  
+- **Source limitations:** FreeHire is one job-posting source, not a labour-market census.
   *Mitigation:* Describe all findings as patterns within the observed FreeHire EU-27 corpus and avoid claims about the true size or structure of the entire EU labour market.
-- **Incomplete seniority metadata:** Native FreeHire seniority information is available for only 38.8% of postings.  
+- **Incomplete seniority metadata:** Native FreeHire seniority information is available for only 38.8% of postings.
   *Mitigation:* Report seniority coverage as a descriptive fact only; no filter or imputation is used.
