@@ -14,6 +14,7 @@ Renders precomputed metrics from data/processed/analytics_summary.json:
 from __future__ import annotations
 
 import json
+import math
 from pathlib import Path
 from typing import Any, Dict
 
@@ -31,22 +32,157 @@ st.set_page_config(
 )
 
 
+def get_geographic_note_data(geographic: Dict[str, Any]) -> tuple[int, int, int, str]:
+    """
+    Extracts and validates values needed for the geographic threshold note.
+
+    Returns (threshold, eligible_count, excluded_count, eligible_codes_str).
+    Raises ValueError if required geographic fields are missing or invalid.
+    """
+    if not isinstance(geographic, dict):
+        raise ValueError(f"Geographic section must be a dictionary, got {type(geographic).__name__}.")
+
+    threshold = geographic.get("threshold")
+    if isinstance(threshold, bool) or not isinstance(threshold, int) or threshold <= 0:
+        raise ValueError(f"Geographic 'threshold' must be a positive integer, got {threshold!r}.")
+
+    comp_eligible = geographic.get("composition_eligible")
+    if not isinstance(comp_eligible, list):
+        raise ValueError(f"Geographic 'composition_eligible' must be a list, got {type(comp_eligible).__name__}.")
+
+    eligible_codes: list[str] = []
+    for idx, record in enumerate(comp_eligible):
+        if not isinstance(record, dict) or not isinstance(record.get("iso_code"), str) or not record["iso_code"].strip():
+            raise ValueError(f"Invalid record at composition_eligible index {idx}: missing valid 'iso_code'.")
+        eligible_codes.append(record["iso_code"].strip())
+
+    if len(set(eligible_codes)) != len(eligible_codes):
+        raise ValueError("Geographic 'composition_eligible' contains duplicate country codes.")
+
+    eligible_count = geographic.get("eligible_count")
+    if isinstance(eligible_count, bool) or not isinstance(eligible_count, int) or eligible_count < 0:
+        raise ValueError(f"Geographic 'eligible_count' must be a non-negative integer, got {eligible_count!r}.")
+
+    if eligible_count != len(comp_eligible):
+        raise ValueError(
+            f"Geographic 'eligible_count' ({eligible_count}) does not match "
+            f"the number of records in 'composition_eligible' ({len(comp_eligible)})."
+        )
+
+    excluded_count = geographic.get("excluded_count")
+    if isinstance(excluded_count, bool) or not isinstance(excluded_count, int) or excluded_count < 0:
+        raise ValueError(f"Geographic 'excluded_count' must be a non-negative integer, got {excluded_count!r}.")
+
+    if eligible_count + excluded_count != 27:
+        raise ValueError(
+            f"Geographic eligible count ({eligible_count}) and excluded count ({excluded_count}) "
+            f"must sum to 27 EU member states, got {eligible_count + excluded_count}."
+        )
+
+    codes_str = ", ".join(eligible_codes)
+    return threshold, eligible_count, excluded_count, codes_str
+
+
+def validate_analytics_summary(data: Dict[str, Any]) -> None:
+    """
+    Validates the structure, required keys, and metric ranges of precomputed analytics summary data.
+
+    Raises ValueError if required sections, KPIs, or data constraints are violated.
+    """
+    if not isinstance(data, dict):
+        raise ValueError(f"Summary data must be a dictionary, got {type(data).__name__}.")
+
+    for section in ("kpis", "market_overview", "category_profiles", "geographic"):
+        if section not in data:
+            raise ValueError(f"Summary data is missing required section: '{section}'.")
+        if not isinstance(data[section], dict):
+            raise ValueError(f"Section '{section}' must be a dictionary, got {type(data[section]).__name__}.")
+
+    if not data["category_profiles"]:
+        raise ValueError("Section 'category_profiles' cannot be empty.")
+
+    for cat_id, profile in data["category_profiles"].items():
+        if not isinstance(profile, dict):
+            raise ValueError(f"Category profile '{cat_id}' must be a dictionary, got {type(profile).__name__}.")
+        tot_cat = profile.get("total_postings")
+        if isinstance(tot_cat, bool) or not isinstance(tot_cat, int) or tot_cat < 0:
+            raise ValueError(
+                f"Category profile '{cat_id}' must have a non-negative integer 'total_postings', got {tot_cat!r}."
+            )
+
+    kpis = data["kpis"]
+    for req_kpi in ("total_postings", "total_countries", "total_categories", "seniority_coverage_pct"):
+        if req_kpi not in kpis:
+            raise ValueError(f"KPI section is missing required field: '{req_kpi}'.")
+
+    # Validate total_postings: positive integer (reject bool)
+    tot_postings = kpis["total_postings"]
+    if isinstance(tot_postings, bool) or not isinstance(tot_postings, int):
+        raise ValueError(f"KPI 'total_postings' must be an integer, got {type(tot_postings).__name__}.")
+    if tot_postings <= 0:
+        raise ValueError(f"KPI 'total_postings' must be positive, got {tot_postings}.")
+
+    # Validate total_countries: integer 1..27 (reject bool)
+    tot_countries = kpis["total_countries"]
+    if isinstance(tot_countries, bool) or not isinstance(tot_countries, int):
+        raise ValueError(f"KPI 'total_countries' must be an integer, got {type(tot_countries).__name__}.")
+    if not (1 <= tot_countries <= 27):
+        raise ValueError(f"KPI 'total_countries' must be between 1 and 27, got {tot_countries}.")
+
+    # Validate total_categories: integer 1..5 (reject bool)
+    tot_categories = kpis["total_categories"]
+    if isinstance(tot_categories, bool) or not isinstance(tot_categories, int):
+        raise ValueError(f"KPI 'total_categories' must be an integer, got {type(tot_categories).__name__}.")
+    if not (1 <= tot_categories <= 5):
+        raise ValueError(f"KPI 'total_categories' must be between 1 and 5, got {tot_categories}.")
+    if tot_categories != len(data["category_profiles"]):
+        raise ValueError(
+            f"KPI 'total_categories' ({tot_categories}) does not match "
+            f"the number of category profiles ({len(data['category_profiles'])})."
+        )
+
+    # Validate seniority_coverage_pct: finite float/int 0.0..100.0 (reject bool)
+    sen_pct = kpis["seniority_coverage_pct"]
+    if isinstance(sen_pct, bool) or not isinstance(sen_pct, (int, float)):
+        raise ValueError(f"KPI 'seniority_coverage_pct' must be a numeric percentage, got {type(sen_pct).__name__}.")
+    if not math.isfinite(sen_pct) or not (0.0 <= sen_pct <= 100.0):
+        raise ValueError(f"KPI 'seniority_coverage_pct' must be a finite number between 0.0 and 100.0, got {sen_pct}.")
+
+    # Validate geographic fields required for reporting
+    get_geographic_note_data(data["geographic"])
+
+
 @st.cache_data
 def load_analytics_summary() -> Dict[str, Any]:
-    """Loads the precomputed analytics summary JSON."""
+    """Loads and validates the precomputed analytics summary JSON."""
     if not DATA_PATH.exists():
         st.error(f"Missing precomputed data at `{DATA_PATH}`. Please run `python scripts/preprocess.py` first.")
         st.stop()
-    with open(DATA_PATH, "r", encoding="utf-8") as f:
-        return json.load(f)
+    try:
+        with open(DATA_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except json.JSONDecodeError as exc:
+        st.error(f"Corrupted summary data at `{DATA_PATH}`: invalid JSON ({exc}).")
+        st.stop()
+    except OSError as exc:
+        st.error(f"Unable to read summary data at `{DATA_PATH}`: {exc}.")
+        st.stop()
+
+    try:
+        validate_analytics_summary(data)
+    except ValueError as exc:
+        st.error(f"Invalid analytics summary data at `{DATA_PATH}`: {exc}")
+        st.stop()
+
+    return data
 
 
 def main() -> None:
     data = load_analytics_summary()
-    kpis = data.get("kpis", {})
-    overview = data.get("market_overview", {})
-    categories = data.get("category_profiles", {})
-    geographic = data.get("geographic", {})
+    kpis = data["kpis"]
+    overview = data["market_overview"]
+    categories = data["category_profiles"]
+    geographic = data["geographic"]
 
     # =========================================================================
     # Header & Introduction
@@ -68,25 +204,25 @@ def main() -> None:
     with col1:
         st.metric(
             label="Total Postings",
-            value=f"{kpis.get('total_postings', 0):,}",
+            value=f"{kpis['total_postings']:,}",
             help="Total audited unique job postings across the EU-27 snapshot.",
         )
     with col2:
         st.metric(
             label="EU-27 Member States",
-            value=kpis.get("total_countries", 27),
+            value=kpis["total_countries"],
             help="Observed job postings spanning all 27 EU member states.",
         )
     with col3:
         st.metric(
             label="Occupational Categories",
-            value=kpis.get("total_categories", 5),
+            value=kpis["total_categories"],
             help="Target FreeHire occupational classifications.",
         )
     with col4:
         st.metric(
             label="Seniority Reported",
-            value=f"{kpis.get('seniority_coverage_pct', 0.0)}%",
+            value=f"{kpis['seniority_coverage_pct']}%",
             help="Native FreeHire seniority metadata coverage (reported descriptively; no imputation or filtering).",
         )
 
@@ -171,13 +307,15 @@ def main() -> None:
         index=0,
     )
 
-    cat_profile = categories.get(selected_cat_id, {})
-    total_cat_postings = cat_profile.get("total_postings", 0)
+    cat_profile = categories[selected_cat_id]
+    total_cat_postings = cat_profile["total_postings"]
+    corpus_total = kpis["total_postings"]
+    corpus_share_pct = round((total_cat_postings / corpus_total) * 100, 1)
 
     st.markdown(
         f"**Profile for {cat_profile.get('category_name', selected_cat_id)}** "
         f"(`{total_cat_postings:,}` postings, "
-        f"{round((total_cat_postings / kpis.get('total_postings', 1)) * 100, 1)}% of corpus)"
+        f"{corpus_share_pct}% of corpus)"
     )
 
     col_cat_left, col_cat_right = st.columns(2)
@@ -358,11 +496,12 @@ def main() -> None:
             st.plotly_chart(fig_stacked, use_container_width=True)
 
     # Contextual note for excluded countries
+    threshold, eligible_count, excluded_count, eligible_codes_str = get_geographic_note_data(geographic)
     st.info(
-        "ℹ️ **Geographic Threshold Note:** To prevent small-sample distortions, occupational composition comparisons "
-        "are restricted to the **12 member states** with at least 300 observed postings (ES, FR, PL, NL, DE, IT, IE, "
-        "DK, PT, SE, FI, BE). The remaining **15 EU countries** appear on the map with their raw counts but are "
-        "excluded from the compositional breakdown."
+        f"ℹ️ **Geographic Threshold Note:** To prevent small-sample distortions, occupational composition comparisons "
+        f"are restricted to the **{eligible_count} member states** with at least {threshold} observed postings "
+        f"({eligible_codes_str}). The remaining **{excluded_count} EU countries** appear on the map with their raw counts "
+        f"but are excluded from the compositional breakdown."
     )
 
     st.markdown("---")
