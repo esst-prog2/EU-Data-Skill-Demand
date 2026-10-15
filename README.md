@@ -26,7 +26,15 @@ The project describes patterns in an observed EU-27 job-posting corpus. For exam
 
 ## Data and Reproducibility
 
-The dashboard can run immediately using the committed precomputed analysis in `data/processed/analytics_summary.json`. However, regenerating the processed summary or running the preprocessing pipeline requires a local raw snapshot (`data/raw/freehire_eu_raw.json`), which is retained locally and excluded from Git due to file size.
+### Running the Dashboard
+
+The dashboard can run immediately using the committed precomputed analysis in `data/processed/analytics_summary.json`, allowing the dashboard to run without recollecting the raw data:
+
+```bash
+uv run streamlit run app.py
+```
+
+Regenerating the processed summary or running the preprocessing pipeline requires a local raw snapshot (`data/raw/freehire_eu_raw.json`), which is retained locally and excluded from Git due to file size.
 
 Collection parameters and audit information for the historical snapshot are recorded in the collection metadata file (`data/raw/collection_metadata_eu.json`). To collect a fresh snapshot from FreeHire, regenerate the analytics summary, and run the test suite:
 
