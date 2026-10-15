@@ -53,7 +53,7 @@ Because FreeHire job postings and search results change continuously over time, 
 - Compares **occupational composition** across countries with at least 300 observed postings; smaller countries remain visible on the map but are excluded from this comparison.
 - Reports FreeHire's **seniority** information as a descriptive fact (seniority is available for 38.8% of postings), without a dedicated seniority filter and without inferring missing values.
 - Treats each **unique posting** as one observation. No external country, occupation, or market-size weights are applied.
-- Implements skill extraction, lift calculation, and the category/geographic comparisons as **plain Python functions** in a small module, so the behaviors in Section 4 can be tested directly without running the app; Streamlit only calls these functions and renders their output.
+- Implements skill extraction, lift calculation, and the category/geographic comparisons as **plain Python functions** in a small module (`src/analytics.py`), so the behaviors in Section 4 can be tested directly without running the app; `scripts/preprocess.py` uses these functions to generate `data/processed/analytics_summary.json`, and `app.py` loads that precomputed summary and renders the dashboard.
 
 ### Explicitly Not This Term
 - CV matching or personalized skill-gap scoring.
