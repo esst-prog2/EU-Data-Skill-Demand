@@ -33,6 +33,18 @@ class TestValidatePostingProvenance:
 
         assert CATEGORY_NAMES == OCCUPATIONAL_CATEGORIES
 
+    def test_country_names_matches_canonical_eu27_countries(self):
+        from src.analytics import EU27_COUNTRIES
+
+        assert EU27_COUNTRY_NAMES == EU27_COUNTRIES
+        assert len(EU27_COUNTRY_NAMES) == 27
+        assert EU27_COUNTRY_NAMES["CZ"] == "Czechia"
+
+    def test_collector_and_preprocess_share_identical_country_mapping(self):
+        import eu27
+
+        assert eu27.EU_COUNTRIES == EU27_COUNTRY_NAMES
+
     def test_valid_posting_returns_category_and_country(self):
         posting = {
             "id": "job-101",

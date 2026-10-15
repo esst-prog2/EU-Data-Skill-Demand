@@ -13,6 +13,9 @@ from pathlib import Path
 import pytest
 from src.analytics import (
     CATEGORY_NAMES,
+    EU_COUNTRIES,
+    EU27_COUNTRIES,
+    EU27_COUNTRY_NAMES,
     OCCUPATIONAL_CATEGORIES,
     SkillVocabulary,
     compute_category_skill_stats,
@@ -421,3 +424,27 @@ class TestOccupationalCategories:
             assert isinstance(cat_id, str) and cat_id.islower()
             assert isinstance(label, str) and len(label.strip()) > 0
             assert "_" not in label
+
+
+# ==============================================================================
+# Area 7: EU-27 Geographic Mapping Canonical Definitions
+# ==============================================================================
+
+class TestEU27CountryMapping:
+    """Verifies that the canonical EU-27 country mapping is complete, valid, and consistent."""
+
+    def test_canonical_eu27_mapping_has_27_unique_iso2_codes(self):
+        assert len(EU27_COUNTRIES) == 27
+        assert len(set(EU27_COUNTRIES.keys())) == 27
+
+    def test_iso2_codes_and_country_names_are_well_formed(self):
+        for code, name in EU27_COUNTRIES.items():
+            assert isinstance(code, str) and len(code) == 2 and code.isupper() and code.isalpha()
+            assert isinstance(name, str) and len(name.strip()) > 0
+
+    def test_czechia_is_canonical_short_name(self):
+        assert EU27_COUNTRIES["CZ"] == "Czechia"
+
+    def test_aliases_match_canonical_mapping(self):
+        assert EU_COUNTRIES == EU27_COUNTRIES
+        assert EU27_COUNTRY_NAMES == EU27_COUNTRIES

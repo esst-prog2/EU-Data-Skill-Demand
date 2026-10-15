@@ -21,6 +21,7 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT_DIR))
 
 from src.analytics import (
+    EU27_COUNTRIES,
     OCCUPATIONAL_CATEGORIES,
     SkillVocabulary,
     compute_category_skill_stats,
@@ -32,36 +33,7 @@ from src.analytics import (
 )
 
 CATEGORY_NAMES: Dict[str, str] = OCCUPATIONAL_CATEGORIES
-
-EU27_COUNTRY_NAMES = {
-    "AT": "Austria",
-    "BE": "Belgium",
-    "BG": "Bulgaria",
-    "CY": "Cyprus",
-    "CZ": "Czech Republic",
-    "DE": "Germany",
-    "DK": "Denmark",
-    "EE": "Estonia",
-    "ES": "Spain",
-    "FI": "Finland",
-    "FR": "France",
-    "GR": "Greece",
-    "HR": "Croatia",
-    "HU": "Hungary",
-    "IE": "Ireland",
-    "IT": "Italy",
-    "LT": "Lithuania",
-    "LU": "Luxembourg",
-    "LV": "Latvia",
-    "MT": "Malta",
-    "NL": "Netherlands",
-    "PL": "Poland",
-    "PT": "Portugal",
-    "RO": "Romania",
-    "SE": "Sweden",
-    "SI": "Slovenia",
-    "SK": "Slovakia",
-}
+EU27_COUNTRY_NAMES: Dict[str, str] = EU27_COUNTRIES
 
 
 def validate_posting_provenance(

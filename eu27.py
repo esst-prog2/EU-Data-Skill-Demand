@@ -31,7 +31,7 @@ from pathlib import Path
 
 import requests
 
-from src.analytics import OCCUPATIONAL_CATEGORIES
+from src.analytics import EU27_COUNTRIES, OCCUPATIONAL_CATEGORIES
 
 
 # ============================================================
@@ -60,35 +60,7 @@ TIMEOUT = 30
 # EU-27 COUNTRY CODES
 # ============================================================
 
-EU_COUNTRIES = {
-    "AT": "Austria",
-    "BE": "Belgium",
-    "BG": "Bulgaria",
-    "HR": "Croatia",
-    "CY": "Cyprus",
-    "CZ": "Czechia",
-    "DK": "Denmark",
-    "EE": "Estonia",
-    "FI": "Finland",
-    "FR": "France",
-    "DE": "Germany",
-    "GR": "Greece",
-    "HU": "Hungary",
-    "IE": "Ireland",
-    "IT": "Italy",
-    "LV": "Latvia",
-    "LT": "Lithuania",
-    "LU": "Luxembourg",
-    "MT": "Malta",
-    "NL": "Netherlands",
-    "PL": "Poland",
-    "PT": "Portugal",
-    "RO": "Romania",
-    "SK": "Slovakia",
-    "SI": "Slovenia",
-    "ES": "Spain",
-    "SE": "Sweden",
-}
+EU_COUNTRIES: dict[str, str] = EU27_COUNTRIES
 
 
 # ============================================================

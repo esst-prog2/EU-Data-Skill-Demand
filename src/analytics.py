@@ -28,6 +28,49 @@ OCCUPATIONAL_CATEGORIES: Dict[str, str] = {
 CATEGORY_NAMES: Dict[str, str] = OCCUPATIONAL_CATEGORIES
 
 
+# ==============================================================================
+# Canonical EU-27 Member States (ISO-2 Code to English Common Short Name)
+# ==============================================================================
+# Note on "Czechia": Standardized on the official English short-form name
+# "Czechia" in accordance with the EU Interinstitutional Style Guide and
+# ISO 3166-1 (matching the short names used for "Slovakia", "Austria", etc.).
+# The precomputed data/processed/analytics_summary.json snapshot retains the
+# formal name "Czech Republic" from initial preprocessing without breaking.
+
+EU27_COUNTRIES: Dict[str, str] = {
+    "AT": "Austria",
+    "BE": "Belgium",
+    "BG": "Bulgaria",
+    "CY": "Cyprus",
+    "CZ": "Czechia",
+    "DE": "Germany",
+    "DK": "Denmark",
+    "EE": "Estonia",
+    "ES": "Spain",
+    "FI": "Finland",
+    "FR": "France",
+    "GR": "Greece",
+    "HR": "Croatia",
+    "HU": "Hungary",
+    "IE": "Ireland",
+    "IT": "Italy",
+    "LT": "Lithuania",
+    "LU": "Luxembourg",
+    "LV": "Latvia",
+    "MT": "Malta",
+    "NL": "Netherlands",
+    "PL": "Poland",
+    "PT": "Portugal",
+    "RO": "Romania",
+    "SE": "Sweden",
+    "SI": "Slovenia",
+    "SK": "Slovakia",
+}
+
+EU_COUNTRIES: Dict[str, str] = EU27_COUNTRIES
+EU27_COUNTRY_NAMES: Dict[str, str] = EU27_COUNTRIES
+
+
 class SkillVocabulary:
     """Encapsulates the controlled technical skill vocabulary with normalized aliases and regexes."""
 

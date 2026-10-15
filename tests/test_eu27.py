@@ -174,3 +174,14 @@ class TestTargetCategories:
         assert eu27.CATEGORIES == list(OCCUPATIONAL_CATEGORIES.keys())
         assert len(eu27.CATEGORIES) == 5
         assert eu27.CATEGORIES[0] == "data_analytics"
+
+
+class TestEUCountryMapping:
+    """Verifies that eu27.py uses the canonical EU-27 country mapping."""
+
+    def test_eu_countries_matches_canonical_eu27_countries(self):
+        from src.analytics import EU27_COUNTRIES
+
+        assert eu27.EU_COUNTRIES == EU27_COUNTRIES
+        assert len(eu27.EU_COUNTRIES) == 27
+        assert eu27.EU_COUNTRIES["CZ"] == "Czechia"
