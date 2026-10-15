@@ -13,6 +13,21 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Set, Tuple
 
 
+# ==============================================================================
+# Canonical Occupational Categories (Target FreeHire Classifications)
+# ==============================================================================
+
+OCCUPATIONAL_CATEGORIES: Dict[str, str] = {
+    "data_analytics": "Data Analytics",
+    "data_engineering": "Data Engineering",
+    "data_science": "Data Science",
+    "ml_ai": "ML/AI",
+    "ai_engineering": "AI Engineering",
+}
+
+CATEGORY_NAMES: Dict[str, str] = OCCUPATIONAL_CATEGORIES
+
+
 class SkillVocabulary:
     """Encapsulates the controlled technical skill vocabulary with normalized aliases and regexes."""
 

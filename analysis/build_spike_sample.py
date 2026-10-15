@@ -10,21 +10,21 @@ from __future__ import annotations
 
 import json
 import random
+import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any, Dict, List
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
+from src.analytics import OCCUPATIONAL_CATEGORIES
+
 RAW_DATA_PATH = ROOT_DIR / "data" / "raw" / "freehire_eu_raw.json"
 SAMPLE_OUTPUT_PATH = ROOT_DIR / "analysis" / "spike_sample.json"
 
-CATEGORIES: List[str] = [
-    "data_analytics",
-    "data_engineering",
-    "data_science",
-    "ml_ai",
-    "ai_engineering",
-]
+CATEGORIES: List[str] = list(OCCUPATIONAL_CATEGORIES.keys())
 SAMPLE_PER_CATEGORY: int = 10
 RANDOM_SEED: int = 20260929
 

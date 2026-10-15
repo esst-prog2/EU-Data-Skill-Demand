@@ -31,6 +31,8 @@ from pathlib import Path
 
 import requests
 
+from src.analytics import OCCUPATIONAL_CATEGORIES
+
 
 # ============================================================
 # CONFIGURATION
@@ -93,13 +95,7 @@ EU_COUNTRIES = {
 # TARGET OCCUPATIONAL CATEGORIES
 # ============================================================
 
-CATEGORIES = [
-    "data_analytics",
-    "data_engineering",
-    "data_science",
-    "ml_ai",
-    "ai_engineering",
-]
+CATEGORIES: list[str] = list(OCCUPATIONAL_CATEGORIES.keys())
 
 
 # ============================================================

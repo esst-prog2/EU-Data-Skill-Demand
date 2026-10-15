@@ -22,6 +22,8 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
+from src.analytics import OCCUPATIONAL_CATEGORIES
+
 DATA_PATH = Path(__file__).resolve().parent / "data" / "processed" / "analytics_summary.json"
 
 st.set_page_config(
@@ -462,13 +464,8 @@ def main() -> None:
                 "ml_ai": "#ec4899",
             }
 
-            for cat_id, cat_name in [
-                ("data_engineering", "Data Engineering"),
-                ("data_analytics", "Data Analytics"),
-                ("ai_engineering", "AI Engineering"),
-                ("data_science", "Data Science"),
-                ("ml_ai", "ML/AI"),
-            ]:
+            for cat_id in categories:
+                cat_name = OCCUPATIONAL_CATEGORIES.get(cat_id, cat_id)
                 shares = [
                     r["categories"].get(cat_id, {}).get("share_pct", 0.0)
                     for r in reversed(comp_records)

@@ -28,6 +28,11 @@ from scripts.preprocess import (
 class TestValidatePostingProvenance:
     """Tests for individual posting category and country provenance validation."""
 
+    def test_category_names_matches_canonical_occupational_categories(self):
+        from src.analytics import OCCUPATIONAL_CATEGORIES
+
+        assert CATEGORY_NAMES == OCCUPATIONAL_CATEGORIES
+
     def test_valid_posting_returns_category_and_country(self):
         posting = {
             "id": "job-101",

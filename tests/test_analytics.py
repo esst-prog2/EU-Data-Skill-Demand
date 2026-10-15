@@ -12,6 +12,8 @@ from pathlib import Path
 
 import pytest
 from src.analytics import (
+    CATEGORY_NAMES,
+    OCCUPATIONAL_CATEGORIES,
     SkillVocabulary,
     compute_category_skill_stats,
     compute_lift,
@@ -394,3 +396,28 @@ class TestComputeCategorySkillStats:
         for cat in categories:
             assert len(stats[cat]) == len(vocabulary.skills)
 
+
+# ==============================================================================
+# Area 6: Occupational Categories Canonical Mapping
+# ==============================================================================
+
+class TestOccupationalCategories:
+    """Verifies that the canonical occupational categories and display labels are well-formed."""
+
+    def test_canonical_categories_match_specification(self):
+        expected = {
+            "data_analytics": "Data Analytics",
+            "data_engineering": "Data Engineering",
+            "data_science": "Data Science",
+            "ml_ai": "ML/AI",
+            "ai_engineering": "AI Engineering",
+        }
+        assert OCCUPATIONAL_CATEGORIES == expected
+        assert CATEGORY_NAMES == expected
+        assert len(OCCUPATIONAL_CATEGORIES) == 5
+
+    def test_canonical_keys_and_labels_are_valid(self):
+        for cat_id, label in OCCUPATIONAL_CATEGORIES.items():
+            assert isinstance(cat_id, str) and cat_id.islower()
+            assert isinstance(label, str) and len(label.strip()) > 0
+            assert "_" not in label

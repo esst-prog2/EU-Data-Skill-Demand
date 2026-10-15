@@ -37,6 +37,7 @@ sys.path.insert(0, str(ROOT_DIR))
 
 from scripts.preprocess import validate_posting_provenance
 from src.analytics import (
+    OCCUPATIONAL_CATEGORIES,
     SkillVocabulary,
     compute_category_skill_stats,
     compute_lift,
@@ -50,13 +51,7 @@ VOCAB_PATH = ROOT_DIR / "data" / "fixtures" / "skills_vocabulary.json"
 SUMMARY_PATH = ROOT_DIR / "data" / "processed" / "analytics_summary.json"
 REPORT_PATH = ROOT_DIR / "analysis" / "sensitivity_report.md"
 
-CATEGORIES: List[Tuple[str, str]] = [
-    ("data_analytics", "Data Analytics"),
-    ("data_engineering", "Data Engineering"),
-    ("data_science", "Data Science"),
-    ("ml_ai", "ML/AI"),
-    ("ai_engineering", "AI Engineering"),
-]
+CATEGORIES: List[Tuple[str, str]] = list(OCCUPATIONAL_CATEGORIES.items())
 
 MIN_COUNTS: List[int] = [5, 10, 20, 30, 50]
 MIN_PREVALENCES: List[float] = [0.005, 0.010, 0.015, 0.020, 0.030]

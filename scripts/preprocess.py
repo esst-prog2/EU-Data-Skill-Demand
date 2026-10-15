@@ -21,6 +21,7 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT_DIR))
 
 from src.analytics import (
+    OCCUPATIONAL_CATEGORIES,
     SkillVocabulary,
     compute_category_skill_stats,
     compute_lift,
@@ -30,13 +31,7 @@ from src.analytics import (
     filter_eligible_countries,
 )
 
-CATEGORY_NAMES = {
-    "data_engineering": "Data Engineering",
-    "data_analytics": "Data Analytics",
-    "ai_engineering": "AI Engineering",
-    "data_science": "Data Science",
-    "ml_ai": "ML/AI",
-}
+CATEGORY_NAMES: Dict[str, str] = OCCUPATIONAL_CATEGORIES
 
 EU27_COUNTRY_NAMES = {
     "AT": "Austria",

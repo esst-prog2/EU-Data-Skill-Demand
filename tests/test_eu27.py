@@ -164,3 +164,13 @@ class TestCollectionAbortsOnMissingID:
         assert not temp_jobs_out.exists()
         assert not temp_meta_out.exists()
 
+
+class TestTargetCategories:
+    """Verifies that eu27.py targets the canonical occupational categories."""
+
+    def test_categories_match_canonical_occupational_categories(self):
+        from src.analytics import OCCUPATIONAL_CATEGORIES
+
+        assert eu27.CATEGORIES == list(OCCUPATIONAL_CATEGORIES.keys())
+        assert len(eu27.CATEGORIES) == 5
+        assert eu27.CATEGORIES[0] == "data_analytics"
