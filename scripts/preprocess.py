@@ -68,6 +68,61 @@ EU27_COUNTRY_NAMES = {
 }
 
 
+def validate_posting_provenance(
+    posting: dict,
+    index: int | None = None,
+) -> tuple[str, str]:
+    """
+    Validates that a posting contains valid _collection_category and _collection_country
+    provenance matching canonical CATEGORY_NAMES and EU27_COUNTRY_NAMES.
+
+    Raises ValueError with diagnostic context if provenance is missing or invalid.
+    Returns (category, country).
+    """
+    if not isinstance(posting, dict):
+        prefix = f"Posting at index {index}" if index is not None else "Posting"
+        raise ValueError(f"{prefix} is not a valid dictionary (type: {type(posting).__name__}).")
+
+    ident = (
+        posting.get("id")
+        or posting.get("public_slug")
+        or posting.get("slug")
+        or (posting.get("title")[:50] if isinstance(posting.get("title"), str) else None)
+        or "unknown_id"
+    )
+    prefix = f"Posting at index {index} (id: {ident!r})" if index is not None else f"Posting (id: {ident!r})"
+
+    cat = posting.get("_collection_category")
+    if cat is None or cat == "":
+        raise ValueError(f"{prefix} is missing required '_collection_category'.")
+    if not isinstance(cat, str):
+        raise ValueError(
+            f"{prefix} has invalid '_collection_category': {cat!r}. "
+            f"Expected one of: {sorted(CATEGORY_NAMES.keys())}."
+        )
+    if cat not in CATEGORY_NAMES:
+        raise ValueError(
+            f"{prefix} has invalid '_collection_category': {cat!r}. "
+            f"Expected one of: {sorted(CATEGORY_NAMES.keys())}."
+        )
+
+    country = posting.get("_collection_country")
+    if country is None or country == "":
+        raise ValueError(f"{prefix} is missing required '_collection_country'.")
+    if not isinstance(country, str):
+        raise ValueError(
+            f"{prefix} has invalid '_collection_country': {country!r}. "
+            f"Expected one of: {sorted(EU27_COUNTRY_NAMES.keys())}."
+        )
+    if country not in EU27_COUNTRY_NAMES:
+        raise ValueError(
+            f"{prefix} has invalid '_collection_country': {country!r}. "
+            f"Expected one of: {sorted(EU27_COUNTRY_NAMES.keys())}."
+        )
+
+    return cat, country
+
+
 def preprocess(
     raw_data_path: Path | str,
     vocab_path: Path | str,
@@ -100,8 +155,7 @@ def preprocess(
     print("Executing hybrid skill extraction across postings...")
     extract_start = time.time()
     for i, posting in enumerate(postings):
-        cat = posting.get("_collection_category") or "unknown"
-        country = posting.get("_collection_country") or "unknown"
+        cat, country = validate_posting_provenance(posting, index=i)
 
         category_counts[cat] += 1
         country_counts[country] += 1
