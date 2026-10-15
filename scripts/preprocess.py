@@ -14,6 +14,7 @@ import json
 import sys
 import time
 from collections import Counter, defaultdict
+from datetime import datetime
 from pathlib import Path
 
 # Ensure project root is in python path
@@ -92,10 +93,55 @@ def validate_posting_provenance(
     return cat, country
 
 
+def extract_snapshot_timestamp(
+    metadata_path: Path | str | None,
+    total_postings: int,
+) -> str | None:
+    """
+    Extracts and validates collection_timestamp_utc from collection metadata.
+    Ensures metadata['unique_jobs'] is an integer equal to total_postings and that
+    the timestamp contains an explicit timezone offset.
+
+    Returns the ISO-8601 timestamp string if valid, or None if missing, mismatched,
+    naive, or malformed.
+    """
+    if metadata_path is None:
+        return None
+    path = Path(metadata_path)
+    if not path.is_file():
+        return None
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            metadata = json.load(f)
+        if not isinstance(metadata, dict):
+            return None
+
+        # Validate unique_jobs integer matching total_postings (reject booleans)
+        unique_jobs = metadata.get("unique_jobs")
+        if isinstance(unique_jobs, bool) or not isinstance(unique_jobs, int):
+            return None
+        if unique_jobs != total_postings:
+            return None
+
+        ts = metadata.get("collection_timestamp_utc")
+        if not isinstance(ts, str) or not ts.strip():
+            return None
+
+        dt = datetime.fromisoformat(ts.strip())
+        if dt.tzinfo is None:
+            return None  # Reject timestamps without explicit timezone information
+        if not (1900 <= dt.year <= 2100):
+            return None
+        return ts.strip()
+    except (json.JSONDecodeError, OSError, ValueError, TypeError):
+        return None
+
+
 def preprocess(
     raw_data_path: Path | str,
     vocab_path: Path | str,
     output_path: Path | str,
+    metadata_path: Path | str | None = None,
 ) -> None:
     raw_data_path = Path(raw_data_path)
     vocab_path = Path(vocab_path)
@@ -112,6 +158,9 @@ def preprocess(
         postings = json.load(f)
     total_postings = len(postings)
     print(f"Loaded {total_postings} postings in {time.time() - start_time:.2f}s.")
+
+    meta_file = Path(metadata_path) if metadata_path is not None else raw_data_path.parent / "collection_metadata_eu.json"
+    snapshot_collected_at = extract_snapshot_timestamp(meta_file, total_postings=total_postings)
 
     # Counters
     seniority_count = 0
@@ -258,6 +307,7 @@ def preprocess(
     # Assemble summary document
     summary = {
         "generated_at": time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime()),
+        "snapshot_collected_at": snapshot_collected_at,
         "kpis": kpis,
         "market_overview": {
             "category_shares": category_shares,
@@ -288,6 +338,7 @@ if __name__ == "__main__":
     raw_path = ROOT_DIR / "data" / "raw" / "freehire_eu_raw.json"
     fixtures_path = ROOT_DIR / "data" / "fixtures" / "skills_vocabulary.json"
     processed_path = ROOT_DIR / "data" / "processed" / "analytics_summary.json"
+    metadata_path = ROOT_DIR / "data" / "raw" / "collection_metadata_eu.json"
 
-    preprocess(raw_path, fixtures_path, processed_path)
+    preprocess(raw_path, fixtures_path, processed_path, metadata_path=metadata_path)
 

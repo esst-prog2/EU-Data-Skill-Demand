@@ -20,6 +20,7 @@ import pytest
 from scripts.preprocess import (
     CATEGORY_NAMES,
     EU27_COUNTRY_NAMES,
+    extract_snapshot_timestamp,
     preprocess,
     validate_posting_provenance,
 )
@@ -339,4 +340,231 @@ class TestSensitivityAnalysisProvenance:
 
         with pytest.raises(ValueError, match="missing required '_collection_country'"):
             compute_skill_stats_from_raw(raw_file, minimal_vocabulary_file)
+
+
+class TestPreprocessSnapshotMetadata:
+    """Tests for metadata extraction and propagation in scripts/preprocess.py."""
+
+    def test_extract_snapshot_timestamp_valid(self, tmp_path: Path):
+        meta_file = tmp_path / "collection_metadata_eu.json"
+        meta_file.write_text(
+            json.dumps({
+                "unique_jobs": 1,
+                "collection_timestamp_utc": "2026-09-29T18:03:43.554417+00:00",
+            }),
+            encoding="utf-8",
+        )
+        assert extract_snapshot_timestamp(meta_file, total_postings=1) == "2026-09-29T18:03:43.554417+00:00"
+
+    def test_extract_snapshot_timestamp_zulu(self, tmp_path: Path):
+        meta_file = tmp_path / "collection_metadata_eu.json"
+        meta_file.write_text(
+            json.dumps({
+                "unique_jobs": 5,
+                "collection_timestamp_utc": "2026-09-29T18:03:43Z",
+            }),
+            encoding="utf-8",
+        )
+        assert extract_snapshot_timestamp(meta_file, total_postings=5) == "2026-09-29T18:03:43Z"
+
+    def test_extract_snapshot_timestamp_rejects_naive_iso(self, tmp_path: Path):
+        meta_file = tmp_path / "naive_meta.json"
+        meta_file.write_text(
+            json.dumps({
+                "unique_jobs": 1,
+                "collection_timestamp_utc": "2026-09-29T18:03:43",
+            }),
+            encoding="utf-8",
+        )
+        assert extract_snapshot_timestamp(meta_file, total_postings=1) is None
+
+    @pytest.mark.parametrize(
+        "bad_unique_jobs",
+        [
+            10,
+            0,
+            True,
+            False,
+            "1",
+            None,
+            1.0,
+        ],
+    )
+    def test_extract_snapshot_timestamp_rejects_mismatched_or_non_int_jobs(self, tmp_path: Path, bad_unique_jobs):
+        meta_file = tmp_path / "count_meta.json"
+        meta_file.write_text(
+            json.dumps({
+                "unique_jobs": bad_unique_jobs,
+                "collection_timestamp_utc": "2026-09-29T18:03:43.554417+00:00",
+            }),
+            encoding="utf-8",
+        )
+        assert extract_snapshot_timestamp(meta_file, total_postings=1) is None
+
+    @pytest.mark.parametrize(
+        "bad_payload",
+        [
+            None,
+            "corrupted json {",
+            json.dumps([]),
+            json.dumps({"other_key": "val"}),
+            json.dumps({"unique_jobs": 1, "collection_timestamp_utc": None}),
+            json.dumps({"unique_jobs": 1, "collection_timestamp_utc": ""}),
+            json.dumps({"unique_jobs": 1, "collection_timestamp_utc": "   "}),
+            json.dumps({"unique_jobs": 1, "collection_timestamp_utc": "not-an-iso-date"}),
+            json.dumps({"unique_jobs": 1, "collection_timestamp_utc": "2026-15-40"}),
+            json.dumps({"unique_jobs": 1, "collection_timestamp_utc": 12345}),
+        ],
+    )
+    def test_extract_snapshot_timestamp_invalid_or_missing(self, tmp_path: Path, bad_payload):
+        if bad_payload is None:
+            assert extract_snapshot_timestamp(None, total_postings=1) is None
+            assert extract_snapshot_timestamp(tmp_path / "nonexistent.json", total_postings=1) is None
+        else:
+            meta_file = tmp_path / "bad_meta.json"
+            meta_file.write_text(bad_payload, encoding="utf-8")
+            assert extract_snapshot_timestamp(meta_file, total_postings=1) is None
+
+    def test_preprocess_propagates_valid_metadata_timestamp(
+        self, tmp_path: Path, minimal_vocabulary_file: Path
+    ):
+        raw_postings = [
+            {
+                "id": "synth-meta-1",
+                "title": "Data Engineer",
+                "_collection_category": "data_engineering",
+                "_collection_country": "DE",
+            }
+        ]
+        raw_file = tmp_path / "raw.json"
+        raw_file.write_text(json.dumps(raw_postings), encoding="utf-8")
+        meta_file = tmp_path / "collection_metadata_eu.json"
+        meta_file.write_text(
+            json.dumps({
+                "unique_jobs": 1,
+                "collection_timestamp_utc": "2026-09-29T18:03:43.554417+00:00",
+            }),
+            encoding="utf-8",
+        )
+        output_file = tmp_path / "summary.json"
+
+        preprocess(raw_file, minimal_vocabulary_file, output_file)
+
+        assert output_file.exists()
+        with open(output_file, "r", encoding="utf-8") as f:
+            summary = json.load(f)
+
+        assert summary["snapshot_collected_at"] == "2026-09-29T18:03:43.554417+00:00"
+        assert "generated_at" in summary
+        assert summary["kpis"]["total_postings"] == 1
+
+    def test_preprocess_accepts_explicit_metadata_path(
+        self, tmp_path: Path, minimal_vocabulary_file: Path
+    ):
+        raw_postings = [
+            {
+                "id": "synth-meta-2",
+                "title": "Data Analyst",
+                "_collection_category": "data_analytics",
+                "_collection_country": "FR",
+            }
+        ]
+        raw_file = tmp_path / "raw.json"
+        raw_file.write_text(json.dumps(raw_postings), encoding="utf-8")
+        custom_meta = tmp_path / "custom_meta.json"
+        custom_meta.write_text(
+            json.dumps({
+                "unique_jobs": 1,
+                "collection_timestamp_utc": "2026-10-01T10:00:00+00:00",
+            }),
+            encoding="utf-8",
+        )
+        output_file = tmp_path / "summary.json"
+
+        preprocess(raw_file, minimal_vocabulary_file, output_file, metadata_path=custom_meta)
+
+        with open(output_file, "r", encoding="utf-8") as f:
+            summary = json.load(f)
+
+        assert summary["snapshot_collected_at"] == "2026-10-01T10:00:00+00:00"
+
+    def test_preprocess_stores_none_when_metadata_job_count_mismatches(
+        self, tmp_path: Path, minimal_vocabulary_file: Path
+    ):
+        raw_postings = [
+            {
+                "id": "synth-count-mismatch",
+                "title": "Data Engineer",
+                "_collection_category": "data_engineering",
+                "_collection_country": "DE",
+            }
+        ]
+        raw_file = tmp_path / "raw.json"
+        raw_file.write_text(json.dumps(raw_postings), encoding="utf-8")
+        meta_file = tmp_path / "collection_metadata_eu.json"
+        meta_file.write_text(
+            json.dumps({
+                "unique_jobs": 9999,  # Mismatched against actual 1 posting
+                "collection_timestamp_utc": "2026-09-29T18:03:43.554417+00:00",
+            }),
+            encoding="utf-8",
+        )
+        output_file = tmp_path / "summary.json"
+
+        preprocess(raw_file, minimal_vocabulary_file, output_file)
+
+        with open(output_file, "r", encoding="utf-8") as f:
+            summary = json.load(f)
+
+        assert summary["snapshot_collected_at"] is None
+        assert "generated_at" in summary
+
+    def test_preprocess_stores_none_when_metadata_missing(
+        self, tmp_path: Path, minimal_vocabulary_file: Path
+    ):
+        raw_postings = [
+            {
+                "id": "synth-no-meta",
+                "title": "ML Engineer",
+                "_collection_category": "ml_ai",
+                "_collection_country": "ES",
+            }
+        ]
+        raw_file = tmp_path / "raw.json"
+        raw_file.write_text(json.dumps(raw_postings), encoding="utf-8")
+        output_file = tmp_path / "summary.json"
+
+        # No metadata file created
+        preprocess(raw_file, minimal_vocabulary_file, output_file)
+
+        with open(output_file, "r", encoding="utf-8") as f:
+            summary = json.load(f)
+
+        assert summary["snapshot_collected_at"] is None
+        assert "generated_at" in summary
+
+    def test_preprocess_stores_none_when_metadata_malformed(
+        self, tmp_path: Path, minimal_vocabulary_file: Path
+    ):
+        raw_postings = [
+            {
+                "id": "synth-bad-meta",
+                "title": "Data Scientist",
+                "_collection_category": "data_science",
+                "_collection_country": "IT",
+            }
+        ]
+        raw_file = tmp_path / "raw.json"
+        raw_file.write_text(json.dumps(raw_postings), encoding="utf-8")
+        meta_file = tmp_path / "collection_metadata_eu.json"
+        meta_file.write_text("corrupted json", encoding="utf-8")
+        output_file = tmp_path / "summary.json"
+
+        preprocess(raw_file, minimal_vocabulary_file, output_file)
+
+        with open(output_file, "r", encoding="utf-8") as f:
+            summary = json.load(f)
+
+        assert summary["snapshot_collected_at"] is None
+        assert "generated_at" in summary
 

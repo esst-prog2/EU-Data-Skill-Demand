@@ -13,6 +13,7 @@ Renders precomputed metrics from data/processed/analytics_summary.json:
 
 from __future__ import annotations
 
+from datetime import datetime, timezone
 import json
 import math
 from pathlib import Path
@@ -83,6 +84,58 @@ def get_geographic_note_data(geographic: Dict[str, Any]) -> tuple[int, int, int,
 
     codes_str = ", ".join(eligible_codes)
     return threshold, eligible_count, excluded_count, codes_str
+
+
+def format_snapshot_date(iso_str: Any) -> str | None:
+    """
+    Validates and formats an ISO-8601 timestamp string into a human-readable UTC date,
+    e.g. '2026-09-29T18:03:43.554417+00:00' -> '29 September 2026'.
+
+    Returns formatted date string, or None if the input is missing, empty,
+    naive (no timezone), or not a valid ISO timestamp.
+    """
+    if not isinstance(iso_str, str) or not iso_str.strip():
+        return None
+    try:
+        dt = datetime.fromisoformat(iso_str.strip())
+        if dt.tzinfo is None:
+            return None
+        dt_utc = dt.astimezone(timezone.utc)
+        return f"{dt_utc.day} {dt_utc.strftime('%B %Y')}"
+    except (ValueError, TypeError, OverflowError):
+        return None
+
+
+def get_intro_text(total_postings: int, snapshot_date: str | None = None) -> str:
+    """
+    Generates the introduction markdown text with dynamic posting count and snapshot date.
+    """
+    total_str = f"{total_postings:,}"
+    if snapshot_date:
+        return (
+            f"An empirical analysis of technical skill demand across data-related occupations and EU-27 member states, "
+            f"based on an audited snapshot of **{total_str} FreeHire job postings** (Latest snapshot: {snapshot_date})."
+        )
+    return (
+        f"An empirical analysis of technical skill demand across data-related occupations and EU-27 member states, "
+        f"based on an audited snapshot of **{total_str} FreeHire job postings**."
+    )
+
+
+def get_footer_text(total_postings: int, snapshot_date: str | None = None) -> str:
+    """
+    Generates the footer caption text with dynamic posting count and snapshot date.
+    """
+    total_str = f"{total_postings:,}"
+    if snapshot_date:
+        return (
+            f"EU Data Jobs & Skill Demand Analysis • Built with Python & Streamlit • "
+            f"Data Source: FreeHire snapshot ({total_str} postings) • Latest snapshot: {snapshot_date}"
+        )
+    return (
+        f"EU Data Jobs & Skill Demand Analysis • Built with Python & Streamlit • "
+        f"Data Source: FreeHire snapshot ({total_str} postings)"
+    )
 
 
 def validate_analytics_summary(data: Dict[str, Any]) -> None:
@@ -186,16 +239,13 @@ def main() -> None:
     categories = data["category_profiles"]
     geographic = data["geographic"]
 
+    snapshot_date = format_snapshot_date(data.get("snapshot_collected_at"))
+
     # =========================================================================
     # Header & Introduction
     # =========================================================================
     st.title("🇪🇺 EU Data Jobs & Technical Skill Demand Analysis")
-    st.markdown(
-        """
-        An empirical analysis of technical skill demand across data-related occupations and EU-27 member states,
-        based on an audited snapshot of **23,138 FreeHire job postings**.
-        """
-    )
+    st.markdown(get_intro_text(kpis["total_postings"], snapshot_date))
 
     st.markdown("---")
 
@@ -502,9 +552,7 @@ def main() -> None:
     )
 
     st.markdown("---")
-    st.caption(
-        "EU Data Jobs & Skill Demand Analysis • Built with Python & Streamlit • Data Source: FreeHire snapshot (23,138 postings)"
-    )
+    st.caption(get_footer_text(kpis["total_postings"], snapshot_date))
 
 
 if __name__ == "__main__":

@@ -25,7 +25,10 @@ import pytest
 
 from app import (
     DATA_PATH,
+    format_snapshot_date,
+    get_footer_text,
     get_geographic_note_data,
+    get_intro_text,
     validate_analytics_summary,
 )
 
@@ -351,3 +354,115 @@ class TestCategoryProfileValidation:
     def test_valid_zero_and_positive_total_postings_accepted(self, valid_summary_data, valid_val):
         valid_summary_data["category_profiles"]["data_engineering"]["total_postings"] = valid_val
         validate_analytics_summary(valid_summary_data)
+
+
+class TestSnapshotDateFormatting:
+    """Unit tests for format_snapshot_date helper."""
+
+    def test_format_snapshot_date_valid_utc_iso(self):
+        assert format_snapshot_date("2026-09-29T18:03:43.554417+00:00") == "29 September 2026"
+
+    def test_format_snapshot_date_utc_calendar_date_conversion(self):
+        # 23:30 in UTC-2 is 01:30 next day in UTC
+        assert format_snapshot_date("2026-09-29T23:30:00-02:00") == "30 September 2026"
+        # 01:00 in UTC+3 is 22:00 previous day in UTC
+        assert format_snapshot_date("2026-09-29T01:00:00+03:00") == "28 September 2026"
+
+    def test_format_snapshot_date_rejects_naive_iso_without_timezone(self):
+        assert format_snapshot_date("2026-09-29T18:03:43") is None
+
+    def test_format_snapshot_date_single_digit_day(self):
+        assert format_snapshot_date("2026-05-04T12:00:00Z") == "4 May 2026"
+
+    @pytest.mark.parametrize(
+        "bad_input",
+        [
+            None,
+            "",
+            "   ",
+            "not-a-date",
+            "2026-13-45",
+            12345,
+            99.9,
+            True,
+            False,
+            [],
+            {},
+        ],
+    )
+    def test_format_snapshot_date_invalid_and_missing_inputs(self, bad_input):
+        assert format_snapshot_date(bad_input) is None
+
+
+class TestDynamicPostingCountAndDateRendering:
+    """Tests dynamic posting counts and snapshot date labels in introduction and footer."""
+
+    def test_intro_and_footer_renders_dynamic_count_and_snapshot_date(self):
+        intro = get_intro_text(24500, "29 September 2026")
+        footer = get_footer_text(24500, "29 September 2026")
+
+        assert "24,500" in intro
+        assert "Latest snapshot: 29 September 2026" in intro
+        assert "23,138" not in intro
+
+        assert "24,500" in footer
+        assert "Latest snapshot: 29 September 2026" in footer
+        assert "23,138" not in footer
+
+    def test_intro_and_footer_omits_date_label_when_snapshot_date_none(self):
+        intro = get_intro_text(24500, None)
+        footer = get_footer_text(24500, None)
+
+        assert "24,500" in intro
+        assert "Latest snapshot" not in intro
+        assert "23,138" not in intro
+
+        assert "24,500" in footer
+        assert "Latest snapshot" not in footer
+        assert "23,138" not in footer
+
+    def test_intro_and_footer_consistent_with_production_count(self):
+        intro = get_intro_text(23138, "29 September 2026")
+        footer = get_footer_text(23138, "29 September 2026")
+
+        assert "23,138" in intro
+        assert "Latest snapshot: 29 September 2026" in intro
+        assert "23,138" in footer
+        assert "Latest snapshot: 29 September 2026" in footer
+
+
+class TestOlderSummaryRenderingWithoutSnapshotDate:
+    """Verifies that summaries lacking snapshot_collected_at render cleanly without raw metadata."""
+
+    def test_summary_without_snapshot_date_renders_dynamic_count(self):
+        summary = {"kpis": {"total_postings": 23138}}
+        snapshot_date = format_snapshot_date(summary.get("snapshot_collected_at"))
+        assert snapshot_date is None
+        intro = get_intro_text(summary["kpis"]["total_postings"], snapshot_date)
+        footer = get_footer_text(summary["kpis"]["total_postings"], snapshot_date)
+
+        assert "23,138" in intro
+        assert "Latest snapshot" not in intro
+        assert "23,138" in footer
+        assert "Latest snapshot" not in footer
+
+
+class TestValidationCompatibility:
+    """Verifies that validate_analytics_summary remains backwards-compatible and resilient to metadata."""
+
+    def test_validation_passes_with_snapshot_collected_at_present(self, valid_summary_data):
+        valid_summary_data["snapshot_collected_at"] = "2026-09-29T18:03:43.554417+00:00"
+        validate_analytics_summary(valid_summary_data)
+
+    def test_validation_passes_with_snapshot_collected_at_none(self, valid_summary_data):
+        valid_summary_data["snapshot_collected_at"] = None
+        validate_analytics_summary(valid_summary_data)
+
+    def test_validation_passes_with_snapshot_collected_at_omitted(self, valid_summary_data):
+        valid_summary_data.pop("snapshot_collected_at", None)
+        validate_analytics_summary(valid_summary_data)
+
+    def test_validation_does_not_crash_on_malformed_optional_metadata(self, valid_summary_data):
+        valid_summary_data["snapshot_collected_at"] = 12345
+        validate_analytics_summary(valid_summary_data)
+        assert format_snapshot_date(valid_summary_data["snapshot_collected_at"]) is None
