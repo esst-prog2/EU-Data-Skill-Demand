@@ -1,5 +1,5 @@
 """
-01_collect_jobs_eu.py
+eu27.py
 
 Collect data-related job postings from FreeHire across the EU-27.
 
