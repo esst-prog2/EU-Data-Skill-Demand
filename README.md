@@ -3,7 +3,7 @@
 ## 1. The Demo
 
 I open the Streamlit web app in the browser and select one of five FreeHire occupational categories: Data Analytics, Data Engineering, Data Science, ML/AI, or AI Engineering.
-The app shows the category's most prevalent skills, then highlights which of those skills are *distinctive* to it rather than simply common across the observed corpus — e.g., "Python appears in 78% of Data Science postings, 1.4× its overall corpus prevalence, versus 45% in Data Analytics (0.8×)."
+The app shows the category's most prevalent skills, then highlights which of those skills are *distinctive* to it rather than simply common across the observed corpus — e.g., "Python appears in 66.4% of Data Science postings, 1.2× its overall corpus prevalence, versus 44.3% in Data Analytics (0.8×)."
 A map shows where the 23,138 postings are located across the EU-27. A separate comparison shows how the occupational composition of countries with at least 300 observed postings differs across the five categories.
 The overview also shows the relative size of the five occupational categories, providing context for the overall skill-prevalence results.
 
