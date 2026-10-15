@@ -262,8 +262,6 @@ def main():
     country_counts = Counter()
     category_counts = Counter()
 
-    query_totals = {}
-
     # --------------------------------------------------------
     # Country × category collection
     # --------------------------------------------------------
@@ -296,8 +294,6 @@ def main():
                 ) from exc
 
             query_counts[(country_code, category)] = len(jobs)
-
-            query_totals[(country_code, category)] = len(jobs)
 
             # ------------------------------------------------
             # Deduplicate

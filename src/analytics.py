@@ -10,7 +10,7 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, List, Set, Tuple
 
 
 class SkillVocabulary:
@@ -19,12 +19,10 @@ class SkillVocabulary:
     def __init__(self, vocab_data: Dict[str, Any]):
         self.skills: List[Dict[str, Any]] = vocab_data.get("skills", [])
         self.alias_to_canonical: Dict[str, str] = {}
-        self.canonical_to_entry: Dict[str, Dict[str, Any]] = {}
         self.compiled_regexes: Dict[str, re.Pattern] = {}
 
         for entry in self.skills:
             canonical = entry["canonical"]
-            self.canonical_to_entry[canonical] = entry
 
             # Canonical itself as a lookup key
             self.alias_to_canonical[canonical.lower()] = canonical
