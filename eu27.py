@@ -291,7 +291,9 @@ def main():
                     f"{exc}"
                 )
 
-                continue
+                raise RuntimeError(
+                    f"Collection failed for {country_code}/{category}: {exc}"
+                ) from exc
 
             query_counts[(country_code, category)] = len(jobs)
 
