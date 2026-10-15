@@ -46,6 +46,16 @@ uv run pytest
 
 Because FreeHire job postings and search results change continuously over time, running a new collection with `eu27.py` will pull live postings from the API and will not reproduce the historical 23,138-posting snapshot exactly; counts, category shares, and skill rankings in the charts may differ accordingly.
 
+### Automated Weekly Data Refresh
+
+An automated GitHub Actions workflow (`.github/workflows/weekly-data-refresh.yml`) keeps the analytical summary up-to-date without publishing unreviewed data:
+
+- **Schedule & Trigger:** Runs weekly on Sundays at 03:00 UTC (`0 3 * * 0`) and supports manual triggering via `workflow_dispatch`.
+- **Pipeline Execution:** Runs `uv run python eu27.py` to collect a fresh snapshot, `uv run python scripts/preprocess.py` to regenerate `data/processed/analytics_summary.json`, and validates the outputs against the complete test suite (`uv run pytest`).
+- **Idempotency & Noise Prevention:** `scripts/check_refresh_diff.py` compares substantive data fields against `HEAD`. If only timestamps changed without real job or metric differences, timestamp changes are reverted and no pull request is opened.
+- **Review-Before-Publication Gate:** When real data changes occur, the workflow creates a pull request from branch `data-refresh/weekly` containing only `data/processed/analytics_summary.json` and `data/raw/collection_metadata_eu.json`. The workflow never auto-merges or pushes directly to `main`; the live dashboard continues to render the stable, committed summary until a human reviews and merges the PR.
+- **Repository Setup:** Requires enabling "Allow GitHub Actions to create and approve pull requests" under repository **Settings → Actions → General → Workflow permissions**.
+
 
 ## 3. The Size
 

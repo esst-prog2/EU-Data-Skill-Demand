@@ -1,0 +1,85 @@
+name: Weekly Data Refresh
+
+on:
+  schedule:
+    # Run every Sunday at 03:00 UTC
+    - cron: '0 3 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: weekly-data-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    name: Refresh Data Snapshot & Open PR
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          version: "latest"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Collect fresh EU-27 job postings
+        run: uv run python eu27.py
+
+      - name: Regenerate analytics summary
+        run: uv run python scripts/preprocess.py
+
+      - name: Check for substantive changes & discard timestamp-only noise
+        id: check_diff
+        run: uv run python scripts/check_refresh_diff.py
+
+      - name: Run test suite on refreshed data
+        run: uv run pytest
+
+      - name: Create Pull Request for Review
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(data): refresh FreeHire EU-27 dataset and analytics summary"
+          branch: data-refresh/weekly
+          base: main
+          delete-branch: true
+          title: "chore(data): weekly refresh of FreeHire EU-27 dataset and analytics"
+          body: |
+            ## Weekly Data Refresh
+
+            This automated pull request updates the FreeHire EU-27 job-posting analytics summary from a fresh collection.
+
+            ### Pipeline Execution Summary
+            - **Collection:** Queried FreeHire API across all 27 EU member states and 5 target occupational categories (`eu27.py`).
+            - **Preprocessing:** Extracted skills using the controlled vocabulary and generated the updated summary (`scripts/preprocess.py`).
+            - **Verification:** Full test suite passed with `uv run pytest`.
+            - **Review-Before-Publication:** The dashboard on `main` continues using the committed summary until this pull request is reviewed and merged.
+
+            ### Review Instructions
+            - Inspect diff in `data/processed/analytics_summary.json` (KPIs, category shares, top skills, geographic distribution).
+            - Check `data/raw/collection_metadata_eu.json` for collection counts and query completion.
+            - Merge when satisfied to publish the refreshed data to the live dashboard.
+          labels: |
+            data-refresh
+            automated
+          add-paths: |
+            data/processed/analytics_summary.json
+            data/raw/collection_metadata_eu.json
