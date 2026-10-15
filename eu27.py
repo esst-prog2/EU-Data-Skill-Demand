@@ -225,14 +225,22 @@ def get_jobs(country_code, category):
 def get_job_key(job):
     """
     Return the most stable available identifier.
-    """
 
-    return (
-        job.get("public_slug")
-        or job.get("slug")
-        or job.get("id")
-        or job.get("external_id")
-    )
+    Checks candidates in order: public_slug, slug, id, external_id.
+    Accepts a candidate only if it is a string whose stripped value is nonempty,
+    returning the stripped string. Returns None if no candidate is usable.
+    """
+    if not isinstance(job, dict):
+        return None
+
+    for field in ("public_slug", "slug", "id", "external_id"):
+        val = job.get(field)
+        if isinstance(val, str):
+            cleaned = val.strip()
+            if cleaned:
+                return cleaned
+
+    return None
 
 
 # ============================================================
@@ -304,11 +312,15 @@ def main():
                 key = get_job_key(job)
 
                 if key is None:
-                    print(
-                        "    WARNING: job without stable ID "
-                        f"in {country_code}/{category}"
+                    title = (
+                        job.get("title")[:80]
+                        if isinstance(job.get("title"), str)
+                        else "<no title>"
                     )
-                    continue
+                    raise RuntimeError(
+                        f"Collection failed: posting without stable ID encountered "
+                        f"in {country_code}/{category} (title: {title!r})."
+                    )
 
                 if key not in all_jobs:
 
