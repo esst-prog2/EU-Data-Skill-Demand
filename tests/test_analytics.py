@@ -8,6 +8,9 @@ Unit tests for analytical core logic across four designated pytest areas:
 4. Geographic N >= 300 thresholding
 """
 
+import json
+import os
+import tempfile
 from pathlib import Path
 
 import pytest
@@ -18,6 +21,7 @@ from src.analytics import (
     EU27_COUNTRY_NAMES,
     OCCUPATIONAL_CATEGORIES,
     SkillVocabulary,
+    atomic_dump_json,
     compute_category_skill_stats,
     compute_lift,
     compute_prevalence,
@@ -448,3 +452,184 @@ class TestEU27CountryMapping:
     def test_aliases_match_canonical_mapping(self):
         assert EU_COUNTRIES == EU27_COUNTRIES
         assert EU27_COUNTRY_NAMES == EU27_COUNTRIES
+
+
+# ==============================================================================
+# Area 8: Atomic JSON Output Serialization
+# ==============================================================================
+
+class TestAtomicDumpJson:
+    """Verifies atomic write-and-replace behavior and failure preservation for JSON outputs."""
+
+    def test_successful_json_output_and_formatting(self, tmp_path: Path):
+        dest = tmp_path / "output.json"
+        data = {
+            "title": "Data Scientist",
+            "count": 42,
+            "skills": ["Python", "SQL"],
+            "country": "Czechia",
+            "unicode_text": "Příliš žluťoučký kůň",
+        }
+        atomic_dump_json(data, dest, indent=2, ensure_ascii=False)
+
+        assert dest.exists()
+        raw_text = dest.read_text(encoding="utf-8")
+        assert "Příliš žluťoučký kůň" in raw_text
+        assert '  "title": "Data Scientist"' in raw_text
+        loaded = json.loads(raw_text)
+        assert loaded == data
+
+        temp_files = list(tmp_path.glob(".*.tmp")) + list(tmp_path.glob("*.tmp"))
+        assert len(temp_files) == 0
+
+    def test_creation_of_destination_that_does_not_already_exist(self, tmp_path: Path):
+        dest = tmp_path / "nested" / "sub_dir" / "created.json"
+        assert not dest.exists()
+        assert not dest.parent.exists()
+
+        atomic_dump_json({"status": "created"}, dest)
+        assert dest.exists()
+        assert json.loads(dest.read_text(encoding="utf-8")) == {"status": "created"}
+
+    def test_serialization_failure_preserves_existing_destination(self, tmp_path: Path):
+        dest = tmp_path / "preexisting_serial_fail.json"
+        original_content = '{\n  "version": 1,\n  "status": "valid"\n}'
+        dest.write_text(original_content, encoding="utf-8")
+
+        unserializable_payload = {"invalid_set": {"item1", "item2"}}
+
+        with pytest.raises(TypeError):
+            atomic_dump_json(unserializable_payload, dest)
+
+        assert dest.exists()
+        assert dest.read_text(encoding="utf-8") == original_content
+
+        temp_files = list(tmp_path.glob(".*.tmp")) + list(tmp_path.glob("*.tmp"))
+        assert len(temp_files) == 0
+
+    def test_temporary_file_write_failure_preserves_existing_destination(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ):
+        dest = tmp_path / "preexisting_write_fail.json"
+        original_content = '{\n  "original": "intact"\n}'
+        dest.write_text(original_content, encoding="utf-8")
+
+        def mock_dump_fail(*args, **kwargs):
+            raise OSError("Simulated disk full during json.dump")
+
+        monkeypatch.setattr(json, "dump", mock_dump_fail)
+
+        with pytest.raises(OSError, match="Simulated disk full"):
+            atomic_dump_json({"new": "data"}, dest)
+
+        assert dest.exists()
+        assert dest.read_text(encoding="utf-8") == original_content
+
+        temp_files = list(tmp_path.glob(".*.tmp")) + list(tmp_path.glob("*.tmp"))
+        assert len(temp_files) == 0
+
+    def test_cleanup_of_temporary_files_after_failure(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ):
+        dest = tmp_path / "cleanup_target.json"
+
+        def mock_dump_fail(*args, **kwargs):
+            raise RuntimeError("Unexpected failure during serialization stream")
+
+        monkeypatch.setattr(json, "dump", mock_dump_fail)
+
+        with pytest.raises(RuntimeError, match="Unexpected failure during serialization stream"):
+            atomic_dump_json({"key": "value"}, dest)
+
+        assert not dest.exists()
+        temp_files = list(tmp_path.glob(".*.tmp")) + list(tmp_path.glob("*.tmp"))
+        assert len(temp_files) == 0
+
+    def test_replacement_failure_preserves_existing_destination(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ):
+        dest = tmp_path / "preexisting_replace_fail.json"
+        original_content = '{\n  "pre_existing": true\n}'
+        dest.write_text(original_content, encoding="utf-8")
+
+        def mock_replace_fail(self, target):
+            raise PermissionError("Simulated replacement failure")
+
+        monkeypatch.setattr(Path, "replace", mock_replace_fail)
+
+        with pytest.raises(PermissionError, match="Simulated replacement failure"):
+            atomic_dump_json({"new": "replacement"}, dest)
+
+        assert dest.exists()
+        assert dest.read_text(encoding="utf-8") == original_content
+        temp_files = list(tmp_path.glob(".*.tmp")) + list(tmp_path.glob("*.tmp"))
+        assert len(temp_files) == 0
+
+    def test_fsync_failure_aborts_replacement_and_preserves_destination(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ):
+        dest = tmp_path / "preexisting_fsync_fail.json"
+        original_content = '{\n  "status": "intact"\n}'
+        dest.write_text(original_content, encoding="utf-8")
+
+        def mock_fsync_fail(fd):
+            raise OSError("Simulated fsync I/O failure")
+
+        monkeypatch.setattr(os, "fsync", mock_fsync_fail)
+
+        with pytest.raises(OSError, match="Simulated fsync I/O failure"):
+            atomic_dump_json({"new": "data"}, dest)
+
+        # Existing destination must remain untouched
+        assert dest.exists()
+        assert dest.read_text(encoding="utf-8") == original_content
+
+        # Temporary file must be unlinked/cleaned up
+        temp_files = list(tmp_path.glob(".*.tmp")) + list(tmp_path.glob("*.tmp"))
+        assert len(temp_files) == 0
+
+    def test_close_failure_during_exception_cleanup_preserves_original_exception(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ):
+        dest = tmp_path / "preexisting_close_fail.json"
+        original_content = '{\n  "status": "unaltered"\n}'
+        dest.write_text(original_content, encoding="utf-8")
+
+        unlink_attempted = False
+        original_named_temp_file = tempfile.NamedTemporaryFile
+
+        def mock_named_temp_file(*args, **kwargs):
+            tf = original_named_temp_file(*args, **kwargs)
+            orig_close = tf.close
+
+            def faulty_close():
+                orig_close()  # Close underlying handle so unlink is permitted on Windows
+                raise OSError("Simulated close error during exception cleanup")
+
+            tf.close = faulty_close
+            return tf
+
+        monkeypatch.setattr(tempfile, "NamedTemporaryFile", mock_named_temp_file)
+
+        orig_unlink = Path.unlink
+
+        def spy_unlink(path_self, *args, **kwargs):
+            nonlocal unlink_attempted
+            unlink_attempted = True
+            return orig_unlink(path_self, *args, **kwargs)
+
+        monkeypatch.setattr(Path, "unlink", spy_unlink)
+
+        with pytest.raises(TypeError, match="not JSON serializable"):
+            atomic_dump_json({"unserializable_set": {1, 2, 3}}, dest)
+
+        # Cleanup must have been attempted despite close failure
+        assert unlink_attempted is True
+
+        # Existing destination must remain untouched
+        assert dest.exists()
+        assert dest.read_text(encoding="utf-8") == original_content
+
+        # Temporary file must be unlinked
+        temp_files = list(tmp_path.glob(".*.tmp")) + list(tmp_path.glob("*.tmp"))
+        assert len(temp_files) == 0

@@ -31,7 +31,7 @@ from pathlib import Path
 
 import requests
 
-from src.analytics import EU27_COUNTRIES, OCCUPATIONAL_CATEGORIES
+from src.analytics import EU27_COUNTRIES, OCCUPATIONAL_CATEGORIES, atomic_dump_json
 
 
 # ============================================================
@@ -426,18 +426,12 @@ def main():
     # SAVE RAW DATA
     # ========================================================
 
-    with open(
+    atomic_dump_json(
+        unique_jobs,
         JOBS_OUTPUT,
-        "w",
-        encoding="utf-8",
-    ) as f:
-
-        json.dump(
-            unique_jobs,
-            f,
-            ensure_ascii=False,
-            indent=2,
-        )
+        ensure_ascii=False,
+        indent=2,
+    )
 
 
     # ========================================================
@@ -506,18 +500,12 @@ def main():
     }
 
 
-    with open(
+    atomic_dump_json(
+        metadata,
         METADATA_OUTPUT,
-        "w",
-        encoding="utf-8",
-    ) as f:
-
-        json.dump(
-            metadata,
-            f,
-            ensure_ascii=False,
-            indent=2,
-        )
+        ensure_ascii=False,
+        indent=2,
+    )
 
 
     # ========================================================

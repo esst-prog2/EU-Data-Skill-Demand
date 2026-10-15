@@ -8,7 +8,9 @@ skill distinctiveness (lift), support-based noise filtering, and geographic thre
 from __future__ import annotations
 
 import json
+import os
 import re
+import tempfile
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Set, Tuple
 
@@ -243,3 +245,50 @@ def compute_category_skill_stats(
         stats_by_category[cat_id] = skill_stats
     return stats_by_category
 
+
+def atomic_dump_json(
+    obj: Any,
+    destination: Path | str,
+    *,
+    indent: int | None = 2,
+    ensure_ascii: bool = False,
+) -> None:
+    """
+    Atomically serialize and write a JSON-serializable object to destination.
+
+    1. Ensures destination directory exists.
+    2. Writes JSON to a collision-free temporary file in the destination directory.
+    3. Flushes, syncs, and closes the temporary file before replacement.
+    4. Replaces destination with the temporary file atomically via Path.replace().
+    5. On any serialization, write, or replacement error, cleans up the temporary
+       file and preserves any existing destination file without truncation.
+    """
+    dest = Path(destination)
+    dest.parent.mkdir(parents=True, exist_ok=True)
+
+    temp_file = tempfile.NamedTemporaryFile(
+        mode="w",
+        encoding="utf-8",
+        dir=dest.parent,
+        prefix=f".{dest.name}.",
+        suffix=".tmp",
+        delete=False,
+    )
+    temp_path = Path(temp_file.name)
+    try:
+        json.dump(obj, temp_file, indent=indent, ensure_ascii=ensure_ascii)
+        temp_file.flush()
+        os.fsync(temp_file.fileno())
+        temp_file.close()
+        temp_path.replace(dest)
+    except BaseException:
+        try:
+            temp_file.close()
+        except Exception:
+            pass
+        if temp_path.exists():
+            try:
+                temp_path.unlink()
+            except OSError:
+                pass
+        raise

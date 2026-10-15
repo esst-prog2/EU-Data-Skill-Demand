@@ -24,6 +24,7 @@ from src.analytics import (
     EU27_COUNTRIES,
     OCCUPATIONAL_CATEGORIES,
     SkillVocabulary,
+    atomic_dump_json,
     compute_category_skill_stats,
     compute_lift,
     compute_prevalence,
@@ -277,8 +278,7 @@ def preprocess(
     }
 
     print(f"Serializing analytics summary to {output_path}...")
-    with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(summary, f, indent=2, ensure_ascii=False)
+    atomic_dump_json(summary, output_path, indent=2, ensure_ascii=False)
 
     size_kb = output_path.stat().st_size / 1024
     print(f"Successfully generated {output_path} ({size_kb:.1f} KB).")
