@@ -11,3 +11,4 @@ venv/
 
 # Local raw data snapshot (regenerable, but not identical across collections)
 data/raw/freehire_eu_raw.json
+data/raw/freehire_eu_raw.xlsx
