@@ -13,6 +13,7 @@ from pathlib import Path
 import pytest
 from src.analytics import (
     SkillVocabulary,
+    compute_category_skill_stats,
     compute_lift,
     compute_prevalence,
     extract_skills_from_posting,
@@ -316,4 +317,80 @@ class TestGeographicThresholding:
         eligible, excluded = filter_eligible_countries(country_counts, threshold=300)
         assert "BE" in eligible
         assert "AT" in excluded
+
+
+# ==============================================================================
+# Area 5: Category Skill Statistics Aggregation
+# ==============================================================================
+
+class TestComputeCategorySkillStats:
+    """Tests for compute_category_skill_stats shared helper."""
+
+    def test_computes_correct_prevalence_and_lift(self, vocabulary):
+        category_counts = {"data_science": 100, "data_engineering": 200}
+        category_skill_counts = {
+            "data_science": {"Python": 70, "SQL": 40},
+            "data_engineering": {"Python": 120, "SQL": 160},
+        }
+        corpus_skill_counts = {"Python": 190, "SQL": 200}
+        total_postings = 300
+
+        stats = compute_category_skill_stats(
+            vocabulary=vocabulary,
+            category_counts=category_counts,
+            category_skill_counts=category_skill_counts,
+            corpus_skill_counts=corpus_skill_counts,
+            total_postings=total_postings,
+            categories=["data_science", "data_engineering"],
+        )
+
+        assert "data_science" in stats
+        assert "data_engineering" in stats
+
+        ds_skills = {s["canonical"]: s for s in stats["data_science"]}
+        # Python in DS: count=70, prev=0.7, corpus_prev=190/300=0.6333, lift=0.7/0.6333=1.11
+        assert ds_skills["Python"]["count"] == 70
+        assert ds_skills["Python"]["prevalence"] == pytest.approx(0.7, 0.001)
+        assert ds_skills["Python"]["prevalence_pct"] == 70.0
+        assert ds_skills["Python"]["lift"] == pytest.approx(1.11, 0.01)
+
+        # SQL in DS: count=40, prev=0.4, corpus_prev=200/300=0.6667, lift=0.4/0.6667=0.60
+        assert ds_skills["SQL"]["count"] == 40
+        assert ds_skills["SQL"]["prevalence"] == pytest.approx(0.4, 0.001)
+        assert ds_skills["SQL"]["prevalence_pct"] == 40.0
+        assert ds_skills["SQL"]["lift"] == pytest.approx(0.60, 0.01)
+
+        # Unobserved skill in DS (e.g. R)
+        assert ds_skills["R"]["count"] == 0
+        assert ds_skills["R"]["prevalence"] == 0.0
+        assert ds_skills["R"]["lift"] == 0.0
+
+    def test_handles_zero_postings_safely(self, vocabulary):
+        stats = compute_category_skill_stats(
+            vocabulary=vocabulary,
+            category_counts={"empty_category": 0},
+            category_skill_counts={},
+            corpus_skill_counts={},
+            total_postings=0,
+            categories=["empty_category"],
+        )
+        assert "empty_category" in stats
+        for s in stats["empty_category"]:
+            assert s["count"] == 0
+            assert s["prevalence"] == 0.0
+            assert s["lift"] == 0.0
+
+    def test_includes_all_requested_categories(self, vocabulary):
+        categories = ["cat_a", "cat_b", "cat_c"]
+        stats = compute_category_skill_stats(
+            vocabulary=vocabulary,
+            category_counts={},
+            category_skill_counts={},
+            corpus_skill_counts={},
+            total_postings=10,
+            categories=categories,
+        )
+        assert list(stats.keys()) == categories
+        for cat in categories:
+            assert len(stats[cat]) == len(vocabulary.skills)
 

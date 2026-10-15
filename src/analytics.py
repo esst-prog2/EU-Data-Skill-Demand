@@ -10,7 +10,7 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
-from typing import Any, Dict, List, Set, Tuple
+from typing import Any, Dict, Iterable, List, Set, Tuple
 
 
 class SkillVocabulary:
@@ -146,4 +146,42 @@ def filter_eligible_countries(
             excluded[country] = count
 
     return eligible, excluded
+
+
+def compute_category_skill_stats(
+    vocabulary: SkillVocabulary,
+    category_counts: Dict[str, int],
+    category_skill_counts: Dict[str, Dict[str, int]],
+    corpus_skill_counts: Dict[str, int],
+    total_postings: int,
+    categories: Iterable[str],
+) -> Dict[str, List[Dict[str, Any]]]:
+    """
+    Computes prevalence, corpus prevalence, and lift for all skills across specified categories.
+
+    Returns a mapping of category_id -> list of skill stat dictionaries with keys:
+    canonical, skill_group, count, prevalence, prevalence_pct, lift.
+    """
+    stats_by_category: Dict[str, List[Dict[str, Any]]] = {}
+    for cat_id in categories:
+        cat_total = category_counts.get(cat_id, 0)
+        skill_stats: List[Dict[str, Any]] = []
+        for skill_entry in vocabulary.skills:
+            canonical = skill_entry["canonical"]
+            cnt = category_skill_counts.get(cat_id, {}).get(canonical, 0)
+            prev = compute_prevalence(cnt, cat_total)
+            corpus_prev = compute_prevalence(corpus_skill_counts.get(canonical, 0), total_postings)
+            lift = compute_lift(prev, corpus_prev)
+            skill_stats.append(
+                {
+                    "canonical": canonical,
+                    "skill_group": skill_entry["category"],
+                    "count": cnt,
+                    "prevalence": prev,
+                    "prevalence_pct": round(prev * 100, 1),
+                    "lift": round(lift, 2),
+                }
+            )
+        stats_by_category[cat_id] = skill_stats
+    return stats_by_category
 

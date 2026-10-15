@@ -22,6 +22,7 @@ sys.path.insert(0, str(ROOT_DIR))
 
 from src.analytics import (
     SkillVocabulary,
+    compute_category_skill_stats,
     compute_lift,
     compute_prevalence,
     extract_skills_from_posting,
@@ -217,26 +218,19 @@ def preprocess(
     corpus_top_skills.sort(key=lambda x: x["prevalence"], reverse=True)
 
     # 3. Category Profiles (Prevalence and Lift per Category)
+    all_skills_by_cat = compute_category_skill_stats(
+        vocabulary=vocabulary,
+        category_counts=category_counts,
+        category_skill_counts=category_skill_counts,
+        corpus_skill_counts=corpus_skill_counts,
+        total_postings=total_postings,
+        categories=CATEGORY_NAMES.keys(),
+    )
+
     category_profiles = {}
     for cat_id, cat_name in CATEGORY_NAMES.items():
         cat_total = category_counts.get(cat_id, 0)
-        skill_stats = []
-
-        for skill_entry in vocabulary.skills:
-            canonical = skill_entry["canonical"]
-            cnt = category_skill_counts[cat_id].get(canonical, 0)
-            prev = compute_prevalence(cnt, cat_total)
-            corpus_prev = compute_prevalence(corpus_skill_counts.get(canonical, 0), total_postings)
-            lift = compute_lift(prev, corpus_prev)
-
-            skill_stats.append({
-                "canonical": canonical,
-                "skill_group": skill_entry["category"],
-                "count": cnt,
-                "prevalence": prev,
-                "prevalence_pct": round(prev * 100, 1),
-                "lift": round(lift, 2),
-            })
+        skill_stats = all_skills_by_cat[cat_id]
 
         # Top In-Demand: Top 10 by prevalence
         in_demand = sorted(skill_stats, key=lambda s: s["prevalence"], reverse=True)[:10]

@@ -169,24 +169,25 @@ class TestValidatePostingProvenance:
         assert "TOP_SECRET_PROPRIETARY_DESCRIPTION_TEXT" not in err_msg
 
 
+@pytest.fixture
+def minimal_vocabulary_file(tmp_path: Path) -> Path:
+    vocab = {
+        "skills": [
+            {
+                "canonical": "Python",
+                "category": "Programming languages",
+                "aliases": ["python"],
+                "regex": r"\bpython\b",
+            }
+        ]
+    }
+    vocab_file = tmp_path / "vocab.json"
+    vocab_file.write_text(json.dumps(vocab), encoding="utf-8")
+    return vocab_file
+
+
 class TestPreprocessPipelineWithProvenanceValidation:
     """Tests the preprocess() function handling of synthetic inputs."""
-
-    @pytest.fixture
-    def minimal_vocabulary_file(self, tmp_path: Path) -> Path:
-        vocab = {
-            "skills": [
-                {
-                    "canonical": "Python",
-                    "category": "Programming languages",
-                    "aliases": ["python"],
-                    "regex": r"\bpython\b",
-                }
-            ]
-        }
-        vocab_file = tmp_path / "vocab.json"
-        vocab_file.write_text(json.dumps(vocab), encoding="utf-8")
-        return vocab_file
 
     def test_preprocess_succeeds_on_valid_synthetic_data(
         self, tmp_path: Path, minimal_vocabulary_file: Path
@@ -262,4 +263,63 @@ class TestPreprocessPipelineWithProvenanceValidation:
             preprocess(raw_file, minimal_vocabulary_file, output_file)
 
         assert not output_file.exists()
+
+
+class TestSensitivityAnalysisProvenance:
+    """Verifies that compute_skill_stats_from_raw strictly enforces provenance validation."""
+
+    def test_compute_skill_stats_aborts_on_corrupted_category(
+        self, tmp_path: Path, minimal_vocabulary_file: Path
+    ):
+        from analysis.sensitivity_analysis import compute_skill_stats_from_raw
+
+        raw_postings = [
+            {
+                "id": "bad-cat-1",
+                "title": "Data Role",
+                "_collection_category": "unknown",  # Must not silently pass to 'unknown'
+                "_collection_country": "DE",
+            }
+        ]
+        raw_file = tmp_path / "raw_bad_cat.json"
+        raw_file.write_text(json.dumps(raw_postings), encoding="utf-8")
+
+        with pytest.raises(ValueError, match="invalid '_collection_category'"):
+            compute_skill_stats_from_raw(raw_file, minimal_vocabulary_file)
+
+    def test_compute_skill_stats_aborts_on_missing_category(
+        self, tmp_path: Path, minimal_vocabulary_file: Path
+    ):
+        from analysis.sensitivity_analysis import compute_skill_stats_from_raw
+
+        raw_postings = [
+            {
+                "id": "missing-cat-1",
+                "title": "Data Role",
+                "_collection_country": "DE",
+            }
+        ]
+        raw_file = tmp_path / "raw_missing_cat.json"
+        raw_file.write_text(json.dumps(raw_postings), encoding="utf-8")
+
+        with pytest.raises(ValueError, match="missing required '_collection_category'"):
+            compute_skill_stats_from_raw(raw_file, minimal_vocabulary_file)
+
+    def test_compute_skill_stats_aborts_on_missing_country(
+        self, tmp_path: Path, minimal_vocabulary_file: Path
+    ):
+        from analysis.sensitivity_analysis import compute_skill_stats_from_raw
+
+        raw_postings = [
+            {
+                "id": "missing-country-1",
+                "title": "Data Role",
+                "_collection_category": "data_science",
+            }
+        ]
+        raw_file = tmp_path / "raw_missing_country.json"
+        raw_file.write_text(json.dumps(raw_postings), encoding="utf-8")
+
+        with pytest.raises(ValueError, match="missing required '_collection_country'"):
+            compute_skill_stats_from_raw(raw_file, minimal_vocabulary_file)
 
