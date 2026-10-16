@@ -402,11 +402,11 @@ class TestDynamicPostingCountAndDateRendering:
         footer = get_footer_text(24500, "29 September 2026")
 
         assert "24,500" in intro
-        assert "Latest snapshot: 29 September 2026" in intro
+        assert "Latest snapshot collected: 29 September 2026" in intro
         assert "23,138" not in intro
 
         assert "24,500" in footer
-        assert "Latest snapshot: 29 September 2026" in footer
+        assert "Latest snapshot collected: 29 September 2026" in footer
         assert "23,138" not in footer
 
     def test_intro_and_footer_omits_date_label_when_snapshot_date_none(self):
@@ -414,11 +414,11 @@ class TestDynamicPostingCountAndDateRendering:
         footer = get_footer_text(24500, None)
 
         assert "24,500" in intro
-        assert "Latest snapshot" not in intro
+        assert "Latest snapshot collected" not in intro
         assert "23,138" not in intro
 
         assert "24,500" in footer
-        assert "Latest snapshot" not in footer
+        assert "Latest snapshot collected" not in footer
         assert "23,138" not in footer
 
     def test_intro_and_footer_consistent_with_production_count(self):
@@ -426,9 +426,21 @@ class TestDynamicPostingCountAndDateRendering:
         footer = get_footer_text(23138, "29 September 2026")
 
         assert "23,138" in intro
-        assert "Latest snapshot: 29 September 2026" in intro
+        assert "Latest snapshot collected: 29 September 2026" in intro
         assert "23,138" in footer
-        assert "Latest snapshot: 29 September 2026" in footer
+        assert "Latest snapshot collected: 29 September 2026" in footer
+
+    def test_production_summary_renders_snapshot_collected_date(self):
+        with open(DATA_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        snapshot_date = format_snapshot_date(data.get("snapshot_collected_at"))
+        assert snapshot_date == "29 September 2026"
+        intro = get_intro_text(data["kpis"]["total_postings"], snapshot_date)
+        footer = get_footer_text(data["kpis"]["total_postings"], snapshot_date)
+        assert "23,138" in intro
+        assert "Latest snapshot collected: 29 September 2026" in intro
+        assert "23,138" in footer
+        assert "Latest snapshot collected: 29 September 2026" in footer
 
 
 class TestOlderSummaryRenderingWithoutSnapshotDate:
@@ -442,9 +454,9 @@ class TestOlderSummaryRenderingWithoutSnapshotDate:
         footer = get_footer_text(summary["kpis"]["total_postings"], snapshot_date)
 
         assert "23,138" in intro
-        assert "Latest snapshot" not in intro
+        assert "Latest snapshot collected" not in intro
         assert "23,138" in footer
-        assert "Latest snapshot" not in footer
+        assert "Latest snapshot collected" not in footer
 
 
 class TestValidationCompatibility:

@@ -114,7 +114,7 @@ def get_intro_text(total_postings: int, snapshot_date: str | None = None) -> str
     if snapshot_date:
         return (
             f"An empirical analysis of technical skill demand across data-related occupations and EU-27 member states, "
-            f"based on an audited snapshot of **{total_str} FreeHire job postings** (Latest snapshot: {snapshot_date})."
+            f"based on an audited snapshot of **{total_str} FreeHire job postings** (Latest snapshot collected: {snapshot_date})."
         )
     return (
         f"An empirical analysis of technical skill demand across data-related occupations and EU-27 member states, "
@@ -130,7 +130,7 @@ def get_footer_text(total_postings: int, snapshot_date: str | None = None) -> st
     if snapshot_date:
         return (
             f"EU Data Jobs & Skill Demand Analysis • Built with Python & Streamlit • "
-            f"Data Source: FreeHire snapshot ({total_str} postings) • Latest snapshot: {snapshot_date}"
+            f"Data Source: FreeHire snapshot ({total_str} postings) • Latest snapshot collected: {snapshot_date}"
         )
     return (
         f"EU Data Jobs & Skill Demand Analysis • Built with Python & Streamlit • "
