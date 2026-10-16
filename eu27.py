@@ -1,5 +1,5 @@
 """
-01_collect_jobs_eu.py
+eu27.py
 
 Collect data-related job postings from FreeHire across the EU-27.
 
@@ -31,6 +31,8 @@ from pathlib import Path
 
 import requests
 
+from src.analytics import EU27_COUNTRIES, OCCUPATIONAL_CATEGORIES, atomic_dump_json
+
 
 # ============================================================
 # CONFIGURATION
@@ -58,48 +60,14 @@ TIMEOUT = 30
 # EU-27 COUNTRY CODES
 # ============================================================
 
-EU_COUNTRIES = {
-    "AT": "Austria",
-    "BE": "Belgium",
-    "BG": "Bulgaria",
-    "HR": "Croatia",
-    "CY": "Cyprus",
-    "CZ": "Czechia",
-    "DK": "Denmark",
-    "EE": "Estonia",
-    "FI": "Finland",
-    "FR": "France",
-    "DE": "Germany",
-    "GR": "Greece",
-    "HU": "Hungary",
-    "IE": "Ireland",
-    "IT": "Italy",
-    "LV": "Latvia",
-    "LT": "Lithuania",
-    "LU": "Luxembourg",
-    "MT": "Malta",
-    "NL": "Netherlands",
-    "PL": "Poland",
-    "PT": "Portugal",
-    "RO": "Romania",
-    "SK": "Slovakia",
-    "SI": "Slovenia",
-    "ES": "Spain",
-    "SE": "Sweden",
-}
+EU_COUNTRIES: dict[str, str] = EU27_COUNTRIES
 
 
 # ============================================================
 # TARGET OCCUPATIONAL CATEGORIES
 # ============================================================
 
-CATEGORIES = [
-    "data_analytics",
-    "data_engineering",
-    "data_science",
-    "ml_ai",
-    "ai_engineering",
-]
+CATEGORIES: list[str] = list(OCCUPATIONAL_CATEGORIES.keys())
 
 
 # ============================================================
@@ -225,14 +193,22 @@ def get_jobs(country_code, category):
 def get_job_key(job):
     """
     Return the most stable available identifier.
-    """
 
-    return (
-        job.get("public_slug")
-        or job.get("slug")
-        or job.get("id")
-        or job.get("external_id")
-    )
+    Checks candidates in order: public_slug, slug, id, external_id.
+    Accepts a candidate only if it is a string whose stripped value is nonempty,
+    returning the stripped string. Returns None if no candidate is usable.
+    """
+    if not isinstance(job, dict):
+        return None
+
+    for field in ("public_slug", "slug", "id", "external_id"):
+        val = job.get(field)
+        if isinstance(val, str):
+            cleaned = val.strip()
+            if cleaned:
+                return cleaned
+
+    return None
 
 
 # ============================================================
@@ -262,8 +238,6 @@ def main():
     country_counts = Counter()
     category_counts = Counter()
 
-    query_totals = {}
-
     # --------------------------------------------------------
     # Country × category collection
     # --------------------------------------------------------
@@ -291,11 +265,11 @@ def main():
                     f"{exc}"
                 )
 
-                continue
+                raise RuntimeError(
+                    f"Collection failed for {country_code}/{category}: {exc}"
+                ) from exc
 
             query_counts[(country_code, category)] = len(jobs)
-
-            query_totals[(country_code, category)] = len(jobs)
 
             # ------------------------------------------------
             # Deduplicate
@@ -306,11 +280,15 @@ def main():
                 key = get_job_key(job)
 
                 if key is None:
-                    print(
-                        "    WARNING: job without stable ID "
-                        f"in {country_code}/{category}"
+                    title = (
+                        job.get("title")[:80]
+                        if isinstance(job.get("title"), str)
+                        else "<no title>"
                     )
-                    continue
+                    raise RuntimeError(
+                        f"Collection failed: posting without stable ID encountered "
+                        f"in {country_code}/{category} (title: {title!r})."
+                    )
 
                 if key not in all_jobs:
 
@@ -448,18 +426,12 @@ def main():
     # SAVE RAW DATA
     # ========================================================
 
-    with open(
+    atomic_dump_json(
+        unique_jobs,
         JOBS_OUTPUT,
-        "w",
-        encoding="utf-8",
-    ) as f:
-
-        json.dump(
-            unique_jobs,
-            f,
-            ensure_ascii=False,
-            indent=2,
-        )
+        ensure_ascii=False,
+        indent=2,
+    )
 
 
     # ========================================================
@@ -528,18 +500,12 @@ def main():
     }
 
 
-    with open(
+    atomic_dump_json(
+        metadata,
         METADATA_OUTPUT,
-        "w",
-        encoding="utf-8",
-    ) as f:
-
-        json.dump(
-            metadata,
-            f,
-            ensure_ascii=False,
-            indent=2,
-        )
+        ensure_ascii=False,
+        indent=2,
+    )
 
 
     # ========================================================

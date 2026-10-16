@@ -8,9 +8,69 @@ skill distinctiveness (lift), support-based noise filtering, and geographic thre
 from __future__ import annotations
 
 import json
+import os
 import re
+import tempfile
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, Iterable, List, Set, Tuple
+
+
+# ==============================================================================
+# Canonical Occupational Categories (Target FreeHire Classifications)
+# ==============================================================================
+
+OCCUPATIONAL_CATEGORIES: Dict[str, str] = {
+    "data_analytics": "Data Analytics",
+    "data_engineering": "Data Engineering",
+    "data_science": "Data Science",
+    "ml_ai": "ML/AI",
+    "ai_engineering": "AI Engineering",
+}
+
+CATEGORY_NAMES: Dict[str, str] = OCCUPATIONAL_CATEGORIES
+
+
+# ==============================================================================
+# Canonical EU-27 Member States (ISO-2 Code to English Common Short Name)
+# ==============================================================================
+# Note on "Czechia": Standardized on the official English short-form name
+# "Czechia" in accordance with the EU Interinstitutional Style Guide and
+# ISO 3166-1 (matching the short names used for "Slovakia", "Austria", etc.).
+# The precomputed data/processed/analytics_summary.json snapshot retains the
+# formal name "Czech Republic" from initial preprocessing without breaking.
+
+EU27_COUNTRIES: Dict[str, str] = {
+    "AT": "Austria",
+    "BE": "Belgium",
+    "BG": "Bulgaria",
+    "CY": "Cyprus",
+    "CZ": "Czechia",
+    "DE": "Germany",
+    "DK": "Denmark",
+    "EE": "Estonia",
+    "ES": "Spain",
+    "FI": "Finland",
+    "FR": "France",
+    "GR": "Greece",
+    "HR": "Croatia",
+    "HU": "Hungary",
+    "IE": "Ireland",
+    "IT": "Italy",
+    "LT": "Lithuania",
+    "LU": "Luxembourg",
+    "LV": "Latvia",
+    "MT": "Malta",
+    "NL": "Netherlands",
+    "PL": "Poland",
+    "PT": "Portugal",
+    "RO": "Romania",
+    "SE": "Sweden",
+    "SI": "Slovenia",
+    "SK": "Slovakia",
+}
+
+EU_COUNTRIES: Dict[str, str] = EU27_COUNTRIES
+EU27_COUNTRY_NAMES: Dict[str, str] = EU27_COUNTRIES
 
 
 class SkillVocabulary:
@@ -19,12 +79,10 @@ class SkillVocabulary:
     def __init__(self, vocab_data: Dict[str, Any]):
         self.skills: List[Dict[str, Any]] = vocab_data.get("skills", [])
         self.alias_to_canonical: Dict[str, str] = {}
-        self.canonical_to_entry: Dict[str, Dict[str, Any]] = {}
         self.compiled_regexes: Dict[str, re.Pattern] = {}
 
         for entry in self.skills:
             canonical = entry["canonical"]
-            self.canonical_to_entry[canonical] = entry
 
             # Canonical itself as a lookup key
             self.alias_to_canonical[canonical.lower()] = canonical
@@ -149,3 +207,88 @@ def filter_eligible_countries(
 
     return eligible, excluded
 
+
+def compute_category_skill_stats(
+    vocabulary: SkillVocabulary,
+    category_counts: Dict[str, int],
+    category_skill_counts: Dict[str, Dict[str, int]],
+    corpus_skill_counts: Dict[str, int],
+    total_postings: int,
+    categories: Iterable[str],
+) -> Dict[str, List[Dict[str, Any]]]:
+    """
+    Computes prevalence, corpus prevalence, and lift for all skills across specified categories.
+
+    Returns a mapping of category_id -> list of skill stat dictionaries with keys:
+    canonical, skill_group, count, prevalence, prevalence_pct, lift.
+    """
+    stats_by_category: Dict[str, List[Dict[str, Any]]] = {}
+    for cat_id in categories:
+        cat_total = category_counts.get(cat_id, 0)
+        skill_stats: List[Dict[str, Any]] = []
+        for skill_entry in vocabulary.skills:
+            canonical = skill_entry["canonical"]
+            cnt = category_skill_counts.get(cat_id, {}).get(canonical, 0)
+            prev = compute_prevalence(cnt, cat_total)
+            corpus_prev = compute_prevalence(corpus_skill_counts.get(canonical, 0), total_postings)
+            lift = compute_lift(prev, corpus_prev)
+            skill_stats.append(
+                {
+                    "canonical": canonical,
+                    "skill_group": skill_entry["category"],
+                    "count": cnt,
+                    "prevalence": prev,
+                    "prevalence_pct": round(prev * 100, 1),
+                    "lift": round(lift, 2),
+                }
+            )
+        stats_by_category[cat_id] = skill_stats
+    return stats_by_category
+
+
+def atomic_dump_json(
+    obj: Any,
+    destination: Path | str,
+    *,
+    indent: int | None = 2,
+    ensure_ascii: bool = False,
+) -> None:
+    """
+    Atomically serialize and write a JSON-serializable object to destination.
+
+    1. Ensures destination directory exists.
+    2. Writes JSON to a collision-free temporary file in the destination directory.
+    3. Flushes, syncs, and closes the temporary file before replacement.
+    4. Replaces destination with the temporary file atomically via Path.replace().
+    5. On any serialization, write, or replacement error, cleans up the temporary
+       file and preserves any existing destination file without truncation.
+    """
+    dest = Path(destination)
+    dest.parent.mkdir(parents=True, exist_ok=True)
+
+    temp_file = tempfile.NamedTemporaryFile(
+        mode="w",
+        encoding="utf-8",
+        dir=dest.parent,
+        prefix=f".{dest.name}.",
+        suffix=".tmp",
+        delete=False,
+    )
+    temp_path = Path(temp_file.name)
+    try:
+        json.dump(obj, temp_file, indent=indent, ensure_ascii=ensure_ascii)
+        temp_file.flush()
+        os.fsync(temp_file.fileno())
+        temp_file.close()
+        temp_path.replace(dest)
+    except BaseException:
+        try:
+            temp_file.close()
+        except Exception:
+            pass
+        if temp_path.exists():
+            try:
+                temp_path.unlink()
+            except OSError:
+                pass
+        raise

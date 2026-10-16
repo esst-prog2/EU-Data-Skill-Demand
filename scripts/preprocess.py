@@ -14,6 +14,7 @@ import json
 import sys
 import time
 from collections import Counter, defaultdict
+from datetime import datetime
 from pathlib import Path
 
 # Ensure project root is in python path
@@ -21,7 +22,11 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT_DIR))
 
 from src.analytics import (
+    EU27_COUNTRIES,
+    OCCUPATIONAL_CATEGORIES,
     SkillVocabulary,
+    atomic_dump_json,
+    compute_category_skill_stats,
     compute_lift,
     compute_prevalence,
     extract_skills_from_posting,
@@ -29,49 +34,114 @@ from src.analytics import (
     filter_eligible_countries,
 )
 
-CATEGORY_NAMES = {
-    "data_engineering": "Data Engineering",
-    "data_analytics": "Data Analytics",
-    "ai_engineering": "AI Engineering",
-    "data_science": "Data Science",
-    "ml_ai": "ML/AI",
-}
+CATEGORY_NAMES: Dict[str, str] = OCCUPATIONAL_CATEGORIES
+EU27_COUNTRY_NAMES: Dict[str, str] = EU27_COUNTRIES
 
-EU27_COUNTRY_NAMES = {
-    "AT": "Austria",
-    "BE": "Belgium",
-    "BG": "Bulgaria",
-    "CY": "Cyprus",
-    "CZ": "Czech Republic",
-    "DE": "Germany",
-    "DK": "Denmark",
-    "EE": "Estonia",
-    "ES": "Spain",
-    "FI": "Finland",
-    "FR": "France",
-    "GR": "Greece",
-    "HR": "Croatia",
-    "HU": "Hungary",
-    "IE": "Ireland",
-    "IT": "Italy",
-    "LT": "Lithuania",
-    "LU": "Luxembourg",
-    "LV": "Latvia",
-    "MT": "Malta",
-    "NL": "Netherlands",
-    "PL": "Poland",
-    "PT": "Portugal",
-    "RO": "Romania",
-    "SE": "Sweden",
-    "SI": "Slovenia",
-    "SK": "Slovakia",
-}
+
+def validate_posting_provenance(
+    posting: dict,
+    index: int | None = None,
+) -> tuple[str, str]:
+    """
+    Validates that a posting contains valid _collection_category and _collection_country
+    provenance matching canonical CATEGORY_NAMES and EU27_COUNTRY_NAMES.
+
+    Raises ValueError with diagnostic context if provenance is missing or invalid.
+    Returns (category, country).
+    """
+    if not isinstance(posting, dict):
+        prefix = f"Posting at index {index}" if index is not None else "Posting"
+        raise ValueError(f"{prefix} is not a valid dictionary (type: {type(posting).__name__}).")
+
+    ident = (
+        posting.get("id")
+        or posting.get("public_slug")
+        or posting.get("slug")
+        or (posting.get("title")[:50] if isinstance(posting.get("title"), str) else None)
+        or "unknown_id"
+    )
+    prefix = f"Posting at index {index} (id: {ident!r})" if index is not None else f"Posting (id: {ident!r})"
+
+    cat = posting.get("_collection_category")
+    if cat is None or cat == "":
+        raise ValueError(f"{prefix} is missing required '_collection_category'.")
+    if not isinstance(cat, str):
+        raise ValueError(
+            f"{prefix} has invalid '_collection_category': {cat!r}. "
+            f"Expected one of: {sorted(CATEGORY_NAMES.keys())}."
+        )
+    if cat not in CATEGORY_NAMES:
+        raise ValueError(
+            f"{prefix} has invalid '_collection_category': {cat!r}. "
+            f"Expected one of: {sorted(CATEGORY_NAMES.keys())}."
+        )
+
+    country = posting.get("_collection_country")
+    if country is None or country == "":
+        raise ValueError(f"{prefix} is missing required '_collection_country'.")
+    if not isinstance(country, str):
+        raise ValueError(
+            f"{prefix} has invalid '_collection_country': {country!r}. "
+            f"Expected one of: {sorted(EU27_COUNTRY_NAMES.keys())}."
+        )
+    if country not in EU27_COUNTRY_NAMES:
+        raise ValueError(
+            f"{prefix} has invalid '_collection_country': {country!r}. "
+            f"Expected one of: {sorted(EU27_COUNTRY_NAMES.keys())}."
+        )
+
+    return cat, country
+
+
+def extract_snapshot_timestamp(
+    metadata_path: Path | str | None,
+    total_postings: int,
+) -> str | None:
+    """
+    Extracts and validates collection_timestamp_utc from collection metadata.
+    Ensures metadata['unique_jobs'] is an integer equal to total_postings and that
+    the timestamp contains an explicit timezone offset.
+
+    Returns the ISO-8601 timestamp string if valid, or None if missing, mismatched,
+    naive, or malformed.
+    """
+    if metadata_path is None:
+        return None
+    path = Path(metadata_path)
+    if not path.is_file():
+        return None
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            metadata = json.load(f)
+        if not isinstance(metadata, dict):
+            return None
+
+        # Validate unique_jobs integer matching total_postings (reject booleans)
+        unique_jobs = metadata.get("unique_jobs")
+        if isinstance(unique_jobs, bool) or not isinstance(unique_jobs, int):
+            return None
+        if unique_jobs != total_postings:
+            return None
+
+        ts = metadata.get("collection_timestamp_utc")
+        if not isinstance(ts, str) or not ts.strip():
+            return None
+
+        dt = datetime.fromisoformat(ts.strip())
+        if dt.tzinfo is None:
+            return None  # Reject timestamps without explicit timezone information
+        if not (1900 <= dt.year <= 2100):
+            return None
+        return ts.strip()
+    except (json.JSONDecodeError, OSError, ValueError, TypeError):
+        return None
 
 
 def preprocess(
     raw_data_path: Path | str,
     vocab_path: Path | str,
     output_path: Path | str,
+    metadata_path: Path | str | None = None,
 ) -> None:
     raw_data_path = Path(raw_data_path)
     vocab_path = Path(vocab_path)
@@ -89,6 +159,9 @@ def preprocess(
     total_postings = len(postings)
     print(f"Loaded {total_postings} postings in {time.time() - start_time:.2f}s.")
 
+    meta_file = Path(metadata_path) if metadata_path is not None else raw_data_path.parent / "collection_metadata_eu.json"
+    snapshot_collected_at = extract_snapshot_timestamp(meta_file, total_postings=total_postings)
+
     # Counters
     seniority_count = 0
     category_counts = Counter()
@@ -100,8 +173,7 @@ def preprocess(
     print("Executing hybrid skill extraction across postings...")
     extract_start = time.time()
     for i, posting in enumerate(postings):
-        cat = posting.get("_collection_category") or "unknown"
-        country = posting.get("_collection_country") or "unknown"
+        cat, country = validate_posting_provenance(posting, index=i)
 
         category_counts[cat] += 1
         country_counts[country] += 1
@@ -163,26 +235,19 @@ def preprocess(
     corpus_top_skills.sort(key=lambda x: x["prevalence"], reverse=True)
 
     # 3. Category Profiles (Prevalence and Lift per Category)
+    all_skills_by_cat = compute_category_skill_stats(
+        vocabulary=vocabulary,
+        category_counts=category_counts,
+        category_skill_counts=category_skill_counts,
+        corpus_skill_counts=corpus_skill_counts,
+        total_postings=total_postings,
+        categories=CATEGORY_NAMES.keys(),
+    )
+
     category_profiles = {}
     for cat_id, cat_name in CATEGORY_NAMES.items():
         cat_total = category_counts.get(cat_id, 0)
-        skill_stats = []
-
-        for skill_entry in vocabulary.skills:
-            canonical = skill_entry["canonical"]
-            cnt = category_skill_counts[cat_id].get(canonical, 0)
-            prev = compute_prevalence(cnt, cat_total)
-            corpus_prev = compute_prevalence(corpus_skill_counts.get(canonical, 0), total_postings)
-            lift = compute_lift(prev, corpus_prev)
-
-            skill_stats.append({
-                "canonical": canonical,
-                "skill_group": skill_entry["category"],
-                "count": cnt,
-                "prevalence": prev,
-                "prevalence_pct": round(prev * 100, 1),
-                "lift": round(lift, 2),
-            })
+        skill_stats = all_skills_by_cat[cat_id]
 
         # Top In-Demand: Top 10 by prevalence
         in_demand = sorted(skill_stats, key=lambda s: s["prevalence"], reverse=True)[:10]
@@ -242,6 +307,7 @@ def preprocess(
     # Assemble summary document
     summary = {
         "generated_at": time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime()),
+        "snapshot_collected_at": snapshot_collected_at,
         "kpis": kpis,
         "market_overview": {
             "category_shares": category_shares,
@@ -262,8 +328,7 @@ def preprocess(
     }
 
     print(f"Serializing analytics summary to {output_path}...")
-    with open(output_path, "w", encoding="utf-8") as f:
-        json.dump(summary, f, indent=2, ensure_ascii=False)
+    atomic_dump_json(summary, output_path, indent=2, ensure_ascii=False)
 
     size_kb = output_path.stat().st_size / 1024
     print(f"Successfully generated {output_path} ({size_kb:.1f} KB).")
@@ -273,6 +338,7 @@ if __name__ == "__main__":
     raw_path = ROOT_DIR / "data" / "raw" / "freehire_eu_raw.json"
     fixtures_path = ROOT_DIR / "data" / "fixtures" / "skills_vocabulary.json"
     processed_path = ROOT_DIR / "data" / "processed" / "analytics_summary.json"
+    metadata_path = ROOT_DIR / "data" / "raw" / "collection_metadata_eu.json"
 
-    preprocess(raw_path, fixtures_path, processed_path)
+    preprocess(raw_path, fixtures_path, processed_path, metadata_path=metadata_path)
 

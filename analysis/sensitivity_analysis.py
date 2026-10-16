@@ -35,8 +35,11 @@ from typing import Any, Dict, List, Tuple
 ROOT_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT_DIR))
 
+from scripts.preprocess import validate_posting_provenance
 from src.analytics import (
+    OCCUPATIONAL_CATEGORIES,
     SkillVocabulary,
+    compute_category_skill_stats,
     compute_lift,
     compute_prevalence,
     extract_skills_from_posting,
@@ -48,13 +51,7 @@ VOCAB_PATH = ROOT_DIR / "data" / "fixtures" / "skills_vocabulary.json"
 SUMMARY_PATH = ROOT_DIR / "data" / "processed" / "analytics_summary.json"
 REPORT_PATH = ROOT_DIR / "analysis" / "sensitivity_report.md"
 
-CATEGORIES: List[Tuple[str, str]] = [
-    ("data_analytics", "Data Analytics"),
-    ("data_engineering", "Data Engineering"),
-    ("data_science", "Data Science"),
-    ("ml_ai", "ML/AI"),
-    ("ai_engineering", "AI Engineering"),
-]
+CATEGORIES: List[Tuple[str, str]] = list(OCCUPATIONAL_CATEGORIES.items())
 
 MIN_COUNTS: List[int] = [5, 10, 20, 30, 50]
 MIN_PREVALENCES: List[float] = [0.005, 0.010, 0.015, 0.020, 0.030]
@@ -76,37 +73,23 @@ def compute_skill_stats_from_raw(
     corpus_skill_counts: Counter = Counter()
     category_skill_counts: Dict[str, Counter] = defaultdict(Counter)
 
-    for posting in postings:
-        cat = posting.get("_collection_category") or "unknown"
+    for i, posting in enumerate(postings):
+        cat, _ = validate_posting_provenance(posting, index=i)
         category_counts[cat] += 1
         skills = extract_skills_from_posting(posting, vocabulary)
         for skill in skills:
             corpus_skill_counts[skill] += 1
             category_skill_counts[cat][skill] += 1
 
-    all_skills_by_cat: Dict[str, List[Dict[str, Any]]] = {}
-    for cat_id, _ in CATEGORIES:
-        cat_total = category_counts.get(cat_id, 0)
-        skill_stats: List[Dict[str, Any]] = []
-        for skill_entry in vocabulary.skills:
-            canonical = skill_entry["canonical"]
-            cnt = category_skill_counts[cat_id].get(canonical, 0)
-            prev = compute_prevalence(cnt, cat_total)
-            corpus_prev = compute_prevalence(
-                corpus_skill_counts.get(canonical, 0), total_postings
-            )
-            lift = compute_lift(prev, corpus_prev)
-            skill_stats.append(
-                {
-                    "canonical": canonical,
-                    "skill_group": skill_entry["category"],
-                    "count": cnt,
-                    "prevalence": prev,
-                    "prevalence_pct": round(prev * 100, 1),
-                    "lift": round(lift, 2),
-                }
-            )
-        all_skills_by_cat[cat_id] = skill_stats
+    category_ids = [cat_id for cat_id, _ in CATEGORIES]
+    all_skills_by_cat = compute_category_skill_stats(
+        vocabulary=vocabulary,
+        category_counts=category_counts,
+        category_skill_counts=category_skill_counts,
+        corpus_skill_counts=corpus_skill_counts,
+        total_postings=total_postings,
+        categories=category_ids,
+    )
 
     return total_postings, dict(category_counts), all_skills_by_cat
 

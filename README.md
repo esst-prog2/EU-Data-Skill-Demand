@@ -3,7 +3,7 @@
 ## 1. The Demo
 
 I open the Streamlit web app in the browser and select one of five FreeHire occupational categories: Data Analytics, Data Engineering, Data Science, ML/AI, or AI Engineering.
-The app shows the category's most prevalent skills, then highlights which of those skills are *distinctive* to it rather than simply common across the observed corpus — e.g., "Python appears in 78% of Data Science postings, 1.4× its overall corpus prevalence, versus 45% in Data Analytics (0.8×)."
+The app shows the category's most prevalent skills, then highlights which of those skills are *distinctive* to it rather than simply common across the observed corpus — e.g., "Python appears in 66.4% of Data Science postings, 1.2× its overall corpus prevalence, versus 44.3% in Data Analytics (0.8×)."
 A map shows where the 23,138 postings are located across the EU-27. A separate comparison shows how the occupational composition of countries with at least 300 observed postings differs across the five categories.
 The overview also shows the relative size of the five occupational categories, providing context for the overall skill-prevalence results.
 
@@ -18,10 +18,43 @@ The overview also shows the relative size of the five occupational categories, p
 
 ## 2. The Shape
 
-- **In:** A fixed local snapshot of unique EU-27 job postings from FreeHire (`data/raw/freehire_eu_raw.json`), stored as a retained snapshot containing only the fields needed for analysis and validation (`_collection_category`, `_collection_country`, `public_slug`, `url`, `title`, `company`, `posted_at`, `skills`, `description`, and `enrichment.seniority`) rather than a complete raw API dump.
+- **In:** A fixed snapshot of unique EU-27 job postings from FreeHire (`data/raw/freehire_eu_raw.json`), retained locally and excluded from Git due to file size, containing only the fields needed for analysis and validation (`_collection_category`, `_collection_country`, `public_slug`, `url`, `title`, `company`, `posted_at`, `skills`, `description`, and `enrichment.seniority`) rather than a complete raw API dump. The precomputed summary (`data/processed/analytics_summary.json`) is committed to the repository so the dashboard runs directly without requiring the local raw data.
 - **Out:** Overall and category-specific skill prevalence, a skill-distinctiveness (lift) score per skill per category, a posting-count map by country, the occupational composition of the corpus, and an occupational-composition comparison across countries with sufficient sample size.
 - **On screen:** The user selects an occupational category to see its skill profile and most distinctive skills; the overview shows the composition of the five categories and overall skill demand; a separate geographic view shows the EU map and, for sufficiently represented countries, how their occupational mix compares.
 The project describes patterns in an observed EU-27 job-posting corpus. For example, it can estimate the proportion of observed Data Science postings containing Python, but not the proportion of all Data Science jobs in the EU requiring Python.
+
+
+## Data and Reproducibility
+
+### Running the Dashboard
+
+The dashboard can run immediately using the committed precomputed analysis in `data/processed/analytics_summary.json`, allowing the dashboard to run without recollecting the raw data:
+
+```bash
+uv run streamlit run app.py
+```
+
+Regenerating the processed summary or running the preprocessing pipeline requires a local raw snapshot (`data/raw/freehire_eu_raw.json`), which is retained locally and excluded from Git due to file size.
+
+Collection parameters and audit information for the historical snapshot are recorded in the collection metadata file (`data/raw/collection_metadata_eu.json`). To collect a fresh snapshot from FreeHire, regenerate the analytics summary, and run the test suite:
+
+```bash
+uv run python eu27.py
+uv run python scripts/preprocess.py
+uv run pytest
+```
+
+Because FreeHire job postings and search results change continuously over time, running a new collection with `eu27.py` will pull live postings from the API and will not reproduce the historical 23,138-posting snapshot exactly; counts, category shares, and skill rankings in the charts may differ accordingly.
+
+### Automated Weekly Data Refresh
+
+An automated GitHub Actions workflow (`.github/workflows/weekly-data-refresh.yml`) keeps the analytical summary up-to-date without publishing unreviewed data:
+
+- **Schedule & Trigger:** Runs weekly on Sundays at 03:00 UTC (`0 3 * * 0`) and supports manual triggering via `workflow_dispatch`.
+- **Pipeline Execution:** Runs `uv run python eu27.py` to collect a fresh snapshot, `uv run python scripts/preprocess.py` to regenerate `data/processed/analytics_summary.json`, and validates the outputs against the complete test suite (`uv run pytest`).
+- **Idempotency & Noise Prevention:** `scripts/check_refresh_diff.py` compares substantive data fields against `HEAD`. If only timestamps changed without real job or metric differences, timestamp changes are reverted and no pull request is opened.
+- **Review-Before-Publication Gate:** When real data changes occur, the workflow creates a pull request from branch `data-refresh/weekly` containing only `data/processed/analytics_summary.json` and `data/raw/collection_metadata_eu.json`. The workflow never auto-merges or pushes directly to `main`; the live dashboard continues to render the stable, committed summary until a human reviews and merges the PR.
+- **Repository Setup:** Requires enabling "Allow GitHub Actions to create and approve pull requests" under repository **Settings → Actions → General → Workflow permissions**.
 
 
 ## 3. The Size
@@ -38,7 +71,7 @@ The project describes patterns in an observed EU-27 job-posting corpus. For exam
 - Compares **occupational composition** across countries with at least 300 observed postings; smaller countries remain visible on the map but are excluded from this comparison.
 - Reports FreeHire's **seniority** information as a descriptive fact (seniority is available for 38.8% of postings), without a dedicated seniority filter and without inferring missing values.
 - Treats each **unique posting** as one observation. No external country, occupation, or market-size weights are applied.
-- Implements skill extraction, lift calculation, and the category/geographic comparisons as **plain Python functions** in a small module, so the behaviors in Section 4 can be tested directly without running the app; Streamlit only calls these functions and renders their output.
+- Implements skill extraction, lift calculation, and the category/geographic comparisons as **plain Python functions** in a small module (`src/analytics.py`), so the behaviors in Section 4 can be tested directly without running the app; `scripts/preprocess.py` uses these functions to generate `data/processed/analytics_summary.json`, and `app.py` loads that precomputed summary and renders the dashboard.
 
 ### Explicitly Not This Term
 - CV matching or personalized skill-gap scoring.
@@ -62,17 +95,17 @@ The project describes patterns in an observed EU-27 job-posting corpus. For exam
 
 ## 5. What Could Stop This
 
-- **Snapshot/data provenance:** The FreeHire dataset may change over time or differ between collection runs.  
-  *Mitigation:* Freeze the audited 23,138-posting snapshot locally; all analysis runs from the saved data.
-- **Uneven category sizes:** The snapshot is heavily concentrated in Data Engineering.  
+- **Snapshot/data provenance:** FreeHire data can change over time and differ between collection runs; a new collection will not reproduce the historical 23,138-posting snapshot exactly.
+  *Mitigation:* Retain the audited snapshot locally (`data/raw/freehire_eu_raw.json`), document collection parameters in the collection metadata file (`data/raw/collection_metadata_eu.json`), and commit the precomputed processed summary (`data/processed/analytics_summary.json`) so the dashboard and baseline analysis run reliably without recollecting raw data.
+- **Uneven category sizes:** The snapshot is heavily concentrated in Data Engineering.
   *Mitigation:* Report the occupational composition explicitly and use both counts and within-category prevalence/lift rather than raw skill frequency alone.
-- **Skill extraction and vocabulary coverage:** Inconsistent terminology can cause false positives/negatives, while skills outside the controlled vocabulary cannot be detected.  
+- **Skill extraction and vocabulary coverage:** Inconsistent terminology can cause false positives/negatives, while skills outside the controlled vocabulary cannot be detected.
   *Mitigation:* Use a controlled vocabulary with explicit aliases, document the vocabulary and extraction rules, and manually validate the extraction on a sample.
-- **FreeHire occupational classification:** The project relies on FreeHire's occupational labels rather than building an independent classifier.  
+- **FreeHire occupational classification:** The project relies on FreeHire's occupational labels rather than building an independent classifier.
   *Mitigation:* Manually reviewed 50 postings across all five categories to assess whether the labels were broadly consistent with the posting content.
-- **Small-country noise in the geographic comparison:** Country sample sizes range from 25 to nearly 5,000.  
+- **Small-country noise in the geographic comparison:** Country sample sizes range from 25 to nearly 5,000.
   *Mitigation:* Apply the 300-posting threshold specifically to the occupational-composition comparison; smaller countries remain visible as raw counts on the map.
-- **Source limitations:** FreeHire is one job-posting source, not a labour-market census.  
+- **Source limitations:** FreeHire is one job-posting source, not a labour-market census.
   *Mitigation:* Describe all findings as patterns within the observed FreeHire EU-27 corpus and avoid claims about the true size or structure of the entire EU labour market.
-- **Incomplete seniority metadata:** Native FreeHire seniority information is available for only 38.8% of postings.  
+- **Incomplete seniority metadata:** Native FreeHire seniority information is available for only 38.8% of postings.
   *Mitigation:* Report seniority coverage as a descriptive fact only; no filter or imputation is used.
