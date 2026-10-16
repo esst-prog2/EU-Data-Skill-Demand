@@ -567,4 +567,3 @@ class TestPreprocessSnapshotMetadata:
 
         assert summary["snapshot_collected_at"] is None
         assert "generated_at" in summary
-
