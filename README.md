@@ -46,21 +46,26 @@ uv run pytest
 
 Because FreeHire job postings and search results change continuously over time, running a new collection with `eu27.py` will pull live postings from the API and will not reproduce the historical 23,138-posting snapshot exactly; counts, category shares, and skill rankings in the charts may differ accordingly.
 
-### Automated Weekly Data Refresh
+### Local Weekly Data Refresh
 
-An automated GitHub Actions workflow (`.github/workflows/weekly-data-refresh.yml`) keeps the analytical summary up-to-date without publishing unreviewed data:
+Data refreshes are performed locally via a single command to ensure human oversight, prevent unreviewed changes, and comply with organization permissions:
 
-- **Schedule & Trigger:** Runs weekly on Sundays at 03:00 UTC (`0 3 * * 0`) and supports manual triggering via `workflow_dispatch`.
-- **Pipeline Execution:** Runs `uv run python eu27.py` to collect a fresh snapshot, `uv run python scripts/preprocess.py` to regenerate `data/processed/analytics_summary.json`, and validates the outputs against the complete test suite (`uv run pytest`).
-- **Idempotency & Noise Prevention:** `scripts/check_refresh_diff.py` compares substantive data fields against `HEAD`. If only timestamps changed without real job or metric differences, timestamp changes are reverted and no pull request is opened.
-- **Review-Before-Publication Gate:** When real data changes occur, the workflow creates a pull request from branch `data-refresh/weekly` containing only `data/processed/analytics_summary.json` and `data/raw/collection_metadata_eu.json`. The workflow never auto-merges or pushes directly to `main`; the live dashboard continues to render the stable, committed summary until a human reviews and merges the PR.
-- **Repository Setup:** Requires enabling "Allow GitHub Actions to create and approve pull requests" under repository **Settings → Actions → General → Workflow permissions**.
+```bash
+uv run python scripts/refresh_weekly.py
+```
+
+- **Weekly Maintenance:** Run `uv run python scripts/refresh_weekly.py` manually every Sunday. After a successful run, review the updated data and dashboard, then commit and push the approved changes the same day. This process is currently manual: GitHub Actions runs CI tests on pushes, pull requests, and manual workflow dispatch; it does not schedule data collection or automatically publish refreshed data. The raw snapshot `data/raw/freehire_eu_raw.json` is Git-ignored, so it remains local. The processed analytics summary and collection metadata are tracked.
+- **Pipeline Execution:** Runs `eu27.py` to collect fresh postings from FreeHire, `scripts/preprocess.py` to regenerate `data/processed/analytics_summary.json`, non-destructively checks for substantive diffs against `HEAD` with `scripts/check_refresh_diff.py`, and validates the outputs against the complete test suite (`uv run pytest`).
+- **Resilience and Retries:** `eu27.py` includes bounded exponential backoff retries for transient connection errors, timeouts, and 5xx server responses, while respecting HTTP 429 `Retry-After` headers and raising immediately on permanent client errors.
+- **Safety and Rollback:** Before execution, existing managed dataset files are backed up. If a pipeline step fails, the script attempts to restore the previous files. If rollback also fails, inspect the reported errors and recover the files manually before continuing.
+- **Diff Inspection:** After a successful refresh, inspect the substantive changes (`git diff data/processed/analytics_summary.json`), verify the dashboard locally (`uv run streamlit run app.py`), and manually commit and push when satisfied.
+- **Continuous Integration:** A lightweight GitHub Actions CI workflow (`.github/workflows/weekly-data-refresh.yml`) automatically runs tests on push, pull requests, and manual dispatch.
 
 
 ## 3. The Size
 
 ### First Useful Version Does
-- Uses the fixed, audited **snapshot of 23,138** unique FreeHire postings across the EU-27.
+- Uses the fixed, audited **snapshot of 25,394** unique FreeHire postings across the EU-27.
 - **Extracts skills** via a controlled vocabulary with alias normalization (e.g., `PowerBI` → `Power BI`).
 - Measures **job-level skill prevalence**: a skill counts once per posting, regardless of how many times it is mentioned.
 - Compares **skill prevalence** across the five occupational categories.
@@ -69,7 +74,7 @@ An automated GitHub Actions workflow (`.github/workflows/weekly-data-refresh.yml
 - Shows the relative size/**composition of the five job categories** to provide context for corpus-level skill prevalence.
 - Shows a **posting-count map** by country using raw observed counts only.
 - Compares **occupational composition** across countries with at least 300 observed postings; smaller countries remain visible on the map but are excluded from this comparison.
-- Reports FreeHire's **seniority** information as a descriptive fact (seniority is available for 38.8% of postings), without a dedicated seniority filter and without inferring missing values.
+- Reports FreeHire's **seniority** information as a descriptive fact (seniority is available for 39.1% of postings), without a dedicated seniority filter and without inferring missing values.
 - Treats each **unique posting** as one observation. No external country, occupation, or market-size weights are applied.
 - Implements skill extraction, lift calculation, and the category/geographic comparisons as **plain Python functions** in a small module (`src/analytics.py`), so the behaviors in Section 4 can be tested directly without running the app; `scripts/preprocess.py` uses these functions to generate `data/processed/analytics_summary.json`, and `app.py` loads that precomputed summary and renders the dashboard.
 

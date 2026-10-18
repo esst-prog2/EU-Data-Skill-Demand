@@ -55,6 +55,11 @@ REQUEST_DELAY = 0.25
 # Request timeout in seconds.
 TIMEOUT = 30
 
+# Retry configuration for transient errors.
+MAX_RETRIES = 3
+INITIAL_BACKOFF = 1.0
+TRANSIENT_STATUS_CODES = {500, 502, 503, 504}
+
 
 # ============================================================
 # EU-27 COUNTRY CODES
@@ -91,10 +96,19 @@ session.headers.update(
 # HELPERS
 # ============================================================
 
-def get_jobs(country_code, category):
+def get_jobs(
+    country_code,
+    category,
+    max_retries=None,
+    initial_backoff=None,
+):
     """
     Retrieve all matching jobs for one country/category combination.
     """
+    if max_retries is None:
+        max_retries = MAX_RETRIES
+    if initial_backoff is None:
+        initial_backoff = INITIAL_BACKOFF
 
     jobs = []
     offset = 0
@@ -110,22 +124,40 @@ def get_jobs(country_code, category):
             "description_format": "text",
         }
 
-        response = session.get(
-            BASE_URL,
-            params=params,
-            timeout=TIMEOUT,
-        )
-
-        if response.status_code == 429:
-            retry_after = response.headers.get("Retry-After")
+        for attempt in range(1, max_retries + 1):
             try:
-                wait_seconds = float(retry_after)
-            except (TypeError, ValueError):
-                wait_seconds = REQUEST_DELAY
-            time.sleep(max(wait_seconds, REQUEST_DELAY))
-            continue
+                response = session.get(
+                    BASE_URL,
+                    params=params,
+                    timeout=TIMEOUT,
+                )
+            except (requests.exceptions.Timeout, requests.exceptions.ConnectionError):
+                if attempt >= max_retries:
+                    raise
+                backoff = initial_backoff * (2 ** (attempt - 1))
+                time.sleep(backoff)
+                continue
 
-        response.raise_for_status()
+            if response.status_code == 429:
+                if attempt >= max_retries:
+                    response.raise_for_status()
+                retry_after = response.headers.get("Retry-After")
+                try:
+                    wait_seconds = float(retry_after)
+                except (TypeError, ValueError):
+                    wait_seconds = REQUEST_DELAY
+                time.sleep(max(wait_seconds, REQUEST_DELAY))
+                continue
+
+            if response.status_code in TRANSIENT_STATUS_CODES:
+                if attempt >= max_retries:
+                    response.raise_for_status()
+                backoff = initial_backoff * (2 ** (attempt - 1))
+                time.sleep(backoff)
+                continue
+
+            response.raise_for_status()
+            break
 
         payload = response.json()
 

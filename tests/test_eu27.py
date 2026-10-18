@@ -13,8 +13,10 @@ Focused tests for eu27.py stable job key extraction and collection error handlin
 from __future__ import annotations
 
 from pathlib import Path
+import time
 
 import pytest
+import requests
 
 import eu27
 from eu27 import get_job_key
@@ -185,3 +187,225 @@ class TestEUCountryMapping:
         assert eu27.EU_COUNTRIES == EU27_COUNTRIES
         assert len(eu27.EU_COUNTRIES) == 27
         assert eu27.EU_COUNTRIES["CZ"] == "Czechia"
+
+
+class MockResponse:
+    """Helper mock response for get_jobs network retry tests."""
+
+    def __init__(
+        self,
+        status_code: int = 200,
+        json_data: dict | None = None,
+        headers: dict | None = None,
+    ):
+        self.status_code = status_code
+        self._json_data = json_data or {"data": [], "meta": {"total": 0}}
+        self.headers = headers or {}
+
+    def json(self):
+        return self._json_data
+
+    def raise_for_status(self):
+        if 400 <= self.status_code < 600:
+            req = requests.PreparedRequest()
+            req.url = eu27.BASE_URL
+            resp = requests.Response()
+            resp.status_code = self.status_code
+            raise requests.exceptions.HTTPError(
+                f"{self.status_code} Error",
+                request=req,
+                response=resp,
+            )
+
+
+class TestGetJobsRetryBehavior:
+    """Verifies bounded retries, exponential backoff, and error discrimination in get_jobs()."""
+
+    def test_transient_connection_error_retries_and_succeeds(self, monkeypatch):
+        sleep_calls = []
+        monkeypatch.setattr(time, "sleep", sleep_calls.append)
+
+        calls = 0
+
+        def mock_get(*args, **kwargs):
+            nonlocal calls
+            calls += 1
+            if calls == 1:
+                raise requests.exceptions.ConnectionError("Connection aborted")
+            return MockResponse(
+                200,
+                json_data={
+                    "data": [{"id": "job-1", "title": "Data Scientist"}],
+                    "meta": {"total": 1},
+                },
+            )
+
+        monkeypatch.setattr(eu27.session, "get", mock_get)
+
+        jobs = eu27.get_jobs("DE", "data_science", max_retries=3, initial_backoff=1.0)
+        assert len(jobs) == 1
+        assert jobs[0]["id"] == "job-1"
+        assert jobs[0]["_collection_country"] == "DE"
+        assert jobs[0]["_collection_category"] == "data_science"
+        assert calls == 2
+        # First retry sleeps initial_backoff * (2 ** 0) = 1.0
+        assert 1.0 in sleep_calls
+
+    def test_transient_timeout_retries_and_succeeds(self, monkeypatch):
+        sleep_calls = []
+        monkeypatch.setattr(time, "sleep", sleep_calls.append)
+
+        calls = 0
+
+        def mock_get(*args, **kwargs):
+            nonlocal calls
+            calls += 1
+            if calls == 1:
+                raise requests.exceptions.Timeout("Read timeout")
+            return MockResponse(
+                200,
+                json_data={
+                    "data": [{"id": "job-2", "title": "Data Engineer"}],
+                    "meta": {"total": 1},
+                },
+            )
+
+        monkeypatch.setattr(eu27.session, "get", mock_get)
+
+        jobs = eu27.get_jobs("FR", "data_engineering", max_retries=3, initial_backoff=0.5)
+        assert len(jobs) == 1
+        assert jobs[0]["id"] == "job-2"
+        assert calls == 2
+        assert 0.5 in sleep_calls
+
+    @pytest.mark.parametrize("status_code", [500, 502, 503, 504])
+    def test_transient_5xx_server_errors_retry_and_succeed(self, monkeypatch, status_code):
+        sleep_calls = []
+        monkeypatch.setattr(time, "sleep", sleep_calls.append)
+
+        calls = 0
+
+        def mock_get(*args, **kwargs):
+            nonlocal calls
+            calls += 1
+            if calls == 1:
+                return MockResponse(status_code)
+            return MockResponse(
+                200,
+                json_data={
+                    "data": [{"id": f"job-{status_code}"}],
+                    "meta": {"total": 1},
+                },
+            )
+
+        monkeypatch.setattr(eu27.session, "get", mock_get)
+
+        jobs = eu27.get_jobs("NL", "ml_ai", max_retries=3, initial_backoff=0.25)
+        assert len(jobs) == 1
+        assert jobs[0]["id"] == f"job-{status_code}"
+        assert calls == 2
+        assert 0.25 in sleep_calls
+
+    @pytest.mark.parametrize("status_code", [400, 401, 403, 404])
+    def test_permanent_4xx_raises_immediately_without_retry(self, monkeypatch, status_code):
+        sleep_calls = []
+        monkeypatch.setattr(time, "sleep", sleep_calls.append)
+
+        calls = 0
+
+        def mock_get(*args, **kwargs):
+            nonlocal calls
+            calls += 1
+            return MockResponse(status_code)
+
+        monkeypatch.setattr(eu27.session, "get", mock_get)
+
+        with pytest.raises(requests.exceptions.HTTPError):
+            eu27.get_jobs("ES", "data_analytics", max_retries=3)
+
+        assert calls == 1
+        assert len(sleep_calls) == 0
+
+    def test_exhausted_retries_on_transient_timeout_raises(self, monkeypatch):
+        sleep_calls = []
+        monkeypatch.setattr(time, "sleep", sleep_calls.append)
+
+        calls = 0
+
+        def mock_get(*args, **kwargs):
+            nonlocal calls
+            calls += 1
+            raise requests.exceptions.Timeout("Persistent timeout")
+
+        monkeypatch.setattr(eu27.session, "get", mock_get)
+
+        with pytest.raises(requests.exceptions.Timeout):
+            eu27.get_jobs("IT", "ai_engineering", max_retries=3, initial_backoff=1.0)
+
+        assert calls == 3
+        # Should have slept twice: 1.0 * 2^0 = 1.0, 1.0 * 2^1 = 2.0
+        assert sleep_calls == [1.0, 2.0]
+
+    def test_exhausted_retries_on_5xx_raises_http_error(self, monkeypatch):
+        sleep_calls = []
+        monkeypatch.setattr(time, "sleep", sleep_calls.append)
+
+        calls = 0
+
+        def mock_get(*args, **kwargs):
+            nonlocal calls
+            calls += 1
+            return MockResponse(500)
+
+        monkeypatch.setattr(eu27.session, "get", mock_get)
+
+        with pytest.raises(requests.exceptions.HTTPError):
+            eu27.get_jobs("SE", "data_science", max_retries=3, initial_backoff=0.5)
+
+        assert calls == 3
+        # Should have slept twice: 0.5 * 2^0 = 0.5, 0.5 * 2^1 = 1.0
+        assert sleep_calls == [0.5, 1.0]
+
+    def test_rate_limit_429_respects_retry_after(self, monkeypatch):
+        sleep_calls = []
+        monkeypatch.setattr(time, "sleep", sleep_calls.append)
+
+        calls = 0
+
+        def mock_get(*args, **kwargs):
+            nonlocal calls
+            calls += 1
+            if calls == 1:
+                return MockResponse(429, headers={"Retry-After": "4.5"})
+            return MockResponse(
+                200,
+                json_data={
+                    "data": [{"id": "job-429"}],
+                    "meta": {"total": 1},
+                },
+            )
+
+        monkeypatch.setattr(eu27.session, "get", mock_get)
+
+        jobs = eu27.get_jobs("PL", "data_analytics", max_retries=3)
+        assert len(jobs) == 1
+        assert calls == 2
+        assert 4.5 in sleep_calls
+
+    def test_rate_limit_429_exhausted_raises_http_error(self, monkeypatch):
+        sleep_calls = []
+        monkeypatch.setattr(time, "sleep", sleep_calls.append)
+
+        calls = 0
+
+        def mock_get(*args, **kwargs):
+            nonlocal calls
+            calls += 1
+            return MockResponse(429, headers={"Retry-After": "1.0"})
+
+        monkeypatch.setattr(eu27.session, "get", mock_get)
+
+        with pytest.raises(requests.exceptions.HTTPError):
+            eu27.get_jobs("IE", "data_engineering", max_retries=3)
+
+        assert calls == 3

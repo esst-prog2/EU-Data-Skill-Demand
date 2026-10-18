@@ -6,14 +6,16 @@ Idempotency and noise-prevention utility for automated data-refresh workflows:
    ignoring volatile generation timestamps ("generated_at").
 2. Compares newly generated data/raw/collection_metadata_eu.json against HEAD,
    ignoring collection run timestamps ("collection_timestamp_utc").
-3. If both files contain no substantive differences beyond timestamps, reverts
-   them back to HEAD to prevent opening empty/noisy pull requests.
+3. If both files contain no substantive differences beyond timestamps, optionally
+   reverts them back to HEAD if revert_on_no_diff is True (or via --revert).
+   Default behavior is non-destructive (--no-revert).
 4. If substantive differences exist, leaves the updated files on disk and prints
    a diagnostic summary of the detected changes.
 """
 
 from __future__ import annotations
 
+import argparse
 import json
 import os
 import subprocess
@@ -30,15 +32,25 @@ def has_substantive_summary_diff(
     current: Dict[str, Any], baseline: Dict[str, Any]
 ) -> Tuple[bool, str]:
     """
-    Compares current analytics summary with baseline, ignoring volatile timestamps.
+    Compares current analytics summary with baseline, ignoring only volatile 'generated_at'.
+    All other fields, including 'snapshot_collected_at', are compared.
     Returns (has_diff, reason).
     """
-    for section in ("kpis", "market_overview", "category_profiles", "geographic"):
-        cur_sec = current.get(section)
-        base_sec = baseline.get(section)
-        if cur_sec != base_sec:
-            return True, f"Section '{section}' differs from baseline."
-    return False, "No substantive differences in analytics summary."
+    cur_copy = dict(current)
+    base_copy = dict(baseline)
+    cur_copy.pop("generated_at", None)
+    base_copy.pop("generated_at", None)
+
+    if cur_copy == base_copy:
+        return False, "No substantive differences in analytics summary."
+
+    all_keys = sorted(set(cur_copy.keys()) | set(base_copy.keys()))
+    for key in all_keys:
+        if key not in base_copy or key not in cur_copy or cur_copy[key] != base_copy[key]:
+            return True, f"Section '{key}' differs from baseline."
+
+    return True, "Analytics summary differs from baseline."
+
 
 
 def has_substantive_metadata_diff(
@@ -93,17 +105,26 @@ def revert_files_to_head(*rel_paths: str) -> None:
     )
 
 
-def check_and_revert_if_no_diff(
+def check_refresh_diff(
     summary_path: Path = SUMMARY_PATH,
     metadata_path: Path = METADATA_PATH,
+    revert_on_no_diff: bool = False,
 ) -> bool:
     """
     Checks for substantive differences in summary and metadata files against HEAD.
-    If no substantive diff exists, reverts both files to HEAD and returns False.
-    If substantive diff exists, keeps files and returns True.
+    If no substantive diff exists and revert_on_no_diff is True, reverts both files to HEAD.
+    If revert_on_no_diff is False, keeps all files intact regardless of diff status.
+    Returns True if substantive diff exists, False otherwise.
     """
-    rel_summary = str(summary_path.relative_to(ROOT_DIR)).replace("\\", "/")
-    rel_metadata = str(metadata_path.relative_to(ROOT_DIR)).replace("\\", "/")
+    try:
+        rel_summary = str(summary_path.relative_to(ROOT_DIR)).replace("\\", "/")
+    except ValueError:
+        rel_summary = str(summary_path).replace("\\", "/")
+
+    try:
+        rel_metadata = str(metadata_path.relative_to(ROOT_DIR)).replace("\\", "/")
+    except ValueError:
+        rel_metadata = str(metadata_path).replace("\\", "/")
 
     head_summary_str = get_git_head_content(rel_summary)
     head_metadata_str = get_git_head_content(rel_metadata)
@@ -133,13 +154,49 @@ def check_and_revert_if_no_diff(
         print(f"[INFO] Substantive data change detected: {'; '.join(reasons)}")
         return True
 
-    print("[INFO] No substantive changes detected (only timestamps changed). Reverting files to avoid noisy PR.")
-    revert_files_to_head(rel_summary, rel_metadata)
+    print("[INFO] No substantive changes detected (only timestamps changed).")
+    if revert_on_no_diff:
+        print("[INFO] Reverting files to HEAD to avoid noisy changes.")
+        revert_files_to_head(rel_summary, rel_metadata)
     return False
 
 
-def main() -> None:
-    has_diff = check_and_revert_if_no_diff()
+def check_and_revert_if_no_diff(
+    summary_path: Path = SUMMARY_PATH,
+    metadata_path: Path = METADATA_PATH,
+) -> bool:
+    """
+    Backwards-compatible helper that checks for differences and reverts to HEAD
+    if only timestamps changed.
+    """
+    return check_refresh_diff(
+        summary_path=summary_path,
+        metadata_path=metadata_path,
+        revert_on_no_diff=True,
+    )
+
+
+def main(argv: list[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(
+        description="Check for substantive refresh diffs against HEAD without reverting local files by default."
+    )
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
+        "--revert",
+        dest="revert",
+        action="store_true",
+        default=False,
+        help="Revert files to HEAD if only timestamps changed.",
+    )
+    group.add_argument(
+        "--no-revert",
+        dest="revert",
+        action="store_false",
+        help="Do not revert files to HEAD even if only timestamps changed (default).",
+    )
+    args = parser.parse_args(argv)
+
+    has_diff = check_refresh_diff(revert_on_no_diff=args.revert)
     github_output = os.environ.get("GITHUB_OUTPUT")
     if github_output:
         with open(github_output, "a", encoding="utf-8") as f:
