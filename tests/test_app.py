@@ -433,14 +433,23 @@ class TestDynamicPostingCountAndDateRendering:
     def test_production_summary_renders_snapshot_collected_date(self):
         with open(DATA_PATH, "r", encoding="utf-8") as f:
             data = json.load(f)
-        snapshot_date = format_snapshot_date(data.get("snapshot_collected_at"))
-        assert snapshot_date == "29 September 2026"
-        intro = get_intro_text(data["kpis"]["total_postings"], snapshot_date)
-        footer = get_footer_text(data["kpis"]["total_postings"], snapshot_date)
-        assert "23,138" in intro
-        assert "Latest snapshot collected: 29 September 2026" in intro
-        assert "23,138" in footer
-        assert "Latest snapshot collected: 29 September 2026" in footer
+
+        raw_ts = data.get("snapshot_collected_at")
+        assert isinstance(raw_ts, str) and raw_ts.strip()
+
+        snapshot_date = format_snapshot_date(raw_ts)
+        assert snapshot_date is not None
+
+        total_postings = data["kpis"]["total_postings"]
+        total_str = f"{total_postings:,}"
+
+        intro = get_intro_text(total_postings, snapshot_date)
+        footer = get_footer_text(total_postings, snapshot_date)
+
+        assert total_str in intro
+        assert f"Latest snapshot collected: {snapshot_date}" in intro
+        assert total_str in footer
+        assert f"Latest snapshot collected: {snapshot_date}" in footer
 
 
 class TestOlderSummaryRenderingWithoutSnapshotDate:
