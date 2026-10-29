@@ -3,7 +3,8 @@
 ## 1. The Demo
 
 I open the Streamlit web app in the browser and select one of five FreeHire occupational categories: Data Analytics, Data Engineering, Data Science, ML/AI, or AI Engineering.
-The app shows the category's most prevalent skills, then highlights which of those skills are *distinctive* to it rather than simply common across the observed corpus — e.g., "Python appears in 66.4% of Data Science postings, 1.2× its overall corpus prevalence, versus 44.3% in Data Analytics (0.8×)."
+The app shows the category's most prevalent skills, then highlights which of those skills are *distinctive* to it rather than simply common across the observed corpus — e.g., "Python appears in 66.4% of Data Science postings, 1.2× its overall corpus prevalence, versus 44.3% in Data Analytics (0.8×)." Users can also filter by technical skill family (such as Cloud & infrastructure or BI & visualization) to view domain-specific rankings recomputed from the complete skill inventory.
+An interactive 2D scatter plot maps within-category prevalence against distinctiveness lift relative to an objective corpus parity baseline (Lift = 1.0), visually separating table-stakes tools from niche and role-defining markers with support indicators and interpretation guidance.
 A map shows where the 23,138 postings are located across the EU-27. A separate comparison shows how the occupational composition of countries with at least 300 observed postings differs across the five categories.
 The overview also shows the relative size of the five occupational categories, providing context for the overall skill-prevalence results.
 
@@ -19,8 +20,8 @@ The overview also shows the relative size of the five occupational categories, p
 ## 2. The Shape
 
 - **In:** A fixed snapshot of unique EU-27 job postings from FreeHire (`data/raw/freehire_eu_raw.json`), retained locally and excluded from Git due to file size, containing only the fields needed for analysis and validation (`_collection_category`, `_collection_country`, `public_slug`, `url`, `title`, `company`, `posted_at`, `skills`, `description`, and `enrichment.seniority`) rather than a complete raw API dump. The precomputed summary (`data/processed/analytics_summary.json`) is committed to the repository so the dashboard runs directly without requiring the local raw data.
-- **Out:** Overall and category-specific skill prevalence, a skill-distinctiveness (lift) score per skill per category, a posting-count map by country, the occupational composition of the corpus, and an occupational-composition comparison across countries with sufficient sample size.
-- **On screen:** The user selects an occupational category to see its skill profile and most distinctive skills; the overview shows the composition of the five categories and overall skill demand; a separate geographic view shows the EU map and, for sufficiently represented countries, how their occupational mix compares.
+- **Out:** Overall and category-specific skill prevalence, a skill-distinctiveness (lift) score per skill per category, a bivariate prevalence-versus-lift skill landscape with baseline parity reference, technical skill family filtering with domain-level re-ranking, a posting-count map by country, the occupational composition of the corpus, and an occupational-composition comparison across countries with sufficient sample size.
+- **On screen:** The user selects an occupational category and can filter by technical skill family to see its skill profile, most distinctive skills, and an interactive 2D prevalence-versus-lift scatter plot with hover inspection and an objective corpus parity line (Lift = 1.0); the overview shows the composition of the five categories and overall skill demand; a separate geographic view shows the EU map and, for sufficiently represented countries, how their occupational mix compares.
 The project describes patterns in an observed EU-27 job-posting corpus. For example, it can estimate the proportion of observed Data Science postings containing Python, but not the proportion of all Data Science jobs in the EU requiring Python.
 
 

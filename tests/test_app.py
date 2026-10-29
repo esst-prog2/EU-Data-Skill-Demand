@@ -21,7 +21,15 @@ import math
 from pathlib import Path
 from typing import Any, Dict
 
+import io
+from unittest.mock import patch
+
 import pytest
+import streamlit as st
+from streamlit.testing.v1 import AppTest
+
+import app
+from src.analytics import SKILL_FAMILIES
 
 from app import (
     DATA_PATH,
@@ -487,3 +495,153 @@ class TestValidationCompatibility:
         valid_summary_data["snapshot_collected_at"] = 12345
         validate_analytics_summary(valid_summary_data)
         assert format_snapshot_date(valid_summary_data["snapshot_collected_at"]) is None
+
+
+APP_FILE = str(Path(__file__).resolve().parent.parent / "app.py")
+
+
+class TestSection2SkillQuadrantAndFamilyFilter:
+    """UI regression tests for Section 2 bivariate scatter plot and skill-family filtering."""
+
+    def test_production_section2_controls_and_scatter_rendering(self):
+        """Verifies Section 2 selectboxes, scatter plot, parity line, and interpretation guide."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+        assert len(at.exception) == 0
+
+        # Verify selectors
+        labels = [sb.label for sb in at.selectbox]
+        assert "Select Occupational Category:" in labels
+        assert "Filter by Technical Skill Family:" in labels
+
+        family_sb = next(sb for sb in at.selectbox if sb.label == "Filter by Technical Skill Family:")
+        assert family_sb.value == "All Families"
+        assert set(SKILL_FAMILIES).issubset(set(family_sb.options))
+
+        # Verify scatter plot
+        scatter_chart = None
+        for el in at.get("plotly_chart"):
+            spec = json.loads(el.proto.spec)
+            yaxis_title = str(spec.get("layout", {}).get("yaxis", {}).get("title", {}).get("text", ""))
+            if "Distinctiveness Lift" in yaxis_title and any(t.get("mode") == "markers+text" for t in spec.get("data", [])):
+                scatter_chart = el
+                break
+
+        assert scatter_chart is not None, "Scatter plot chart not found in Section 2"
+        scatter_spec = json.loads(scatter_chart.proto.spec)
+
+        # Parity line at Lift = 1.0
+        shapes = scatter_spec.get("layout", {}).get("shapes", [])
+        parity_lines = [s for s in shapes if s.get("y0") == 1.0 and s.get("y1") == 1.0]
+        assert len(parity_lines) >= 1
+        assert parity_lines[0].get("line", {}).get("dash") == "dash"
+
+        # Annotation
+        annotations = scatter_spec.get("layout", {}).get("annotations", [])
+        assert any("Corpus Parity (Lift = 1.0)" in a.get("text", "") for a in annotations)
+
+        # Interpretation callout
+        info_texts = [inf.value for inf in at.info]
+        assert any("Interpreting Prevalence vs. Distinctiveness" in t for t in info_texts)
+
+    def test_section2_family_filter_interaction(self):
+        """Verifies selecting a specific skill family updates the view without exceptions."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+        assert len(at.exception) == 0
+
+        family_sb = next(sb for sb in at.selectbox if sb.label == "Filter by Technical Skill Family:")
+        target_family = "Cloud & infrastructure"
+        family_sb.select(target_family).run(timeout=15)
+
+        assert len(at.exception) == 0
+        updated_family_sb = next(sb for sb in at.selectbox if sb.label == "Filter by Technical Skill Family:")
+        assert updated_family_sb.value == target_family
+
+        # Verify scatter plot reflects only selected family
+        scatter_chart = None
+        for el in at.get("plotly_chart"):
+            spec = json.loads(el.proto.spec)
+            yaxis_title = str(spec.get("layout", {}).get("yaxis", {}).get("title", {}).get("text", ""))
+            if "Distinctiveness Lift" in yaxis_title and any(t.get("mode") == "markers+text" for t in spec.get("data", [])):
+                scatter_chart = el
+                break
+
+        assert scatter_chart is not None
+        scatter_spec = json.loads(scatter_chart.proto.spec)
+        trace_names = [t.get("name") for t in scatter_spec.get("data", [])]
+        assert trace_names == [target_family]
+
+    def test_section2_synthetic_empty_and_subthreshold_handling(self):
+        """Verifies synthetic summary with sub-threshold and empty category handles gracefully."""
+        synth_data = {
+            "kpis": {
+                "total_postings": 1000,
+                "total_countries": 27,
+                "total_categories": 2,
+                "seniority_coverage_pct": 40.0,
+            },
+            "market_overview": {
+                "category_shares": [
+                    {"category_id": "active_cat", "category_name": "Active Role", "count": 1000, "share_pct": 100.0},
+                    {"category_id": "empty_cat", "category_name": "Empty Role", "count": 0, "share_pct": 0.0},
+                ],
+                "top_skills_overall": [],
+            },
+            "category_profiles": {
+                "active_cat": {
+                    "category_id": "active_cat",
+                    "category_name": "Active Role",
+                    "total_postings": 1000,
+                    "top_in_demand": [
+                        {"canonical": "Spark", "skill_group": "ML/AI frameworks & tools", "count": 100, "prevalence_pct": 10.0}
+                    ],
+                    "top_distinctive": [
+                        {"canonical": "Spark", "skill_group": "ML/AI frameworks & tools", "count": 100, "prevalence_pct": 10.0, "lift": 2.5}
+                    ],
+                    "all_skills": [
+                        {"canonical": "Spark", "skill_group": "ML/AI frameworks & tools", "count": 100, "prevalence": 0.10, "prevalence_pct": 10.0, "lift": 2.5},
+                        {"canonical": "NicheTool", "skill_group": "Programming languages", "count": 5, "prevalence": 0.005, "prevalence_pct": 0.5, "lift": 3.0},
+                    ],
+                },
+                "empty_cat": {
+                    "category_id": "empty_cat",
+                    "category_name": "Empty Role",
+                    "total_postings": 0,
+                    "top_in_demand": [],
+                    "top_distinctive": [],
+                    "all_skills": [],
+                },
+            },
+            "geographic": {
+                "threshold": 300,
+                "eligible_count": 0,
+                "excluded_count": 27,
+                "composition_eligible": [],
+                "country_map": [],
+            },
+        }
+
+        orig_open = open
+
+        def mock_open(file, *args, **kwargs):
+            if "analytics_summary.json" in str(file):
+                return io.StringIO(json.dumps(synth_data))
+            return orig_open(file, *args, **kwargs)
+
+        try:
+            with patch("builtins.open", side_effect=mock_open):
+                st.cache_data.clear()
+                at = AppTest.from_file(APP_FILE).run(timeout=15)
+                assert len(at.exception) == 0
+
+                # Switch to empty category (formatted value)
+                cat_sb = next(sb for sb in at.selectbox if sb.label == "Select Occupational Category:")
+                cat_sb.select("Empty Role").run(timeout=15)
+                assert len(at.exception) == 0
+
+                # Verify graceful empty placeholders are rendered in info
+                info_texts = [inf.value for inf in at.info]
+                assert any("No observed skills" in t or "No observed postings" in t for t in info_texts)
+        finally:
+            st.cache_data.clear()

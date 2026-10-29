@@ -28,6 +28,11 @@ from src.analytics import (
     extract_skills_from_posting,
     filter_distinctive_skills,
     filter_eligible_countries,
+    filter_skills_by_family,
+    prepare_scatter_data,
+    rank_distinctive_skills,
+    rank_in_demand_skills,
+    SKILL_FAMILIES,
 )
 
 
@@ -633,3 +638,227 @@ class TestAtomicDumpJson:
         # Temporary file must be unlinked
         temp_files = list(tmp_path.glob(".*.tmp")) + list(tmp_path.glob("*.tmp"))
         assert len(temp_files) == 0
+
+
+# ==============================================================================
+# Area 9: Skill Family Filtering & Bivariate Scatter Plot Helpers
+# ==============================================================================
+
+class TestSkillFamilyFiltering:
+    """Tests for filter_skills_by_family helper and SKILL_FAMILIES constant."""
+
+    def test_skill_families_constant_matches_5_canonical_domains(self):
+        expected = (
+            "Programming languages",
+            "Databases & data warehouses",
+            "BI & visualization",
+            "Cloud & infrastructure",
+            "ML/AI frameworks & tools",
+        )
+        assert SKILL_FAMILIES == expected
+
+    def test_filter_skills_by_family_all_families_or_none_returns_all(self):
+        skills = [
+            {"canonical": "Python", "skill_group": "Programming languages"},
+            {"canonical": "SQL", "skill_group": "Databases & data warehouses"},
+            {"canonical": "Power BI", "skill_group": "BI & visualization"},
+        ]
+        assert filter_skills_by_family(skills, None) == skills
+        assert filter_skills_by_family(skills, "All Families") == skills
+        assert filter_skills_by_family(skills, "all") == skills
+        assert filter_skills_by_family(skills, "ALL FAMILIES") == skills
+
+    def test_filter_skills_by_family_specific_family_filters_accurately(self):
+        skills = [
+            {"canonical": "Python", "skill_group": "Programming languages"},
+            {"canonical": "R", "skill_group": "Programming languages"},
+            {"canonical": "SQL", "skill_group": "Databases & data warehouses"},
+            {"canonical": "AWS", "skill_group": "Cloud & infrastructure"},
+        ]
+        prog_skills = filter_skills_by_family(skills, "Programming languages")
+        assert len(prog_skills) == 2
+        assert {s["canonical"] for s in prog_skills} == {"Python", "R"}
+
+        cloud_skills = filter_skills_by_family(skills, "Cloud & infrastructure")
+        assert len(cloud_skills) == 1
+        assert cloud_skills[0]["canonical"] == "AWS"
+
+        bi_skills = filter_skills_by_family(skills, "BI & visualization")
+        assert len(bi_skills) == 0
+
+    def test_filter_skills_by_family_unrecognized_family_raises_value_error(self):
+        skills = [{"canonical": "Python", "skill_group": "Programming languages"}]
+        with pytest.raises(ValueError, match="Unrecognized skill family"):
+            filter_skills_by_family(skills, "Invalid Family Name")
+
+        with pytest.raises(ValueError, match="Unrecognized skill family"):
+            filter_skills_by_family(skills, "")
+
+    def test_filter_skills_by_family_handles_empty_or_none_skills(self):
+        assert filter_skills_by_family([], "Programming languages") == []
+        assert filter_skills_by_family(None, "Programming languages") == []
+        assert filter_skills_by_family(None, None) == []
+
+
+class TestFamilySkillReRanking:
+    """Tests for within-family re-ranking helpers rank_in_demand_skills and rank_distinctive_skills."""
+
+    def test_rank_in_demand_skills_sorts_by_prevalence_then_count(self):
+        skills = [
+            {"canonical": "SQL", "prevalence": 0.40, "count": 40},
+            {"canonical": "Python", "prevalence": 0.70, "count": 70},
+            {"canonical": "R", "prevalence": 0.40, "count": 45},
+            {"canonical": "Bash", "prevalence": 0.10, "count": 10},
+        ]
+        ranked = rank_in_demand_skills(skills, top_n=3)
+        assert len(ranked) == 3
+        assert ranked[0]["canonical"] == "Python"
+        assert ranked[1]["canonical"] == "R"
+        assert ranked[2]["canonical"] == "SQL"
+
+    def test_rank_in_demand_skills_handles_empty_and_non_finite_prevalence(self):
+        assert rank_in_demand_skills([]) == []
+        assert rank_in_demand_skills(None) == []
+
+        skills_with_invalid = [
+            {"canonical": "Valid", "prevalence": 0.5, "count": 50},
+            {"canonical": "NaNPrev", "prevalence": float("nan"), "count": 10},
+            {"canonical": "PosInfPrev", "prevalence": float("inf"), "count": 10},
+            {"canonical": "NegInfPrev", "prevalence": float("-inf"), "count": 10},
+            {"canonical": "BoolPrev", "prevalence": True, "count": 10},
+            {"canonical": "StrPrev", "prevalence": "0.5", "count": 10},
+        ]
+        ranked = rank_in_demand_skills(skills_with_invalid)
+        assert len(ranked) == 1
+        assert ranked[0]["canonical"] == "Valid"
+
+    def test_rank_in_demand_skills_handles_none_count_without_type_error(self):
+        skills = [
+            {"canonical": "SkillNone", "prevalence": 0.40, "count": None},
+            {"canonical": "SkillZero", "prevalence": 0.40, "count": 0},
+            {"canonical": "SkillHigh", "prevalence": 0.40, "count": 20},
+            {"canonical": "SkillTop", "prevalence": 0.50, "count": None},
+        ]
+        ranked = rank_in_demand_skills(skills, top_n=4)
+        assert len(ranked) == 4
+        assert ranked[0]["canonical"] == "SkillTop"
+        assert ranked[1]["canonical"] == "SkillHigh"
+        assert ranked[2]["canonical"] == "SkillNone"
+        assert ranked[3]["canonical"] == "SkillZero"
+
+    def test_rank_distinctive_skills_applies_support_and_lift_criteria(self):
+        skills = [
+            {"canonical": "XGBoost", "count": 30, "prevalence": 0.03, "lift": 3.5},
+            {"canonical": "PyTorch", "count": 50, "prevalence": 0.05, "lift": 2.1},
+            {"canonical": "LowCount", "count": 15, "prevalence": 0.02, "lift": 5.0},
+            {"canonical": "LowPrev", "count": 25, "prevalence": 0.010, "lift": 2.5},
+            {"canonical": "LowLift", "count": 100, "prevalence": 0.50, "lift": 0.9},
+        ]
+        distinctive = rank_distinctive_skills(skills, top_n=10)
+        assert len(distinctive) == 2
+        assert distinctive[0]["canonical"] == "XGBoost"
+        assert distinctive[1]["canonical"] == "PyTorch"
+
+    def test_rank_distinctive_skills_returns_empty_when_none_qualify(self):
+        skills = [
+            {"canonical": "Rare", "count": 5, "prevalence": 0.005, "lift": 4.0},
+            {"canonical": "Common", "count": 100, "prevalence": 0.50, "lift": 0.8},
+        ]
+        assert rank_distinctive_skills(skills) == []
+        assert rank_distinctive_skills([]) == []
+        assert rank_distinctive_skills(None) == []
+
+
+class TestPrepareScatterData:
+    """Tests for prepare_scatter_data helper."""
+
+    def test_excludes_unobserved_zero_count_skills(self):
+        skills = [
+            {"canonical": "ActiveSkill", "count": 5, "prevalence": 0.05, "lift": 1.2, "skill_group": "Languages"},
+            {"canonical": "ZeroSkill", "count": 0, "prevalence": 0.0, "lift": 0.0, "skill_group": "Languages"},
+        ]
+        data = prepare_scatter_data(skills, min_count=1)
+        assert len(data) == 1
+        assert data[0]["canonical"] == "ActiveSkill"
+
+    def test_excludes_non_finite_missing_or_negative_lift(self):
+        skills = [
+            {"canonical": "Valid", "count": 10, "prevalence": 0.10, "lift": 1.5, "skill_group": "Cloud"},
+            {"canonical": "MissingLift", "count": 10, "prevalence": 0.10, "lift": None, "skill_group": "Cloud"},
+            {"canonical": "NaNLift", "count": 10, "prevalence": 0.10, "lift": float("nan"), "skill_group": "Cloud"},
+            {"canonical": "InfLift", "count": 10, "prevalence": 0.10, "lift": float("inf"), "skill_group": "Cloud"},
+            {"canonical": "NegLift", "count": 10, "prevalence": 0.10, "lift": -0.5, "skill_group": "Cloud"},
+        ]
+        data = prepare_scatter_data(skills)
+        assert len(data) == 1
+        assert data[0]["canonical"] == "Valid"
+
+    def test_calculates_prevalence_pct_if_missing(self):
+        skills = [
+            {"canonical": "Python", "count": 25, "prevalence": 0.254, "lift": 1.3, "skill_group": "Languages"}
+        ]
+        data = prepare_scatter_data(skills)
+        assert len(data) == 1
+        assert data[0]["prevalence_pct"] == 25.4
+
+    def test_validates_supplied_prevalence_pct_numeric_finite_non_negative(self):
+        skills = [
+            {"canonical": "ValidPct", "count": 10, "prevalence": 0.10, "prevalence_pct": 10.0, "lift": 1.5, "skill_group": "Cloud"},
+            {"canonical": "MissingPct", "count": 10, "prevalence": 0.10, "prevalence_pct": None, "lift": 1.5, "skill_group": "Cloud"},
+            {"canonical": "NaNPct", "count": 10, "prevalence": 0.10, "prevalence_pct": float("nan"), "lift": 1.5, "skill_group": "Cloud"},
+            {"canonical": "PosInfPct", "count": 10, "prevalence": 0.10, "prevalence_pct": float("inf"), "lift": 1.5, "skill_group": "Cloud"},
+            {"canonical": "NegInfPct", "count": 10, "prevalence": 0.10, "prevalence_pct": float("-inf"), "lift": 1.5, "skill_group": "Cloud"},
+            {"canonical": "NegPct", "count": 10, "prevalence": 0.10, "prevalence_pct": -5.0, "lift": 1.5, "skill_group": "Cloud"},
+            {"canonical": "BoolPct", "count": 10, "prevalence": 0.10, "prevalence_pct": True, "lift": 1.5, "skill_group": "Cloud"},
+            {"canonical": "StrPct", "count": 10, "prevalence": 0.10, "prevalence_pct": "10.0", "lift": 1.5, "skill_group": "Cloud"},
+        ]
+        data = prepare_scatter_data(skills)
+        canonicals = [d["canonical"] for d in data]
+        assert set(canonicals) == {"ValidPct", "MissingPct"}
+        by_name = {d["canonical"]: d for d in data}
+        assert by_name["ValidPct"]["prevalence_pct"] == 10.0
+        assert by_name["MissingPct"]["prevalence_pct"] == 10.0
+
+    def test_flags_eligible_distinctive_correctly(self):
+        skills = [
+            # Qualified: N >= 20, Prev >= 1.5%, Lift > 1.0
+            {"canonical": "Qualified", "count": 25, "prevalence": 0.02, "lift": 1.8, "skill_group": "Languages"},
+            # Low count: N < 20
+            {"canonical": "LowCount", "count": 10, "prevalence": 0.03, "lift": 2.5, "skill_group": "Languages"},
+            # Low prev: Prev < 1.5%
+            {"canonical": "LowPrev", "count": 22, "prevalence": 0.010, "lift": 1.5, "skill_group": "Languages"},
+            # Below parity: Lift <= 1.0
+            {"canonical": "BelowParity", "count": 100, "prevalence": 0.50, "lift": 0.95, "skill_group": "Languages"},
+        ]
+        data = prepare_scatter_data(skills)
+        by_name = {d["canonical"]: d for d in data}
+
+        assert by_name["Qualified"]["is_eligible_distinctive"] is True
+        assert "Qualified Distinctive" in by_name["Qualified"]["support_status"]
+        assert by_name["Qualified"]["marker_opacity"] == 1.0
+
+        assert by_name["LowCount"]["is_eligible_distinctive"] is False
+        assert "Low support" in by_name["LowCount"]["support_status"]
+        assert by_name["LowCount"]["marker_opacity"] == 0.45
+
+        assert by_name["LowPrev"]["is_eligible_distinctive"] is False
+        assert "Sub-threshold prevalence" in by_name["LowPrev"]["support_status"]
+        assert by_name["LowPrev"]["marker_opacity"] == 0.45
+
+        assert by_name["BelowParity"]["is_eligible_distinctive"] is False
+        assert "Below baseline parity" in by_name["BelowParity"]["support_status"]
+        assert by_name["BelowParity"]["marker_opacity"] == 0.45
+
+    def test_marker_size_scaled_between_8_and_22(self):
+        skills = [
+            {"canonical": "MaxSkill", "count": 100, "prevalence": 0.5, "lift": 1.0, "skill_group": "Languages"},
+            {"canonical": "MinSkill", "count": 10, "prevalence": 0.05, "lift": 1.0, "skill_group": "Languages"},
+        ]
+        data = prepare_scatter_data(skills)
+        by_name = {d["canonical"]: d for d in data}
+        assert by_name["MaxSkill"]["marker_size"] == 22.0
+        assert 8.0 <= by_name["MinSkill"]["marker_size"] < 22.0
+
+    def test_prepare_scatter_data_empty_or_zero_division_guard(self):
+        assert prepare_scatter_data([]) == []
+        assert prepare_scatter_data(None) == []

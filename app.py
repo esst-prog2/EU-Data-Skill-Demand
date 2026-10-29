@@ -23,7 +23,14 @@ import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
 
-from src.analytics import OCCUPATIONAL_CATEGORIES
+from src.analytics import (
+    OCCUPATIONAL_CATEGORIES,
+    SKILL_FAMILIES,
+    filter_skills_by_family,
+    prepare_scatter_data,
+    rank_distinctive_skills,
+    rank_in_demand_skills,
+)
 
 DATA_PATH = Path(__file__).resolve().parent / "data" / "processed" / "analytics_summary.json"
 
@@ -348,40 +355,64 @@ def main() -> None:
     st.header("2. Occupational Skill Profiles: Demand vs. Distinctiveness")
     st.caption("Contrasting high-volume table-stakes skills with role-defining technical markers.")
 
-    # Occupational Category Selector
+    # Occupational Category and Technical Skill Family Selectors
     category_keys = list(categories.keys())
     category_options = {k: categories[k]["category_name"] for k in category_keys}
 
-    selected_cat_id = st.selectbox(
-        "Select Occupational Category:",
-        options=category_keys,
-        format_func=lambda k: category_options.get(k, k),
-        index=0,
-    )
+    col_cat_sel, col_fam_sel = st.columns(2)
+    with col_cat_sel:
+        selected_cat_id = st.selectbox(
+            "Select Occupational Category:",
+            options=category_keys,
+            format_func=lambda k: category_options.get(k, k),
+            index=0,
+        )
+    with col_fam_sel:
+        family_options = ["All Families"] + list(SKILL_FAMILIES)
+        selected_family = st.selectbox(
+            "Filter by Technical Skill Family:",
+            options=family_options,
+            index=0,
+            help="Filter skills across the category analysis by technical domain.",
+        )
 
     cat_profile = categories[selected_cat_id]
     total_cat_postings = cat_profile["total_postings"]
     corpus_total = kpis["total_postings"]
     corpus_share_pct = round((total_cat_postings / corpus_total) * 100, 1)
 
-    st.markdown(
+    profile_header = (
         f"**Profile for {cat_profile.get('category_name', selected_cat_id)}** "
-        f"(`{total_cat_postings:,}` postings, "
-        f"{corpus_share_pct}% of corpus)"
+        f"(`{total_cat_postings:,}` postings, {corpus_share_pct}% of corpus)"
     )
+    if selected_family != "All Families":
+        profile_header += f" — Filtered by **{selected_family}**"
+    st.markdown(profile_header)
+
+    # Resolve ranking lists based on selected family filter
+    if selected_family == "All Families":
+        in_demand_skills = cat_profile.get("top_in_demand", [])[:10]
+        distinctive_skills = cat_profile.get("top_distinctive", [])[:10]
+    else:
+        raw_all_skills = cat_profile.get("all_skills", [])
+        family_filtered_skills = filter_skills_by_family(raw_all_skills, selected_family)
+        in_demand_skills = rank_in_demand_skills(family_filtered_skills, top_n=10)
+        distinctive_skills = rank_distinctive_skills(family_filtered_skills, top_n=10)
 
     col_cat_left, col_cat_right = st.columns(2)
 
     # Left: Top In-Demand Skills (Prevalence)
     with col_cat_left:
         st.subheader("Top In-Demand Skills")
-        st.caption("Most frequent technical skills (% of postings in this category).")
+        if selected_family == "All Families":
+            st.caption("Most frequent technical skills (% of postings in this category).")
+        else:
+            st.caption(f"Most frequent {selected_family} skills (% of postings in this category).")
 
-        top_in_demand = cat_profile.get("top_in_demand", [])[:10]
-        if top_in_demand:
-            names = [s["canonical"] for s in reversed(top_in_demand)]
-            prevs = [s["prevalence_pct"] for s in reversed(top_in_demand)]
-            labels = [f"{s['prevalence_pct']}% ({s['count']:,} jobs)" for s in reversed(top_in_demand)]
+        if in_demand_skills:
+            names = [s["canonical"] for s in reversed(in_demand_skills)]
+            prevs = [s["prevalence_pct"] for s in reversed(in_demand_skills)]
+            labels = [f"{s['prevalence_pct']}% ({s['count']:,} jobs)" for s in reversed(in_demand_skills)]
 
             fig_in_demand = go.Figure(
                 go.Bar(
@@ -401,17 +432,21 @@ def main() -> None:
                 xaxis=dict(showgrid=True, gridcolor="#e2e8f0", range=[0, max_p * 1.25]),
             )
             st.plotly_chart(fig_in_demand, use_container_width=True)
+        else:
+            st.info(f"No observed skills in '{selected_family}' for this category.")
 
     # Right: Most Distinctive Skills (Lift)
     with col_cat_right:
         st.subheader("Most Distinctive Skills")
-        st.caption("Skills uniquely concentrated here vs. the corpus (Lift > 1.0, N ≥ 20, Prev ≥ 1.5%).")
+        if selected_family == "All Families":
+            st.caption("Skills uniquely concentrated here vs. the corpus (Lift > 1.0, N ≥ 20, Prev ≥ 1.5%).")
+        else:
+            st.caption(f"{selected_family} skills uniquely concentrated here vs. the corpus (Lift > 1.0, N ≥ 20, Prev ≥ 1.5%).")
 
-        top_distinctive = cat_profile.get("top_distinctive", [])[:10]
-        if top_distinctive:
-            dist_names = [s["canonical"] for s in reversed(top_distinctive)]
-            lifts = [s["lift"] for s in reversed(top_distinctive)]
-            dist_labels = [f"{s['lift']}× ({s['prevalence_pct']}%)" for s in reversed(top_distinctive)]
+        if distinctive_skills:
+            dist_names = [s["canonical"] for s in reversed(distinctive_skills)]
+            lifts = [s["lift"] for s in reversed(distinctive_skills)]
+            dist_labels = [f"{s['lift']}× ({s['prevalence_pct']}%)" for s in reversed(distinctive_skills)]
 
             fig_distinctive = go.Figure(
                 go.Bar(
@@ -432,7 +467,118 @@ def main() -> None:
             )
             st.plotly_chart(fig_distinctive, use_container_width=True)
         else:
-            st.info("No skills met the minimum support criteria ($N \\ge 20$ and $P \\ge 1.5\\%$) with Lift > 1.0.")
+            st.info(f"No skills in '{selected_family}' met the minimum support criteria ($N \\ge 20$ and $P \\ge 1.5\\%$) with Lift > 1.0.")
+
+    # Bivariate Skill Landscape: Prevalence vs. Distinctiveness (Scatter Plot)
+    st.subheader("Bivariate Skill Landscape: Prevalence vs. Distinctiveness")
+    st.caption(
+        "Visualizing market demand (% prevalence on X) against role distinctiveness (lift on Y) "
+        "relative to the corpus parity baseline (Lift = 1.0)."
+    )
+
+    all_cat_skills = cat_profile.get("all_skills", [])
+    scatter_input = (
+        all_cat_skills
+        if selected_family == "All Families"
+        else filter_skills_by_family(all_cat_skills, selected_family)
+    )
+    scatter_data = prepare_scatter_data(scatter_input, min_count=1)
+
+    if scatter_data:
+        family_palette = {
+            "Programming languages": "#2563eb",
+            "Databases & data warehouses": "#059669",
+            "BI & visualization": "#f59e0b",
+            "Cloud & infrastructure": "#8b5cf6",
+            "ML/AI frameworks & tools": "#ec4899",
+        }
+
+        fig_scatter = go.Figure()
+        families_present = sorted(set(d["skill_group"] for d in scatter_data))
+
+        for fam in families_present:
+            fam_items = [d for d in scatter_data if d["skill_group"] == fam]
+            fig_scatter.add_trace(
+                go.Scatter(
+                    x=[d["prevalence_pct"] for d in fam_items],
+                    y=[d["lift"] for d in fam_items],
+                    mode="markers+text",
+                    name=fam,
+                    text=[d["canonical"] for d in fam_items],
+                    textposition="top center",
+                    textfont=dict(size=10, color="#334155"),
+                    marker=dict(
+                        size=[d["marker_size"] for d in fam_items],
+                        color=family_palette.get(fam, "#64748b"),
+                        opacity=[d["marker_opacity"] for d in fam_items],
+                        line=dict(
+                            width=[1.5 if d["is_eligible_distinctive"] else 0.5 for d in fam_items],
+                            color="#0f172a",
+                        ),
+                    ),
+                    customdata=[
+                        [
+                            d["canonical"],
+                            d["skill_group"],
+                            d["count"],
+                            d["prevalence_pct"],
+                            d["lift"],
+                            d["support_status"],
+                        ]
+                        for d in fam_items
+                    ],
+                    hovertemplate=(
+                        "<b>%{customdata[0]}</b> (%{customdata[1]})<br>"
+                        "Prevalence: %{customdata[3]}% (%{customdata[2]:,} postings)<br>"
+                        "Lift: %{customdata[4]}× baseline<br>"
+                        "Status: %{customdata[5]}<extra></extra>"
+                    ),
+                )
+            )
+
+        max_prev = max(d["prevalence_pct"] for d in scatter_data) if scatter_data else 100.0
+        max_lift = max(d["lift"] for d in scatter_data) if scatter_data else 2.0
+        x_upper = max(max_prev * 1.15, 10.0)
+        y_upper = max(max_lift * 1.15, 2.0)
+
+        fig_scatter.add_hline(
+            y=1.0,
+            line_dash="dash",
+            line_color="#ef4444",
+            line_width=1.5,
+            annotation_text="Corpus Parity (Lift = 1.0)",
+            annotation_position="top right",
+            annotation_font=dict(color="#ef4444", size=11),
+        )
+
+        fig_scatter.update_layout(
+            xaxis_title="Within-Category Prevalence (%)",
+            yaxis_title="Distinctiveness Lift (× baseline)",
+            height=520,
+            margin=dict(l=20, r=20, t=20, b=20),
+            xaxis=dict(showgrid=True, gridcolor="#e2e8f0", range=[0, x_upper]),
+            yaxis=dict(showgrid=True, gridcolor="#e2e8f0", range=[0, y_upper]),
+            legend=dict(
+                orientation="h",
+                yanchor="bottom",
+                y=-0.28,
+                xanchor="center",
+                x=0.5,
+            ),
+        )
+        st.plotly_chart(fig_scatter, use_container_width=True)
+    else:
+        st.info(f"No observed postings for '{selected_family}' in this category.")
+
+    # Interpretation callout box
+    st.info(
+        "💡 **Interpreting Prevalence vs. Distinctiveness:**\n\n"
+        "- **Prevalence (Horizontal Axis):** Reflects within-category market demand (% of postings requiring the skill).\n"
+        "- **Lift (Vertical Axis):** Measures relative concentration compared to the overall EU data corpus baseline. "
+        "Points above the dashed red line ($\\text{Lift} > 1.0$) are disproportionately characteristic of this role.\n"
+        "- **Qualified vs. Sub-threshold:** Solid high-opacity markers indicate qualified distinctive skills ($N \\ge 20$, $P \\ge 1.5\\%$). "
+        "Muted markers have lower observed counts or prevalence; **high lift on a low-count skill indicates uniqueness, not high market demand**."
+    )
 
     st.markdown("---")
 

@@ -8,6 +8,7 @@ skill distinctiveness (lift), support-based noise filtering, and geographic thre
 from __future__ import annotations
 
 import json
+import math
 import os
 import re
 import tempfile
@@ -71,6 +72,19 @@ EU27_COUNTRIES: Dict[str, str] = {
 
 EU_COUNTRIES: Dict[str, str] = EU27_COUNTRIES
 EU27_COUNTRY_NAMES: Dict[str, str] = EU27_COUNTRIES
+
+
+# ==============================================================================
+# Canonical Technical Skill Families (Domains)
+# ==============================================================================
+
+SKILL_FAMILIES: Tuple[str, ...] = (
+    "Programming languages",
+    "Databases & data warehouses",
+    "BI & visualization",
+    "Cloud & infrastructure",
+    "ML/AI frameworks & tools",
+)
 
 
 class SkillVocabulary:
@@ -186,6 +200,184 @@ def filter_distinctive_skills(
     # Sort descending by lift, then prevalence
     eligible.sort(key=lambda s: (s.get("lift", 0.0), s.get("prevalence", 0.0)), reverse=True)
     return eligible[:top_n]
+
+
+def filter_skills_by_family(
+    skills: Iterable[Dict[str, Any]],
+    family: str | None = None,
+) -> List[Dict[str, Any]]:
+    """
+    Filters a collection of skill dictionaries by their skill_group.
+
+    If family is None, 'All Families', or 'all' (case-insensitive), returns all valid skills.
+    If family is one of SKILL_FAMILIES, returns skills where skill_group matches.
+    Raises ValueError if family is unrecognized.
+    """
+    if skills is None:
+        return []
+
+    valid_skills = [s for s in skills if isinstance(s, dict)]
+    if family is None or (isinstance(family, str) and family.strip().lower() in ("all families", "all")):
+        return valid_skills
+
+    if not isinstance(family, str) or family not in SKILL_FAMILIES:
+        raise ValueError(
+            f"Unrecognized skill family: {family!r}. Expected one of {SKILL_FAMILIES} or 'All Families'."
+        )
+
+    return [s for s in valid_skills if s.get("skill_group") == family]
+
+
+def rank_in_demand_skills(
+    skills: Iterable[Dict[str, Any]],
+    top_n: int = 10,
+) -> List[Dict[str, Any]]:
+    """
+    Ranks skills by within-category demand (prevalence descending, count descending).
+    Returns up to top_n skill records.
+    """
+    if skills is None:
+        return []
+
+    valid = [
+        s for s in skills
+        if isinstance(s, dict) and not isinstance(s.get("prevalence"), bool) and isinstance(s.get("prevalence"), (int, float)) and math.isfinite(s["prevalence"])
+    ]
+    valid.sort(key=lambda s: (-float(s.get("prevalence", 0.0)), -int(s.get("count") or 0), str(s.get("canonical") or "")))
+    return valid[:top_n]
+
+
+def rank_distinctive_skills(
+    skills: Iterable[Dict[str, Any]],
+    top_n: int = 10,
+    min_count: int = 20,
+    min_prevalence: float = 0.015,
+    min_lift: float = 1.0,
+) -> List[Dict[str, Any]]:
+    """
+    Filters and ranks distinctive skills from a collection of skill dictionaries.
+    Enforces count >= min_count, prevalence >= min_prevalence, and lift > min_lift.
+    Returns up to top_n skill records ranked descending by lift (then prevalence).
+    """
+    if skills is None:
+        return []
+    valid = [s for s in skills if isinstance(s, dict)]
+    return filter_distinctive_skills(
+        valid,
+        min_count=min_count,
+        min_prevalence=min_prevalence,
+        min_lift=min_lift,
+        top_n=top_n,
+    )
+
+
+def prepare_scatter_data(
+    skills: Iterable[Dict[str, Any]],
+    min_count: int = 1,
+    min_distinctive_count: int = 20,
+    min_distinctive_prevalence: float = 0.015,
+    min_distinctive_lift: float = 1.0,
+) -> List[Dict[str, Any]]:
+    """
+    Prepares skill records for the 2D prevalence-versus-lift scatter plot.
+
+    - Excludes unobserved skills (count < min_count, default 1).
+    - Excludes records with missing, non-numeric, or non-finite lift.
+    - Flags distinctive eligibility (count >= 20, prevalence >= 1.5%, lift > 1.0).
+    - Generates human-readable support status strings for tooltips.
+    - Computes dynamically scaled marker sizes (8px to 22px) and marker opacity.
+    - Returns formatted records sorted descending by lift, then prevalence.
+    """
+    if skills is None:
+        return []
+
+    candidates: List[Dict[str, Any]] = []
+    for s in skills:
+        if not isinstance(s, dict):
+            continue
+
+        count = s.get("count")
+        if not isinstance(count, int) or isinstance(count, bool) or count < min_count:
+            continue
+
+        lift = s.get("lift")
+        if (
+            lift is None
+            or isinstance(lift, bool)
+            or not isinstance(lift, (int, float))
+            or math.isnan(lift)
+            or math.isinf(lift)
+            or lift < 0.0
+        ):
+            continue
+
+        prevalence = s.get("prevalence", 0.0)
+        if (
+            not isinstance(prevalence, (int, float))
+            or isinstance(prevalence, bool)
+            or math.isnan(prevalence)
+            or math.isinf(prevalence)
+            or prevalence < 0.0
+        ):
+            continue
+
+        prevalence_pct = s.get("prevalence_pct")
+        if prevalence_pct is None:
+            prevalence_pct = round(prevalence * 100.0, 1)
+        elif (
+            isinstance(prevalence_pct, bool)
+            or not isinstance(prevalence_pct, (int, float))
+            or not math.isfinite(prevalence_pct)
+            or prevalence_pct < 0.0
+        ):
+            continue
+        else:
+            prevalence_pct = round(float(prevalence_pct), 1)
+
+        is_eligible = (
+            count >= min_distinctive_count
+            and prevalence >= min_distinctive_prevalence
+            and lift > min_distinctive_lift
+        )
+
+        if is_eligible:
+            support_status = "Qualified Distinctive (N ≥ 20, Prev ≥ 1.5%)"
+        elif count < min_distinctive_count:
+            support_status = f"Low support (N < {min_distinctive_count})"
+        elif prevalence < min_distinctive_prevalence:
+            support_status = f"Sub-threshold prevalence (Prev < {min_distinctive_prevalence * 100:.1f}%)"
+        else:
+            support_status = f"Below baseline parity (Lift ≤ {min_distinctive_lift:.1f})"
+
+        canonical = str(s.get("canonical", "Unknown"))
+        skill_group = str(s.get("skill_group", "Other"))
+
+        candidates.append(
+            {
+                "canonical": canonical,
+                "skill_group": skill_group,
+                "count": count,
+                "prevalence": float(prevalence),
+                "prevalence_pct": prevalence_pct,
+                "lift": float(lift),
+                "is_eligible_distinctive": is_eligible,
+                "support_status": support_status,
+            }
+        )
+
+    if not candidates:
+        return []
+
+    max_count = max(item["count"] for item in candidates)
+    if max_count <= 0:
+        max_count = 1
+
+    for item in candidates:
+        item["marker_size"] = round(8.0 + 14.0 * (item["count"] / max_count), 1)
+        item["marker_opacity"] = 1.0 if item["is_eligible_distinctive"] else 0.45
+
+    candidates.sort(key=lambda item: (-item["lift"], -item["prevalence_pct"], item["canonical"]))
+    return candidates
 
 
 def filter_eligible_countries(
