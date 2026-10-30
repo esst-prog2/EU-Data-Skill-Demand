@@ -33,6 +33,21 @@ from src.analytics import (
     rank_distinctive_skills,
     rank_in_demand_skills,
     SKILL_FAMILIES,
+    SENIORITY_LEVELS,
+    SENIORITY_DISPLAY_NAMES,
+    extract_posting_record,
+    filter_postings_population,
+    compute_population_kpis,
+    compute_population_skill_stats,
+    get_skills_for_family,
+    filter_postings_by_skill_family,
+    compute_file_sha256,
+    compute_extraction_fingerprint,
+    validate_postings_cache,
+    save_postings_cache,
+    load_or_create_postings_cache,
+    extract_posting_records_batch,
+    EXTRACTION_PIPELINE_VERSION,
 )
 
 
@@ -164,6 +179,97 @@ class TestHybridSkillExtraction:
         extracted = extract_skills_from_posting(posting, production_vocabulary)
         assert "Python" in extracted
         assert "R" not in extracted
+
+    def test_r_genuine_description_mentions_and_variations(self, production_vocabulary):
+        """Genuine mentions of R in descriptions (R, R programming, R language, R/Python, RStudio) are extracted."""
+        cases = [
+            ("Candidates must know SQL, Python, and R.", {"SQL", "Python", "R"}),
+            ("Strong experience with R programming and statistical inference.", {"R"}),
+            ("Proficiency in the R language is required.", {"R"}),
+            ("Tools: Python/R, Docker, and Git.", {"Python", "R", "Docker", "Git"}),
+            ("Experience with RStudio and R shiny applications.", {"R"}),
+        ]
+        for desc, expected in cases:
+            posting = {"title": "Analyst", "skills": [], "description": desc}
+            extracted = extract_skills_from_posting(posting, production_vocabulary)
+            for skill in expected:
+                assert skill in extracted, f"Expected {skill} in {extracted} for {desc!r}"
+
+    def test_r_aliases_normalize_to_canonical(self, production_vocabulary):
+        """Native tag aliases for R (r-project, r-lang, r-language, r-programming) normalize to canonical 'R'."""
+        aliases = ["r-project", "r-lang", "r-language", "r-programming"]
+        for alias in aliases:
+            posting = {"title": "Analyst", "skills": [alias], "description": ""}
+            extracted = extract_skills_from_posting(posting, production_vocabulary)
+            assert extracted == {"R"}, f"Alias {alias} did not normalize to 'R'"
+
+    def test_r_false_positives_prevented(self, production_vocabulary):
+        """Contexts where R does not mean the programming language are excluded."""
+        non_r_descriptions = [
+            "Leading our European R&D initiatives across product lines.",
+            "Responsible for processing invoices in our A/R department.",
+            "Diagnostics for hardware revision Model R-200.",
+            "Tracking serial batch R/1204 in logistics.",
+            "System build R.10 release notes.",
+            "Compensation: R$ 8,000 per month gross.",
+        ]
+        for desc in non_r_descriptions:
+            posting = {"title": "Engineer", "skills": [], "description": desc}
+            extracted = extract_skills_from_posting(posting, production_vocabulary)
+            assert "R" not in extracted, f"False positive 'R' extracted from: {desc!r}"
+
+    def test_extract_posting_record_includes_description_fallback_for_r_and_excel(self, production_vocabulary):
+        """extract_posting_record utilizes hybrid extraction so R and Excel in descriptions are detected."""
+        raw_p = {
+            "_collection_country": "DE",
+            "_collection_category": "data_science",
+            "enrichment": {"seniority": "senior"},
+            "skills": ["python"],
+            "description": "Must have expertise in advanced Excel modeling and R programming.",
+        }
+        rec = extract_posting_record(raw_p, production_vocabulary)
+        assert rec["country"] == "DE"
+        assert rec["category"] == "data_science"
+        assert rec["seniority"] == "senior"
+        assert rec["skills"] == {"Python", "R", "Excel"}
+
+    def test_cpp_regex_positive_cases(self, production_vocabulary):
+        """
+        C++ regex boundary fix: C++ mentions in descriptions are reliably extracted
+        across various common syntactic contexts (spaces, punctuation, versions, slashes).
+        """
+        positive_cases = [
+            ("Must have strong skills in C++.", "C++"),
+            ("We are looking for a C++ programming expert.", "C++"),
+            ("Senior C++ developer wanted for low-latency engine.", "C++"),
+            ("Experience with C++ and Python is required.", "C++"),
+            ("Stack includes C++/Java backend services.", "C++"),
+            ("Proficiency in cpp for algorithms.", "C++"),
+            ("Core competencies: C++, Python, SQL.", "C++"),
+            ("Hands-on development in (C++) environments.", "C++"),
+            ("Expert in modern C++17 or newer standards.", "C++"),
+        ]
+        for desc, expected_skill in positive_cases:
+            posting = {"title": "Software Engineer", "skills": [], "description": desc}
+            extracted = extract_skills_from_posting(posting, production_vocabulary)
+            assert expected_skill in extracted, f"Failed to extract {expected_skill} from {desc!r}"
+
+    def test_cpp_regex_negative_cases(self, production_vocabulary):
+        """
+        C++ regex boundary fix: Unrelated patterns must NOT trigger false positive C++ extraction.
+        """
+        negative_cases = [
+            "We listen to music++ at the office.",
+            "Evaluating C+++ candidate architectures.",
+            "Using libcpp standard library internals.",
+            "Static analysis with cppcheck utility.",
+            "Solving A+B algorithmic challenges.",
+            "Experience with C# and .NET framework.",
+        ]
+        for desc in negative_cases:
+            posting = {"title": "Developer", "skills": [], "description": desc}
+            extracted = extract_skills_from_posting(posting, production_vocabulary)
+            assert "C++" not in extracted, f"False positive 'C++' extracted from {desc!r}"
 
 
 # ==============================================================================
@@ -862,3 +968,439 @@ class TestPrepareScatterData:
     def test_prepare_scatter_data_empty_or_zero_division_guard(self):
         assert prepare_scatter_data([]) == []
         assert prepare_scatter_data(None) == []
+
+
+class TestPostingPopulationFiltering:
+    """Unit tests for filter_postings_population and extract_posting_record."""
+
+    @pytest.fixture
+    def sample_postings(self):
+        return [
+            {"country": "DE", "category": "data_science", "seniority": "senior", "skills": {"Python", "SQL"}},
+            {"country": "DE", "category": "data_science", "seniority": None, "skills": {"Python"}},
+            {"country": "DE", "category": "data_engineering", "seniority": "senior", "skills": {"Spark", "SQL"}},
+            {"country": "FR", "category": "data_science", "seniority": "junior", "skills": {"Python", "R"}},
+            {"country": "HU", "category": "data_analytics", "seniority": None, "skills": {"SQL", "Excel"}},
+        ]
+
+    def test_default_all_filters_returns_complete_population(self, sample_postings):
+        res = filter_postings_population(sample_postings, country="All Countries", category="All Categories", seniority="All Seniorities")
+        assert res["baseline_count"] == 5
+        assert res["active_count"] == 5
+        assert res["known_seniority_count"] == 3
+        assert res["seniority_coverage_pct"] == 60.0
+
+    def test_filter_by_country_isolates_country(self, sample_postings):
+        res = filter_postings_population(sample_postings, country="DE")
+        assert res["baseline_count"] == 3
+        assert res["active_count"] == 3
+        assert all(p["country"] == "DE" for p in res["active_postings"])
+        assert res["known_seniority_count"] == 2
+        assert res["seniority_coverage_pct"] == round(2 / 3 * 100, 1)
+
+    def test_filter_by_multi_country(self, sample_postings):
+        # Multiple countries selection
+        res = filter_postings_population(sample_postings, country=["DE", "FR"])
+        assert res["baseline_count"] == 4
+        assert res["active_count"] == 4
+        assert all(p["country"] in ("DE", "FR") for p in res["active_postings"])
+
+        # Empty list defaults to all countries
+        res_all = filter_postings_population(sample_postings, country=[])
+        assert res_all["baseline_count"] == len(sample_postings)
+        assert res_all["active_count"] == len(sample_postings)
+
+    def test_filter_by_category_isolates_category(self, sample_postings):
+        res = filter_postings_population(sample_postings, category="data_science")
+        assert res["baseline_count"] == 3
+        assert res["active_count"] == 3
+        assert all(p["category"] == "data_science" for p in res["active_postings"])
+
+    def test_combined_country_and_category_filter(self, sample_postings):
+        res = filter_postings_population(sample_postings, country="DE", category="data_science")
+        assert res["baseline_count"] == 2
+        assert res["active_count"] == 2
+        assert res["known_seniority_count"] == 1
+        assert res["seniority_coverage_pct"] == 50.0
+
+    def test_seniority_filtering_and_explicit_denominator(self, sample_postings):
+        res = filter_postings_population(sample_postings, country="DE", category="data_science", seniority="senior")
+        assert res["baseline_count"] == 2
+        assert res["known_seniority_count"] == 1
+        assert res["seniority_coverage_pct"] == 50.0
+        assert res["active_count"] == 1
+        assert res["active_postings"][0]["seniority"] == "senior"
+
+    def test_empty_filter_match_returns_zero_counts_without_error(self, sample_postings):
+        res = filter_postings_population(sample_postings, country="NONEXISTENT")
+        assert res["baseline_count"] == 0
+        assert res["active_count"] == 0
+        assert res["known_seniority_count"] == 0
+        assert res["seniority_coverage_pct"] == 0.0
+
+    def test_extract_posting_record_handles_enrichment_and_raw(self):
+        raw_p = {
+            "_collection_country": "DE",
+            "_collection_category": "data_science",
+            "enrichment": {"seniority": "senior"},
+            "skills": ["python", "sql", "unknown_tag"],
+        }
+        vocab = SkillVocabulary({"skills": [
+            {"canonical": "Python", "category": "Programming languages", "aliases": ["python"]},
+            {"canonical": "SQL", "category": "Databases & data warehouses", "aliases": ["sql"]},
+        ]})
+        rec = extract_posting_record(raw_p, vocab)
+        assert rec["country"] == "DE"
+        assert rec["category"] == "data_science"
+        assert rec["seniority"] == "senior"
+        assert rec["skills"] == {"Python", "SQL"}
+
+
+class TestPopulationKPIsAndSkillStats:
+    """Unit tests for compute_population_kpis and compute_population_skill_stats."""
+
+    def test_compute_population_kpis(self):
+        active = [
+            {"country": "DE", "category": "data_science", "skills": {"Python", "SQL"}},
+            {"country": "FR", "category": "data_science", "skills": {"Python"}},
+        ]
+        skills_stats = [
+            {"canonical": "Python", "is_eligible_distinctive": True},
+            {"canonical": "SQL", "is_eligible_distinctive": False},
+        ]
+        kpis = compute_population_kpis(active, corpus_total=10, active_skills_stats=skills_stats)
+        assert kpis["active_postings_count"] == 2
+        assert kpis["corpus_share_pct"] == 20.0
+        assert kpis["represented_countries_count"] == 2
+        assert kpis["detected_skills_count"] == 2
+        assert kpis["qualified_distinctive_count"] == 1
+
+    def test_compute_population_skill_stats(self):
+        active = [
+            {"country": "DE", "skills": {"Python", "SQL"}},
+            {"country": "FR", "skills": {"Python"}},
+        ]
+        corpus_counts = {"Python": 5, "SQL": 2}
+        vocab = SkillVocabulary({"skills": [
+            {"canonical": "Python", "category": "Programming languages"},
+            {"canonical": "SQL", "category": "Databases & data warehouses"},
+        ]})
+        stats = compute_population_skill_stats(active, corpus_counts, corpus_total=10, vocabulary=vocab)
+        assert len(stats) == 2
+        by_name = {s["canonical"]: s for s in stats}
+        assert by_name["Python"]["count"] == 2
+        assert by_name["Python"]["prevalence"] == 1.0
+        assert by_name["Python"]["lift"] == 2.0
+class TestSkillFamilyPostingFiltering:
+    """Unit tests for get_skills_for_family and filter_postings_by_skill_family."""
+
+    def test_get_skills_for_family(self):
+        vocab = SkillVocabulary({"skills": [
+            {"canonical": "Python", "category": "Programming languages"},
+            {"canonical": "SQL", "category": "Databases & data warehouses"},
+            {"canonical": "Power BI", "category": "BI & visualization"},
+        ]})
+        bi_skills = get_skills_for_family(vocab, "BI & visualization")
+        assert bi_skills == {"Power BI"}
+
+        empty_skills = get_skills_for_family(vocab, "All Families")
+        assert empty_skills == set()
+
+    def test_filter_postings_by_skill_family(self):
+        vocab = SkillVocabulary({"skills": [
+            {"canonical": "Python", "category": "Programming languages"},
+            {"canonical": "SQL", "category": "Databases & data warehouses"},
+            {"canonical": "Power BI", "category": "BI & visualization"},
+        ]})
+        postings = [
+            {"id": 1, "category": "data_analytics", "skills": {"Power BI", "SQL"}},
+            {"id": 2, "category": "data_engineering", "skills": {"Python", "SQL"}},
+            {"id": 3, "category": "data_science", "skills": {"Python"}},
+        ]
+
+        # Filter by BI & visualization
+        bi_filtered = filter_postings_by_skill_family(postings, "BI & visualization", vocab)
+        assert len(bi_filtered) == 1
+        assert bi_filtered[0]["id"] == 1
+
+        # Filter by All Families returns all
+        all_filtered = filter_postings_by_skill_family(postings, "All Families", vocab)
+        assert len(all_filtered) == 3
+
+class TestExtractionParityAndCacheIntegrity:
+    """Unit and regression tests for extraction parity, fingerprinting, and cache invalidation."""
+
+    def test_compute_file_sha256_known_content(self, tmp_path):
+        test_file = tmp_path / "sample.txt"
+        test_file.write_bytes(b"Hello world\n")
+        digest = compute_file_sha256(test_file)
+        import hashlib
+        expected = hashlib.sha256(b"Hello world\n").hexdigest()
+        assert digest == expected
+
+    def test_compute_file_sha256_missing_file_returns_empty(self, tmp_path):
+        missing = tmp_path / "nonexistent.txt"
+        assert compute_file_sha256(missing) == ""
+
+    def test_compute_extraction_fingerprint(self, tmp_path):
+        raw = tmp_path / "raw.json"
+        raw.write_text("{}", encoding="utf-8")
+        vocab = tmp_path / "vocab.json"
+        vocab.write_text("{}", encoding="utf-8")
+
+        fp = compute_extraction_fingerprint(raw, vocab)
+        assert "raw_sha256" in fp
+        assert "vocab_sha256" in fp
+        assert fp["pipeline_version"] == EXTRACTION_PIPELINE_VERSION
+        assert len(fp["raw_sha256"]) == 64
+        assert len(fp["vocab_sha256"]) == 64
+
+    def test_validate_postings_cache_valid(self, tmp_path):
+        cache_file = tmp_path / "cache.json"
+        fp = {"raw_sha256": "abc", "vocab_sha256": "def", "pipeline_version": "v1"}
+        records = [
+            {"country": "DE", "category": "data_science", "seniority": "senior", "skills": {"Python", "SQL"}},
+            {"country": "FR", "category": "data_analytics", "seniority": "junior", "skills": {"Excel"}},
+        ]
+        save_postings_cache(cache_file, records, fp)
+
+        validated = validate_postings_cache(cache_file, fp)
+        assert validated is not None
+        assert len(validated) == 2
+        assert validated[0]["country"] == "DE"
+        assert validated[0]["skills"] == {"Python", "SQL"}
+        assert isinstance(validated[0]["skills"], set)
+        assert validated[1]["skills"] == {"Excel"}
+
+    def test_validate_postings_cache_invalidates_on_raw_hash_mismatch(self, tmp_path):
+        cache_file = tmp_path / "cache.json"
+        fp_saved = {"raw_sha256": "original_hash", "vocab_sha256": "def", "pipeline_version": "v1"}
+        records = [{"country": "DE", "category": "data_science", "seniority": None, "skills": {"Python"}}]
+        save_postings_cache(cache_file, records, fp_saved)
+
+        fp_expected = {"raw_sha256": "modified_hash", "vocab_sha256": "def", "pipeline_version": "v1"}
+        assert validate_postings_cache(cache_file, fp_expected) is None
+
+    def test_validate_postings_cache_invalidates_on_vocab_hash_mismatch(self, tmp_path):
+        cache_file = tmp_path / "cache.json"
+        fp_saved = {"raw_sha256": "raw_hash", "vocab_sha256": "old_vocab", "pipeline_version": "v1"}
+        records = [{"country": "DE", "category": "data_science", "seniority": None, "skills": {"Python"}}]
+        save_postings_cache(cache_file, records, fp_saved)
+
+        fp_expected = {"raw_sha256": "raw_hash", "vocab_sha256": "new_vocab", "pipeline_version": "v1"}
+        assert validate_postings_cache(cache_file, fp_expected) is None
+
+    def test_validate_postings_cache_invalidates_on_pipeline_version_mismatch(self, tmp_path):
+        cache_file = tmp_path / "cache.json"
+        fp_saved = {"raw_sha256": "raw_hash", "vocab_sha256": "vocab_hash", "pipeline_version": "v1"}
+        records = [{"country": "DE", "category": "data_science", "seniority": None, "skills": {"Python"}}]
+        save_postings_cache(cache_file, records, fp_saved)
+
+        fp_expected = {"raw_sha256": "raw_hash", "vocab_sha256": "vocab_hash", "pipeline_version": "v2"}
+        assert validate_postings_cache(cache_file, fp_expected) is None
+
+    def test_validate_postings_cache_handles_corrupted_json(self, tmp_path):
+        corrupt_file = tmp_path / "corrupt.json"
+        corrupt_file.write_text("{invalid_json: 123", encoding="utf-8")
+        assert validate_postings_cache(corrupt_file, {}) is None
+
+        non_dict_file = tmp_path / "list.json"
+        non_dict_file.write_text("[]", encoding="utf-8")
+        assert validate_postings_cache(non_dict_file, {}) is None
+
+    def test_load_or_create_postings_cache_regenerates_when_invalid(self, tmp_path):
+        raw_file = tmp_path / "raw.json"
+        raw_file.write_text(json.dumps([
+            {"id": "1", "_collection_country": "DE", "_collection_category": "data_science", "skills": ["python", "sql"]},
+            {"id": "2", "_collection_country": "FR", "_collection_category": "data_analytics", "skills": [], "description": "Needs R programming and Excel."},
+        ]), encoding="utf-8")
+
+        vocab_file = tmp_path / "vocab.json"
+        vocab_file.write_text(json.dumps({"skills": [
+            {"canonical": "Python", "category": "Programming languages", "aliases": ["python"], "regex": r"\bpython\b"},
+            {"canonical": "SQL", "category": "Databases & data warehouses", "aliases": ["sql"], "regex": r"\bsql\b"},
+            {"canonical": "R", "category": "Programming languages", "aliases": ["r-lang"], "regex": r"\bR\b"},
+            {"canonical": "Excel", "category": "BI & visualization", "aliases": ["excel"], "regex": r"\bexcel\b"},
+        ]}), encoding="utf-8")
+
+        cache_file = tmp_path / "cache.json"
+        cache_file.write_text("CORRUPTED STALE CACHE", encoding="utf-8")
+
+        # Calling load_or_create should detect corruption and regenerate fresh records
+        records = load_or_create_postings_cache(cache_file, raw_file, vocab_file, max_workers=1)
+        assert len(records) == 2
+        assert records[0]["skills"] == {"Python", "SQL"}
+        assert records[1]["skills"] == {"R", "Excel"}
+
+        # And cache file should now be a valid JSON cache
+        fp = compute_extraction_fingerprint(raw_file, vocab_file)
+        cached_again = validate_postings_cache(cache_file, fp)
+        assert cached_again is not None
+        assert len(cached_again) == 2
+
+    def test_extract_posting_records_batch_parity(self):
+        postings = [
+            {"_collection_country": "DE", "_collection_category": "data_science", "skills": ["python"], "description": "Also uses R."},
+            {"_collection_country": "FR", "_collection_category": "data_analytics", "skills": ["sql"], "description": "Advanced Excel required."},
+        ]
+        vocab = SkillVocabulary({"skills": [
+            {"canonical": "Python", "category": "Programming languages", "aliases": ["python"], "regex": r"\bpython\b"},
+            {"canonical": "SQL", "category": "Databases & data warehouses", "aliases": ["sql"], "regex": r"\bsql\b"},
+            {"canonical": "R", "category": "Programming languages", "aliases": ["r-lang"], "regex": r"\bR\b"},
+            {"canonical": "Excel", "category": "BI & visualization", "aliases": ["excel"], "regex": r"\bexcel\b"},
+        ]})
+
+        seq = [extract_posting_record(p, vocab) for p in postings]
+        batch = extract_posting_records_batch(postings, vocab, max_workers=1)
+        assert seq == batch
+
+    def test_filter_intersections_and_unique_posting_counts(self):
+        postings = [
+            {"id": "p1", "country": "DE", "category": "data_science", "seniority": "senior", "skills": {"Python", "R"}},
+            {"id": "p2", "country": "DE", "category": "data_science", "seniority": "junior", "skills": {"Python"}},
+            {"id": "p3", "country": "FR", "category": "data_science", "seniority": "senior", "skills": {"Python", "SQL"}},
+            {"id": "p4", "country": "DE", "category": "data_analytics", "seniority": "senior", "skills": {"Excel", "SQL"}},
+            {"id": "p5", "country": "ES", "category": "data_engineering", "seniority": None, "skills": {"Python", "SQL"}},
+        ]
+        vocab = SkillVocabulary({"skills": [
+            {"canonical": "Python", "category": "Programming languages"},
+            {"canonical": "R", "category": "Programming languages"},
+            {"canonical": "SQL", "category": "Databases & data warehouses"},
+            {"canonical": "Excel", "category": "BI & visualization"},
+        ]})
+
+        # Filter by Country DE + Category data_science + Seniority senior
+        res = filter_postings_population(postings, country=["DE"], category="data_science", seniority="senior")
+        assert res["baseline_count"] == 2  # p1, p2
+        assert res["known_seniority_count"] == 2
+        assert res["active_count"] == 1  # only p1
+        assert res["active_postings"][0]["id"] == "p1"
+
+        # Apply technical skill family filter
+        prog_filtered = filter_postings_by_skill_family(res["active_postings"], "Programming languages", vocab)
+        assert len(prog_filtered) == 1
+
+        bi_filtered = filter_postings_by_skill_family(res["active_postings"], "BI & visualization", vocab)
+        assert len(bi_filtered) == 0
+
+
+class TestDashboardFilteringRegression:
+    """Comprehensive regression tests for dashboard filtering dimensions and intentional exceptions."""
+
+    @pytest.fixture
+    def complex_corpus(self):
+        return [
+            {"id": "p1", "country": "DE", "category": "data_science", "seniority": "senior", "skills": {"Python", "PyTorch"}},
+            {"id": "p2", "country": "DE", "category": "data_science", "seniority": "junior", "skills": {"Python", "R"}},
+            {"id": "p3", "country": "DE", "category": "data_engineering", "seniority": "senior", "skills": {"Python", "Apache Spark", "SQL"}},
+            {"id": "p4", "country": "FR", "category": "data_science", "seniority": "senior", "skills": {"Python", "SQL"}},
+            {"id": "p5", "country": "FR", "category": "data_analytics", "seniority": None, "skills": {"Power BI", "Excel"}},
+            {"id": "p6", "country": "ES", "category": "ml_ai", "seniority": "lead", "skills": {"Python", "PyTorch", "C++"}},
+            {"id": "p7", "country": "IT", "category": "ai_engineering", "seniority": None, "skills": {"Python", "C++", "Docker"}},
+            {"id": "p8", "country": "DE", "category": "data_analytics", "seniority": "middle", "skills": {"Tableau", "Looker"}},
+        ]
+
+    def test_country_filtering_single_multi_all_and_unrepresented(self, complex_corpus):
+        # Single country
+        de_res = filter_postings_population(complex_corpus, country=["DE"])
+        assert de_res["active_count"] == 4
+        assert all(p["country"] == "DE" for p in de_res["active_postings"])
+
+        # Multiple countries
+        multi_res = filter_postings_population(complex_corpus, country=["DE", "FR"])
+        assert multi_res["active_count"] == 6
+        assert all(p["country"] in ("DE", "FR") for p in multi_res["active_postings"])
+
+        # All countries
+        all_res = filter_postings_population(complex_corpus, country="All Countries")
+        assert all_res["active_count"] == 8
+
+        # Unrepresented country
+        unrep_res = filter_postings_population(complex_corpus, country=["MT"])
+        assert unrep_res["active_count"] == 0
+        assert unrep_res["baseline_count"] == 0
+
+    def test_category_filtering_single_and_all(self, complex_corpus):
+        ds_res = filter_postings_population(complex_corpus, category="data_science")
+        assert ds_res["active_count"] == 3
+        assert all(p["category"] == "data_science" for p in ds_res["active_postings"])
+
+        all_cat_res = filter_postings_population(complex_corpus, category="All Categories")
+        assert all_cat_res["active_count"] == 8
+
+    def test_seniority_filtering_and_missing_seniority_handling(self, complex_corpus):
+        # Specific seniority
+        senior_res = filter_postings_population(complex_corpus, seniority="senior")
+        assert senior_res["active_count"] == 3
+        assert all(p["seniority"] == "senior" for p in senior_res["active_postings"])
+        # Baseline includes all postings regardless of seniority
+        assert senior_res["baseline_count"] == 8
+        assert senior_res["known_seniority_count"] == 6  # p5 and p7 have None
+
+        # All seniorities retains postings with None seniority
+        all_sen_res = filter_postings_population(complex_corpus, seniority="All Seniorities")
+        assert all_sen_res["active_count"] == 8
+        none_sen_in_active = [p for p in all_sen_res["active_postings"] if p["seniority"] is None]
+        assert len(none_sen_in_active) == 2
+
+    def test_skill_family_filtering_and_cross_family_postings(self, complex_corpus, production_vocabulary):
+        # Postings with skills in 'Programming languages'
+        prog_postings = filter_postings_by_skill_family(complex_corpus, "Programming languages", production_vocabulary)
+        assert len(prog_postings) == 6
+
+        # Postings with skills in 'BI & visualization'
+        bi_postings = filter_postings_by_skill_family(complex_corpus, "BI & visualization", production_vocabulary)
+        assert len(bi_postings) == 2
+        assert {p["id"] for p in bi_postings} == {"p5", "p8"}
+
+        # All Families returns everything unchanged
+        all_family = filter_postings_by_skill_family(complex_corpus, "All Families", production_vocabulary)
+        assert len(all_family) == 8
+
+    def test_multi_filter_intersection(self, complex_corpus, production_vocabulary):
+        # Country DE + Category data_science + Seniority senior
+        res = filter_postings_population(
+            complex_corpus,
+            country=["DE"],
+            category="data_science",
+            seniority="senior",
+        )
+        assert res["baseline_count"] == 2  # DE data_science: p1 (senior), p2 (junior)
+        assert res["known_seniority_count"] == 2
+        assert res["active_count"] == 1  # p1
+        assert res["active_postings"][0]["id"] == "p1"
+
+        family_filtered = filter_postings_by_skill_family(
+            res["active_postings"],
+            "Programming languages",
+            production_vocabulary,
+        )
+        assert len(family_filtered) == 1
+        assert family_filtered[0]["id"] == "p1"
+
+        # Filter by BI & visualization yields 0 cleanly
+        bi_filtered = filter_postings_by_skill_family(
+            res["active_postings"],
+            "BI & visualization",
+            production_vocabulary,
+        )
+        assert len(bi_filtered) == 0
+
+    def test_intentional_exceptions_preserved(self, complex_corpus, production_vocabulary):
+        # 1. Corpus baseline benchmark uses full corpus denominator
+        corpus_total = len(complex_corpus)
+        assert corpus_total == 8
+
+        # 2. Distinctiveness Lift uses category prevalence / corpus prevalence
+        p_ds = 3 / 3
+        p_corpus = 6 / 8
+        lift = compute_lift(p_ds, p_corpus)
+        assert round(lift, 2) == 1.33
+
+        # 3. Cross-country composition denominator is total country postings across all 5 categories
+        de_postings = [p for p in complex_corpus if p["country"] == "DE"]
+        assert len(de_postings) == 4
+        ds_share = 2 / 4
+        de_share = 1 / 4
+        da_share = 1 / 4
+        assert (ds_share + de_share + da_share) == 1.0

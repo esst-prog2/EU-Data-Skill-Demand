@@ -7,13 +7,17 @@ skill distinctiveness (lift), support-based noise filtering, and geographic thre
 
 from __future__ import annotations
 
+from collections import Counter
+import concurrent.futures
+from datetime import datetime, timezone
+import hashlib
 import json
 import math
 import os
 import re
 import tempfile
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Set, Tuple
+from typing import Any, Dict, Iterable, List, Sequence, Set, Tuple
 
 
 # ==============================================================================
@@ -85,6 +89,33 @@ SKILL_FAMILIES: Tuple[str, ...] = (
     "Cloud & infrastructure",
     "ML/AI frameworks & tools",
 )
+
+
+# ==============================================================================
+# Canonical Seniority Levels & Display Labels
+# ==============================================================================
+
+SENIORITY_LEVELS: Tuple[str, ...] = (
+    "senior",
+    "middle",
+    "junior",
+    "lead",
+    "staff",
+    "principal",
+    "intern",
+    "c_level",
+)
+
+SENIORITY_DISPLAY_NAMES: Dict[str, str] = {
+    "senior": "Senior",
+    "middle": "Mid-level",
+    "junior": "Junior",
+    "lead": "Lead",
+    "staff": "Staff",
+    "principal": "Principal",
+    "intern": "Intern",
+    "c_level": "C-Level",
+}
 
 
 class SkillVocabulary:
@@ -484,3 +515,393 @@ def atomic_dump_json(
             except OSError:
                 pass
         raise
+
+
+def extract_posting_record(
+    posting: Dict[str, Any],
+    vocabulary: SkillVocabulary | None = None,
+) -> Dict[str, Any]:
+    """
+    Extracts a normalized, lightweight posting record containing id, country, category,
+    seniority, and canonical skill tags.
+    """
+    if not isinstance(posting, dict):
+        return {"id": "", "country": None, "category": None, "seniority": None, "skills": set()}
+
+    ident = (
+        posting.get("id")
+        or posting.get("public_slug")
+        or posting.get("slug")
+        or ""
+    )
+
+    country = posting.get("_collection_country")
+    category = posting.get("_collection_category")
+
+    sen = posting.get("seniority")
+    if not sen and isinstance(posting.get("enrichment"), dict):
+        sen = posting["enrichment"].get("seniority")
+    if sen and not isinstance(sen, str):
+        sen = None
+    elif isinstance(sen, str):
+        sen = sen.strip().lower()
+        if sen not in SENIORITY_LEVELS:
+            sen = None
+
+    detected_skills: Set[str] = set()
+    if vocabulary is not None:
+        detected_skills = extract_skills_from_posting(posting, vocabulary)
+
+    return {
+        "id": str(ident) if ident else "",
+        "country": country if isinstance(country, str) and country.strip() else None,
+        "category": category if isinstance(category, str) and category.strip() else None,
+        "seniority": sen,
+        "skills": detected_skills,
+    }
+
+
+def filter_postings_population(
+    postings: list[Dict[str, Any]],
+    country: str | Sequence[str] | None = None,
+    category: str | None = None,
+    seniority: str | None = None,
+) -> Dict[str, Any]:
+    """
+    Applies global filters to establish the analytical population.
+
+    Computes:
+    - pre-seniority baseline (matching country/countries and category)
+    - baseline postings count and known seniority coverage with explicit denominator
+    - active population (matching country/countries, category, and seniority)
+
+    Returns dictionary with:
+    - baseline_postings: list of postings matching country & category
+    - baseline_count: total postings in pre-seniority baseline
+    - known_seniority_count: postings in baseline with non-null seniority
+    - seniority_coverage_pct: percentage of baseline with reported seniority
+    - active_postings: postings in final filtered analytical population
+    - active_count: count of postings in active population
+    """
+    country_set: set[str] | None = None
+    if country and country not in ("All", "All Countries"):
+        if isinstance(country, str):
+            country_set = {country}
+        elif isinstance(country, (list, tuple, set)):
+            country_set = set(c for c in country if c and c not in ("All", "All Countries"))
+            if not country_set:
+                country_set = None
+
+    baseline: list[Dict[str, Any]] = []
+    for p in postings:
+        if country_set is not None:
+            if p.get("country") not in country_set:
+                continue
+        if category and category not in ("All", "All Categories"):
+            if p.get("category") != category:
+                continue
+        baseline.append(p)
+
+    baseline_count = len(baseline)
+    known_seniority_count = sum(1 for p in baseline if p.get("seniority") is not None)
+    seniority_coverage_pct = (
+        round((known_seniority_count / baseline_count) * 100, 1)
+        if baseline_count > 0
+        else 0.0
+    )
+
+    if seniority and seniority not in ("All", "All Seniorities"):
+        active = [p for p in baseline if p.get("seniority") == seniority]
+    else:
+        active = baseline
+
+    return {
+        "baseline_postings": baseline,
+        "baseline_count": baseline_count,
+        "known_seniority_count": known_seniority_count,
+        "seniority_coverage_pct": seniority_coverage_pct,
+        "active_postings": active,
+        "active_count": len(active),
+    }
+
+
+def compute_population_kpis(
+    active_postings: list[Dict[str, Any]],
+    corpus_total: int,
+    active_skills_stats: list[Dict[str, Any]],
+    selected_countries_count: int | None = None,
+) -> Dict[str, Any]:
+    """
+    Computes four core dashboard KPIs from the active analytical population.
+    """
+    active_count = len(active_postings)
+    represented_countries = len(set(p["country"] for p in active_postings if p.get("country")))
+    if active_skills_stats and any("count" in s for s in active_skills_stats):
+        distinct_skills_count = sum(1 for s in active_skills_stats if s.get("count", 0) >= 1)
+    else:
+        distinct_skills_count = len(set(s for p in active_postings for s in p.get("skills", set())))
+
+    qualified_skills_count = sum(
+        1 for s in active_skills_stats
+        if s.get("is_eligible_distinctive", False)
+    )
+
+    corpus_share_pct = (
+        round((active_count / corpus_total) * 100, 1)
+        if corpus_total > 0
+        else 0.0
+    )
+
+    return {
+        "active_postings_count": active_count,
+        "corpus_share_pct": corpus_share_pct,
+        "represented_countries_count": represented_countries,
+        "selected_countries_count": selected_countries_count if selected_countries_count is not None else 27,
+        "detected_skills_count": distinct_skills_count,
+        "qualified_distinctive_count": qualified_skills_count,
+    }
+
+
+def compute_population_skill_stats(
+    active_postings: list[Dict[str, Any]],
+    corpus_skill_counts: Dict[str, int],
+    corpus_total: int,
+    vocabulary: SkillVocabulary,
+) -> list[Dict[str, Any]]:
+    """
+    Computes frequency, prevalence, corpus baseline comparison, and Lift for all
+    canonical skills in the active population.
+    """
+    active_total = len(active_postings)
+    skill_counts: Counter[str] = Counter()
+    for p in active_postings:
+        for skill in p.get("skills", set()):
+            skill_counts[skill] += 1
+
+    stats: list[Dict[str, Any]] = []
+    for skill_entry in vocabulary.skills:
+        canonical = skill_entry["canonical"]
+        group = skill_entry["category"]
+        cnt = skill_counts.get(canonical, 0)
+
+        prev = compute_prevalence(cnt, active_total)
+        corpus_cnt = corpus_skill_counts.get(canonical, 0)
+        corpus_prev = compute_prevalence(corpus_cnt, corpus_total)
+        lift = compute_lift(prev, corpus_prev)
+
+        is_eligible = (
+            cnt >= 20
+            and prev >= 0.015
+            and lift > 1.0
+        )
+
+        stats.append({
+            "canonical": canonical,
+            "skill_group": group,
+            "count": cnt,
+            "prevalence": prev,
+            "prevalence_pct": round(prev * 100, 1),
+            "lift": round(lift, 2),
+            "is_eligible_distinctive": is_eligible,
+        })
+
+    stats.sort(key=lambda s: (-s["count"], s["canonical"]))
+    return stats
+def get_skills_for_family(vocabulary: SkillVocabulary, family: str | None) -> set[str]:
+    """
+    Returns the set of canonical skill names belonging to the specified technical family.
+    If family is None or 'All Families', returns an empty set.
+    """
+    if not family or family in ("All", "All Families"):
+        return set()
+    return set(s["canonical"] for s in vocabulary.skills if s.get("category") == family)
+
+
+def filter_postings_by_skill_family(
+    postings: list[Dict[str, Any]],
+    family: str | None,
+    vocabulary: SkillVocabulary,
+) -> list[Dict[str, Any]]:
+    """
+    Filters postings to those requiring at least one skill from the specified technical family.
+    If family is None or 'All Families', returns all postings unchanged.
+    Each posting belongs to exactly one occupational category, so category counts sum to total.
+    """
+    if not family or family in ("All", "All Families"):
+        return postings
+    target_skills = get_skills_for_family(vocabulary, family)
+    if not target_skills:
+        return postings
+    return [p for p in postings if bool(p.get("skills", set()) & target_skills)]
+
+# ==============================================================================
+# Postings Cache & Fingerprint Integrity Management
+# ==============================================================================
+
+EXTRACTION_PIPELINE_VERSION: str = "2026-10-30-hybrid-v2"
+
+
+def compute_file_sha256(path: Path | str) -> str:
+    """Computes SHA-256 hexadecimal digest of a file in 1MB chunks. Returns empty string if file missing."""
+    p = Path(path)
+    if not p.is_file():
+        return ""
+    h = hashlib.sha256()
+    with open(p, "rb") as f:
+        while chunk := f.read(1024 * 1024):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def compute_extraction_fingerprint(
+    raw_path: Path | str | None,
+    vocab_path: Path | str | None,
+    pipeline_version: str = EXTRACTION_PIPELINE_VERSION,
+) -> Dict[str, str]:
+    """Computes a cryptographically strong fingerprint of raw data, vocabulary, and extractor version."""
+    return {
+        "pipeline_version": str(pipeline_version),
+        "raw_sha256": compute_file_sha256(raw_path) if raw_path is not None else "",
+        "vocab_sha256": compute_file_sha256(vocab_path) if vocab_path is not None else "",
+    }
+
+
+def validate_postings_cache(
+    cache_path: Path | str,
+    expected_fingerprint: Dict[str, str],
+) -> list[Dict[str, Any]] | None:
+    """
+    Validates the cached postings against the expected fingerprint.
+    Returns the list of posting records if valid, or None if invalid/stale/corrupted.
+    """
+    p = Path(cache_path)
+    if not p.is_file():
+        return None
+
+    try:
+        with open(p, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except Exception:
+        return None
+
+    if not isinstance(data, dict):
+        return None
+
+    cached_fp = data.get("fingerprint")
+    if not isinstance(cached_fp, dict):
+        return None
+
+    for key, expected_val in expected_fingerprint.items():
+        if expected_val and cached_fp.get(key) != expected_val:
+            return None
+
+    raw_records = data.get("records")
+    if not isinstance(raw_records, list):
+        return None
+
+    records: list[Dict[str, Any]] = []
+    for r in raw_records:
+        if isinstance(r, dict):
+            raw_skills = r.get("skills") or []
+            records.append({
+                "id": str(r.get("id") or ""),
+                "country": r.get("country"),
+                "category": r.get("category"),
+                "seniority": r.get("seniority"),
+                "skills": set(raw_skills) if isinstance(raw_skills, (list, tuple, set)) else set(),
+            })
+    return records
+
+
+def save_postings_cache(
+    cache_path: Path | str,
+    records: list[Dict[str, Any]],
+    fingerprint: Dict[str, str],
+) -> None:
+    """Atomically saves extracted posting records and their provenance fingerprint."""
+    serializable = {
+        "fingerprint": fingerprint,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "postings_count": len(records),
+        "records": [
+            {
+                "id": str(r.get("id") or ""),
+                "country": r.get("country"),
+                "category": r.get("category"),
+                "seniority": r.get("seniority"),
+                "skills": sorted(list(r.get("skills", set()))),
+            }
+            for r in records
+        ],
+    }
+    atomic_dump_json(serializable, cache_path)
+
+
+def _extract_posting_records_worker(args: tuple[list[Dict[str, Any]], SkillVocabulary]) -> list[Dict[str, Any]]:
+    """Worker function for parallel posting extraction in ProcessPoolExecutor."""
+    chunk, vocab = args
+    return [extract_posting_record(p, vocab) for p in chunk]
+
+
+def extract_posting_records_batch(
+    postings: list[Dict[str, Any]],
+    vocabulary: SkillVocabulary,
+    max_workers: int | None = None,
+) -> list[Dict[str, Any]]:
+    """
+    Extracts normalized posting records from raw postings.
+    Uses multi-processing for large datasets (>1000 items) when multiple cores are available,
+    falling back seamlessly to sequential processing.
+    """
+    if not postings:
+        return []
+
+    workers = max_workers or min(16, os.cpu_count() or 4)
+    if len(postings) <= 1000 or workers <= 1:
+        return [extract_posting_record(p, vocabulary) for p in postings]
+
+    chunk_size = (len(postings) + workers - 1) // workers
+    chunks = [(postings[i:i + chunk_size], vocabulary) for i in range(0, len(postings), chunk_size)]
+
+    try:
+        records: list[Dict[str, Any]] = []
+        with concurrent.futures.ProcessPoolExecutor(max_workers=workers) as executor:
+            for chunk_res in executor.map(_extract_posting_records_worker, chunks):
+                records.extend(chunk_res)
+        return records
+    except Exception:
+        # Fallback to single-threaded if process pool fails
+        return [extract_posting_record(p, vocabulary) for p in postings]
+
+
+def load_or_create_postings_cache(
+    cache_path: Path | str,
+    raw_path: Path | str,
+    vocab_path: Path | str,
+    max_workers: int | None = None,
+) -> list[Dict[str, Any]]:
+    """
+    Loads posting records from cache if fresh and valid; otherwise extracts from raw data,
+    saves the cache atomically with updated fingerprints, and returns the records.
+    """
+    expected_fingerprint = compute_extraction_fingerprint(raw_path, vocab_path)
+    cached_records = validate_postings_cache(cache_path, expected_fingerprint)
+    if cached_records is not None:
+        return cached_records
+
+    raw_file = Path(raw_path)
+    if not raw_file.is_file():
+        raise FileNotFoundError(f"Raw postings file not found: {raw_file}")
+
+    with open(raw_file, "r", encoding="utf-8") as f:
+        raw_postings = json.load(f)
+
+    vocab = SkillVocabulary.load_from_file(vocab_path) if Path(vocab_path).is_file() else SkillVocabulary({"skills": []})
+    records = extract_posting_records_batch(raw_postings, vocab, max_workers=max_workers)
+
+    try:
+        save_postings_cache(cache_path, records, expected_fingerprint)
+    except Exception:
+        pass
+
+    return records

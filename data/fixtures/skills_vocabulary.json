@@ -56,7 +56,7 @@
         "c++",
         "cpp"
       ],
-      "regex": "\\bc\\+\\+\\b|\\bcpp\\b"
+      "regex": "\\bc\\+\\+(?!\\+)|\\bcpp\\b"
     },
     {
       "canonical": "Julia",

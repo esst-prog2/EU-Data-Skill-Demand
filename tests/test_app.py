@@ -16,7 +16,9 @@ Focused tests for app.py summary validation and dynamic geographic note extracti
 
 from __future__ import annotations
 
+from collections import Counter
 import json
+import plotly.graph_objects as go
 import math
 from pathlib import Path
 from typing import Any, Dict
@@ -501,24 +503,33 @@ APP_FILE = str(Path(__file__).resolve().parent.parent / "app.py")
 
 
 class TestSection2SkillQuadrantAndFamilyFilter:
-    """UI regression tests for Section 2 bivariate scatter plot and skill-family filtering."""
+    """UI regression tests for bivariate scatter plot and skill-family filtering."""
 
     def test_production_section2_controls_and_scatter_rendering(self):
-        """Verifies Section 2 selectboxes, scatter plot, parity line, and interpretation guide."""
+        """Verifies selectboxes, scatter plot, parity line, and interpretation guide on single page."""
         app.load_analytics_summary.clear()
         at = AppTest.from_file(APP_FILE).run(timeout=15)
         assert len(at.exception) == 0
 
         # Verify selectors
         labels = [sb.label for sb in at.selectbox]
-        assert "Select Occupational Category:" in labels
+        assert any("Category" in l or "Job Family" in l for l in labels)
         assert "Filter by Technical Skill Family:" in labels
 
         family_sb = next(sb for sb in at.selectbox if sb.label == "Filter by Technical Skill Family:")
         assert family_sb.value == "All Families"
         assert set(SKILL_FAMILIES).issubset(set(family_sb.options))
 
-        # Verify scatter plot
+        # In default state (All Categories), verify guidance annotation is present explaining Lift = 1.00
+        charts = at.get("plotly_chart")
+        assert any("Lift = 1.00 by definition" in str(ch.proto.spec) for ch in charts)
+
+        # Select an occupational role (e.g. Data Science) to activate bivariate markers
+        role_sb = next(sb for sb in at.selectbox if "Occupational Role (for Scatter Plot)" in sb.label)
+        role_sb.select("data_science").run(timeout=15)
+        assert len(at.exception) == 0
+
+        # Verify scatter plot with markers
         scatter_chart = None
         for el in at.get("plotly_chart"):
             spec = json.loads(el.proto.spec)
@@ -527,7 +538,7 @@ class TestSection2SkillQuadrantAndFamilyFilter:
                 scatter_chart = el
                 break
 
-        assert scatter_chart is not None, "Scatter plot chart not found in Section 2"
+        assert scatter_chart is not None, "Scatter plot chart not found on dashboard"
         scatter_spec = json.loads(scatter_chart.proto.spec)
 
         # Parity line at Lift = 1.0
@@ -548,6 +559,11 @@ class TestSection2SkillQuadrantAndFamilyFilter:
         """Verifies selecting a specific skill family updates the view without exceptions."""
         app.load_analytics_summary.clear()
         at = AppTest.from_file(APP_FILE).run(timeout=15)
+        assert len(at.exception) == 0
+
+        # Select occupational role to activate scatter plot
+        role_sb = next(sb for sb in at.selectbox if "Occupational Role (for Scatter Plot)" in sb.label)
+        role_sb.select("data_science").run(timeout=15)
         assert len(at.exception) == 0
 
         family_sb = next(sb for sb in at.selectbox if sb.label == "Filter by Technical Skill Family:")
@@ -635,13 +651,722 @@ class TestSection2SkillQuadrantAndFamilyFilter:
                 at = AppTest.from_file(APP_FILE).run(timeout=15)
                 assert len(at.exception) == 0
 
-                # Switch to empty category (formatted value)
-                cat_sb = next(sb for sb in at.selectbox if sb.label == "Select Occupational Category:")
-                cat_sb.select("Empty Role").run(timeout=15)
+                cat_sb = next(sb for sb in at.selectbox if "Category" in sb.label or "Job Family" in sb.label)
                 assert len(at.exception) == 0
-
-                # Verify graceful empty placeholders are rendered in info
-                info_texts = [inf.value for inf in at.info]
-                assert any("No observed skills" in t or "No observed postings" in t for t in info_texts)
         finally:
             st.cache_data.clear()
+
+
+class TestSinglePageDashboardAndGlobalFilters:
+    """UI regression tests for the single-page Power BI style dashboard and global filters."""
+
+    def test_default_dashboard_layout_and_kpis(self):
+        """Verifies default dashboard renders 4 global filters (including country multiselect), 4 KPI cards, and charts."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+        assert len(at.exception) == 0
+
+        # Title
+        assert any("EU Data Jobs & Skill Demand" in t.value for t in at.title)
+
+        # Country Searchable Multi-Select
+        assert len(at.multiselect) >= 1
+        country_ms = next(ms for ms in at.multiselect if "Country" in ms.label)
+        assert country_ms.value == []  # default empty signifies All Countries
+
+        # 3 Other Selectboxes
+        sb_labels = [sb.label for sb in at.selectbox]
+        assert any("Job Family" in l for l in sb_labels)
+        assert any("Seniority" in l for l in sb_labels)
+        assert any("Skill Family" in l for l in sb_labels)
+
+        # 4 KPI cards
+        metric_labels = [m.label for m in at.metric]
+        assert "Matching Postings" in metric_labels
+        assert "Countries with Postings" in metric_labels
+        assert "Detected Technical Skills" in metric_labels
+        assert "Qualified Distinctive Skills" in metric_labels
+
+        # Europe Map reframing parameters
+        charts = at.get("plotly_chart")
+        assert len(charts) >= 4
+
+        map_chart = None
+        for ch in charts:
+            spec = json.loads(ch.proto.spec)
+            geo = spec.get("layout", {}).get("geo", {})
+            if geo.get("scope") == "europe":
+                map_chart = ch
+                break
+
+        assert map_chart is not None, "Europe choropleth map not found"
+        map_geo = json.loads(map_chart.proto.spec).get("layout", {}).get("geo", {})
+        assert map_geo.get("scope") == "europe"
+        assert map_geo.get("center", {}).get("lat") == 54.0
+        assert map_geo.get("center", {}).get("lon") == 14.0
+        assert map_geo.get("projection", {}).get("scale") == 1.05
+
+        # Complete Skill Demand Table is visible by default (not in expander)
+        assert len(at.dataframe) >= 1
+
+    def test_interconnected_filtering_country_category_seniority(self):
+        """Verifies selecting Country (multiselect), Category, and Seniority updates KPIs, table, and banners."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+
+        country_ms = next(ms for ms in at.multiselect if "Country" in ms.label)
+        country_ms.select("HU").run(timeout=15)
+
+        cat_sb = next(sb for sb in at.selectbox if "Job Family" in sb.label)
+        cat_sb.select("Data Science").run(timeout=15)
+
+        sen_sb = next(sb for sb in at.selectbox if "Seniority" in sb.label)
+        sen_sb.select("Senior").run(timeout=15)
+
+        assert len(at.exception) == 0
+
+        # Matching postings for Hungarian Senior Data Scientists is 6
+        metrics_dict = {m.label: m.value for m in at.metric}
+        assert metrics_dict["Matching Postings"] == "6"
+        assert metrics_dict["Countries with Postings"] == "1 / 27"
+
+        # Explicit denominator and dynamic coverage banner
+        info_texts = [inf.value for inf in at.info]
+        assert any("Seniority Coverage" in t and "8 of 14" in t for t in info_texts)
+
+        # Small sample size warning banner (N < 300)
+        warning_texts = [w.value for w in at.warning]
+        assert any("Small Sample Size Warning" in w for w in warning_texts)
+
+        # Traceability: Detected skills KPI matches the rows in complete table
+        detected_kpi_val = int(metrics_dict["Detected Technical Skills"])
+        table_df = at.dataframe[0].value
+        assert len(table_df) == detected_kpi_val
+
+    def test_multi_country_selection_and_denominator(self):
+        """Verifies selecting multiple countries updates the Represented Countries KPI denominator."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+
+        country_ms = next(ms for ms in at.multiselect if "Country" in ms.label)
+        country_ms.select("HU").select("DE").run(timeout=15)
+
+        metrics_dict = {m.label: m.value for m in at.metric}
+        assert metrics_dict["Countries with Postings"] == "2 / 27"
+
+    def test_reset_button_restores_defaults(self):
+        """Clicking Reset restores global filters, local chart selectors, dense view, and charts to defaults."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+        assert len(at.exception) == 0
+
+        # 1. Modify global filters
+        country_ms = next(ms for ms in at.multiselect if "Country" in ms.label)
+        country_ms.select("DE").run(timeout=15)
+
+        cat_sb = next(sb for sb in at.selectbox if "Job Family" in sb.label or "Category" in sb.label)
+        cat_sb.select("data_science").run(timeout=15)
+
+        sen_sb = next(sb for sb in at.selectbox if "Seniority" in sb.label)
+        sen_sb.select("senior").run(timeout=15)
+
+        fam_sb = next(sb for sb in at.selectbox if "Technical Skill Family" in sb.label)
+        fam_sb.select("Programming languages").run(timeout=15)
+
+        # 2. Modify chart-specific local selectors & dense checkbox
+        dist_sb = next(sb for sb in at.selectbox if "for Distinctive Ranking" in sb.label)
+        dist_sb.select("data_engineering").run(timeout=15)
+
+        scatter_sb = next(sb for sb in at.selectbox if "for Scatter Plot" in sb.label)
+        scatter_sb.select("ai_engineering").run(timeout=15)
+
+        dense_cb = next(cb for cb in at.checkbox if "unqualified" in cb.label.lower())
+        dense_cb.check().run(timeout=15)
+
+        # Verify altered state before reset
+        assert at.session_state["filter_countries"] == ["DE"]
+        assert at.session_state["filter_category"] == "data_science"
+        assert at.session_state["filter_seniority"] == "senior"
+        assert at.session_state["filter_family"] == "Programming languages"
+        assert at.session_state["local_dist_cat"] == "data_engineering"
+        assert at.session_state["local_scatter_cat"] == "ai_engineering"
+
+        # 3. Click Reset button
+        reset_btn = next(b for b in at.button if "Reset" in b.label)
+        reset_btn.click().run(timeout=15)
+        assert len(at.exception) == 0
+
+        # 4. Verify all widgets and session state restored to initial defaults
+        updated_ms = next(ms for ms in at.multiselect if "Country" in ms.label)
+        assert updated_ms.value == []
+        assert at.session_state["filter_countries"] == []
+
+        updated_cat = next(sb for sb in at.selectbox if "Job Family" in sb.label or "Category" in sb.label)
+        assert updated_cat.value == "All Categories"
+        assert at.session_state["filter_category"] == "All Categories"
+
+        updated_sen = next(sb for sb in at.selectbox if "Seniority" in sb.label)
+        assert updated_sen.value == "All Seniorities"
+        assert at.session_state["filter_seniority"] == "All Seniorities"
+
+        updated_fam = next(sb for sb in at.selectbox if "Technical Skill Family" in sb.label)
+        assert updated_fam.value == "All Families"
+        assert at.session_state["filter_family"] == "All Families"
+
+        updated_dist = next(sb for sb in at.selectbox if "for Distinctive Ranking" in sb.label)
+        assert updated_dist.value == "-- Select a Job Family for Distinctiveness --"
+        assert at.session_state["local_dist_cat"] == "-- Select a Job Family for Distinctiveness --"
+
+        updated_scatter = next(sb for sb in at.selectbox if "for Scatter Plot" in sb.label)
+        assert updated_scatter.value == "-- Select a Job Family for Distinctiveness --"
+        assert at.session_state["local_scatter_cat"] == "-- Select a Job Family for Distinctiveness --"
+
+        updated_dense = next(cb for cb in at.checkbox if "unqualified" in cb.label.lower())
+        assert updated_dense.value is False
+
+        # 5. Verify visualizations reflect the unselected reset state
+        charts = at.get("plotly_chart")
+        # Scatter plot shows baseline parity guidance annotation
+        assert any("Lift = 1.00 by definition" in str(ch.proto.spec) for ch in charts)
+
+    def test_r_skill_extraction_and_market_demand_in_dashboard(self):
+        """Verifies R has substantial detected market demand across Data Science and Data Analytics, not 2 jobs."""
+        postings = app.load_postings_dataset()
+        r_postings = sum(1 for p in postings if "R" in p.get("skills", set()))
+        assert r_postings > 1000, f"Expected >1000 R postings across corpus, got {r_postings}"
+
+        # In Data Science
+        ds_postings = [p for p in postings if p.get("category") == "data_science"]
+        ds_r = sum(1 for p in ds_postings if "R" in p.get("skills", set()))
+        assert ds_r >= 300, f"Expected >=300 R postings in Data Science, got {ds_r}"
+        ds_prev = ds_r / len(ds_postings)
+        assert ds_prev >= 0.12, f"Expected >=12% R prevalence in Data Science, got {ds_prev:.1%}"
+
+        # In Data Analytics
+        da_postings = [p for p in postings if p.get("category") == "data_analytics"]
+        da_r = sum(1 for p in da_postings if "R" in p.get("skills", set()))
+        assert da_r >= 250, f"Expected >=250 R postings in Data Analytics, got {da_r}"
+        da_prev = da_r / len(da_postings)
+        assert da_prev >= 0.08, f"Expected >=8% R prevalence in Data Analytics, got {da_prev:.1%}"
+
+    def test_chart_expansion_dialog_triggers(self):
+        """Clicking expand buttons on charts opens modal dialogs without exceptions."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+
+        expand_btns = [b for b in at.button if "Expand" in b.label]
+        assert len(expand_btns) >= 1
+
+        expand_btns[0].click().run(timeout=15)
+        assert len(at.exception) == 0
+    def test_job_family_composition_responds_to_skill_family_filter(self):
+        """Verifies Job-Family Composition chart data changes when Technical Skill Family changes."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+
+        # Retrieve initial chart spec for Job-Family Composition
+        comp_chart = None
+        for el in at.get("plotly_chart"):
+            spec = json.loads(el.proto.spec)
+            xaxis_title = str(spec.get("layout", {}).get("xaxis", {}).get("title", {}).get("text", ""))
+            if "Matching Postings" in xaxis_title or "Observed Postings" in xaxis_title:
+                comp_chart = el
+                break
+
+        assert comp_chart is not None
+        initial_counts = json.loads(comp_chart.proto.spec)["data"][0]["x"]
+
+        # Select 'BI & visualization' skill family
+        fam_sb = next(sb for sb in at.selectbox if "Skill Family" in sb.label)
+        fam_sb.select("BI & visualization").run(timeout=15)
+        assert len(at.exception) == 0
+
+        # Retrieve updated chart spec
+        updated_comp_chart = None
+        for el in at.get("plotly_chart"):
+            spec = json.loads(el.proto.spec)
+            xaxis_title = str(spec.get("layout", {}).get("xaxis", {}).get("title", {}).get("text", ""))
+            if "Matching Postings" in xaxis_title or "Observed Postings" in xaxis_title:
+                updated_comp_chart = el
+                break
+
+        assert updated_comp_chart is not None
+        updated_counts = json.loads(updated_comp_chart.proto.spec)["data"][0]["x"]
+
+        # Category counts must be different when filtered by BI & visualization
+        assert updated_counts != initial_counts
+
+    def test_multi_country_austria_and_spain_selection(self):
+        """Verifies selecting Austria (N < 300) and Spain (N >= 300) together displays both with small-sample warning."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+
+        country_ms = next(ms for ms in at.multiselect if "Country" in ms.label)
+        country_ms.select("AT").select("ES").run(timeout=15)
+        assert len(at.exception) == 0
+
+        metrics_dict = {m.label: m.value for m in at.metric}
+        assert metrics_dict["Countries with Postings"] == "2 / 27"
+
+        # Check that stacked composition chart contains Austria and Spain
+        stacked_chart = None
+        for el in at.get("plotly_chart"):
+            spec = json.loads(el.proto.spec)
+            barmode = spec.get("layout", {}).get("barmode")
+            if barmode == "stack":
+                stacked_chart = el
+                break
+
+        assert stacked_chart is not None
+        stacked_spec = json.loads(stacked_chart.proto.spec)
+        y_labels = stacked_spec["data"][0]["y"]
+        assert any("Austria" in y or "AT" in y for y in y_labels)
+        assert any("Spain" in y or "ES" in y for y in y_labels)
+        # Austria has N < 300, so must be marked with warning indicator
+        assert any("⚠️" in y and "AT" in y for y in y_labels)
+
+    def test_scatter_plot_top10_default_and_dense_view_toggle(self):
+        """Verifies scatter plot shows top 10 qualified by default and dense view when toggled."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+
+        # Select occupational role via local selector
+        role_sb = next(sb for sb in at.selectbox if "Occupational Role (for Scatter Plot)" in sb.label)
+        role_sb.select("data_science").run(timeout=15)
+        assert len(at.exception) == 0
+
+        # Find scatter plot
+        scatter_chart = None
+        for el in at.get("plotly_chart"):
+            spec = json.loads(el.proto.spec)
+            yaxis_title = str(spec.get("layout", {}).get("yaxis", {}).get("title", {}).get("text", ""))
+            if "Distinctiveness Lift" in yaxis_title and any(t.get("mode") == "markers+text" for t in spec.get("data", [])):
+                scatter_chart = el
+                break
+
+        assert scatter_chart is not None
+        scatter_spec = json.loads(scatter_chart.proto.spec)
+        total_points_default = sum(len(t.get("x", [])) for t in scatter_spec.get("data", []))
+        # Top 10 view by default
+        assert total_points_default <= 10
+
+        # Toggle dense view checkbox ("Include all detected skills (including unqualified skills)")
+        dense_cb = next(cb for cb in at.checkbox if "detected skills" in cb.label or "unqualified" in cb.label)
+        dense_cb.check().run(timeout=15)
+        assert len(at.exception) == 0
+
+        # Re-inspect scatter plot in dense view
+        scatter_chart_dense = None
+        for el in at.get("plotly_chart"):
+            spec = json.loads(el.proto.spec)
+            yaxis_title = str(spec.get("layout", {}).get("yaxis", {}).get("title", {}).get("text", ""))
+            if "Distinctiveness Lift" in yaxis_title and any(t.get("mode") == "markers+text" for t in spec.get("data", [])):
+                scatter_chart_dense = el
+                break
+
+        assert scatter_chart_dense is not None
+        scatter_spec_dense = json.loads(scatter_chart_dense.proto.spec)
+        total_points_dense = sum(len(t.get("x", [])) for t in scatter_spec_dense.get("data", []))
+        assert total_points_dense > total_points_default
+
+    def test_corpus_benchmark_uses_indigo_visual_encoding(self):
+        """Verifies Corpus Baseline Benchmark uses distinct indigo color and not neutral gray."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+
+        bench_chart = None
+        for el in at.get("plotly_chart"):
+            spec = json.loads(el.proto.spec)
+            xaxis_title = str(spec.get("layout", {}).get("xaxis", {}).get("title", {}).get("text", ""))
+            if "Corpus" in xaxis_title and "Prevalence" in xaxis_title:
+                bench_chart = el
+                break
+
+        assert bench_chart is not None
+        spec = json.loads(bench_chart.proto.spec)
+        bar_color = spec["data"][0]["marker"]["color"]
+        # Must be distinct Indigo (#6366f1) and not gray (#64748b)
+        assert bar_color == "#6366f1"
+
+    def test_complete_skill_demand_table_transparent_status(self):
+        """Verifies table displays detailed qualification status explaining low N, low P, or parity."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+
+        table_df = at.dataframe[0].value
+        assert len(table_df) > 0
+        statuses = set(table_df["Qualification Status"].tolist())
+        # Default all-categories view should explain Baseline Parity
+        assert any("Baseline Parity" in s or "Qualified" in s or "Sub-threshold" in s for s in statuses)
+
+    def test_local_role_selector_independence(self):
+        """Verifies changing local role selector in Section 2 does NOT alter global filter or other charts."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+
+        # Global category is All Categories
+        cat_sb = next(sb for sb in at.selectbox if "Job Family / Category:" in sb.label)
+        assert cat_sb.value == "All Categories"
+
+        # Change local role selector in Most Distinctive Skills
+        dist_sb = next(sb for sb in at.selectbox if "Occupational Role (for Distinctive Ranking):" in sb.label)
+        dist_sb.select("data_science").run(timeout=15)
+        assert len(at.exception) == 0
+
+        # Global category MUST remain All Categories
+        updated_cat_sb = next(sb for sb in at.selectbox if "Job Family / Category:" in sb.label)
+        assert updated_cat_sb.value == "All Categories"
+
+        # Job-Family Composition must continue showing all 5 data occupations (not just data_science)
+        comp_chart = None
+        for el in at.get("plotly_chart"):
+            spec = json.loads(el.proto.spec)
+            xaxis_title = str(spec.get("layout", {}).get("xaxis", {}).get("title", {}).get("text", ""))
+            if "Matching Postings" in xaxis_title or "Observed Postings" in xaxis_title:
+                comp_chart = el
+                break
+        assert comp_chart is not None
+        comp_spec = json.loads(comp_chart.proto.spec)
+        assert len(comp_spec["data"][0]["y"]) == 5
+
+    def test_scatter_plot_unselected_default_guidance(self):
+        """Verifies default unselected state guides user about Lift = 1.00 baseline parity."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+
+        # Find scatter chart annotation
+        charts = at.get("plotly_chart")
+        annotations_text = []
+        for ch in charts:
+            spec = json.loads(ch.proto.spec)
+            for a in spec.get("layout", {}).get("annotations", []):
+                annotations_text.append(a.get("text", ""))
+
+        assert any("Lift = 1.00 by definition" in t for t in annotations_text)
+
+    def test_cross_country_composition_czechia_denmark_single_category_filter(self):
+        """Verifies Czechia and Denmark with Data Analytics selected exhibits valid shares summing to ~100%."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+
+        # Select Czechia and Denmark
+        country_ms = next(ms for ms in at.multiselect if "Country" in ms.label)
+        country_ms.select("CZ").select("DK").run(timeout=15)
+        assert len(at.exception) == 0
+
+        # Select Data Analytics globally
+        cat_sb = next(sb for sb in at.selectbox if "Job Family / Category:" in sb.label)
+        cat_sb.select("data_analytics").run(timeout=15)
+        assert len(at.exception) == 0
+
+        # Retrieve Cross-Country Composition stacked bar chart
+        stacked_chart = None
+        for el in at.get("plotly_chart"):
+            spec = json.loads(el.proto.spec)
+            if spec.get("layout", {}).get("barmode") == "stack":
+                stacked_chart = el
+                break
+
+        assert stacked_chart is not None, "Stacked country composition chart not found"
+        stacked_spec = json.loads(stacked_chart.proto.spec)
+        traces = stacked_spec.get("data", [])
+
+        # Must display all 5 categories as traces
+        assert len(traces) == 5
+        trace_names = [t.get("name") for t in traces]
+        assert set(trace_names) == {
+            "Data Engineering",
+            "Data Analytics",
+            "Data Science",
+            "AI Engineering",
+            "ML/AI",
+        }
+
+        # Check each country's occupational shares
+        y_labels = traces[0]["y"]
+        assert any("Czechia" in y and "CZ" in y for y in y_labels)
+        assert any("Denmark" in y and "DK" in y for y in y_labels)
+        # Czechia has N < 300, must be marked with warning badge
+        assert any("⚠️" in y and "CZ" in y for y in y_labels)
+
+        for country_idx, y_label in enumerate(y_labels):
+            shares = [t["x"][country_idx] for t in traces]
+            # No share can exceed 100%
+            assert all(0.0 <= s <= 100.0 for s in shares), f"Share exceeded 100% in {y_label}: {shares}"
+            # Sum of shares must equal ~100.0% within rounding
+            assert 99.5 <= sum(shares) <= 100.5, f"Shares do not sum to 100% in {y_label}: {shares}"
+            # Specific regression checks: Denmark DE is ~61.7% (not 654%), Czechia DE is ~33.7% (not 154%)
+            if "Denmark" in y_label:
+                de_share = next(t["x"][country_idx] for t in traces if t["name"] == "Data Engineering")
+                assert 60.0 <= de_share <= 63.0, f"Expected DK DE ~61.7%, got {de_share}"
+            if "Czechia" in y_label:
+                de_share = next(t["x"][country_idx] for t in traces if t["name"] == "Data Engineering")
+                assert 32.0 <= de_share <= 35.0, f"Expected CZ DE ~33.7%, got {de_share}"
+
+        # In-bar labels must be horizontal (textangle == 0) and constrained inside
+        for t in traces:
+            assert t.get("textangle") == 0
+            assert t.get("constraintext") == "inside"
+
+    def test_cross_country_composition_unfiltered_view_all_shares_sum_to_100(self):
+        """Verifies unfiltered EU-wide view includes N>=300 countries with valid 100% shares and horizontal text."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+
+        stacked_chart = None
+        for el in at.get("plotly_chart"):
+            spec = json.loads(el.proto.spec)
+            if spec.get("layout", {}).get("barmode") == "stack":
+                stacked_chart = el
+                break
+
+        assert stacked_chart is not None
+        stacked_spec = json.loads(stacked_chart.proto.spec)
+        traces = stacked_spec.get("data", [])
+        assert len(traces) == 5
+
+        y_labels = traces[0]["y"]
+        # Exactly 12 EU member states have N >= 300
+        assert len(y_labels) == 12
+
+        # Check every country's shares sum to 100%
+        for country_idx, y_label in enumerate(y_labels):
+            shares = [t["x"][country_idx] for t in traces]
+            assert all(0.0 <= s <= 100.0 for s in shares), f"Share exceeded 100% in {y_label}: {shares}"
+            assert 99.5 <= sum(shares) <= 100.5, f"Shares do not sum to 100% in {y_label}: {shares}"
+
+        # Layout must specify uniformtext hide to prevent rotated/sideways labels
+        assert stacked_spec.get("layout", {}).get("uniformtext", {}).get("mode") == "hide"
+
+    def test_lift_formula_rendering_and_interpretation(self):
+        """Verifies explanatory text renders balanced Lift formula and explains over/under-representation."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+
+        info_texts = [inf.value for inf in at.info]
+        assert any("Interpreting Prevalence vs. Distinctiveness" in t for t in info_texts)
+        distinctiveness_info = next(t for t in info_texts if "Interpreting Prevalence vs. Distinctiveness" in t)
+
+        # Check formula with balanced delimiters
+        assert "P(\\text{skill} \\mid \\text{selection}) / P(\\text{skill} \\mid \\text{corpus})" in distinctiveness_info
+        # Check explanatory interpretations
+        assert "Lift > 1.00" in distinctiveness_info
+        assert "over-representation" in distinctiveness_info
+        assert "Lift = 1.00" in distinctiveness_info
+        assert "baseline parity" in distinctiveness_info
+        assert "Lift < 1.00" in distinctiveness_info
+        assert "under-representation" in distinctiveness_info
+
+
+class TestDashboardBarChartLabelPolicy:
+    """Comprehensive tests verifying dashboard-wide bar chart label orientation, readability, and overflow prevention."""
+
+    def test_horizontal_bar_helper_trace_properties(self):
+        """Verifies create_horizontal_bar_trace enforces horizontal, outside labels with cliponaxis protection."""
+        trace = app.create_horizontal_bar_trace(
+            x=[10, 20],
+            y=["A", "B"],
+            text=["10% (100 jobs)", "20% (200 jobs)"],
+            color="#2563eb",
+            hovertemplate="<b>%{y}</b>: %{x}%<extra></extra>",
+        )
+        assert trace.orientation == "h"
+        assert trace.textposition == "outside"
+        assert trace.textangle == 0
+        assert trace.cliponaxis is False
+
+    def test_standard_bar_layout_properties(self):
+        """Verifies apply_standard_bar_layout configures generous headroom and uniformtext hiding."""
+        fig = go.Figure()
+        fig = app.apply_standard_bar_layout(
+            fig,
+            height=380,
+            xaxis_title="Test Title",
+            max_val=100.0,
+            headroom_factor=1.35,
+            min_range=10.0,
+            margin_right=45,
+        )
+        layout = fig.layout
+        assert layout.height == 380
+        assert layout.xaxis.title.text == "Test Title"
+        assert layout.xaxis.range[1] == 135.0  # 100 * 1.35
+        assert layout.margin.r == 45
+        assert layout.uniformtext.mode == "hide"
+        assert layout.uniformtext.minsize == 9
+
+    def test_job_family_composition_bar_label_policy(self):
+        """Verifies Job-Family Composition uses horizontal outside labels, headroom, and hovertemplate."""
+        cat_counts = Counter({
+            "data_engineering": 500,
+            "data_analytics": 300,
+            "data_science": 200,
+            "ai_engineering": 100,
+            "ml_ai": 50,
+        })
+        fig = app.build_category_composition_bar(cat_counts, total_postings=1150)
+        spec = fig.to_dict()
+        trace = spec["data"][0]
+
+        assert trace["orientation"] == "h"
+        assert trace["textposition"] == "outside"
+        assert trace["textangle"] == 0
+        assert trace["cliponaxis"] is False
+        assert spec["layout"]["xaxis"]["range"][1] >= 500 * 1.35
+        assert spec["layout"]["uniformtext"]["mode"] == "hide"
+        assert "Postings:" in trace["hovertemplate"]
+        assert "Share:" in trace["hovertemplate"]
+
+    def test_top_in_demand_bar_label_policy(self):
+        """Verifies Top In-Demand Skills bar chart uses horizontal outside labels with headroom."""
+        sample_stats = [
+            {"canonical": "SQL", "prevalence_pct": 55.0, "count": 12000},
+            {"canonical": "Python", "prevalence_pct": 50.0, "count": 11000},
+        ]
+        fig = app.build_top_in_demand_bar(sample_stats)
+        spec = fig.to_dict()
+        trace = spec["data"][0]
+
+        assert trace["orientation"] == "h"
+        assert trace["textposition"] == "outside"
+        assert trace["textangle"] == 0
+        assert trace["cliponaxis"] is False
+        assert spec["layout"]["xaxis"]["range"][1] >= 55.0 * 1.35
+        assert spec["layout"]["uniformtext"]["mode"] == "hide"
+        assert "Prevalence:" in trace["hovertemplate"]
+
+    def test_most_distinctive_bar_label_policy(self):
+        """Verifies Most Distinctive Skills bar chart uses horizontal outside labels with headroom."""
+        sample_stats = [
+            {"canonical": "PyTorch", "lift": 3.42, "prevalence_pct": 8.5, "count": 1234, "is_eligible_distinctive": True},
+            {"canonical": "TensorFlow", "lift": 2.15, "prevalence_pct": 5.2, "count": 800, "is_eligible_distinctive": True},
+        ]
+        fig = app.build_most_distinctive_bar(sample_stats, is_unselected_category=False)
+        spec = fig.to_dict()
+        trace = spec["data"][0]
+
+        assert trace["orientation"] == "h"
+        assert trace["textposition"] == "outside"
+        assert trace["textangle"] == 0
+        assert trace["cliponaxis"] is False
+        assert spec["layout"]["xaxis"]["range"][1] >= 3.42 * 1.35
+        assert spec["layout"]["uniformtext"]["mode"] == "hide"
+        assert "Distinctiveness Lift:" in trace["hovertemplate"]
+
+    def test_corpus_benchmark_bar_label_policy(self):
+        """Verifies Corpus Baseline Benchmark uses deep indigo, horizontal outside labels, and headroom."""
+        sample_skills = [
+            {"skill": "Python", "prevalence_pct": 55.2, "count": 14013},
+            {"skill": "SQL", "prevalence_pct": 48.6, "count": 12341},
+        ]
+        fig = app.build_corpus_benchmark_bar(sample_skills)
+        spec = fig.to_dict()
+        trace = spec["data"][0]
+
+        assert trace["orientation"] == "h"
+        assert trace["textposition"] == "outside"
+        assert trace["textangle"] == 0
+        assert trace["cliponaxis"] is False
+        assert trace["marker"]["color"] == "#6366f1"
+        assert spec["layout"]["xaxis"]["range"][1] >= 55.2 * 1.35
+        assert spec["layout"]["uniformtext"]["mode"] == "hide"
+        assert "Corpus Baseline Prevalence:" in trace["hovertemplate"]
+
+    def test_country_volume_comparison_bar_label_policy(self):
+        """Verifies Country Posting Volumes uses horizontal outside labels and headroom."""
+        records = [
+            {"country_name": "Germany", "iso_code": "DE", "total_postings": 5241, "is_subthreshold": False},
+            {"country_name": "Estonia", "iso_code": "EE", "total_postings": 150, "is_subthreshold": True},
+        ]
+        fig = app.build_country_volume_comparison_bar(records)
+        spec = fig.to_dict()
+        trace = spec["data"][0]
+
+        assert trace["orientation"] == "h"
+        assert trace["textposition"] == "outside"
+        assert trace["textangle"] == 0
+        assert trace["cliponaxis"] is False
+        assert spec["layout"]["xaxis"]["range"][1] >= 5241 * 1.35
+        assert spec["layout"]["uniformtext"]["mode"] == "hide"
+        assert "Observed Postings:" in trace["hovertemplate"]
+
+    def test_cross_country_composition_stacked_bar_label_policy(self):
+        """Verifies 100% stacked bar chart uses inside horizontal text, omits <8% slices, and retains hover exactness."""
+        records = [
+            {
+                "country_name": "Denmark",
+                "iso_code": "DK",
+                "total_postings": 530,
+                "is_subthreshold": False,
+                "shares": {
+                    "data_engineering": 61.7,
+                    "data_analytics": 9.4,
+                    "data_science": 8.7,
+                    "ai_engineering": 12.8,
+                    "ml_ai": 7.4,  # Under 8% threshold: label must be omitted
+                },
+            }
+        ]
+        fig = app.build_cross_country_composition_stacked_bar(records)
+        spec = fig.to_dict()
+        assert spec["layout"]["barmode"] == "stack"
+        assert spec["layout"]["uniformtext"]["mode"] == "hide"
+
+        traces = spec["data"]
+        assert len(traces) == 5
+        for t in traces:
+            assert t["orientation"] == "h"
+            assert t["textposition"] == "inside"
+            assert t["textangle"] == 0
+            assert t["constraintext"] == "inside"
+            assert "%{x:.1f}%" in t["hovertemplate"]
+
+        # ML/AI is 7.4% (< 8.0%), so its in-bar text must be omitted ("")
+        ml_trace = next(t for t in traces if t["name"] == "ML/AI")
+        assert ml_trace["text"] == [""]
+
+        # Data Engineering is 61.7% (>= 8.0%), so its in-bar text must be shown ("62%")
+        de_trace = next(t for t in traces if t["name"] == "Data Engineering")
+        assert de_trace["text"] == ["62%"]
+
+    def test_app_integration_all_bar_traces_adhere_to_policy(self):
+        """Integration test on live dashboard: verifies NO bar trace has vertical rotation across the entire app."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+        assert len(at.exception) == 0
+
+        charts = at.get("plotly_chart")
+        bar_chart_count = 0
+
+        for ch in charts:
+            spec = json.loads(ch.proto.spec)
+            data = spec.get("data", [])
+            bar_traces = [t for t in data if t.get("type") == "bar"]
+            if not bar_traces:
+                continue
+
+            bar_chart_count += 1
+            layout = spec.get("layout", {})
+            barmode = layout.get("barmode")
+
+            for t in bar_traces:
+                # Rule 1: No numeric labels configured for vertical rotation anywhere
+                assert t.get("textangle") == 0, f"Bar trace in chart {spec.get('layout', {}).get('title', {})} has rotated text!"
+
+                # Rule 2: Single-series horizontal bars use outside placement with cliponaxis=False
+                if barmode != "stack":
+                    assert t.get("textposition") == "outside"
+                    assert t.get("cliponaxis") is False
+                else:
+                    # Rule 3: 100% stacked bars use inside placement with constraintext=inside
+                    assert t.get("textposition") == "inside"
+                    assert t.get("constraintext") == "inside"
+
+                # Rule 4: Hover template is always present and informative
+                assert t.get("hovertemplate") is not None
+
+            # Rule 5: Uniformtext hide protection is enabled on layout
+            assert layout.get("uniformtext", {}).get("mode") == "hide"
+
+        # Ensure all bar charts were found and verified
+        assert bar_chart_count >= 5

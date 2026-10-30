@@ -1,0 +1,53 @@
+canonical_skill,skill_family,hybrid_total,native_tag_total,regex_total,both_count,only_native_tag,only_regex,both_pct_of_hybrid,native_exclusive_pct,regex_exclusive_pct,native_coverage_pct_of_hybrid,regex_coverage_pct_of_hybrid,hybrid_minus_native
+Python,Programming languages,13951,13938,13945,13932,6,13,99.86,0.04,0.09,99.91,99.96,13
+SQL,Programming languages,11870,11859,11868,11857,2,11,99.89,0.02,0.09,99.91,99.98,11
+Azure,Cloud & infrastructure,7446,7441,7442,7437,4,5,99.88,0.05,0.07,99.93,99.95,5
+AWS,Cloud & infrastructure,5951,5927,5801,5777,150,24,97.08,2.52,0.4,99.6,97.48,24
+CI/CD,Cloud & infrastructure,5803,5750,5797,5744,6,53,98.98,0.1,0.91,99.09,99.9,53
+LLMs / Generative AI,ML/AI frameworks & tools,5629,5402,4950,4723,679,227,83.9,12.06,4.03,95.97,87.94,227
+Apache Spark,Cloud & infrastructure,5540,5538,5539,5537,1,2,99.95,0.02,0.04,99.96,99.98,2
+Databricks,Cloud & infrastructure,5465,5464,5465,5464,0,1,99.98,0.0,0.02,99.98,100.0,1
+GCP,Cloud & infrastructure,4507,4506,4507,4506,0,1,99.98,0.0,0.02,99.98,100.0,1
+Git,Cloud & infrastructure,4322,4314,4322,4314,0,8,99.81,0.0,0.19,99.81,100.0,8
+Power BI,BI & visualization,3836,3834,3824,3822,12,2,99.64,0.31,0.05,99.95,99.69,2
+Snowflake,Databases & data warehouses,3237,3236,3237,3236,0,1,99.97,0.0,0.03,99.97,100.0,1
+Apache Airflow,Cloud & infrastructure,3119,3118,3119,3118,0,1,99.97,0.0,0.03,99.97,100.0,1
+dbt,Cloud & infrastructure,3080,3077,3080,3077,0,3,99.9,0.0,0.1,99.9,100.0,3
+Docker,Cloud & infrastructure,2230,2229,2230,2229,0,1,99.96,0.0,0.04,99.96,100.0,1
+Kubernetes,Cloud & infrastructure,2062,2062,2062,2062,0,0,100.0,0.0,0.0,100.0,100.0,0
+BigQuery,Databases & data warehouses,2045,2045,2045,2045,0,0,100.0,0.0,0.0,100.0,100.0,0
+Terraform,Cloud & infrastructure,1837,1834,1837,1834,0,3,99.84,0.0,0.16,99.84,100.0,3
+Apache Kafka,Cloud & infrastructure,1779,1778,1779,1778,0,1,99.94,0.0,0.06,99.94,100.0,1
+Java,Programming languages,1637,1635,1637,1635,0,2,99.88,0.0,0.12,99.88,100.0,2
+Scala,Programming languages,1547,1547,1547,1547,0,0,100.0,0.0,0.0,100.0,100.0,0
+Tableau,BI & visualization,1418,1417,1418,1417,0,1,99.93,0.0,0.07,99.93,100.0,1
+PyTorch,ML/AI frameworks & tools,1300,1298,1300,1298,0,2,99.85,0.0,0.15,99.85,100.0,2
+R,Programming languages,1116,2,1116,2,0,1114,0.18,0.0,99.82,0.18,100.0,1114
+PostgreSQL,Databases & data warehouses,1092,1091,1092,1091,0,1,99.91,0.0,0.09,99.91,100.0,1
+Pandas,ML/AI frameworks & tools,1000,998,1000,998,0,2,99.8,0.0,0.2,99.8,100.0,2
+TensorFlow,ML/AI frameworks & tools,970,968,970,968,0,2,99.79,0.0,0.21,99.79,100.0,2
+Excel,BI & visualization,965,0,965,0,0,965,0.0,0.0,100.0,0.0,100.0,965
+LangChain,ML/AI frameworks & tools,898,898,897,897,1,0,99.89,0.11,0.0,100.0,99.89,0
+Scikit-learn,ML/AI frameworks & tools,852,820,809,777,43,32,91.2,5.05,3.76,96.24,94.95,32
+MS SQL Server,Databases & data warehouses,816,811,729,724,87,5,88.73,10.66,0.61,99.39,89.34,5
+Looker,BI & visualization,737,733,708,704,29,4,95.52,3.93,0.54,99.46,96.07,4
+Amazon Redshift,Databases & data warehouses,730,730,730,730,0,0,100.0,0.0,0.0,100.0,100.0,0
+Oracle DB,Databases & data warehouses,620,619,620,619,0,1,99.84,0.0,0.16,99.84,100.0,1
+TypeScript,Programming languages,599,599,564,564,35,0,94.16,5.84,0.0,100.0,94.16,0
+MLflow,ML/AI frameworks & tools,592,591,592,591,0,1,99.83,0.0,0.17,99.83,100.0,1
+Bash / Shell,Programming languages,540,537,540,537,0,3,99.44,0.0,0.56,99.44,100.0,3
+NumPy,ML/AI frameworks & tools,520,519,520,519,0,1,99.81,0.0,0.19,99.81,100.0,1
+Hugging Face,ML/AI frameworks & tools,433,433,433,433,0,0,100.0,0.0,0.0,100.0,100.0,0
+C++,Programming languages,401,388,21,8,380,13,2.0,94.76,3.24,96.76,5.24,13
+MongoDB,Databases & data warehouses,390,390,372,372,18,0,95.38,4.62,0.0,100.0,95.38,0
+Qlik,BI & visualization,382,313,382,313,0,69,81.94,0.0,18.06,81.94,100.0,69
+MySQL,Databases & data warehouses,277,277,277,277,0,0,100.0,0.0,0.0,100.0,100.0,0
+Elasticsearch,Databases & data warehouses,238,238,238,238,0,0,100.0,0.0,0.0,100.0,100.0,0
+XGBoost,ML/AI frameworks & tools,176,160,176,160,0,16,90.91,0.0,9.09,90.91,100.0,16
+Metabase,BI & visualization,149,149,149,149,0,0,100.0,0.0,0.0,100.0,100.0,0
+Redis,Databases & data warehouses,144,144,144,144,0,0,100.0,0.0,0.0,100.0,100.0,0
+Cassandra,Databases & data warehouses,140,140,140,140,0,0,100.0,0.0,0.0,100.0,100.0,0
+Apache Superset,BI & visualization,100,100,100,100,0,0,100.0,0.0,0.0,100.0,100.0,0
+OpenCV,ML/AI frameworks & tools,65,65,65,65,0,0,100.0,0.0,0.0,100.0,100.0,0
+Go,Programming languages,57,57,57,57,0,0,100.0,0.0,0.0,100.0,100.0,0
+Julia,Programming languages,27,27,27,27,0,0,100.0,0.0,0.0,100.0,100.0,0
