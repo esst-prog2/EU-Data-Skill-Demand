@@ -1,0 +1,221 @@
+{
+  "canonical_skill": "Excel",
+  "phase": 3,
+  "model_name": "qwen3:4b",
+  "quantization": "Q4_K_M",
+  "sampling_seed": 20261030,
+  "prompt_version": "v3.0-constrained-gated",
+  "inference_duration_sec": 6.96148529999482,
+  "prompt_tokens": 4285,
+  "response_tokens": 271,
+  "client_success": true,
+  "client_error": null,
+  "raw_model_response": "{\n  \"canonical_skill\": \"Excel\",\n  \"proposed_regex\": \"^(?:ms\\\\s*excel|excel\\\\b)(?!(?:in|at|within|as|with|\\\\s+excel))\",\n  \"proposed_aliases\": [\"excel\", \"ms-excel\"],\n  \"explanation\": \"The regex now uses a negative lookahead to exclude common verb phrases like 'excel in', 'excel at', etc. It also avoids matching 'excel' as part of other terms like 'excel pricing lists' by ensuring it's not followed by a space and 'excel' (which would be a false positive). The pattern is concise and avoids ReDoS risks.\",\n  \"positive_test_cases\": [\n    \"Microsoft Excel\",\n    \"Excel VBA\",\n    \"Advanced Excel modeling\",\n    \"Excel for data analysis\",\n    \"Excel in analytical tools\"\n  ],\n  \"negative_test_cases\": [\n    \"excel in communication\",\n    \"excel at analytical problem solving\",\n    \"excel within cross-functional teams\",\n    \"excel as a team lead\",\n    \"excel with complex architectures\"\n  ],\n  \"false_positive_risks\": [\n    \"excel pricing lists\" ],\n  \"confidence_score\": 0.95,\n  \"human_review_required\": [\n    \"excel pricing lists\"\n  ]\n}",
+  "parsed_json": {
+    "canonical_skill": "Excel",
+    "proposed_regex": "^(?:ms\\s*excel|excel\\b)(?!(?:in|at|within|as|with|\\s+excel))",
+    "proposed_aliases": [
+      "excel",
+      "ms-excel"
+    ],
+    "explanation": "The regex now uses a negative lookahead to exclude common verb phrases like 'excel in', 'excel at', etc. It also avoids matching 'excel' as part of other terms like 'excel pricing lists' by ensuring it's not followed by a space and 'excel' (which would be a false positive). The pattern is concise and avoids ReDoS risks.",
+    "positive_test_cases": [
+      "Microsoft Excel",
+      "Excel VBA",
+      "Advanced Excel modeling",
+      "Excel for data analysis",
+      "Excel in analytical tools"
+    ],
+    "negative_test_cases": [
+      "excel in communication",
+      "excel at analytical problem solving",
+      "excel within cross-functional teams",
+      "excel as a team lead",
+      "excel with complex architectures"
+    ],
+    "false_positive_risks": [
+      "excel pricing lists"
+    ],
+    "confidence_score": 0.95,
+    "human_review_required": [
+      "excel pricing lists"
+    ]
+  },
+  "proposals_count": 1,
+  "validation_errors": [],
+  "evaluated_candidates": [
+    {
+      "candidate_index": 1,
+      "decision_verdict": "REJECTED_TIMEOUT",
+      "proposal": {
+        "canonical_skill": "Excel",
+        "proposed_regex": "^(?:ms\\s*excel|excel\\b)(?!(?:in|at|within|as|with|\\s+excel))",
+        "proposed_aliases": [
+          "excel",
+          "ms-excel"
+        ],
+        "explanation": "The regex now uses a negative lookahead to exclude common verb phrases like 'excel in', 'excel at', etc. It also avoids matching 'excel' as part of other terms like 'excel pricing lists' by ensuring it's not followed by a space and 'excel' (which would be a false positive). The pattern is concise and avoids ReDoS risks.",
+        "positive_test_cases": [
+          "Microsoft Excel",
+          "Excel VBA",
+          "Advanced Excel modeling",
+          "Excel for data analysis",
+          "Excel in analytical tools"
+        ],
+        "negative_test_cases": [
+          "excel in communication",
+          "excel at analytical problem solving",
+          "excel within cross-functional teams",
+          "excel as a team lead",
+          "excel with complex architectures"
+        ],
+        "false_positive_risks": [
+          "excel pricing lists"
+        ],
+        "confidence_score": 0.95,
+        "human_review_required": [
+          "excel pricing lists"
+        ]
+      },
+      "alias_audit": {
+        "canonical_skill": "Excel",
+        "total_proposed_aliases": 2,
+        "supported_count": 0,
+        "unsupported_zero_count": 0,
+        "conflicts_count": 0,
+        "aliases": [
+          {
+            "alias": "excel",
+            "native_tag_frequency": 0,
+            "already_in_vocabulary": true,
+            "conflicting_skill": null,
+            "net_new_postings_count": 0,
+            "verdict": "ALREADY_IN_VOCABULARY",
+            "reason": "Alias is already registered for this canonical skill in skills_vocabulary.json."
+          },
+          {
+            "alias": "ms-excel",
+            "native_tag_frequency": 0,
+            "already_in_vocabulary": true,
+            "conflicting_skill": null,
+            "net_new_postings_count": 0,
+            "verdict": "ALREADY_IN_VOCABULARY",
+            "reason": "Alias is already registered for this canonical skill in skills_vocabulary.json."
+          }
+        ]
+      },
+      "evaluation": {
+        "decision_verdict": "REJECTED_TIMEOUT",
+        "is_valid_regex": true,
+        "safety_check_passed": false,
+        "safety_warnings": [
+          "Corpus evaluation timed out after 10.0s. Process terminated to prevent catastrophic backtracking."
+        ],
+        "worker_timeout_occurred": true,
+        "synthetic_tests_passed": false,
+        "synthetic_suite_results": {
+          "all_passed": false,
+          "domain_suite_passed": false,
+          "proposal_tests_passed": false,
+          "detailed_cases": {
+            "Advanced Microsoft Excel modeling for corporate financial forecasts.": {
+              "expected_match": true,
+              "actual_match": false,
+              "passed": false,
+              "case_type": "positive",
+              "explanation": "Explicit 'Microsoft Excel' with modeling context."
+            },
+            "Strong command of MS Excel (pivot tables, VLOOKUP, XLOOKUP).": {
+              "expected_match": true,
+              "actual_match": false,
+              "passed": false,
+              "case_type": "positive",
+              "explanation": "Abbreviated 'MS Excel' followed by technical spreadsheet features."
+            },
+            "Automating spreadsheet workflows using Excel VBA and macros.": {
+              "expected_match": true,
+              "actual_match": false,
+              "passed": false,
+              "case_type": "positive",
+              "explanation": "Compound technical usage ('Excel VBA')."
+            },
+            "Proficient in SQL, Python, and Excel for business analytics.": {
+              "expected_match": true,
+              "actual_match": false,
+              "passed": false,
+              "case_type": "positive",
+              "explanation": "Standalone 'Excel' in standard analytics tool list."
+            },
+            "Building executive dashboards with Power BI and Excel.": {
+              "expected_match": true,
+              "actual_match": false,
+              "passed": false,
+              "case_type": "positive",
+              "explanation": "Excel alongside complementary BI tool."
+            },
+            "Candidates should excel in communication and leadership skills.": {
+              "expected_match": false,
+              "actual_match": false,
+              "passed": true,
+              "case_type": "negative_distractor",
+              "explanation": "Verbal usage ('excel in communication')."
+            },
+            "We are looking for individuals who excel at analytical problem solving.": {
+              "expected_match": false,
+              "actual_match": false,
+              "passed": true,
+              "case_type": "negative_distractor",
+              "explanation": "Verbal usage ('excel at problem solving')."
+            },
+            "Engineers who excel within cross-functional distributed teams.": {
+              "expected_match": false,
+              "actual_match": false,
+              "passed": true,
+              "case_type": "negative_distractor",
+              "explanation": "Verbal usage ('excel within teams')."
+            },
+            "Demonstrated ability to excel as a technical team lead.": {
+              "expected_match": false,
+              "actual_match": false,
+              "passed": true,
+              "case_type": "negative_distractor",
+              "explanation": "Verbal usage ('excel as a team lead')."
+            },
+            "Software engineers who excel with complex microservice architectures.": {
+              "expected_match": false,
+              "actual_match": false,
+              "passed": true,
+              "case_type": "negative_distractor",
+              "explanation": "Verbal usage ('excel with architectures')."
+            },
+            "Proficiency with Microsoft Office suite (Word, PowerPoint, Outlook).": {
+              "expected_match": false,
+              "actual_match": false,
+              "passed": true,
+              "case_type": "negative_distractor",
+              "explanation": "Office suite mention without explicit Excel skill requirement."
+            },
+            "Experience maintaining cloud spreadsheets in Google Workspace.": {
+              "expected_match": false,
+              "actual_match": false,
+              "passed": true,
+              "case_type": "negative_distractor",
+              "explanation": "Generic spreadsheet reference not establishing Microsoft Excel."
+            }
+          }
+        },
+        "corpus_current_count": 0,
+        "corpus_candidate_count": 0,
+        "net_count_difference": 0,
+        "shared_ids_count": 0,
+        "current_only_count": 0,
+        "candidate_only_count": 0,
+        "current_only_preview": [],
+        "candidate_only_preview": [],
+        "ground_truth_metrics": null,
+        "execution_time_sec": 11.156
+      },
+      "markdown_report_path": "analysis\\llm_regex_audit\\artifacts\\excel_phase3_report_qwen3_4b_cand1.md"
+    }
+  ]
+}

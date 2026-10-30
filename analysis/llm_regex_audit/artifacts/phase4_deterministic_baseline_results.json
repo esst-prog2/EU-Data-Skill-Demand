@@ -1,0 +1,788 @@
+{
+  "R": [
+    {
+      "candidate_name": "Production Reference R",
+      "candidate_type": "production_reference",
+      "regex": "\\b[Rr]\\s*(?:programming|scripting|studio|lang|language)\\b|(?<!\\.)(?<!-)(?<!\\b[A-Za-z]/)(?<!\\b[A-Za-z]\\.\\s)(?:(?<![\\(\\[])\\bR\\b|(?<=[\\(\\[])\\bR\\b(?!\\s*[\\)\\]]))(?!\\s*&)(?!\\.\\s*\\d)(?!\\.[A-Za-z])(?!\\.\\s*[A-Z]\\.)(?!-\\d)(?!/\\d)(?![\\$\u20ac\u00a3])",
+      "explanation": "Existing production R regex combining technical modifiers with complex chained lookarounds to guard bare R.",
+      "decision_verdict": "REJECTED_FAILED_SYNTHETIC",
+      "execution_time_sec": 18.778,
+      "is_valid_regex": true,
+      "safety_check_passed": true,
+      "synthetic_tests_passed": false,
+      "synthetic_suite_results": {
+        "all_passed": false,
+        "domain_suite_passed": false,
+        "proposal_tests_passed": true,
+        "detailed_cases": {
+          "Proficient in Python and R for statistical data modeling.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Standard list of data science languages (Python and R)."
+          },
+          "Required skills: SQL, R, Tableau, and Git.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Standalone R in a comma-separated technical skill list."
+          },
+          "Strong background in R programming and Bayesian inference.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Explicit 'R programming' phrase."
+          },
+          "Experience building analytical dashboards in RStudio and tidyverse.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Canonical R environment and ecosystem package mention."
+          },
+          "Statistical analysis with R (ggplot2, dplyr, caret).": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "R followed by parenthetical library specifications."
+          },
+          "Experience deploying statistical models in R/Shiny.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Compound R/Shiny application mention."
+          },
+          "Expertise in Python/R scripting.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Slash-delimited programming language variant (Python/R)."
+          },
+          "Leading our European R&D initiatives across product lines.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Research and Development (R&D) abbreviation."
+          },
+          "Responsible for processing invoices in our A/R department.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Accounts Receivable (A/R) accounting abbreviation."
+          },
+          "Hardware diagnostics for server revision Model R-200.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Hardware model revision identifier (Model R-200)."
+          },
+          "Tracking serial batch R/1204 in warehouse inventory.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Logistics batch number with slash and digits (R/1204)."
+          },
+          "Refer to the System build R.10 release notes.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Software build version number (R.10)."
+          },
+          "Compensation package: R$ 8,000 per month gross.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Currency symbol prefix (Brazilian Real, R$)."
+          },
+          "The applicant must maintain an active R.N. nursing license.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Medical qualification abbreviation (Registered Nurse, R.N.)."
+          },
+          "Please submit your CV to Dr. R. Watson in administration.": {
+            "expected_match": false,
+            "actual_match": true,
+            "passed": false,
+            "case_type": "negative_distractor",
+            "explanation": "Human initial preceding surname (Dr. R. Watson)."
+          },
+          "We need energetic developers who excel in fast-paced teams.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Ordinary English verb (excel in) containing no R skill."
+          }
+        }
+      },
+      "corpus_current_count": 1116,
+      "corpus_candidate_count": 1116,
+      "shared_ids_count": 1116,
+      "net_count_difference": 0,
+      "current_only_count": 0,
+      "candidate_only_count": 0,
+      "ground_truth_metrics": null
+    },
+    {
+      "candidate_name": "Baseline R-1 (Simplified Guarded Standalone)",
+      "candidate_type": "deterministic_baseline_candidate",
+      "regex": "\\b[Rr]\\s*(?:programming|scripting|studio|shiny|lang|language)\\b|\\bR/Shiny\\b|(?<!\\.)(?<!-)(?<![A-Za-z]/)(?<!\\bDr\\.\\s)\\b[Rr]\\b(?!\\s*&)(?!\\.\\s*\\d)(?!\\.[A-Za-z])(?!\\.\\s*[A-Z]\\.)(?!-\\d)(?!/\\d)(?![\\$\u20ac\u00a3])",
+      "explanation": "Manually simplified R pattern: preserves core prefix phrases and bare R while consolidating lookarounds and adding Dr. honorific guard.",
+      "decision_verdict": "REJECTED_EXCESSIVE_REGRESSION",
+      "execution_time_sec": 15.413,
+      "is_valid_regex": true,
+      "safety_check_passed": true,
+      "synthetic_tests_passed": true,
+      "synthetic_suite_results": {
+        "all_passed": true,
+        "domain_suite_passed": true,
+        "proposal_tests_passed": true,
+        "detailed_cases": {
+          "Proficient in Python and R for statistical data modeling.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Standard list of data science languages (Python and R)."
+          },
+          "Required skills: SQL, R, Tableau, and Git.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Standalone R in a comma-separated technical skill list."
+          },
+          "Strong background in R programming and Bayesian inference.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Explicit 'R programming' phrase."
+          },
+          "Experience building analytical dashboards in RStudio and tidyverse.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Canonical R environment and ecosystem package mention."
+          },
+          "Statistical analysis with R (ggplot2, dplyr, caret).": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "R followed by parenthetical library specifications."
+          },
+          "Experience deploying statistical models in R/Shiny.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Compound R/Shiny application mention."
+          },
+          "Expertise in Python/R scripting.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Slash-delimited programming language variant (Python/R)."
+          },
+          "Leading our European R&D initiatives across product lines.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Research and Development (R&D) abbreviation."
+          },
+          "Responsible for processing invoices in our A/R department.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Accounts Receivable (A/R) accounting abbreviation."
+          },
+          "Hardware diagnostics for server revision Model R-200.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Hardware model revision identifier (Model R-200)."
+          },
+          "Tracking serial batch R/1204 in warehouse inventory.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Logistics batch number with slash and digits (R/1204)."
+          },
+          "Refer to the System build R.10 release notes.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Software build version number (R.10)."
+          },
+          "Compensation package: R$ 8,000 per month gross.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Currency symbol prefix (Brazilian Real, R$)."
+          },
+          "The applicant must maintain an active R.N. nursing license.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Medical qualification abbreviation (Registered Nurse, R.N.)."
+          },
+          "Please submit your CV to Dr. R. Watson in administration.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Human initial preceding surname (Dr. R. Watson)."
+          },
+          "We need energetic developers who excel in fast-paced teams.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Ordinary English verb (excel in) containing no R skill."
+          }
+        }
+      },
+      "corpus_current_count": 1116,
+      "corpus_candidate_count": 1086,
+      "shared_ids_count": 1062,
+      "net_count_difference": -30,
+      "current_only_count": 54,
+      "candidate_only_count": 24,
+      "ground_truth_metrics": {
+        "total_benchmark_samples": 80.0,
+        "evaluable_sample_size": 79.0,
+        "unevaluable_count": 1.0,
+        "true_positives": 28.0,
+        "false_positives": 2.0,
+        "false_negatives": 3.0,
+        "true_negatives": 46.0,
+        "precision": 0.9333,
+        "recall": 0.9032,
+        "f1_score": 0.918
+      }
+    },
+    {
+      "candidate_name": "Baseline R-2 (Conservative Modifier-Only)",
+      "candidate_type": "deterministic_baseline_candidate",
+      "regex": "\\b[Rr]\\s*(?:programming|scripting|studio|shiny|lang|language)\\b|\\bR/Shiny\\b",
+      "explanation": "Extremely conservative pattern that only matches explicit compound modifiers, deliberately dropping bare R mentions to test precision-recall tradeoff.",
+      "decision_verdict": "REJECTED_FAILED_SYNTHETIC",
+      "execution_time_sec": 3.327,
+      "is_valid_regex": true,
+      "safety_check_passed": true,
+      "synthetic_tests_passed": false,
+      "synthetic_suite_results": {
+        "all_passed": false,
+        "domain_suite_passed": false,
+        "proposal_tests_passed": true,
+        "detailed_cases": {
+          "Proficient in Python and R for statistical data modeling.": {
+            "expected_match": true,
+            "actual_match": false,
+            "passed": false,
+            "case_type": "positive",
+            "explanation": "Standard list of data science languages (Python and R)."
+          },
+          "Required skills: SQL, R, Tableau, and Git.": {
+            "expected_match": true,
+            "actual_match": false,
+            "passed": false,
+            "case_type": "positive",
+            "explanation": "Standalone R in a comma-separated technical skill list."
+          },
+          "Strong background in R programming and Bayesian inference.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Explicit 'R programming' phrase."
+          },
+          "Experience building analytical dashboards in RStudio and tidyverse.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Canonical R environment and ecosystem package mention."
+          },
+          "Statistical analysis with R (ggplot2, dplyr, caret).": {
+            "expected_match": true,
+            "actual_match": false,
+            "passed": false,
+            "case_type": "positive",
+            "explanation": "R followed by parenthetical library specifications."
+          },
+          "Experience deploying statistical models in R/Shiny.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Compound R/Shiny application mention."
+          },
+          "Expertise in Python/R scripting.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Slash-delimited programming language variant (Python/R)."
+          },
+          "Leading our European R&D initiatives across product lines.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Research and Development (R&D) abbreviation."
+          },
+          "Responsible for processing invoices in our A/R department.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Accounts Receivable (A/R) accounting abbreviation."
+          },
+          "Hardware diagnostics for server revision Model R-200.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Hardware model revision identifier (Model R-200)."
+          },
+          "Tracking serial batch R/1204 in warehouse inventory.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Logistics batch number with slash and digits (R/1204)."
+          },
+          "Refer to the System build R.10 release notes.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Software build version number (R.10)."
+          },
+          "Compensation package: R$ 8,000 per month gross.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Currency symbol prefix (Brazilian Real, R$)."
+          },
+          "The applicant must maintain an active R.N. nursing license.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Medical qualification abbreviation (Registered Nurse, R.N.)."
+          },
+          "Please submit your CV to Dr. R. Watson in administration.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Human initial preceding surname (Dr. R. Watson)."
+          },
+          "We need energetic developers who excel in fast-paced teams.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Ordinary English verb (excel in) containing no R skill."
+          }
+        }
+      },
+      "corpus_current_count": 1116,
+      "corpus_candidate_count": 34,
+      "shared_ids_count": 34,
+      "net_count_difference": -1082,
+      "current_only_count": 1082,
+      "candidate_only_count": 0,
+      "ground_truth_metrics": null
+    }
+  ],
+  "Excel": [
+    {
+      "candidate_name": "Production Reference Excel",
+      "candidate_type": "production_reference",
+      "regex": "\\b(?:ms\\s*|microsoft\\s*)?excel\\b(?!\\s+(?:in|at|within|as|with)\\b)",
+      "explanation": "Existing production Excel pattern with prefix modifiers and negative lookahead for common prepositional verbs.",
+      "decision_verdict": "ELIGIBLE_FOR_HUMAN_REVIEW",
+      "execution_time_sec": 3.426,
+      "is_valid_regex": true,
+      "safety_check_passed": true,
+      "synthetic_tests_passed": true,
+      "synthetic_suite_results": {
+        "all_passed": true,
+        "domain_suite_passed": true,
+        "proposal_tests_passed": true,
+        "detailed_cases": {
+          "Advanced Microsoft Excel modeling for corporate financial forecasts.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Explicit 'Microsoft Excel' with modeling context."
+          },
+          "Strong command of MS Excel (pivot tables, VLOOKUP, XLOOKUP).": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Abbreviated 'MS Excel' followed by technical spreadsheet features."
+          },
+          "Automating spreadsheet workflows using Excel VBA and macros.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Compound technical usage ('Excel VBA')."
+          },
+          "Proficient in SQL, Python, and Excel for business analytics.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Standalone 'Excel' in standard analytics tool list."
+          },
+          "Building executive dashboards with Power BI and Excel.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Excel alongside complementary BI tool."
+          },
+          "Candidates should excel in communication and leadership skills.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Verbal usage ('excel in communication')."
+          },
+          "We are looking for individuals who excel at analytical problem solving.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Verbal usage ('excel at problem solving')."
+          },
+          "Engineers who excel within cross-functional distributed teams.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Verbal usage ('excel within teams')."
+          },
+          "Demonstrated ability to excel as a technical team lead.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Verbal usage ('excel as a team lead')."
+          },
+          "Software engineers who excel with complex microservice architectures.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Verbal usage ('excel with architectures')."
+          },
+          "Proficiency with Microsoft Office suite (Word, PowerPoint, Outlook).": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Office suite mention without explicit Excel skill requirement."
+          },
+          "Experience maintaining cloud spreadsheets in Google Workspace.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Generic spreadsheet reference not establishing Microsoft Excel."
+          }
+        }
+      },
+      "corpus_current_count": 965,
+      "corpus_candidate_count": 965,
+      "shared_ids_count": 965,
+      "net_count_difference": 0,
+      "current_only_count": 0,
+      "candidate_only_count": 0,
+      "ground_truth_metrics": {
+        "total_benchmark_samples": 50.0,
+        "evaluable_sample_size": 49.0,
+        "unevaluable_count": 1.0,
+        "true_positives": 2.0,
+        "false_positives": 0.0,
+        "false_negatives": 0.0,
+        "true_negatives": 47.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      }
+    },
+    {
+      "candidate_name": "Baseline Excel-1 (Simplified Prefix & Strict Preposition Guard)",
+      "candidate_type": "deterministic_baseline_candidate",
+      "regex": "\\b(?:ms[- ]?)?excel\\b(?!\\s+(?:in|at|within|as|with)\\b)",
+      "explanation": "Simplified Excel pattern matching standalone 'excel' and 'ms-excel'/'ms excel' with negative lookahead for verbal prepositions.",
+      "decision_verdict": "ELIGIBLE_FOR_HUMAN_REVIEW",
+      "execution_time_sec": 3.415,
+      "is_valid_regex": true,
+      "safety_check_passed": true,
+      "synthetic_tests_passed": true,
+      "synthetic_suite_results": {
+        "all_passed": true,
+        "domain_suite_passed": true,
+        "proposal_tests_passed": true,
+        "detailed_cases": {
+          "Advanced Microsoft Excel modeling for corporate financial forecasts.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Explicit 'Microsoft Excel' with modeling context."
+          },
+          "Strong command of MS Excel (pivot tables, VLOOKUP, XLOOKUP).": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Abbreviated 'MS Excel' followed by technical spreadsheet features."
+          },
+          "Automating spreadsheet workflows using Excel VBA and macros.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Compound technical usage ('Excel VBA')."
+          },
+          "Proficient in SQL, Python, and Excel for business analytics.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Standalone 'Excel' in standard analytics tool list."
+          },
+          "Building executive dashboards with Power BI and Excel.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Excel alongside complementary BI tool."
+          },
+          "Candidates should excel in communication and leadership skills.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Verbal usage ('excel in communication')."
+          },
+          "We are looking for individuals who excel at analytical problem solving.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Verbal usage ('excel at problem solving')."
+          },
+          "Engineers who excel within cross-functional distributed teams.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Verbal usage ('excel within teams')."
+          },
+          "Demonstrated ability to excel as a technical team lead.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Verbal usage ('excel as a team lead')."
+          },
+          "Software engineers who excel with complex microservice architectures.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Verbal usage ('excel with architectures')."
+          },
+          "Proficiency with Microsoft Office suite (Word, PowerPoint, Outlook).": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Office suite mention without explicit Excel skill requirement."
+          },
+          "Experience maintaining cloud spreadsheets in Google Workspace.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Generic spreadsheet reference not establishing Microsoft Excel."
+          }
+        }
+      },
+      "corpus_current_count": 965,
+      "corpus_candidate_count": 965,
+      "shared_ids_count": 965,
+      "net_count_difference": 0,
+      "current_only_count": 0,
+      "candidate_only_count": 0,
+      "ground_truth_metrics": {
+        "total_benchmark_samples": 50.0,
+        "evaluable_sample_size": 49.0,
+        "unevaluable_count": 1.0,
+        "true_positives": 2.0,
+        "false_positives": 0.0,
+        "false_negatives": 0.0,
+        "true_negatives": 47.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      }
+    },
+    {
+      "candidate_name": "Baseline Excel-2 (Minimal Standalone with Lookahead)",
+      "candidate_type": "deterministic_baseline_candidate",
+      "regex": "\\bexcel\\b(?!\\s+(?:in|at|within|as|with)\\b)",
+      "explanation": "Minimal standalone 'excel' pattern relying entirely on negative lookahead to exclude verbal usages.",
+      "decision_verdict": "ELIGIBLE_FOR_HUMAN_REVIEW",
+      "execution_time_sec": 2.892,
+      "is_valid_regex": true,
+      "safety_check_passed": true,
+      "synthetic_tests_passed": true,
+      "synthetic_suite_results": {
+        "all_passed": true,
+        "domain_suite_passed": true,
+        "proposal_tests_passed": true,
+        "detailed_cases": {
+          "Advanced Microsoft Excel modeling for corporate financial forecasts.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Explicit 'Microsoft Excel' with modeling context."
+          },
+          "Strong command of MS Excel (pivot tables, VLOOKUP, XLOOKUP).": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Abbreviated 'MS Excel' followed by technical spreadsheet features."
+          },
+          "Automating spreadsheet workflows using Excel VBA and macros.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Compound technical usage ('Excel VBA')."
+          },
+          "Proficient in SQL, Python, and Excel for business analytics.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Standalone 'Excel' in standard analytics tool list."
+          },
+          "Building executive dashboards with Power BI and Excel.": {
+            "expected_match": true,
+            "actual_match": true,
+            "passed": true,
+            "case_type": "positive",
+            "explanation": "Excel alongside complementary BI tool."
+          },
+          "Candidates should excel in communication and leadership skills.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Verbal usage ('excel in communication')."
+          },
+          "We are looking for individuals who excel at analytical problem solving.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Verbal usage ('excel at problem solving')."
+          },
+          "Engineers who excel within cross-functional distributed teams.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Verbal usage ('excel within teams')."
+          },
+          "Demonstrated ability to excel as a technical team lead.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Verbal usage ('excel as a team lead')."
+          },
+          "Software engineers who excel with complex microservice architectures.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Verbal usage ('excel with architectures')."
+          },
+          "Proficiency with Microsoft Office suite (Word, PowerPoint, Outlook).": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Office suite mention without explicit Excel skill requirement."
+          },
+          "Experience maintaining cloud spreadsheets in Google Workspace.": {
+            "expected_match": false,
+            "actual_match": false,
+            "passed": true,
+            "case_type": "negative_distractor",
+            "explanation": "Generic spreadsheet reference not establishing Microsoft Excel."
+          }
+        }
+      },
+      "corpus_current_count": 965,
+      "corpus_candidate_count": 965,
+      "shared_ids_count": 965,
+      "net_count_difference": 0,
+      "current_only_count": 0,
+      "candidate_only_count": 0,
+      "ground_truth_metrics": {
+        "total_benchmark_samples": 50.0,
+        "evaluable_sample_size": 49.0,
+        "unevaluable_count": 1.0,
+        "true_positives": 2.0,
+        "false_positives": 0.0,
+        "false_negatives": 0.0,
+        "true_negatives": 47.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      }
+    }
+  ]
+}

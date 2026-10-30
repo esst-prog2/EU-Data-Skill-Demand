@@ -1,0 +1,50 @@
+[
+  {
+    "label": "Safe Simple (Excel)",
+    "pattern": "\\bexcel\\b",
+    "compile_ms": 0.15,
+    "sample_500_s": 0.0279,
+    "inprocess_s": 1.6785,
+    "transfer_s": 1.3969,
+    "worker_search_s": 1.618,
+    "cleanup_s": 0.1036,
+    "total_wall_clock_s": 3.1186,
+    "timed_out": false
+  },
+  {
+    "label": "Safe Simple (Python)",
+    "pattern": "\\bpython\\b",
+    "compile_ms": 0.113,
+    "sample_500_s": 0.0221,
+    "inprocess_s": 1.1607,
+    "transfer_s": 1.2354,
+    "worker_search_s": 1.2121,
+    "cleanup_s": 0.1362,
+    "total_wall_clock_s": 2.5838,
+    "timed_out": false
+  },
+  {
+    "label": "Phase 3 Candidate R",
+    "pattern": "r\\b(?:\\s*programming|\\s*scripting|\\s*lang|\\s*language|\\s*studio)",
+    "compile_ms": 0.265,
+    "sample_500_s": 0.0168,
+    "inprocess_s": 0.9366,
+    "transfer_s": 1.2448,
+    "worker_search_s": 0.9969,
+    "cleanup_s": 0.0935,
+    "total_wall_clock_s": 2.3355,
+    "timed_out": false
+  },
+  {
+    "label": "Phase 3 Candidate Excel",
+    "pattern": "^(?:ms\\s*excel|excel\\b)(?!(?:in|at|within|as|with|\\s+excel))",
+    "compile_ms": 0.192,
+    "sample_500_s": 0.0002,
+    "inprocess_s": 0.01,
+    "transfer_s": 1.2207,
+    "worker_search_s": 0.0097,
+    "cleanup_s": 0.0905,
+    "total_wall_clock_s": 1.3211,
+    "timed_out": false
+  }
+]

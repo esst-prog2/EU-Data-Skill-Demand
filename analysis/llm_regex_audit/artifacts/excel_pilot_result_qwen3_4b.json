@@ -1,0 +1,168 @@
+{
+  "canonical_skill": "Excel",
+  "model_name": "qwen3:4b",
+  "quantization": "Q4_K_M",
+  "sampling_seed": 20261030,
+  "prompt_version": "v1.0-structured-schema",
+  "inference_duration_sec": 12.054352999999537,
+  "prompt_tokens": 4063,
+  "response_tokens": 571,
+  "client_success": true,
+  "client_error": null,
+  "raw_model_response": "{\n  \"canonical_skill\": \"Excel\",\n  \"proposed_regex\": \"^(?:\\\\b(?:ms\\\\s*|microsoft\\\\s*)?excel\\\\b|excel\\\\s*(?:vba|advanced|modeling|formulas|functions|data\\\\s*analysis|templates|forecasting|scenario|validation|dynamic|pivot|charts|graphs|dashboards|reports|analysis|modeling|automation|macro|scripts|vba|power|bi|power\\\\b)\\\\b)\",\n  \"proposed_aliases\": [\"excel\", \"ms-excel\", \"microsoft-excel\", \"excel-vba\", \"advanced-excel\", \"excel-modeling\", \"excel-formulas\", \"excel-functions\", \"excel-data-analysis\", \"excel-templates\", \"excel-forecasting\", \"excel-scenario\", \"excel-validation\", \"excel-dynamic\", \"excel-pivot\", \"excel-charts\", \"excel-graphs\", \"excel-dashboards\", \"excel-reports\", \"excel-analysis\", \"excel-modeling\", \"excel-automation\", \"excel-macro\", \"excel-scripts\", \"excel-vba\", \"excel-powerbi\"],\n  \"explanation\": \"The regex now explicitly captures common Excel-specific modifiers and contexts without false positives from verbs like 'excel in'. It uses lookaheads to avoid matching 'excel' as a verb while capturing technical terms like 'vba', 'advanced', 'modeling', etc. The pattern is case-insensitive and avoids false negatives by including common Excel-related terms from job postings.\",\n  \"positive_test_cases\": [\n    \"Advanced Excel modeling for financial forecasting\",\n    \"Microsoft Excel with VBA automation\",\n    \"Excel data analysis using pivot tables\",\n    \"Power BI and Excel integration for business intelligence\",\n    \"Excel formulas for complex data validation\"\n  ],\n  \"negative_test_cases\": [\n    \"Excel in communication skills\",\n    \"Excel at analytical problem solving\",\n    \"Excel within cross-functional teams\",\n    \"Excel as a team lead\",\n    \"Excel with distributed architectures\"\n  ],\n  \"false_positive_risks\": [\n    \"Excel might be confused with 'excellence' in some contexts (e.g., 'excellence in leadership')\",\n    \"Terms like 'excel' in technical contexts (e.g., 'Excel VBA') could be misinterpreted if not properly guarded\",\n    \"Ambiguous phrases like 'Excel for data analysis' might require human review if the regex is too broad\"\n  ],\n  \"confidence_score\": 0.95,\n  \"human_review_required\": [\n    \"Excel in communication skills\",\n    \"Excel at analytical problem solving\",\n    \"Excel within cross-functional teams\",\n    \"Excel as a team lead\",\n    \"Excel with distributed architectures\"\n  ]\n}",
+  "parsed_json": {
+    "canonical_skill": "Excel",
+    "proposed_regex": "^(?:\\b(?:ms\\s*|microsoft\\s*)?excel\\b|excel\\s*(?:vba|advanced|modeling|formulas|functions|data\\s*analysis|templates|forecasting|scenario|validation|dynamic|pivot|charts|graphs|dashboards|reports|analysis|modeling|automation|macro|scripts|vba|power|bi|power\\b)\\b)",
+    "proposed_aliases": [
+      "excel",
+      "ms-excel",
+      "microsoft-excel",
+      "excel-vba",
+      "advanced-excel",
+      "excel-modeling",
+      "excel-formulas",
+      "excel-functions",
+      "excel-data-analysis",
+      "excel-templates",
+      "excel-forecasting",
+      "excel-scenario",
+      "excel-validation",
+      "excel-dynamic",
+      "excel-pivot",
+      "excel-charts",
+      "excel-graphs",
+      "excel-dashboards",
+      "excel-reports",
+      "excel-analysis",
+      "excel-modeling",
+      "excel-automation",
+      "excel-macro",
+      "excel-scripts",
+      "excel-vba",
+      "excel-powerbi"
+    ],
+    "explanation": "The regex now explicitly captures common Excel-specific modifiers and contexts without false positives from verbs like 'excel in'. It uses lookaheads to avoid matching 'excel' as a verb while capturing technical terms like 'vba', 'advanced', 'modeling', etc. The pattern is case-insensitive and avoids false negatives by including common Excel-related terms from job postings.",
+    "positive_test_cases": [
+      "Advanced Excel modeling for financial forecasting",
+      "Microsoft Excel with VBA automation",
+      "Excel data analysis using pivot tables",
+      "Power BI and Excel integration for business intelligence",
+      "Excel formulas for complex data validation"
+    ],
+    "negative_test_cases": [
+      "Excel in communication skills",
+      "Excel at analytical problem solving",
+      "Excel within cross-functional teams",
+      "Excel as a team lead",
+      "Excel with distributed architectures"
+    ],
+    "false_positive_risks": [
+      "Excel might be confused with 'excellence' in some contexts (e.g., 'excellence in leadership')",
+      "Terms like 'excel' in technical contexts (e.g., 'Excel VBA') could be misinterpreted if not properly guarded",
+      "Ambiguous phrases like 'Excel for data analysis' might require human review if the regex is too broad"
+    ],
+    "confidence_score": 0.95,
+    "human_review_required": [
+      "Excel in communication skills",
+      "Excel at analytical problem solving",
+      "Excel within cross-functional teams",
+      "Excel as a team lead",
+      "Excel with distributed architectures"
+    ]
+  },
+  "proposals_count": 1,
+  "validation_errors": [],
+  "evaluated_candidates": [
+    {
+      "candidate_index": 1,
+      "proposal": {
+        "canonical_skill": "Excel",
+        "proposed_regex": "^(?:\\b(?:ms\\s*|microsoft\\s*)?excel\\b|excel\\s*(?:vba|advanced|modeling|formulas|functions|data\\s*analysis|templates|forecasting|scenario|validation|dynamic|pivot|charts|graphs|dashboards|reports|analysis|modeling|automation|macro|scripts|vba|power|bi|power\\b)\\b)",
+        "proposed_aliases": [
+          "excel",
+          "ms-excel",
+          "microsoft-excel",
+          "excel-vba",
+          "advanced-excel",
+          "excel-modeling",
+          "excel-formulas",
+          "excel-functions",
+          "excel-data-analysis",
+          "excel-templates",
+          "excel-forecasting",
+          "excel-scenario",
+          "excel-validation",
+          "excel-dynamic",
+          "excel-pivot",
+          "excel-charts",
+          "excel-graphs",
+          "excel-dashboards",
+          "excel-reports",
+          "excel-analysis",
+          "excel-modeling",
+          "excel-automation",
+          "excel-macro",
+          "excel-scripts",
+          "excel-vba",
+          "excel-powerbi"
+        ],
+        "explanation": "The regex now explicitly captures common Excel-specific modifiers and contexts without false positives from verbs like 'excel in'. It uses lookaheads to avoid matching 'excel' as a verb while capturing technical terms like 'vba', 'advanced', 'modeling', etc. The pattern is case-insensitive and avoids false negatives by including common Excel-related terms from job postings.",
+        "positive_test_cases": [
+          "Advanced Excel modeling for financial forecasting",
+          "Microsoft Excel with VBA automation",
+          "Excel data analysis using pivot tables",
+          "Power BI and Excel integration for business intelligence",
+          "Excel formulas for complex data validation"
+        ],
+        "negative_test_cases": [
+          "Excel in communication skills",
+          "Excel at analytical problem solving",
+          "Excel within cross-functional teams",
+          "Excel as a team lead",
+          "Excel with distributed architectures"
+        ],
+        "false_positive_risks": [
+          "Excel might be confused with 'excellence' in some contexts (e.g., 'excellence in leadership')",
+          "Terms like 'excel' in technical contexts (e.g., 'Excel VBA') could be misinterpreted if not properly guarded",
+          "Ambiguous phrases like 'Excel for data analysis' might require human review if the regex is too broad"
+        ],
+        "confidence_score": 0.95,
+        "human_review_required": [
+          "Excel in communication skills",
+          "Excel at analytical problem solving",
+          "Excel within cross-functional teams",
+          "Excel as a team lead",
+          "Excel with distributed architectures"
+        ]
+      },
+      "evaluation": {
+        "is_valid_regex": true,
+        "safety_check_passed": false,
+        "safety_warnings": [
+          "Corpus evaluation timed out after 15.0s. Process terminated to prevent catastrophic backtracking."
+        ],
+        "worker_timeout_occurred": true,
+        "synthetic_tests_passed": false,
+        "corpus_current_count": 0,
+        "corpus_candidate_count": 0,
+        "net_count_difference": 0,
+        "shared_ids_count": 0,
+        "current_only_count": 0,
+        "candidate_only_count": 0,
+        "current_only_preview": [],
+        "candidate_only_preview": [],
+        "ground_truth_metrics": {
+          "evaluable_sample_size": 49.0,
+          "true_positives": 0.0,
+          "false_positives": 0.0,
+          "false_negatives": 2.0,
+          "true_negatives": 47.0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "execution_time_sec": 16.135
+      },
+      "markdown_report_path": "analysis\\llm_regex_audit\\artifacts\\excel_pilot_report_qwen3_4b_cand1.md"
+    }
+  ]
+}

@@ -1,0 +1,286 @@
+{
+  "canonical_skill": "R",
+  "phase": 3,
+  "model_name": "qwen3:4b",
+  "quantization": "Q4_K_M",
+  "sampling_seed": 20261030,
+  "prompt_version": "v3.0-constrained-gated",
+  "inference_duration_sec": 11.339003399989451,
+  "prompt_tokens": 4279,
+  "response_tokens": 420,
+  "client_success": true,
+  "client_error": null,
+  "raw_model_response": "{\n  \"canonical_skill\": \"R\",\n  \"proposed_regex\": \"r\\\\b(?:\\\\s*programming|\\\\s*scripting|\\\\s*lang|\\\\s*language|\\\\s*studio)\",\n  \"proposed_aliases\": [\"r-programming\", \"r-scripting\", \"r-lang\", \"r-language\", \"r-studio\"],\n  \"explanation\": \"The regex isolates standalone 'r' followed by optional whitespace and one of the technical context modifiers (programming/scripting/lang/language/studio). It avoids false positives from R&D, A/R, hardware models, etc. by using word boundaries and excluding common distractors through context.\",\n  \"positive_test_cases\": [\n    \"Proficiency in data analysis tools and languages such as Python or R\",\n    \"Experience with data extraction/wrangling * Experience using analytic tools such as: Databricks, SQL, R, Python, PySpark, Power BI or Tableau\",\n    \"Knowledge of programming languages such as Python or R for data analysis and statistical modeling\"\n  ],\n  \"negative_test_cases\": [\n    \"Diagnostics for hardware revision Model R-200\",\n    \"Tracking serial batch R/1204 in logistics\",\n    \"System build R.10 release notes\",\n    \"Compensation: R$ 8,000 per month gross\",\n    \"The applicant must have an R.N. nursing license\",\n    \"Contact Dr. R. Watson in the administrative office\"\n  ],\n  \"false_positive_risks\": [\n    \"R in compound words (e.g., 'RStudio') - requires human review\",\n    \"R as part of a larger word (e.g., 'R&D') - excluded by \\\\b\",\n    \"R with non-technical modifiers (e.g., 'R.10') - excluded by \\\\b\"\n  ],\n  \"confidence_score\": 0.95,\n  \"human_review_required\": [\n    \"RStudio\",\n    \"R in technical contexts with modifiers\"\n  ]\n}",
+  "parsed_json": {
+    "canonical_skill": "R",
+    "proposed_regex": "r\\b(?:\\s*programming|\\s*scripting|\\s*lang|\\s*language|\\s*studio)",
+    "proposed_aliases": [
+      "r-programming",
+      "r-scripting",
+      "r-lang",
+      "r-language",
+      "r-studio"
+    ],
+    "explanation": "The regex isolates standalone 'r' followed by optional whitespace and one of the technical context modifiers (programming/scripting/lang/language/studio). It avoids false positives from R&D, A/R, hardware models, etc. by using word boundaries and excluding common distractors through context.",
+    "positive_test_cases": [
+      "Proficiency in data analysis tools and languages such as Python or R",
+      "Experience with data extraction/wrangling * Experience using analytic tools such as: Databricks, SQL, R, Python, PySpark, Power BI or Tableau",
+      "Knowledge of programming languages such as Python or R for data analysis and statistical modeling"
+    ],
+    "negative_test_cases": [
+      "Diagnostics for hardware revision Model R-200",
+      "Tracking serial batch R/1204 in logistics",
+      "System build R.10 release notes",
+      "Compensation: R$ 8,000 per month gross",
+      "The applicant must have an R.N. nursing license",
+      "Contact Dr. R. Watson in the administrative office"
+    ],
+    "false_positive_risks": [
+      "R in compound words (e.g., 'RStudio') - requires human review",
+      "R as part of a larger word (e.g., 'R&D') - excluded by \\b",
+      "R with non-technical modifiers (e.g., 'R.10') - excluded by \\b"
+    ],
+    "confidence_score": 0.95,
+    "human_review_required": [
+      "RStudio",
+      "R in technical contexts with modifiers"
+    ]
+  },
+  "proposals_count": 1,
+  "validation_errors": [],
+  "evaluated_candidates": [
+    {
+      "candidate_index": 1,
+      "decision_verdict": "REJECTED_TIMEOUT",
+      "proposal": {
+        "canonical_skill": "R",
+        "proposed_regex": "r\\b(?:\\s*programming|\\s*scripting|\\s*lang|\\s*language|\\s*studio)",
+        "proposed_aliases": [
+          "r-programming",
+          "r-scripting",
+          "r-lang",
+          "r-language",
+          "r-studio"
+        ],
+        "explanation": "The regex isolates standalone 'r' followed by optional whitespace and one of the technical context modifiers (programming/scripting/lang/language/studio). It avoids false positives from R&D, A/R, hardware models, etc. by using word boundaries and excluding common distractors through context.",
+        "positive_test_cases": [
+          "Proficiency in data analysis tools and languages such as Python or R",
+          "Experience with data extraction/wrangling * Experience using analytic tools such as: Databricks, SQL, R, Python, PySpark, Power BI or Tableau",
+          "Knowledge of programming languages such as Python or R for data analysis and statistical modeling"
+        ],
+        "negative_test_cases": [
+          "Diagnostics for hardware revision Model R-200",
+          "Tracking serial batch R/1204 in logistics",
+          "System build R.10 release notes",
+          "Compensation: R$ 8,000 per month gross",
+          "The applicant must have an R.N. nursing license",
+          "Contact Dr. R. Watson in the administrative office"
+        ],
+        "false_positive_risks": [
+          "R in compound words (e.g., 'RStudio') - requires human review",
+          "R as part of a larger word (e.g., 'R&D') - excluded by \\b",
+          "R with non-technical modifiers (e.g., 'R.10') - excluded by \\b"
+        ],
+        "confidence_score": 0.95,
+        "human_review_required": [
+          "RStudio",
+          "R in technical contexts with modifiers"
+        ]
+      },
+      "alias_audit": {
+        "canonical_skill": "R",
+        "total_proposed_aliases": 5,
+        "supported_count": 0,
+        "unsupported_zero_count": 2,
+        "conflicts_count": 0,
+        "aliases": [
+          {
+            "alias": "r-programming",
+            "native_tag_frequency": 0,
+            "already_in_vocabulary": true,
+            "conflicting_skill": null,
+            "net_new_postings_count": 0,
+            "verdict": "ALREADY_IN_VOCABULARY",
+            "reason": "Alias is already registered for this canonical skill in skills_vocabulary.json."
+          },
+          {
+            "alias": "r-scripting",
+            "native_tag_frequency": 0,
+            "already_in_vocabulary": false,
+            "conflicting_skill": null,
+            "net_new_postings_count": 0,
+            "verdict": "UNSUPPORTED_ZERO_COUNT",
+            "reason": "Alias never appears in native FreeHire skill tags (0 observed occurrences)."
+          },
+          {
+            "alias": "r-lang",
+            "native_tag_frequency": 0,
+            "already_in_vocabulary": true,
+            "conflicting_skill": null,
+            "net_new_postings_count": 0,
+            "verdict": "ALREADY_IN_VOCABULARY",
+            "reason": "Alias is already registered for this canonical skill in skills_vocabulary.json."
+          },
+          {
+            "alias": "r-language",
+            "native_tag_frequency": 0,
+            "already_in_vocabulary": true,
+            "conflicting_skill": null,
+            "net_new_postings_count": 0,
+            "verdict": "ALREADY_IN_VOCABULARY",
+            "reason": "Alias is already registered for this canonical skill in skills_vocabulary.json."
+          },
+          {
+            "alias": "r-studio",
+            "native_tag_frequency": 0,
+            "already_in_vocabulary": false,
+            "conflicting_skill": null,
+            "net_new_postings_count": 0,
+            "verdict": "UNSUPPORTED_ZERO_COUNT",
+            "reason": "Alias never appears in native FreeHire skill tags (0 observed occurrences)."
+          }
+        ]
+      },
+      "evaluation": {
+        "decision_verdict": "REJECTED_TIMEOUT",
+        "is_valid_regex": true,
+        "safety_check_passed": false,
+        "safety_warnings": [
+          "Corpus evaluation timed out after 10.0s. Process terminated to prevent catastrophic backtracking."
+        ],
+        "worker_timeout_occurred": true,
+        "synthetic_tests_passed": false,
+        "synthetic_suite_results": {
+          "all_passed": false,
+          "domain_suite_passed": false,
+          "proposal_tests_passed": false,
+          "detailed_cases": {
+            "Proficient in Python and R for statistical data modeling.": {
+              "expected_match": true,
+              "actual_match": false,
+              "passed": false,
+              "case_type": "positive",
+              "explanation": "Standard list of data science languages (Python and R)."
+            },
+            "Required skills: SQL, R, Tableau, and Git.": {
+              "expected_match": true,
+              "actual_match": false,
+              "passed": false,
+              "case_type": "positive",
+              "explanation": "Standalone R in a comma-separated technical skill list."
+            },
+            "Strong background in R programming and Bayesian inference.": {
+              "expected_match": true,
+              "actual_match": true,
+              "passed": true,
+              "case_type": "positive",
+              "explanation": "Explicit 'R programming' phrase."
+            },
+            "Experience building analytical dashboards in RStudio and tidyverse.": {
+              "expected_match": true,
+              "actual_match": false,
+              "passed": false,
+              "case_type": "positive",
+              "explanation": "Canonical R environment and ecosystem package mention."
+            },
+            "Statistical analysis with R (ggplot2, dplyr, caret).": {
+              "expected_match": true,
+              "actual_match": false,
+              "passed": false,
+              "case_type": "positive",
+              "explanation": "R followed by parenthetical library specifications."
+            },
+            "Experience deploying statistical models in R/Shiny.": {
+              "expected_match": true,
+              "actual_match": false,
+              "passed": false,
+              "case_type": "positive",
+              "explanation": "Compound R/Shiny application mention."
+            },
+            "Expertise in Python/R scripting.": {
+              "expected_match": true,
+              "actual_match": true,
+              "passed": true,
+              "case_type": "positive",
+              "explanation": "Slash-delimited programming language variant (Python/R)."
+            },
+            "Leading our European R&D initiatives across product lines.": {
+              "expected_match": false,
+              "actual_match": false,
+              "passed": true,
+              "case_type": "negative_distractor",
+              "explanation": "Research and Development (R&D) abbreviation."
+            },
+            "Responsible for processing invoices in our A/R department.": {
+              "expected_match": false,
+              "actual_match": false,
+              "passed": true,
+              "case_type": "negative_distractor",
+              "explanation": "Accounts Receivable (A/R) accounting abbreviation."
+            },
+            "Hardware diagnostics for server revision Model R-200.": {
+              "expected_match": false,
+              "actual_match": false,
+              "passed": true,
+              "case_type": "negative_distractor",
+              "explanation": "Hardware model revision identifier (Model R-200)."
+            },
+            "Tracking serial batch R/1204 in warehouse inventory.": {
+              "expected_match": false,
+              "actual_match": false,
+              "passed": true,
+              "case_type": "negative_distractor",
+              "explanation": "Logistics batch number with slash and digits (R/1204)."
+            },
+            "Refer to the System build R.10 release notes.": {
+              "expected_match": false,
+              "actual_match": false,
+              "passed": true,
+              "case_type": "negative_distractor",
+              "explanation": "Software build version number (R.10)."
+            },
+            "Compensation package: R$ 8,000 per month gross.": {
+              "expected_match": false,
+              "actual_match": false,
+              "passed": true,
+              "case_type": "negative_distractor",
+              "explanation": "Currency symbol prefix (Brazilian Real, R$)."
+            },
+            "The applicant must maintain an active R.N. nursing license.": {
+              "expected_match": false,
+              "actual_match": false,
+              "passed": true,
+              "case_type": "negative_distractor",
+              "explanation": "Medical qualification abbreviation (Registered Nurse, R.N.)."
+            },
+            "Please submit your CV to Dr. R. Watson in administration.": {
+              "expected_match": false,
+              "actual_match": false,
+              "passed": true,
+              "case_type": "negative_distractor",
+              "explanation": "Human initial preceding surname (Dr. R. Watson)."
+            },
+            "We need energetic developers who excel in fast-paced teams.": {
+              "expected_match": false,
+              "actual_match": false,
+              "passed": true,
+              "case_type": "negative_distractor",
+              "explanation": "Ordinary English verb (excel in) containing no R skill."
+            }
+          }
+        },
+        "corpus_current_count": 0,
+        "corpus_candidate_count": 0,
+        "net_count_difference": 0,
+        "shared_ids_count": 0,
+        "current_only_count": 0,
+        "candidate_only_count": 0,
+        "current_only_preview": [],
+        "candidate_only_preview": [],
+        "ground_truth_metrics": null,
+        "execution_time_sec": 11.441
+      },
+      "markdown_report_path": "analysis\\llm_regex_audit\\artifacts\\r_phase3_report_qwen3_4b_cand1.md"
+    }
+  ]
+}

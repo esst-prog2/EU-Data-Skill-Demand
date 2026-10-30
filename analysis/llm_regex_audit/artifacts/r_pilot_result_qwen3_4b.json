@@ -1,0 +1,156 @@
+{
+  "canonical_skill": "R",
+  "model_name": "qwen3:4b",
+  "quantization": "Q4_K_M",
+  "sampling_seed": 20261030,
+  "prompt_version": "v1.0-structured-schema",
+  "inference_duration_sec": 13.497411199990893,
+  "prompt_tokens": 4011,
+  "response_tokens": 637,
+  "client_success": true,
+  "client_error": null,
+  "raw_model_response": "{\n  \"canonical_skill\": \"R\",\n  \"proposed_regex\": \"r\\\\b(?:\\\\b|\\\\s|\\\\.)?\\\\b(?:programming|script|lang|language|studio|scripting|studio|shiny|tidyverse|rstudio|rscript|r\\\\b)\",\n  \"proposed_aliases\": [\n    \"r-programming\",\n    \"r-script\",\n    \"r-lang\",\n    \"r-language\",\n    \"r-studio\",\n    \"r-scripting\",\n    \"r-shiny\",\n    \"r-tidyverse\",\n    \"r-rstudio\",\n    \"r-rscript\"\n  ],\n  \"explanation\": \"The regex now focuses on R-specific contexts without false positives from currency (R$), medical licenses (R.N.), or hardware models (Model R). It uses \\\\b for word boundaries and checks for common R variants (shiny, tidyverse, RStudio) while avoiding false positives from R&D, A/R, and other contexts. Lookahead/lookbehind guards are removed for simplicity and clarity.\",\n  \"positive_test_cases\": [\n    \"Proficiency in data analysis tools and languages such as Python or R\",\n    \"Experience with data extraction/wrangling * Experience using analytic tools such as: Databricks, SQL, R, Python, PySpark, Power BI or Tableau\",\n    \"Knowledge of programming languages such as Python or R for data analysis and statistical modeling\",\n    \"Experience with SQL, R, Python, Hadoop, SAS, SPSS, Scala, AWS\",\n    \"Practical knowledge of SQL along with Python or R (using libraries like pandas or numpy)\"\n  ],\n  \"negative_test_cases\": [\n    \"R$ 8,000 per month gross\",\n    \"R.N. nursing license\",\n    \"Diagnostics for hardware revision Model R-200\",\n    \"Tracking serial batch R/1204 in logistics\",\n    \"System build R.10 release notes\",\n    \"Contact Dr. R. Watson in the administrative office\",\n    \"R&D initiatives\",\n    \"A/R department\",\n    \"Model R-200\",\n    \"R/1204\",\n    \"R.10\",\n    \"R. Watson\",\n    \"R.N.\",\n    \"R$\"\n  ],\n  \"false_positive_risks\": [\n    \"R in acronyms (e.g., R&D, R.N.)\",\n    \"R as a currency symbol (R$)\",\n    \"R in model numbers (Model R-200)\",\n    \"R in serial numbers (R/1204)\",\n    \"R in versioning (R.10)\",\n    \"R as a name (Dr. R. Watson)\"\n  ],\n  \"confidence_score\": 0.95,\n  \"human_review_required\": [\n    \"R in medical contexts (e.g., R.N. license)\",\n    \"R in financial contexts (e.g., R$ currency)\",\n    \"R in hardware models (e.g., Model R-200)\"\n  ]\n}",
+  "parsed_json": {
+    "canonical_skill": "R",
+    "proposed_regex": "r\\b(?:\\b|\\s|\\.)?\\b(?:programming|script|lang|language|studio|scripting|studio|shiny|tidyverse|rstudio|rscript|r\\b)",
+    "proposed_aliases": [
+      "r-programming",
+      "r-script",
+      "r-lang",
+      "r-language",
+      "r-studio",
+      "r-scripting",
+      "r-shiny",
+      "r-tidyverse",
+      "r-rstudio",
+      "r-rscript"
+    ],
+    "explanation": "The regex now focuses on R-specific contexts without false positives from currency (R$), medical licenses (R.N.), or hardware models (Model R). It uses \\b for word boundaries and checks for common R variants (shiny, tidyverse, RStudio) while avoiding false positives from R&D, A/R, and other contexts. Lookahead/lookbehind guards are removed for simplicity and clarity.",
+    "positive_test_cases": [
+      "Proficiency in data analysis tools and languages such as Python or R",
+      "Experience with data extraction/wrangling * Experience using analytic tools such as: Databricks, SQL, R, Python, PySpark, Power BI or Tableau",
+      "Knowledge of programming languages such as Python or R for data analysis and statistical modeling",
+      "Experience with SQL, R, Python, Hadoop, SAS, SPSS, Scala, AWS",
+      "Practical knowledge of SQL along with Python or R (using libraries like pandas or numpy)"
+    ],
+    "negative_test_cases": [
+      "R$ 8,000 per month gross",
+      "R.N. nursing license",
+      "Diagnostics for hardware revision Model R-200",
+      "Tracking serial batch R/1204 in logistics",
+      "System build R.10 release notes",
+      "Contact Dr. R. Watson in the administrative office",
+      "R&D initiatives",
+      "A/R department",
+      "Model R-200",
+      "R/1204",
+      "R.10",
+      "R. Watson",
+      "R.N.",
+      "R$"
+    ],
+    "false_positive_risks": [
+      "R in acronyms (e.g., R&D, R.N.)",
+      "R as a currency symbol (R$)",
+      "R in model numbers (Model R-200)",
+      "R in serial numbers (R/1204)",
+      "R in versioning (R.10)",
+      "R as a name (Dr. R. Watson)"
+    ],
+    "confidence_score": 0.95,
+    "human_review_required": [
+      "R in medical contexts (e.g., R.N. license)",
+      "R in financial contexts (e.g., R$ currency)",
+      "R in hardware models (e.g., Model R-200)"
+    ]
+  },
+  "proposals_count": 1,
+  "validation_errors": [],
+  "evaluated_candidates": [
+    {
+      "candidate_index": 1,
+      "proposal": {
+        "canonical_skill": "R",
+        "proposed_regex": "r\\b(?:\\b|\\s|\\.)?\\b(?:programming|script|lang|language|studio|scripting|studio|shiny|tidyverse|rstudio|rscript|r\\b)",
+        "proposed_aliases": [
+          "r-programming",
+          "r-script",
+          "r-lang",
+          "r-language",
+          "r-studio",
+          "r-scripting",
+          "r-shiny",
+          "r-tidyverse",
+          "r-rstudio",
+          "r-rscript"
+        ],
+        "explanation": "The regex now focuses on R-specific contexts without false positives from currency (R$), medical licenses (R.N.), or hardware models (Model R). It uses \\b for word boundaries and checks for common R variants (shiny, tidyverse, RStudio) while avoiding false positives from R&D, A/R, and other contexts. Lookahead/lookbehind guards are removed for simplicity and clarity.",
+        "positive_test_cases": [
+          "Proficiency in data analysis tools and languages such as Python or R",
+          "Experience with data extraction/wrangling * Experience using analytic tools such as: Databricks, SQL, R, Python, PySpark, Power BI or Tableau",
+          "Knowledge of programming languages such as Python or R for data analysis and statistical modeling",
+          "Experience with SQL, R, Python, Hadoop, SAS, SPSS, Scala, AWS",
+          "Practical knowledge of SQL along with Python or R (using libraries like pandas or numpy)"
+        ],
+        "negative_test_cases": [
+          "R$ 8,000 per month gross",
+          "R.N. nursing license",
+          "Diagnostics for hardware revision Model R-200",
+          "Tracking serial batch R/1204 in logistics",
+          "System build R.10 release notes",
+          "Contact Dr. R. Watson in the administrative office",
+          "R&D initiatives",
+          "A/R department",
+          "Model R-200",
+          "R/1204",
+          "R.10",
+          "R. Watson",
+          "R.N.",
+          "R$"
+        ],
+        "false_positive_risks": [
+          "R in acronyms (e.g., R&D, R.N.)",
+          "R as a currency symbol (R$)",
+          "R in model numbers (Model R-200)",
+          "R in serial numbers (R/1204)",
+          "R in versioning (R.10)",
+          "R as a name (Dr. R. Watson)"
+        ],
+        "confidence_score": 0.95,
+        "human_review_required": [
+          "R in medical contexts (e.g., R.N. license)",
+          "R in financial contexts (e.g., R$ currency)",
+          "R in hardware models (e.g., Model R-200)"
+        ]
+      },
+      "evaluation": {
+        "is_valid_regex": true,
+        "safety_check_passed": false,
+        "safety_warnings": [
+          "Corpus evaluation timed out after 15.0s. Process terminated to prevent catastrophic backtracking."
+        ],
+        "worker_timeout_occurred": true,
+        "synthetic_tests_passed": false,
+        "corpus_current_count": 0,
+        "corpus_candidate_count": 0,
+        "net_count_difference": 0,
+        "shared_ids_count": 0,
+        "current_only_count": 0,
+        "candidate_only_count": 0,
+        "current_only_preview": [],
+        "candidate_only_preview": [],
+        "ground_truth_metrics": {
+          "evaluable_sample_size": 79.0,
+          "true_positives": 0.0,
+          "false_positives": 1.0,
+          "false_negatives": 31.0,
+          "true_negatives": 47.0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "execution_time_sec": 16.629
+      },
+      "markdown_report_path": "analysis\\llm_regex_audit\\artifacts\\r_pilot_report_qwen3_4b_cand1.md"
+    }
+  ]
+}

@@ -119,3 +119,19 @@
 
 ## 2026-10-30: Posting-ID Extraction Parity & C++ Regex Boundary Correction
 - 2026-10-30: Corrected C++ regex boundary in skills_vocabulary.json from '\\bc\\+\\+\\b|\\bcpp\\b' to '\\bc\\+\\+(?!\\+)|\\bcpp\\b' resolving non-word boundary failures after '++' while rejecting 'C+++' and 'music++', bumped pipeline version to '2026-10-30-hybrid-v2', and achieved 100% posting-ID-level parity across all 312 skill and occupational-category comparisons with 0 ID discrepancies. (Decided by: User, proposed by Agent)
+
+## 2026-10-30: LLM-Assisted Regex Audit Infrastructure (Phase 1)
+- 2026-10-30: Approved and implemented Phase 1 of LLM-assisted regex audit workflow in analysis/llm_regex_audit/ (deterministic sampling, bounded snippets, candidate JSON schema, ReDoS heuristics, posting-ID differential engine) maintaining strict decoupling from production extraction. (Decided by: User, proposed by Agent)
+- 2026-10-30: Implemented Phase 1 audit corrections: architectural benchmark leakage prevention (DiscoverySnippet vs BenchmarkSnippet separation), worker-isolated full-corpus evaluation with hard timeouts, strict human label normalization rejecting booleans, empty/whitespace pattern rejection, and undefined precision/recall handling. (Decided by: User, implemented by Agent)
+
+## 2026-10-30: Local LLM Setup and R/Excel Discovery Pilot (Phase 2)
+- 2026-10-30: Executed Phase 2 local LLM discovery pilot using Ollama (v0.40.13) with Qwen3 4B (Q4_K_M) accelerated 100% on NVIDIA RTX 4060 Laptop GPU (8 GB VRAM); evaluated candidate proposals against 25,394 corpus postings and 80 blind holdout benchmarks, establishing zero benchmark leakage and verifying worker timeout protection against unsafe regex backtracking. (Decided by: User, implemented by Agent)
+
+## 2026-10-30: Candidate Refinement & Controlled Validation (Phase 3)
+- 2026-10-30: Implemented Phase 3 controlled validation workflow: independent empirical tag alias auditor against FreeHire platform tags, independent positive and confounding synthetic test suites for R and Excel, strict validation gating (skipping downstream benchmark holdout evaluation upon syntax errors, synthetic test failures, or 10.0s worker timeouts), and executed local pilot with zero benchmark leakage. (Decided by: User, implemented by Agent)
+
+## 2026-10-30: Evaluation Infrastructure Audit & Deterministic Baseline Comparison (Phase 4)
+- 2026-10-30: Audited evaluation timeouts to empirically isolate production R regex latency (17.74s) and Windows multiprocessing IPC pipe buffer deadlock, resolved worker deadlock via unidirectional Pipe with non-blocking poll and parent-side baseline precomputation, verified deterministic baselines (Baseline R-1 passing 16/16 synthetic tests with 93.3% precision, 90.3% recall; Baseline Excel-1 achieving 100% precision and recall on blind benchmarks), disambiguated 5 distinct alias audit concepts, and concluded that autonomous 4B LLM regex discovery should be discontinued while retaining the deterministic audit and validation test engine for CI/CD regression verification. (Decided by: User, implemented by Agent)
+
+## 2026-10-30: Final Closeout, Reproducibility & Evidence Audit (Phase 5)
+- 2026-10-30: Completed final evidence audit of analysis/llm_regex_audit/ and verified 100% test reproducibility (38 audit tests passed, 390 repository tests passed), verified benchmark provenance, cleaned up temporary scratch investigation scripts, confirmed zero changes to production code or canonical vocabulary, and finalized project closeout. (Decided by: User, implemented by Agent)
