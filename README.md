@@ -2,18 +2,14 @@
 
 ## 1. The Demo
 
-I open the Streamlit web app in the browser and select one of five FreeHire occupational categories: Data Analytics, Data Engineering, Data Science, ML/AI, or AI Engineering.
-The app shows the category's most prevalent skills, then highlights which of those skills are *distinctive* to it rather than simply common across the observed corpus — e.g., "Python appears in 66.4% of Data Science postings, 1.2× its overall corpus prevalence, versus 44.3% in Data Analytics (0.8×)." Users can also filter by technical skill family (such as Cloud & infrastructure or BI & visualization) to view domain-specific rankings recomputed from the complete skill inventory.
-An interactive 2D scatter plot maps within-category prevalence against distinctiveness lift relative to an objective corpus parity baseline (Lift = 1.0), visually separating table-stakes tools from niche and role-defining markers with support indicators and interpretation guidance.
-A map shows where the 24,488 postings are located across the EU-27. A separate comparison shows how the occupational composition of countries with at least 300 observed postings differs across the five categories.
-The overview also shows the relative size of the five occupational categories, providing context for the overall skill-prevalence results.
+In a five-minute screenshot presentation, I introduce the single-page Streamlit dashboard (`app.py`), which analyses 24,488 job postings across all 27 EU member states and five data-related occupations. I start with the dashboard header, sticky filter bar and four summary KPI cards, then show different job-family filter states to illustrate how skill demand varies across occupations, highlighting Python's prevalence of 73.8% in Data Science compared with 42.2% in Data Analytics. Next, I explore the prevalence-versus-lift scatter plot, demonstrating how the technical skill-family filter changes the displayed skills and how the Lift = 1.00 reference line distinguishes skills with average occupational representation from those that are particularly characteristic of specific occupations. I then present the European choropleth map and the 100% stacked occupational composition chart, comparing the 11 countries with at least 300 job postings. Finally, I show the complete skill demand table and methodological notes, including seniority information available for 42.9% of postings, and explain how the dashboard uses precomputed analytics stored in `data/processed/analytics_summary.json`.
 
 ### Scope Decisions
 
 - **Project focus:** I cut the CV-matching and personalized skill-gap component from the original concept and focused the project on the market-analysis side, measuring technical skill demand across data-related occupations and geographic contexts in an observed EU-27 job-posting corpus.
 - **Data source:** I moved from SerpAPI and RemoteOK to FreeHire because FreeHire provides a larger, more consistently structured EU-wide job-posting corpus with occupational categories and country-level enrichment, making systematic comparison across occupations and countries more feasible.
 - **Geographic scope:** I expanded from a Hungary-focused analysis to the EU-27 because the broader corpus provides enough geographic and occupational variation to study how technical skill demand differs across both occupations and labour-market contexts.
-- **Seniority:** I moved away from using seniority as a primary analytical dimension because seniority information is missing for 61.2% of the corpus, making it too incomplete for a reliable comparison.
+- **Seniority:** I moved away from using seniority as a primary analytical dimension because seniority information is missing for 57.1% of the corpus (available for only 42.9%), making it too incomplete for a reliable comparison.
 - **Snapshot refresh:** Refreshed the EU-27 five-category dataset on 7 November 2026 using FreeHire's agent job-search endpoint, which provides full available descriptions. The refreshed collection contains 24,488 unique postings across all 27 EU member states.
 
 
