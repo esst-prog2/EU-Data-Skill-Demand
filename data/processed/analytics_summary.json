@@ -1,151 +1,151 @@
 {
-  "generated_at": "2026-10-30 14:57:00 UTC",
-  "snapshot_collected_at": "2026-10-18T11:38:31.436835+00:00",
+  "generated_at": "2026-11-07 16:40:21 UTC",
+  "snapshot_collected_at": "2026-11-07T16:38:16.199426+00:00",
   "kpis": {
-    "total_postings": 25394,
+    "total_postings": 24488,
     "total_countries": 27,
     "total_categories": 5,
-    "seniority_coverage_count": 9928,
-    "seniority_coverage_pct": 39.1
+    "seniority_coverage_count": 10494,
+    "seniority_coverage_pct": 42.9
   },
   "market_overview": {
     "category_shares": [
       {
         "category_id": "data_engineering",
         "category_name": "Data Engineering",
-        "count": 15504,
-        "share_pct": 61.1
+        "count": 13592,
+        "share_pct": 55.5
       },
       {
         "category_id": "data_analytics",
         "category_name": "Data Analytics",
-        "count": 3013,
-        "share_pct": 11.9
+        "count": 3582,
+        "share_pct": 14.6
       },
       {
         "category_id": "ai_engineering",
         "category_name": "AI Engineering",
-        "count": 2959,
-        "share_pct": 11.7
+        "count": 3345,
+        "share_pct": 13.7
       },
       {
         "category_id": "data_science",
         "category_name": "Data Science",
-        "count": 2551,
-        "share_pct": 10.0
+        "count": 2558,
+        "share_pct": 10.4
       },
       {
         "category_id": "ml_ai",
         "category_name": "ML/AI",
-        "count": 1367,
-        "share_pct": 5.4
+        "count": 1411,
+        "share_pct": 5.8
       }
     ],
     "top_skills_overall": [
       {
         "skill": "Python",
         "skill_group": "Programming languages",
-        "count": 13951,
-        "prevalence": 0.5493817437189887,
-        "prevalence_pct": 54.9
+        "count": 13979,
+        "prevalence": 0.5708510290754656,
+        "prevalence_pct": 57.1
       },
       {
         "skill": "SQL",
         "skill_group": "Programming languages",
-        "count": 11870,
-        "prevalence": 0.46743325194927937,
-        "prevalence_pct": 46.7
+        "count": 11892,
+        "prevalence": 0.48562561254492,
+        "prevalence_pct": 48.6
       },
       {
         "skill": "Azure",
         "skill_group": "Cloud & infrastructure",
-        "count": 7446,
-        "prevalence": 0.2932188705993542,
-        "prevalence_pct": 29.3
-      },
-      {
-        "skill": "AWS",
-        "skill_group": "Cloud & infrastructure",
-        "count": 5951,
-        "prevalence": 0.23434669606993777,
-        "prevalence_pct": 23.4
-      },
-      {
-        "skill": "CI/CD",
-        "skill_group": "Cloud & infrastructure",
-        "count": 5803,
-        "prevalence": 0.22851854768843033,
-        "prevalence_pct": 22.9
+        "count": 7259,
+        "prevalence": 0.2964309049330284,
+        "prevalence_pct": 29.6
       },
       {
         "skill": "LLMs / Generative AI",
         "skill_group": "ML/AI frameworks & tools",
-        "count": 5629,
-        "prevalence": 0.2216665354020635,
-        "prevalence_pct": 22.2
+        "count": 6132,
+        "prevalence": 0.25040836327997384,
+        "prevalence_pct": 25.0
+      },
+      {
+        "skill": "CI/CD",
+        "skill_group": "Cloud & infrastructure",
+        "count": 6065,
+        "prevalence": 0.24767232930414898,
+        "prevalence_pct": 24.8
+      },
+      {
+        "skill": "AWS",
+        "skill_group": "Cloud & infrastructure",
+        "count": 5732,
+        "prevalence": 0.23407383208101928,
+        "prevalence_pct": 23.4
       },
       {
         "skill": "Apache Spark",
         "skill_group": "Cloud & infrastructure",
-        "count": 5540,
-        "prevalence": 0.21816177049696778,
-        "prevalence_pct": 21.8
+        "count": 5063,
+        "prevalence": 0.20675432865076773,
+        "prevalence_pct": 20.7
       },
       {
         "skill": "Databricks",
         "skill_group": "Cloud & infrastructure",
-        "count": 5465,
-        "prevalence": 0.21520831692525794,
-        "prevalence_pct": 21.5
+        "count": 5032,
+        "prevalence": 0.20548840248284875,
+        "prevalence_pct": 20.5
       },
       {
         "skill": "GCP",
         "skill_group": "Cloud & infrastructure",
-        "count": 4507,
-        "prevalence": 0.17748286996928408,
-        "prevalence_pct": 17.7
+        "count": 4648,
+        "prevalence": 0.18980725253185235,
+        "prevalence_pct": 19.0
       },
       {
         "skill": "Git",
         "skill_group": "Cloud & infrastructure",
-        "count": 4322,
-        "prevalence": 0.17019768449239978,
-        "prevalence_pct": 17.0
+        "count": 4585,
+        "prevalence": 0.18723456386801698,
+        "prevalence_pct": 18.7
       },
       {
         "skill": "Power BI",
         "skill_group": "BI & visualization",
-        "count": 3836,
-        "prevalence": 0.15105930534771994,
-        "prevalence_pct": 15.1
+        "count": 4195,
+        "prevalence": 0.17130839594903627,
+        "prevalence_pct": 17.1
       },
       {
         "skill": "Snowflake",
         "skill_group": "Databases & data warehouses",
-        "count": 3237,
-        "prevalence": 0.12747105615499724,
-        "prevalence_pct": 12.7
-      },
-      {
-        "skill": "Apache Airflow",
-        "skill_group": "Cloud & infrastructure",
-        "count": 3119,
-        "prevalence": 0.12282428920217374,
-        "prevalence_pct": 12.3
+        "count": 3129,
+        "prevalence": 0.1277768703038223,
+        "prevalence_pct": 12.8
       },
       {
         "skill": "dbt",
         "skill_group": "Cloud & infrastructure",
-        "count": 3080,
-        "prevalence": 0.12128849334488462,
+        "count": 3067,
+        "prevalence": 0.12524501796798432,
+        "prevalence_pct": 12.5
+      },
+      {
+        "skill": "Apache Airflow",
+        "skill_group": "Cloud & infrastructure",
+        "count": 2967,
+        "prevalence": 0.12116138516824568,
         "prevalence_pct": 12.1
       },
       {
         "skill": "Docker",
         "skill_group": "Cloud & infrastructure",
-        "count": 2230,
-        "prevalence": 0.08781601953217295,
-        "prevalence_pct": 8.8
+        "count": 2330,
+        "prevalence": 0.09514864423391049,
+        "prevalence_pct": 9.5
       }
     ]
   },
@@ -153,86 +153,86 @@
     "data_analytics": {
       "category_id": "data_analytics",
       "category_name": "Data Analytics",
-      "total_postings": 3013,
+      "total_postings": 3582,
       "top_in_demand": [
         {
           "canonical": "SQL",
           "skill_group": "Programming languages",
-          "count": 1862,
-          "prevalence": 0.6179887155658812,
-          "prevalence_pct": 61.8,
-          "lift": 1.32
-        },
-        {
-          "canonical": "Python",
-          "skill_group": "Programming languages",
-          "count": 1328,
-          "prevalence": 0.4407567208762031,
-          "prevalence_pct": 44.1,
-          "lift": 0.8
+          "count": 2283,
+          "prevalence": 0.6373534338358459,
+          "prevalence_pct": 63.7,
+          "lift": 1.31
         },
         {
           "canonical": "Power BI",
           "skill_group": "BI & visualization",
-          "count": 1291,
-          "prevalence": 0.4284766013939595,
-          "prevalence_pct": 42.8,
-          "lift": 2.84
+          "count": 1603,
+          "prevalence": 0.44751535455053043,
+          "prevalence_pct": 44.8,
+          "lift": 2.61
         },
         {
-          "canonical": "Tableau",
-          "skill_group": "BI & visualization",
-          "count": 638,
-          "prevalence": 0.21174908728841685,
-          "prevalence_pct": 21.2,
-          "lift": 3.79
+          "canonical": "Python",
+          "skill_group": "Programming languages",
+          "count": 1510,
+          "prevalence": 0.42155220547180344,
+          "prevalence_pct": 42.2,
+          "lift": 0.74
         },
         {
           "canonical": "Excel",
           "skill_group": "BI & visualization",
-          "count": 633,
-          "prevalence": 0.21008961168270826,
+          "count": 790,
+          "prevalence": 0.22054718034617532,
+          "prevalence_pct": 22.1,
+          "lift": 4.73
+        },
+        {
+          "canonical": "Tableau",
+          "skill_group": "BI & visualization",
+          "count": 754,
+          "prevalence": 0.21049692908989392,
           "prevalence_pct": 21.0,
-          "lift": 5.53
+          "lift": 3.38
         },
         {
           "canonical": "dbt",
           "skill_group": "Cloud & infrastructure",
-          "count": 503,
-          "prevalence": 0.16694324593428478,
-          "prevalence_pct": 16.7,
-          "lift": 1.38
+          "count": 538,
+          "prevalence": 0.15019542155220547,
+          "prevalence_pct": 15.0,
+          "lift": 1.2
         },
         {
           "canonical": "Azure",
           "skill_group": "Cloud & infrastructure",
-          "count": 392,
-          "prevalence": 0.13010288748755394,
-          "prevalence_pct": 13.0,
-          "lift": 0.44
+          "count": 450,
+          "prevalence": 0.12562814070351758,
+          "prevalence_pct": 12.6,
+          "lift": 0.42
+        },
+        {
+          "canonical": "Git",
+          "skill_group": "Cloud & infrastructure",
+          "count": 425,
+          "prevalence": 0.11864879955332217,
+          "prevalence_pct": 11.9,
+          "lift": 0.63
         },
         {
           "canonical": "Looker",
           "skill_group": "BI & visualization",
-          "count": 357,
-          "prevalence": 0.11848655824759376,
-          "prevalence_pct": 11.8,
-          "lift": 4.08
-        },
-        {
-          "canonical": "Snowflake",
-          "skill_group": "Databases & data warehouses",
-          "count": 356,
-          "prevalence": 0.11815466312645204,
-          "prevalence_pct": 11.8,
-          "lift": 0.93
+          "count": 412,
+          "prevalence": 0.11501954215522055,
+          "prevalence_pct": 11.5,
+          "lift": 3.9
         },
         {
           "canonical": "Databricks",
           "skill_group": "Cloud & infrastructure",
-          "count": 340,
-          "prevalence": 0.11284434118818454,
-          "prevalence_pct": 11.3,
+          "count": 381,
+          "prevalence": 0.10636515912897822,
+          "prevalence_pct": 10.6,
           "lift": 0.52
         }
       ],
@@ -240,476 +240,476 @@
         {
           "canonical": "Excel",
           "skill_group": "BI & visualization",
-          "count": 633,
-          "prevalence": 0.21008961168270826,
-          "prevalence_pct": 21.0,
-          "lift": 5.53
+          "count": 790,
+          "prevalence": 0.22054718034617532,
+          "prevalence_pct": 22.1,
+          "lift": 4.73
         },
         {
           "canonical": "Looker",
           "skill_group": "BI & visualization",
-          "count": 357,
-          "prevalence": 0.11848655824759376,
-          "prevalence_pct": 11.8,
-          "lift": 4.08
+          "count": 412,
+          "prevalence": 0.11501954215522055,
+          "prevalence_pct": 11.5,
+          "lift": 3.9
         },
         {
           "canonical": "Tableau",
           "skill_group": "BI & visualization",
-          "count": 638,
-          "prevalence": 0.21174908728841685,
-          "prevalence_pct": 21.2,
-          "lift": 3.79
-        },
-        {
-          "canonical": "Metabase",
-          "skill_group": "BI & visualization",
-          "count": 65,
-          "prevalence": 0.021573182874211748,
-          "prevalence_pct": 2.2,
-          "lift": 3.68
+          "count": 754,
+          "prevalence": 0.21049692908989392,
+          "prevalence_pct": 21.0,
+          "lift": 3.38
         },
         {
           "canonical": "Qlik",
           "skill_group": "BI & visualization",
-          "count": 142,
-          "prevalence": 0.047129107202124126,
-          "prevalence_pct": 4.7,
-          "lift": 3.13
+          "count": 202,
+          "prevalence": 0.056393076493579004,
+          "prevalence_pct": 5.6,
+          "lift": 2.81
+        },
+        {
+          "canonical": "Metabase",
+          "skill_group": "BI & visualization",
+          "count": 63,
+          "prevalence": 0.017587939698492462,
+          "prevalence_pct": 1.8,
+          "lift": 2.81
         },
         {
           "canonical": "Power BI",
           "skill_group": "BI & visualization",
-          "count": 1291,
-          "prevalence": 0.4284766013939595,
-          "prevalence_pct": 42.8,
-          "lift": 2.84
+          "count": 1603,
+          "prevalence": 0.44751535455053043,
+          "prevalence_pct": 44.8,
+          "lift": 2.61
         },
         {
           "canonical": "R",
           "skill_group": "Programming languages",
-          "count": 316,
-          "prevalence": 0.10487885828078328,
-          "prevalence_pct": 10.5,
-          "lift": 2.39
-        },
-        {
-          "canonical": "dbt",
-          "skill_group": "Cloud & infrastructure",
-          "count": 503,
-          "prevalence": 0.16694324593428478,
-          "prevalence_pct": 16.7,
-          "lift": 1.38
+          "count": 364,
+          "prevalence": 0.10161920714684534,
+          "prevalence_pct": 10.2,
+          "lift": 2.12
         },
         {
           "canonical": "SQL",
           "skill_group": "Programming languages",
-          "count": 1862,
-          "prevalence": 0.6179887155658812,
-          "prevalence_pct": 61.8,
-          "lift": 1.32
+          "count": 2283,
+          "prevalence": 0.6373534338358459,
+          "prevalence_pct": 63.7,
+          "lift": 1.31
+        },
+        {
+          "canonical": "dbt",
+          "skill_group": "Cloud & infrastructure",
+          "count": 538,
+          "prevalence": 0.15019542155220547,
+          "prevalence_pct": 15.0,
+          "lift": 1.2
         },
         {
           "canonical": "BigQuery",
           "skill_group": "Databases & data warehouses",
-          "count": 317,
-          "prevalence": 0.105210753401925,
-          "prevalence_pct": 10.5,
-          "lift": 1.31
+          "count": 363,
+          "prevalence": 0.10134003350083752,
+          "prevalence_pct": 10.1,
+          "lift": 1.19
         }
       ],
       "all_skills": [
         {
           "canonical": "Python",
           "skill_group": "Programming languages",
-          "count": 1328,
-          "prevalence": 0.4407567208762031,
-          "prevalence_pct": 44.1,
-          "lift": 0.8
+          "count": 1510,
+          "prevalence": 0.42155220547180344,
+          "prevalence_pct": 42.2,
+          "lift": 0.74
         },
         {
           "canonical": "SQL",
           "skill_group": "Programming languages",
-          "count": 1862,
-          "prevalence": 0.6179887155658812,
-          "prevalence_pct": 61.8,
-          "lift": 1.32
+          "count": 2283,
+          "prevalence": 0.6373534338358459,
+          "prevalence_pct": 63.7,
+          "lift": 1.31
         },
         {
           "canonical": "R",
           "skill_group": "Programming languages",
-          "count": 316,
-          "prevalence": 0.10487885828078328,
-          "prevalence_pct": 10.5,
-          "lift": 2.39
+          "count": 364,
+          "prevalence": 0.10161920714684534,
+          "prevalence_pct": 10.2,
+          "lift": 2.12
         },
         {
           "canonical": "Java",
           "skill_group": "Programming languages",
           "count": 30,
-          "prevalence": 0.009956853634251576,
-          "prevalence_pct": 1.0,
-          "lift": 0.15
+          "prevalence": 0.008375209380234505,
+          "prevalence_pct": 0.8,
+          "lift": 0.12
         },
         {
           "canonical": "Scala",
           "skill_group": "Programming languages",
-          "count": 30,
-          "prevalence": 0.009956853634251576,
-          "prevalence_pct": 1.0,
-          "lift": 0.16
+          "count": 24,
+          "prevalence": 0.006700167504187605,
+          "prevalence_pct": 0.7,
+          "lift": 0.12
         },
         {
           "canonical": "C++",
           "skill_group": "Programming languages",
-          "count": 10,
-          "prevalence": 0.003318951211417192,
+          "count": 12,
+          "prevalence": 0.0033500837520938024,
           "prevalence_pct": 0.3,
-          "lift": 0.21
+          "lift": 0.18
         },
         {
           "canonical": "Julia",
           "skill_group": "Programming languages",
-          "count": 3,
-          "prevalence": 0.0009956853634251576,
-          "prevalence_pct": 0.1,
-          "lift": 0.94
+          "count": 1,
+          "prevalence": 0.00027917364600781687,
+          "prevalence_pct": 0.0,
+          "lift": 0.26
         },
         {
           "canonical": "Bash / Shell",
           "skill_group": "Programming languages",
-          "count": 19,
-          "prevalence": 0.006306007301692665,
-          "prevalence_pct": 0.6,
-          "lift": 0.3
+          "count": 14,
+          "prevalence": 0.003908431044109436,
+          "prevalence_pct": 0.4,
+          "lift": 0.18
         },
         {
           "canonical": "Go",
           "skill_group": "Programming languages",
-          "count": 2,
-          "prevalence": 0.0006637902422834385,
-          "prevalence_pct": 0.1,
-          "lift": 0.3
+          "count": 0,
+          "prevalence": 0.0,
+          "prevalence_pct": 0.0,
+          "lift": 0.0
         },
         {
           "canonical": "TypeScript",
           "skill_group": "Programming languages",
-          "count": 6,
-          "prevalence": 0.0019913707268503153,
-          "prevalence_pct": 0.2,
-          "lift": 0.08
+          "count": 14,
+          "prevalence": 0.003908431044109436,
+          "prevalence_pct": 0.4,
+          "lift": 0.15
         },
         {
           "canonical": "Snowflake",
           "skill_group": "Databases & data warehouses",
-          "count": 356,
-          "prevalence": 0.11815466312645204,
-          "prevalence_pct": 11.8,
-          "lift": 0.93
+          "count": 379,
+          "prevalence": 0.1058068118369626,
+          "prevalence_pct": 10.6,
+          "lift": 0.83
         },
         {
           "canonical": "PostgreSQL",
           "skill_group": "Databases & data warehouses",
-          "count": 64,
-          "prevalence": 0.02124128775307003,
+          "count": 76,
+          "prevalence": 0.02121719709659408,
           "prevalence_pct": 2.1,
-          "lift": 0.49
+          "lift": 0.44
         },
         {
           "canonical": "BigQuery",
           "skill_group": "Databases & data warehouses",
-          "count": 317,
-          "prevalence": 0.105210753401925,
-          "prevalence_pct": 10.5,
-          "lift": 1.31
+          "count": 363,
+          "prevalence": 0.10134003350083752,
+          "prevalence_pct": 10.1,
+          "lift": 1.19
         },
         {
           "canonical": "Amazon Redshift",
           "skill_group": "Databases & data warehouses",
-          "count": 90,
-          "prevalence": 0.02987056090275473,
-          "prevalence_pct": 3.0,
-          "lift": 1.04
+          "count": 88,
+          "prevalence": 0.024567280848687884,
+          "prevalence_pct": 2.5,
+          "lift": 1.01
         },
         {
           "canonical": "MySQL",
           "skill_group": "Databases & data warehouses",
-          "count": 27,
-          "prevalence": 0.008961168270826419,
-          "prevalence_pct": 0.9,
-          "lift": 0.82
+          "count": 28,
+          "prevalence": 0.007816862088218872,
+          "prevalence_pct": 0.8,
+          "lift": 0.75
         },
         {
           "canonical": "MongoDB",
           "skill_group": "Databases & data warehouses",
-          "count": 14,
-          "prevalence": 0.004646531695984069,
-          "prevalence_pct": 0.5,
-          "lift": 0.3
+          "count": 22,
+          "prevalence": 0.006141820212171971,
+          "prevalence_pct": 0.6,
+          "lift": 0.36
         },
         {
           "canonical": "Redis",
           "skill_group": "Databases & data warehouses",
-          "count": 4,
-          "prevalence": 0.001327580484566877,
-          "prevalence_pct": 0.1,
-          "lift": 0.23
+          "count": 1,
+          "prevalence": 0.00027917364600781687,
+          "prevalence_pct": 0.0,
+          "lift": 0.04
         },
         {
           "canonical": "Cassandra",
           "skill_group": "Databases & data warehouses",
-          "count": 4,
-          "prevalence": 0.001327580484566877,
-          "prevalence_pct": 0.1,
-          "lift": 0.24
+          "count": 1,
+          "prevalence": 0.00027917364600781687,
+          "prevalence_pct": 0.0,
+          "lift": 0.06
         },
         {
           "canonical": "Oracle DB",
           "skill_group": "Databases & data warehouses",
-          "count": 73,
-          "prevalence": 0.024228343843345504,
-          "prevalence_pct": 2.4,
-          "lift": 0.99
+          "count": 105,
+          "prevalence": 0.02931323283082077,
+          "prevalence_pct": 2.9,
+          "lift": 1.0
         },
         {
           "canonical": "MS SQL Server",
           "skill_group": "Databases & data warehouses",
-          "count": 94,
-          "prevalence": 0.031198141387321607,
-          "prevalence_pct": 3.1,
-          "lift": 0.97
+          "count": 143,
+          "prevalence": 0.03992183137911781,
+          "prevalence_pct": 4.0,
+          "lift": 1.05
         },
         {
           "canonical": "Elasticsearch",
           "skill_group": "Databases & data warehouses",
-          "count": 5,
-          "prevalence": 0.001659475605708596,
-          "prevalence_pct": 0.2,
-          "lift": 0.18
+          "count": 11,
+          "prevalence": 0.0030709101060859855,
+          "prevalence_pct": 0.3,
+          "lift": 0.31
         },
         {
           "canonical": "Power BI",
           "skill_group": "BI & visualization",
-          "count": 1291,
-          "prevalence": 0.4284766013939595,
-          "prevalence_pct": 42.8,
-          "lift": 2.84
+          "count": 1603,
+          "prevalence": 0.44751535455053043,
+          "prevalence_pct": 44.8,
+          "lift": 2.61
         },
         {
           "canonical": "Tableau",
           "skill_group": "BI & visualization",
-          "count": 638,
-          "prevalence": 0.21174908728841685,
-          "prevalence_pct": 21.2,
-          "lift": 3.79
+          "count": 754,
+          "prevalence": 0.21049692908989392,
+          "prevalence_pct": 21.0,
+          "lift": 3.38
         },
         {
           "canonical": "Excel",
           "skill_group": "BI & visualization",
-          "count": 633,
-          "prevalence": 0.21008961168270826,
-          "prevalence_pct": 21.0,
-          "lift": 5.53
+          "count": 790,
+          "prevalence": 0.22054718034617532,
+          "prevalence_pct": 22.1,
+          "lift": 4.73
         },
         {
           "canonical": "Looker",
           "skill_group": "BI & visualization",
-          "count": 357,
-          "prevalence": 0.11848655824759376,
-          "prevalence_pct": 11.8,
-          "lift": 4.08
+          "count": 412,
+          "prevalence": 0.11501954215522055,
+          "prevalence_pct": 11.5,
+          "lift": 3.9
         },
         {
           "canonical": "Qlik",
           "skill_group": "BI & visualization",
-          "count": 142,
-          "prevalence": 0.047129107202124126,
-          "prevalence_pct": 4.7,
-          "lift": 3.13
+          "count": 202,
+          "prevalence": 0.056393076493579004,
+          "prevalence_pct": 5.6,
+          "lift": 2.81
         },
         {
           "canonical": "Metabase",
           "skill_group": "BI & visualization",
-          "count": 65,
-          "prevalence": 0.021573182874211748,
-          "prevalence_pct": 2.2,
-          "lift": 3.68
+          "count": 63,
+          "prevalence": 0.017587939698492462,
+          "prevalence_pct": 1.8,
+          "lift": 2.81
         },
         {
           "canonical": "Apache Superset",
           "skill_group": "BI & visualization",
-          "count": 29,
-          "prevalence": 0.009624958513109858,
-          "prevalence_pct": 1.0,
-          "lift": 2.44
+          "count": 38,
+          "prevalence": 0.01060859854829704,
+          "prevalence_pct": 1.1,
+          "lift": 2.16
         },
         {
           "canonical": "Azure",
           "skill_group": "Cloud & infrastructure",
-          "count": 392,
-          "prevalence": 0.13010288748755394,
-          "prevalence_pct": 13.0,
-          "lift": 0.44
+          "count": 450,
+          "prevalence": 0.12562814070351758,
+          "prevalence_pct": 12.6,
+          "lift": 0.42
         },
         {
           "canonical": "AWS",
           "skill_group": "Cloud & infrastructure",
-          "count": 240,
-          "prevalence": 0.07965482907401261,
-          "prevalence_pct": 8.0,
-          "lift": 0.34
+          "count": 306,
+          "prevalence": 0.08542713567839195,
+          "prevalence_pct": 8.5,
+          "lift": 0.36
         },
         {
           "canonical": "GCP",
           "skill_group": "Cloud & infrastructure",
-          "count": 251,
-          "prevalence": 0.08330567540657152,
-          "prevalence_pct": 8.3,
-          "lift": 0.47
+          "count": 333,
+          "prevalence": 0.09296482412060302,
+          "prevalence_pct": 9.3,
+          "lift": 0.49
         },
         {
           "canonical": "Databricks",
           "skill_group": "Cloud & infrastructure",
-          "count": 340,
-          "prevalence": 0.11284434118818454,
-          "prevalence_pct": 11.3,
+          "count": 381,
+          "prevalence": 0.10636515912897822,
+          "prevalence_pct": 10.6,
           "lift": 0.52
         },
         {
           "canonical": "Apache Spark",
           "skill_group": "Cloud & infrastructure",
-          "count": 184,
-          "prevalence": 0.061068702290076333,
-          "prevalence_pct": 6.1,
-          "lift": 0.28
+          "count": 194,
+          "prevalence": 0.05415968732551647,
+          "prevalence_pct": 5.4,
+          "lift": 0.26
         },
         {
           "canonical": "dbt",
           "skill_group": "Cloud & infrastructure",
-          "count": 503,
-          "prevalence": 0.16694324593428478,
-          "prevalence_pct": 16.7,
-          "lift": 1.38
+          "count": 538,
+          "prevalence": 0.15019542155220547,
+          "prevalence_pct": 15.0,
+          "lift": 1.2
         },
         {
           "canonical": "Apache Kafka",
           "skill_group": "Cloud & infrastructure",
-          "count": 19,
-          "prevalence": 0.006306007301692665,
-          "prevalence_pct": 0.6,
-          "lift": 0.09
+          "count": 15,
+          "prevalence": 0.0041876046901172526,
+          "prevalence_pct": 0.4,
+          "lift": 0.06
         },
         {
           "canonical": "Apache Airflow",
           "skill_group": "Cloud & infrastructure",
-          "count": 179,
-          "prevalence": 0.05940922668436774,
-          "prevalence_pct": 5.9,
-          "lift": 0.48
+          "count": 191,
+          "prevalence": 0.05332216638749302,
+          "prevalence_pct": 5.3,
+          "lift": 0.44
         },
         {
           "canonical": "Docker",
           "skill_group": "Cloud & infrastructure",
-          "count": 36,
-          "prevalence": 0.011948224361101892,
-          "prevalence_pct": 1.2,
-          "lift": 0.14
+          "count": 37,
+          "prevalence": 0.010329424902289224,
+          "prevalence_pct": 1.0,
+          "lift": 0.11
         },
         {
           "canonical": "Kubernetes",
           "skill_group": "Cloud & infrastructure",
-          "count": 18,
-          "prevalence": 0.005974112180550946,
+          "count": 21,
+          "prevalence": 0.005862646566164154,
           "prevalence_pct": 0.6,
           "lift": 0.07
         },
         {
           "canonical": "Terraform",
           "skill_group": "Cloud & infrastructure",
-          "count": 36,
-          "prevalence": 0.011948224361101892,
-          "prevalence_pct": 1.2,
-          "lift": 0.17
+          "count": 20,
+          "prevalence": 0.005583472920156337,
+          "prevalence_pct": 0.6,
+          "lift": 0.07
         },
         {
           "canonical": "Git",
           "skill_group": "Cloud & infrastructure",
-          "count": 334,
-          "prevalence": 0.11085297046133422,
-          "prevalence_pct": 11.1,
-          "lift": 0.65
+          "count": 425,
+          "prevalence": 0.11864879955332217,
+          "prevalence_pct": 11.9,
+          "lift": 0.63
         },
         {
           "canonical": "CI/CD",
           "skill_group": "Cloud & infrastructure",
-          "count": 192,
-          "prevalence": 0.06372386325921009,
+          "count": 228,
+          "prevalence": 0.06365159128978225,
           "prevalence_pct": 6.4,
-          "lift": 0.28
+          "lift": 0.26
         },
         {
           "canonical": "PyTorch",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 9,
-          "prevalence": 0.002987056090275473,
-          "prevalence_pct": 0.3,
-          "lift": 0.06
+          "count": 8,
+          "prevalence": 0.002233389168062535,
+          "prevalence_pct": 0.2,
+          "lift": 0.04
         },
         {
           "canonical": "TensorFlow",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 8,
-          "prevalence": 0.002655160969133754,
+          "count": 11,
+          "prevalence": 0.0030709101060859855,
           "prevalence_pct": 0.3,
           "lift": 0.07
         },
         {
           "canonical": "Scikit-learn",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 20,
-          "prevalence": 0.006637902422834384,
-          "prevalence_pct": 0.7,
-          "lift": 0.2
+          "count": 29,
+          "prevalence": 0.00809603573422669,
+          "prevalence_pct": 0.8,
+          "lift": 0.21
         },
         {
           "canonical": "Pandas",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 98,
-          "prevalence": 0.032525721871888486,
+          "count": 119,
+          "prevalence": 0.0332216638749302,
           "prevalence_pct": 3.3,
-          "lift": 0.83
+          "lift": 0.79
         },
         {
           "canonical": "NumPy",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 50,
-          "prevalence": 0.01659475605708596,
-          "prevalence_pct": 1.7,
-          "lift": 0.81
+          "count": 64,
+          "prevalence": 0.01786711334450028,
+          "prevalence_pct": 1.8,
+          "lift": 0.79
         },
         {
           "canonical": "MLflow",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 4,
-          "prevalence": 0.001327580484566877,
-          "prevalence_pct": 0.1,
-          "lift": 0.06
+          "count": 1,
+          "prevalence": 0.00027917364600781687,
+          "prevalence_pct": 0.0,
+          "lift": 0.01
         },
         {
           "canonical": "Hugging Face",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 3,
-          "prevalence": 0.0009956853634251576,
+          "count": 2,
+          "prevalence": 0.0005583472920156337,
           "prevalence_pct": 0.1,
-          "lift": 0.06
+          "lift": 0.03
         },
         {
           "canonical": "LangChain",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 3,
-          "prevalence": 0.0009956853634251576,
+          "count": 2,
+          "prevalence": 0.0005583472920156337,
           "prevalence_pct": 0.1,
-          "lift": 0.03
+          "lift": 0.01
         },
         {
           "canonical": "OpenCV",
@@ -722,604 +722,604 @@
         {
           "canonical": "XGBoost",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 0,
-          "prevalence": 0.0,
+          "count": 1,
+          "prevalence": 0.00027917364600781687,
           "prevalence_pct": 0.0,
-          "lift": 0.0
+          "lift": 0.04
         },
         {
           "canonical": "LLMs / Generative AI",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 293,
-          "prevalence": 0.09724527049452374,
-          "prevalence_pct": 9.7,
-          "lift": 0.44
+          "count": 342,
+          "prevalence": 0.09547738693467336,
+          "prevalence_pct": 9.5,
+          "lift": 0.38
         }
       ]
     },
     "data_engineering": {
       "category_id": "data_engineering",
       "category_name": "Data Engineering",
-      "total_postings": 15504,
+      "total_postings": 13592,
       "top_in_demand": [
         {
           "canonical": "SQL",
           "skill_group": "Programming languages",
-          "count": 8200,
-          "prevalence": 0.5288957688338494,
-          "prevalence_pct": 52.9,
-          "lift": 1.13
+          "count": 7591,
+          "prevalence": 0.5584902884049441,
+          "prevalence_pct": 55.8,
+          "lift": 1.15
         },
         {
           "canonical": "Python",
           "skill_group": "Programming languages",
-          "count": 8038,
-          "prevalence": 0.5184468524251806,
-          "prevalence_pct": 51.8,
+          "count": 7268,
+          "prevalence": 0.5347263095938788,
+          "prevalence_pct": 53.5,
           "lift": 0.94
         },
         {
           "canonical": "Azure",
           "skill_group": "Cloud & infrastructure",
-          "count": 5318,
-          "prevalence": 0.3430082559339525,
-          "prevalence_pct": 34.3,
-          "lift": 1.17
+          "count": 4792,
+          "prevalence": 0.35256032960565037,
+          "prevalence_pct": 35.3,
+          "lift": 1.19
         },
         {
           "canonical": "Apache Spark",
           "skill_group": "Cloud & infrastructure",
-          "count": 4629,
-          "prevalence": 0.29856811145510836,
-          "prevalence_pct": 29.9,
-          "lift": 1.37
-        },
-        {
-          "canonical": "Databricks",
-          "skill_group": "Cloud & infrastructure",
-          "count": 4450,
-          "prevalence": 0.2870227038183695,
-          "prevalence_pct": 28.7,
-          "lift": 1.33
+          "count": 4121,
+          "prevalence": 0.3031930547380812,
+          "prevalence_pct": 30.3,
+          "lift": 1.47
         },
         {
           "canonical": "CI/CD",
           "skill_group": "Cloud & infrastructure",
-          "count": 4062,
-          "prevalence": 0.26199690402476783,
-          "prevalence_pct": 26.2,
-          "lift": 1.15
+          "count": 4014,
+          "prevalence": 0.2953207769276045,
+          "prevalence_pct": 29.5,
+          "lift": 1.19
+        },
+        {
+          "canonical": "Databricks",
+          "skill_group": "Cloud & infrastructure",
+          "count": 3889,
+          "prevalence": 0.286124190700412,
+          "prevalence_pct": 28.6,
+          "lift": 1.39
         },
         {
           "canonical": "AWS",
           "skill_group": "Cloud & infrastructure",
-          "count": 4042,
-          "prevalence": 0.26070691434468524,
-          "prevalence_pct": 26.1,
-          "lift": 1.11
+          "count": 3575,
+          "prevalence": 0.2630223660977045,
+          "prevalence_pct": 26.3,
+          "lift": 1.12
         },
         {
           "canonical": "GCP",
           "skill_group": "Cloud & infrastructure",
-          "count": 3007,
-          "prevalence": 0.1939499484004128,
-          "prevalence_pct": 19.4,
-          "lift": 1.09
+          "count": 2943,
+          "prevalence": 0.21652442613301942,
+          "prevalence_pct": 21.7,
+          "lift": 1.14
         },
         {
           "canonical": "Git",
           "skill_group": "Cloud & infrastructure",
-          "count": 2708,
-          "prevalence": 0.17466460268317854,
-          "prevalence_pct": 17.5,
+          "count": 2622,
+          "prevalence": 0.19290759270158916,
+          "prevalence_pct": 19.3,
           "lift": 1.03
         },
         {
           "canonical": "Snowflake",
           "skill_group": "Databases & data warehouses",
-          "count": 2603,
-          "prevalence": 0.16789215686274508,
-          "prevalence_pct": 16.8,
-          "lift": 1.32
+          "count": 2437,
+          "prevalence": 0.17929664508534432,
+          "prevalence_pct": 17.9,
+          "lift": 1.4
         }
       ],
       "top_distinctive": [
         {
           "canonical": "Apache Kafka",
           "skill_group": "Cloud & infrastructure",
-          "count": 1595,
-          "prevalence": 0.1028766769865841,
-          "prevalence_pct": 10.3,
-          "lift": 1.47
+          "count": 1557,
+          "prevalence": 0.11455267804590936,
+          "prevalence_pct": 11.5,
+          "lift": 1.61
         },
         {
           "canonical": "Scala",
           "skill_group": "Programming languages",
-          "count": 1367,
-          "prevalence": 0.08817079463364293,
-          "prevalence_pct": 8.8,
-          "lift": 1.45
+          "count": 1211,
+          "prevalence": 0.08909652736904061,
+          "prevalence_pct": 8.9,
+          "lift": 1.55
         },
         {
           "canonical": "Apache Spark",
           "skill_group": "Cloud & infrastructure",
-          "count": 4629,
-          "prevalence": 0.29856811145510836,
-          "prevalence_pct": 29.9,
-          "lift": 1.37
-        },
-        {
-          "canonical": "MS SQL Server",
-          "skill_group": "Databases & data warehouses",
-          "count": 676,
-          "prevalence": 0.043601651186790505,
-          "prevalence_pct": 4.4,
-          "lift": 1.36
+          "count": 4121,
+          "prevalence": 0.3031930547380812,
+          "prevalence_pct": 30.3,
+          "lift": 1.47
         },
         {
           "canonical": "Apache Airflow",
           "skill_group": "Cloud & infrastructure",
-          "count": 2564,
-          "prevalence": 0.16537667698658412,
-          "prevalence_pct": 16.5,
-          "lift": 1.35
-        },
-        {
-          "canonical": "Amazon Redshift",
-          "skill_group": "Databases & data warehouses",
-          "count": 602,
-          "prevalence": 0.03882868937048504,
-          "prevalence_pct": 3.9,
-          "lift": 1.35
-        },
-        {
-          "canonical": "Databricks",
-          "skill_group": "Cloud & infrastructure",
-          "count": 4450,
-          "prevalence": 0.2870227038183695,
-          "prevalence_pct": 28.7,
-          "lift": 1.33
-        },
-        {
-          "canonical": "Snowflake",
-          "skill_group": "Databases & data warehouses",
-          "count": 2603,
-          "prevalence": 0.16789215686274508,
-          "prevalence_pct": 16.8,
-          "lift": 1.32
+          "count": 2410,
+          "prevalence": 0.17731018246027075,
+          "prevalence_pct": 17.7,
+          "lift": 1.46
         },
         {
           "canonical": "Bash / Shell",
           "skill_group": "Programming languages",
-          "count": 436,
-          "prevalence": 0.028121775025799794,
-          "prevalence_pct": 2.8,
-          "lift": 1.32
+          "count": 438,
+          "prevalence": 0.0322248381400824,
+          "prevalence_pct": 3.2,
+          "lift": 1.45
         },
         {
-          "canonical": "Oracle DB",
+          "canonical": "MS SQL Server",
           "skill_group": "Databases & data warehouses",
-          "count": 491,
-          "prevalence": 0.031669246646026834,
-          "prevalence_pct": 3.2,
-          "lift": 1.3
+          "count": 739,
+          "prevalence": 0.05437021777516186,
+          "prevalence_pct": 5.4,
+          "lift": 1.43
+        },
+        {
+          "canonical": "Amazon Redshift",
+          "skill_group": "Databases & data warehouses",
+          "count": 472,
+          "prevalence": 0.034726309593878756,
+          "prevalence_pct": 3.5,
+          "lift": 1.43
+        },
+        {
+          "canonical": "Snowflake",
+          "skill_group": "Databases & data warehouses",
+          "count": 2437,
+          "prevalence": 0.17929664508534432,
+          "prevalence_pct": 17.9,
+          "lift": 1.4
+        },
+        {
+          "canonical": "Terraform",
+          "skill_group": "Cloud & infrastructure",
+          "count": 1464,
+          "prevalence": 0.10771041789287816,
+          "prevalence_pct": 10.8,
+          "lift": 1.4
+        },
+        {
+          "canonical": "Databricks",
+          "skill_group": "Cloud & infrastructure",
+          "count": 3889,
+          "prevalence": 0.286124190700412,
+          "prevalence_pct": 28.6,
+          "lift": 1.39
         }
       ],
       "all_skills": [
         {
           "canonical": "Python",
           "skill_group": "Programming languages",
-          "count": 8038,
-          "prevalence": 0.5184468524251806,
-          "prevalence_pct": 51.8,
+          "count": 7268,
+          "prevalence": 0.5347263095938788,
+          "prevalence_pct": 53.5,
           "lift": 0.94
         },
         {
           "canonical": "SQL",
           "skill_group": "Programming languages",
-          "count": 8200,
-          "prevalence": 0.5288957688338494,
-          "prevalence_pct": 52.9,
-          "lift": 1.13
+          "count": 7591,
+          "prevalence": 0.5584902884049441,
+          "prevalence_pct": 55.8,
+          "lift": 1.15
         },
         {
           "canonical": "R",
           "skill_group": "Programming languages",
-          "count": 328,
-          "prevalence": 0.021155830753353973,
-          "prevalence_pct": 2.1,
-          "lift": 0.48
+          "count": 278,
+          "prevalence": 0.020453207769276043,
+          "prevalence_pct": 2.0,
+          "lift": 0.43
         },
         {
           "canonical": "Java",
           "skill_group": "Programming languages",
-          "count": 1187,
-          "prevalence": 0.0765608875128999,
-          "prevalence_pct": 7.7,
-          "lift": 1.19
+          "count": 1199,
+          "prevalence": 0.08821365509123014,
+          "prevalence_pct": 8.8,
+          "lift": 1.26
         },
         {
           "canonical": "Scala",
           "skill_group": "Programming languages",
-          "count": 1367,
-          "prevalence": 0.08817079463364293,
-          "prevalence_pct": 8.8,
-          "lift": 1.45
+          "count": 1211,
+          "prevalence": 0.08909652736904061,
+          "prevalence_pct": 8.9,
+          "lift": 1.55
         },
         {
           "canonical": "C++",
           "skill_group": "Programming languages",
-          "count": 80,
-          "prevalence": 0.005159958720330237,
-          "prevalence_pct": 0.5,
-          "lift": 0.33
+          "count": 87,
+          "prevalence": 0.006400824014125957,
+          "prevalence_pct": 0.6,
+          "lift": 0.34
         },
         {
           "canonical": "Julia",
           "skill_group": "Programming languages",
-          "count": 7,
-          "prevalence": 0.00045149638802889576,
-          "prevalence_pct": 0.0,
-          "lift": 0.42
+          "count": 10,
+          "prevalence": 0.0007357268981753973,
+          "prevalence_pct": 0.1,
+          "lift": 0.69
         },
         {
           "canonical": "Bash / Shell",
           "skill_group": "Programming languages",
-          "count": 436,
-          "prevalence": 0.028121775025799794,
-          "prevalence_pct": 2.8,
-          "lift": 1.32
+          "count": 438,
+          "prevalence": 0.0322248381400824,
+          "prevalence_pct": 3.2,
+          "lift": 1.45
         },
         {
           "canonical": "Go",
           "skill_group": "Programming languages",
           "count": 39,
-          "prevalence": 0.0025154798761609907,
+          "prevalence": 0.0028693349028840495,
           "prevalence_pct": 0.3,
-          "lift": 1.12
+          "lift": 1.21
         },
         {
           "canonical": "TypeScript",
           "skill_group": "Programming languages",
-          "count": 184,
-          "prevalence": 0.011867905056759546,
-          "prevalence_pct": 1.2,
-          "lift": 0.5
+          "count": 151,
+          "prevalence": 0.0111094761624485,
+          "prevalence_pct": 1.1,
+          "lift": 0.44
         },
         {
           "canonical": "Snowflake",
           "skill_group": "Databases & data warehouses",
-          "count": 2603,
-          "prevalence": 0.16789215686274508,
-          "prevalence_pct": 16.8,
-          "lift": 1.32
+          "count": 2437,
+          "prevalence": 0.17929664508534432,
+          "prevalence_pct": 17.9,
+          "lift": 1.4
         },
         {
           "canonical": "PostgreSQL",
           "skill_group": "Databases & data warehouses",
-          "count": 752,
-          "prevalence": 0.048503611971104234,
-          "prevalence_pct": 4.9,
-          "lift": 1.13
+          "count": 775,
+          "prevalence": 0.05701883460859329,
+          "prevalence_pct": 5.7,
+          "lift": 1.18
         },
         {
           "canonical": "BigQuery",
           "skill_group": "Databases & data warehouses",
-          "count": 1484,
-          "prevalence": 0.0957172342621259,
-          "prevalence_pct": 9.6,
-          "lift": 1.19
+          "count": 1506,
+          "prevalence": 0.11080047086521483,
+          "prevalence_pct": 11.1,
+          "lift": 1.3
         },
         {
           "canonical": "Amazon Redshift",
           "skill_group": "Databases & data warehouses",
-          "count": 602,
-          "prevalence": 0.03882868937048504,
-          "prevalence_pct": 3.9,
-          "lift": 1.35
+          "count": 472,
+          "prevalence": 0.034726309593878756,
+          "prevalence_pct": 3.5,
+          "lift": 1.43
         },
         {
           "canonical": "MySQL",
           "skill_group": "Databases & data warehouses",
-          "count": 202,
-          "prevalence": 0.01302889576883385,
+          "count": 178,
+          "prevalence": 0.013095938787522072,
           "prevalence_pct": 1.3,
-          "lift": 1.19
+          "lift": 1.26
         },
         {
           "canonical": "MongoDB",
           "skill_group": "Databases & data warehouses",
-          "count": 289,
-          "prevalence": 0.01864035087719298,
-          "prevalence_pct": 1.9,
-          "lift": 1.21
+          "count": 284,
+          "prevalence": 0.020894643908181285,
+          "prevalence_pct": 2.1,
+          "lift": 1.23
         },
         {
           "canonical": "Redis",
           "skill_group": "Databases & data warehouses",
-          "count": 74,
-          "prevalence": 0.0047729618163054694,
-          "prevalence_pct": 0.5,
-          "lift": 0.84
+          "count": 57,
+          "prevalence": 0.0041936433195997646,
+          "prevalence_pct": 0.4,
+          "lift": 0.66
         },
         {
           "canonical": "Cassandra",
           "skill_group": "Databases & data warehouses",
-          "count": 114,
-          "prevalence": 0.007352941176470588,
-          "prevalence_pct": 0.7,
-          "lift": 1.33
+          "count": 102,
+          "prevalence": 0.007504414361389052,
+          "prevalence_pct": 0.8,
+          "lift": 1.49
         },
         {
           "canonical": "Oracle DB",
           "skill_group": "Databases & data warehouses",
-          "count": 491,
-          "prevalence": 0.031669246646026834,
-          "prevalence_pct": 3.2,
-          "lift": 1.3
+          "count": 554,
+          "prevalence": 0.04075927015891701,
+          "prevalence_pct": 4.1,
+          "lift": 1.39
         },
         {
           "canonical": "MS SQL Server",
           "skill_group": "Databases & data warehouses",
-          "count": 676,
-          "prevalence": 0.043601651186790505,
-          "prevalence_pct": 4.4,
-          "lift": 1.36
+          "count": 739,
+          "prevalence": 0.05437021777516186,
+          "prevalence_pct": 5.4,
+          "lift": 1.43
         },
         {
           "canonical": "Elasticsearch",
           "skill_group": "Databases & data warehouses",
-          "count": 176,
-          "prevalence": 0.011351909184726523,
+          "count": 156,
+          "prevalence": 0.011477339611536198,
           "prevalence_pct": 1.1,
-          "lift": 1.21
+          "lift": 1.16
         },
         {
           "canonical": "Power BI",
           "skill_group": "BI & visualization",
-          "count": 2175,
-          "prevalence": 0.14028637770897834,
-          "prevalence_pct": 14.0,
-          "lift": 0.93
+          "count": 2212,
+          "prevalence": 0.16274278987639787,
+          "prevalence_pct": 16.3,
+          "lift": 0.95
         },
         {
           "canonical": "Tableau",
           "skill_group": "BI & visualization",
-          "count": 571,
-          "prevalence": 0.036829205366357066,
-          "prevalence_pct": 3.7,
-          "lift": 0.66
+          "count": 579,
+          "prevalence": 0.0425985874043555,
+          "prevalence_pct": 4.3,
+          "lift": 0.68
         },
         {
           "canonical": "Excel",
           "skill_group": "BI & visualization",
-          "count": 194,
-          "prevalence": 0.012512899896800826,
-          "prevalence_pct": 1.3,
-          "lift": 0.33
+          "count": 215,
+          "prevalence": 0.01581812831077104,
+          "prevalence_pct": 1.6,
+          "lift": 0.34
         },
         {
           "canonical": "Looker",
           "skill_group": "BI & visualization",
-          "count": 281,
-          "prevalence": 0.018124355005159958,
-          "prevalence_pct": 1.8,
-          "lift": 0.62
+          "count": 272,
+          "prevalence": 0.020011771630370805,
+          "prevalence_pct": 2.0,
+          "lift": 0.68
         },
         {
           "canonical": "Qlik",
           "skill_group": "BI & visualization",
-          "count": 212,
-          "prevalence": 0.013673890608875128,
-          "prevalence_pct": 1.4,
+          "count": 249,
+          "prevalence": 0.01831959976456739,
+          "prevalence_pct": 1.8,
           "lift": 0.91
         },
         {
           "canonical": "Metabase",
           "skill_group": "BI & visualization",
-          "count": 71,
-          "prevalence": 0.004579463364293086,
+          "count": 68,
+          "prevalence": 0.005002942907592701,
           "prevalence_pct": 0.5,
-          "lift": 0.78
+          "lift": 0.8
         },
         {
           "canonical": "Apache Superset",
           "skill_group": "BI & visualization",
-          "count": 59,
-          "prevalence": 0.00380546955624355,
-          "prevalence_pct": 0.4,
-          "lift": 0.97
+          "count": 73,
+          "prevalence": 0.0053708063566804,
+          "prevalence_pct": 0.5,
+          "lift": 1.1
         },
         {
           "canonical": "Azure",
           "skill_group": "Cloud & infrastructure",
-          "count": 5318,
-          "prevalence": 0.3430082559339525,
-          "prevalence_pct": 34.3,
-          "lift": 1.17
+          "count": 4792,
+          "prevalence": 0.35256032960565037,
+          "prevalence_pct": 35.3,
+          "lift": 1.19
         },
         {
           "canonical": "AWS",
           "skill_group": "Cloud & infrastructure",
-          "count": 4042,
-          "prevalence": 0.26070691434468524,
-          "prevalence_pct": 26.1,
-          "lift": 1.11
+          "count": 3575,
+          "prevalence": 0.2630223660977045,
+          "prevalence_pct": 26.3,
+          "lift": 1.12
         },
         {
           "canonical": "GCP",
           "skill_group": "Cloud & infrastructure",
-          "count": 3007,
-          "prevalence": 0.1939499484004128,
-          "prevalence_pct": 19.4,
-          "lift": 1.09
+          "count": 2943,
+          "prevalence": 0.21652442613301942,
+          "prevalence_pct": 21.7,
+          "lift": 1.14
         },
         {
           "canonical": "Databricks",
           "skill_group": "Cloud & infrastructure",
-          "count": 4450,
-          "prevalence": 0.2870227038183695,
-          "prevalence_pct": 28.7,
-          "lift": 1.33
+          "count": 3889,
+          "prevalence": 0.286124190700412,
+          "prevalence_pct": 28.6,
+          "lift": 1.39
         },
         {
           "canonical": "Apache Spark",
           "skill_group": "Cloud & infrastructure",
-          "count": 4629,
-          "prevalence": 0.29856811145510836,
-          "prevalence_pct": 29.9,
-          "lift": 1.37
+          "count": 4121,
+          "prevalence": 0.3031930547380812,
+          "prevalence_pct": 30.3,
+          "lift": 1.47
         },
         {
           "canonical": "dbt",
           "skill_group": "Cloud & infrastructure",
-          "count": 2411,
-          "prevalence": 0.15550825593395254,
-          "prevalence_pct": 15.6,
-          "lift": 1.28
+          "count": 2347,
+          "prevalence": 0.17267510300176575,
+          "prevalence_pct": 17.3,
+          "lift": 1.38
         },
         {
           "canonical": "Apache Kafka",
           "skill_group": "Cloud & infrastructure",
-          "count": 1595,
-          "prevalence": 0.1028766769865841,
-          "prevalence_pct": 10.3,
-          "lift": 1.47
+          "count": 1557,
+          "prevalence": 0.11455267804590936,
+          "prevalence_pct": 11.5,
+          "lift": 1.61
         },
         {
           "canonical": "Apache Airflow",
           "skill_group": "Cloud & infrastructure",
-          "count": 2564,
-          "prevalence": 0.16537667698658412,
-          "prevalence_pct": 16.5,
-          "lift": 1.35
+          "count": 2410,
+          "prevalence": 0.17731018246027075,
+          "prevalence_pct": 17.7,
+          "lift": 1.46
         },
         {
           "canonical": "Docker",
           "skill_group": "Cloud & infrastructure",
-          "count": 1125,
-          "prevalence": 0.07256191950464397,
-          "prevalence_pct": 7.3,
-          "lift": 0.83
+          "count": 1051,
+          "prevalence": 0.07732489699823425,
+          "prevalence_pct": 7.7,
+          "lift": 0.81
         },
         {
           "canonical": "Kubernetes",
           "skill_group": "Cloud & infrastructure",
-          "count": 1185,
-          "prevalence": 0.07643188854489164,
-          "prevalence_pct": 7.6,
-          "lift": 0.94
+          "count": 1187,
+          "prevalence": 0.08733078281341966,
+          "prevalence_pct": 8.7,
+          "lift": 0.99
         },
         {
           "canonical": "Terraform",
           "skill_group": "Cloud & infrastructure",
-          "count": 1452,
-          "prevalence": 0.0936532507739938,
-          "prevalence_pct": 9.4,
-          "lift": 1.29
+          "count": 1464,
+          "prevalence": 0.10771041789287816,
+          "prevalence_pct": 10.8,
+          "lift": 1.4
         },
         {
           "canonical": "Git",
           "skill_group": "Cloud & infrastructure",
-          "count": 2708,
-          "prevalence": 0.17466460268317854,
-          "prevalence_pct": 17.5,
+          "count": 2622,
+          "prevalence": 0.19290759270158916,
+          "prevalence_pct": 19.3,
           "lift": 1.03
         },
         {
           "canonical": "CI/CD",
           "skill_group": "Cloud & infrastructure",
-          "count": 4062,
-          "prevalence": 0.26199690402476783,
-          "prevalence_pct": 26.2,
-          "lift": 1.15
+          "count": 4014,
+          "prevalence": 0.2953207769276045,
+          "prevalence_pct": 29.5,
+          "lift": 1.19
         },
         {
           "canonical": "PyTorch",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 68,
-          "prevalence": 0.0043859649122807015,
-          "prevalence_pct": 0.4,
+          "count": 76,
+          "prevalence": 0.005591524426133019,
+          "prevalence_pct": 0.6,
           "lift": 0.09
         },
         {
           "canonical": "TensorFlow",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 89,
-          "prevalence": 0.005740454076367389,
+          "count": 76,
+          "prevalence": 0.005591524426133019,
           "prevalence_pct": 0.6,
-          "lift": 0.15
+          "lift": 0.13
         },
         {
           "canonical": "Scikit-learn",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 92,
-          "prevalence": 0.005933952528379773,
+          "count": 86,
+          "prevalence": 0.006327251324308417,
           "prevalence_pct": 0.6,
-          "lift": 0.18
+          "lift": 0.16
         },
         {
           "canonical": "Pandas",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 376,
-          "prevalence": 0.024251805985552117,
-          "prevalence_pct": 2.4,
-          "lift": 0.62
+          "count": 338,
+          "prevalence": 0.02486756915832843,
+          "prevalence_pct": 2.5,
+          "lift": 0.59
         },
         {
           "canonical": "NumPy",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 115,
-          "prevalence": 0.0074174406604747166,
+          "count": 97,
+          "prevalence": 0.007136550912301354,
           "prevalence_pct": 0.7,
-          "lift": 0.36
+          "lift": 0.31
         },
         {
           "canonical": "MLflow",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 136,
-          "prevalence": 0.008771929824561403,
-          "prevalence_pct": 0.9,
-          "lift": 0.38
+          "count": 146,
+          "prevalence": 0.0107416127133608,
+          "prevalence_pct": 1.1,
+          "lift": 0.39
         },
         {
           "canonical": "Hugging Face",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 21,
-          "prevalence": 0.0013544891640866873,
-          "prevalence_pct": 0.1,
-          "lift": 0.08
+          "count": 27,
+          "prevalence": 0.001986462625073573,
+          "prevalence_pct": 0.2,
+          "lift": 0.1
         },
         {
           "canonical": "LangChain",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 98,
-          "prevalence": 0.006320949432404541,
+          "count": 82,
+          "prevalence": 0.006032960565038258,
           "prevalence_pct": 0.6,
-          "lift": 0.18
+          "lift": 0.14
         },
         {
           "canonical": "OpenCV",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 2,
-          "prevalence": 0.00012899896800825592,
+          "count": 1,
+          "prevalence": 7.357268981753973e-05,
           "prevalence_pct": 0.0,
-          "lift": 0.05
+          "lift": 0.02
         },
         {
           "canonical": "XGBoost",
           "skill_group": "ML/AI frameworks & tools",
           "count": 12,
-          "prevalence": 0.0007739938080495357,
+          "prevalence": 0.0008828722778104767,
           "prevalence_pct": 0.1,
-          "lift": 0.11
+          "lift": 0.12
         },
         {
           "canonical": "LLMs / Generative AI",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 1475,
-          "prevalence": 0.09513673890608876,
-          "prevalence_pct": 9.5,
+          "count": 1468,
+          "prevalence": 0.10800470865214833,
+          "prevalence_pct": 10.8,
           "lift": 0.43
         }
       ]
@@ -1327,1930 +1327,1930 @@
     "data_science": {
       "category_id": "data_science",
       "category_name": "Data Science",
-      "total_postings": 2551,
+      "total_postings": 2558,
       "top_in_demand": [
         {
           "canonical": "Python",
           "skill_group": "Programming languages",
-          "count": 1708,
-          "prevalence": 0.6695413563308507,
-          "prevalence_pct": 67.0,
-          "lift": 1.22
+          "count": 1887,
+          "prevalence": 0.7376856919468334,
+          "prevalence_pct": 73.8,
+          "lift": 1.29
         },
         {
           "canonical": "SQL",
           "skill_group": "Programming languages",
-          "count": 1075,
-          "prevalence": 0.4214033712269698,
-          "prevalence_pct": 42.1,
-          "lift": 0.9
+          "count": 1182,
+          "prevalence": 0.4620797498045348,
+          "prevalence_pct": 46.2,
+          "lift": 0.95
         },
         {
           "canonical": "LLMs / Generative AI",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 907,
-          "prevalence": 0.355546844374755,
-          "prevalence_pct": 35.6,
-          "lift": 1.6
+          "count": 970,
+          "prevalence": 0.37920250195465205,
+          "prevalence_pct": 37.9,
+          "lift": 1.51
         },
         {
           "canonical": "Azure",
           "skill_group": "Cloud & infrastructure",
-          "count": 489,
-          "prevalence": 0.19168953351626813,
-          "prevalence_pct": 19.2,
-          "lift": 0.65
+          "count": 563,
+          "prevalence": 0.2200938232994527,
+          "prevalence_pct": 22.0,
+          "lift": 0.74
         },
         {
           "canonical": "AWS",
           "skill_group": "Cloud & infrastructure",
-          "count": 469,
-          "prevalence": 0.18384947079576636,
-          "prevalence_pct": 18.4,
-          "lift": 0.78
-        },
-        {
-          "canonical": "Scikit-learn",
-          "skill_group": "ML/AI frameworks & tools",
-          "count": 394,
-          "prevalence": 0.15444923559388474,
-          "prevalence_pct": 15.4,
-          "lift": 4.6
-        },
-        {
-          "canonical": "R",
-          "skill_group": "Programming languages",
-          "count": 391,
-          "prevalence": 0.1532732261858095,
-          "prevalence_pct": 15.3,
-          "lift": 3.49
+          "count": 535,
+          "prevalence": 0.209147771696638,
+          "prevalence_pct": 20.9,
+          "lift": 0.89
         },
         {
           "canonical": "Git",
           "skill_group": "Cloud & infrastructure",
-          "count": 389,
-          "prevalence": 0.1524892199137593,
-          "prevalence_pct": 15.2,
-          "lift": 0.9
+          "count": 454,
+          "prevalence": 0.17748240813135263,
+          "prevalence_pct": 17.7,
+          "lift": 0.95
+        },
+        {
+          "canonical": "Scikit-learn",
+          "skill_group": "ML/AI frameworks & tools",
+          "count": 436,
+          "prevalence": 0.1704456606724003,
+          "prevalence_pct": 17.0,
+          "lift": 4.33
         },
         {
           "canonical": "GCP",
           "skill_group": "Cloud & infrastructure",
-          "count": 374,
-          "prevalence": 0.146609172873383,
-          "prevalence_pct": 14.7,
-          "lift": 0.83
+          "count": 431,
+          "prevalence": 0.16849100860046912,
+          "prevalence_pct": 16.8,
+          "lift": 0.89
+        },
+        {
+          "canonical": "R",
+          "skill_group": "Programming languages",
+          "count": 420,
+          "prevalence": 0.1641907740422205,
+          "prevalence_pct": 16.4,
+          "lift": 3.43
         },
         {
           "canonical": "Apache Spark",
           "skill_group": "Cloud & infrastructure",
-          "count": 374,
-          "prevalence": 0.146609172873383,
-          "prevalence_pct": 14.7,
-          "lift": 0.67
+          "count": 402,
+          "prevalence": 0.15715402658326819,
+          "prevalence_pct": 15.7,
+          "lift": 0.76
         }
       ],
       "top_distinctive": [
         {
           "canonical": "XGBoost",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 99,
-          "prevalence": 0.03880831046648373,
-          "prevalence_pct": 3.9,
-          "lift": 5.6
+          "count": 106,
+          "prevalence": 0.04143862392494136,
+          "prevalence_pct": 4.1,
+          "lift": 5.51
         },
         {
           "canonical": "Scikit-learn",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 394,
-          "prevalence": 0.15444923559388474,
-          "prevalence_pct": 15.4,
-          "lift": 4.6
+          "count": 436,
+          "prevalence": 0.1704456606724003,
+          "prevalence_pct": 17.0,
+          "lift": 4.33
         },
         {
           "canonical": "NumPy",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 231,
-          "prevalence": 0.09055272442179538,
+          "count": 233,
+          "prevalence": 0.09108678655199375,
           "prevalence_pct": 9.1,
-          "lift": 4.42
+          "lift": 4.02
         },
         {
           "canonical": "R",
           "skill_group": "Programming languages",
-          "count": 391,
-          "prevalence": 0.1532732261858095,
-          "prevalence_pct": 15.3,
-          "lift": 3.49
+          "count": 420,
+          "prevalence": 0.1641907740422205,
+          "prevalence_pct": 16.4,
+          "lift": 3.43
         },
         {
           "canonical": "Pandas",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 349,
-          "prevalence": 0.13680909447275577,
-          "prevalence_pct": 13.7,
-          "lift": 3.47
+          "count": 360,
+          "prevalence": 0.14073494917904614,
+          "prevalence_pct": 14.1,
+          "lift": 3.34
         },
         {
           "canonical": "TensorFlow",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 296,
-          "prevalence": 0.11603292826342611,
-          "prevalence_pct": 11.6,
-          "lift": 3.04
+          "count": 337,
+          "prevalence": 0.13174354964816262,
+          "prevalence_pct": 13.2,
+          "lift": 3.0
         },
         {
           "canonical": "PyTorch",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 355,
-          "prevalence": 0.13916111328890632,
-          "prevalence_pct": 13.9,
-          "lift": 2.72
+          "count": 401,
+          "prevalence": 0.15676309616888193,
+          "prevalence_pct": 15.7,
+          "lift": 2.62
         },
         {
           "canonical": "Hugging Face",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 94,
-          "prevalence": 0.03684829478635829,
-          "prevalence_pct": 3.7,
-          "lift": 2.16
+          "count": 118,
+          "prevalence": 0.046129788897576234,
+          "prevalence_pct": 4.6,
+          "lift": 2.24
         },
         {
           "canonical": "MLflow",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 117,
-          "prevalence": 0.04586436691493532,
-          "prevalence_pct": 4.6,
-          "lift": 1.97
+          "count": 138,
+          "prevalence": 0.05394839718530102,
+          "prevalence_pct": 5.4,
+          "lift": 1.96
         },
         {
           "canonical": "LLMs / Generative AI",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 907,
-          "prevalence": 0.355546844374755,
-          "prevalence_pct": 35.6,
-          "lift": 1.6
+          "count": 970,
+          "prevalence": 0.37920250195465205,
+          "prevalence_pct": 37.9,
+          "lift": 1.51
         }
       ],
       "all_skills": [
         {
           "canonical": "Python",
           "skill_group": "Programming languages",
-          "count": 1708,
-          "prevalence": 0.6695413563308507,
-          "prevalence_pct": 67.0,
-          "lift": 1.22
+          "count": 1887,
+          "prevalence": 0.7376856919468334,
+          "prevalence_pct": 73.8,
+          "lift": 1.29
         },
         {
           "canonical": "SQL",
           "skill_group": "Programming languages",
-          "count": 1075,
-          "prevalence": 0.4214033712269698,
-          "prevalence_pct": 42.1,
-          "lift": 0.9
+          "count": 1182,
+          "prevalence": 0.4620797498045348,
+          "prevalence_pct": 46.2,
+          "lift": 0.95
         },
         {
           "canonical": "R",
           "skill_group": "Programming languages",
-          "count": 391,
-          "prevalence": 0.1532732261858095,
-          "prevalence_pct": 15.3,
-          "lift": 3.49
+          "count": 420,
+          "prevalence": 0.1641907740422205,
+          "prevalence_pct": 16.4,
+          "lift": 3.43
         },
         {
           "canonical": "Java",
           "skill_group": "Programming languages",
-          "count": 61,
-          "prevalence": 0.02391219129753038,
-          "prevalence_pct": 2.4,
-          "lift": 0.37
+          "count": 68,
+          "prevalence": 0.026583268178264268,
+          "prevalence_pct": 2.7,
+          "lift": 0.38
         },
         {
           "canonical": "Scala",
           "skill_group": "Programming languages",
-          "count": 61,
-          "prevalence": 0.02391219129753038,
-          "prevalence_pct": 2.4,
-          "lift": 0.39
+          "count": 64,
+          "prevalence": 0.02501954652071931,
+          "prevalence_pct": 2.5,
+          "lift": 0.44
         },
         {
           "canonical": "C++",
           "skill_group": "Programming languages",
-          "count": 42,
-          "prevalence": 0.016464131713053703,
-          "prevalence_pct": 1.6,
-          "lift": 1.04
+          "count": 46,
+          "prevalence": 0.017982799061767005,
+          "prevalence_pct": 1.8,
+          "lift": 0.96
         },
         {
           "canonical": "Julia",
           "skill_group": "Programming languages",
-          "count": 6,
-          "prevalence": 0.002352018816150529,
+          "count": 5,
+          "prevalence": 0.001954652071931196,
           "prevalence_pct": 0.2,
-          "lift": 2.21
+          "lift": 1.84
         },
         {
           "canonical": "Bash / Shell",
           "skill_group": "Programming languages",
-          "count": 25,
-          "prevalence": 0.009800078400627205,
-          "prevalence_pct": 1.0,
-          "lift": 0.46
+          "count": 32,
+          "prevalence": 0.012509773260359656,
+          "prevalence_pct": 1.3,
+          "lift": 0.56
         },
         {
           "canonical": "Go",
           "skill_group": "Programming languages",
-          "count": 1,
-          "prevalence": 0.0003920031360250882,
-          "prevalence_pct": 0.0,
-          "lift": 0.17
+          "count": 3,
+          "prevalence": 0.0011727912431587178,
+          "prevalence_pct": 0.1,
+          "lift": 0.5
         },
         {
           "canonical": "TypeScript",
           "skill_group": "Programming languages",
-          "count": 29,
-          "prevalence": 0.011368090944727557,
-          "prevalence_pct": 1.1,
-          "lift": 0.48
+          "count": 26,
+          "prevalence": 0.010164190774042221,
+          "prevalence_pct": 1.0,
+          "lift": 0.4
         },
         {
           "canonical": "Snowflake",
           "skill_group": "Databases & data warehouses",
-          "count": 110,
-          "prevalence": 0.0431203449627597,
-          "prevalence_pct": 4.3,
-          "lift": 0.34
+          "count": 138,
+          "prevalence": 0.05394839718530102,
+          "prevalence_pct": 5.4,
+          "lift": 0.42
         },
         {
           "canonical": "PostgreSQL",
           "skill_group": "Databases & data warehouses",
-          "count": 63,
-          "prevalence": 0.024696197569580556,
-          "prevalence_pct": 2.5,
-          "lift": 0.57
+          "count": 83,
+          "prevalence": 0.03244722439405786,
+          "prevalence_pct": 3.2,
+          "lift": 0.67
         },
         {
           "canonical": "BigQuery",
           "skill_group": "Databases & data warehouses",
-          "count": 121,
-          "prevalence": 0.047432379459035674,
-          "prevalence_pct": 4.7,
-          "lift": 0.59
+          "count": 104,
+          "prevalence": 0.040656763096168884,
+          "prevalence_pct": 4.1,
+          "lift": 0.48
         },
         {
           "canonical": "Amazon Redshift",
           "skill_group": "Databases & data warehouses",
-          "count": 23,
-          "prevalence": 0.00901607212857703,
-          "prevalence_pct": 0.9,
-          "lift": 0.31
+          "count": 15,
+          "prevalence": 0.005863956215793589,
+          "prevalence_pct": 0.6,
+          "lift": 0.24
         },
         {
           "canonical": "MySQL",
           "skill_group": "Databases & data warehouses",
-          "count": 26,
-          "prevalence": 0.010192081536652292,
-          "prevalence_pct": 1.0,
-          "lift": 0.93
+          "count": 20,
+          "prevalence": 0.007818608287724784,
+          "prevalence_pct": 0.8,
+          "lift": 0.75
         },
         {
           "canonical": "MongoDB",
           "skill_group": "Databases & data warehouses",
-          "count": 28,
-          "prevalence": 0.01097608780870247,
-          "prevalence_pct": 1.1,
-          "lift": 0.71
+          "count": 33,
+          "prevalence": 0.012900703674745896,
+          "prevalence_pct": 1.3,
+          "lift": 0.76
         },
         {
           "canonical": "Redis",
           "skill_group": "Databases & data warehouses",
-          "count": 12,
-          "prevalence": 0.004704037632301058,
-          "prevalence_pct": 0.5,
-          "lift": 0.83
+          "count": 25,
+          "prevalence": 0.009773260359655981,
+          "prevalence_pct": 1.0,
+          "lift": 1.54
         },
         {
           "canonical": "Cassandra",
           "skill_group": "Databases & data warehouses",
-          "count": 6,
-          "prevalence": 0.002352018816150529,
+          "count": 5,
+          "prevalence": 0.001954652071931196,
           "prevalence_pct": 0.2,
-          "lift": 0.43
+          "lift": 0.39
         },
         {
           "canonical": "Oracle DB",
           "skill_group": "Databases & data warehouses",
-          "count": 16,
-          "prevalence": 0.006272050176401411,
-          "prevalence_pct": 0.6,
-          "lift": 0.26
+          "count": 21,
+          "prevalence": 0.008209538702111024,
+          "prevalence_pct": 0.8,
+          "lift": 0.28
         },
         {
           "canonical": "MS SQL Server",
           "skill_group": "Databases & data warehouses",
-          "count": 19,
-          "prevalence": 0.007448059584476676,
-          "prevalence_pct": 0.7,
-          "lift": 0.23
+          "count": 25,
+          "prevalence": 0.009773260359655981,
+          "prevalence_pct": 1.0,
+          "lift": 0.26
         },
         {
           "canonical": "Elasticsearch",
           "skill_group": "Databases & data warehouses",
-          "count": 18,
-          "prevalence": 0.007056056448451587,
-          "prevalence_pct": 0.7,
-          "lift": 0.75
+          "count": 24,
+          "prevalence": 0.009382329945269743,
+          "prevalence_pct": 0.9,
+          "lift": 0.95
         },
         {
           "canonical": "Power BI",
           "skill_group": "BI & visualization",
-          "count": 270,
-          "prevalence": 0.10584084672677381,
-          "prevalence_pct": 10.6,
-          "lift": 0.7
+          "count": 289,
+          "prevalence": 0.11297888975762314,
+          "prevalence_pct": 11.3,
+          "lift": 0.66
         },
         {
           "canonical": "Tableau",
           "skill_group": "BI & visualization",
-          "count": 170,
-          "prevalence": 0.06664053312426499,
-          "prevalence_pct": 6.7,
-          "lift": 1.19
+          "count": 157,
+          "prevalence": 0.06137607505863956,
+          "prevalence_pct": 6.1,
+          "lift": 0.98
         },
         {
           "canonical": "Excel",
           "skill_group": "BI & visualization",
-          "count": 82,
-          "prevalence": 0.032144257154057235,
-          "prevalence_pct": 3.2,
-          "lift": 0.85
+          "count": 79,
+          "prevalence": 0.0308835027365129,
+          "prevalence_pct": 3.1,
+          "lift": 0.66
         },
         {
           "canonical": "Looker",
           "skill_group": "BI & visualization",
-          "count": 45,
-          "prevalence": 0.01764014112112897,
-          "prevalence_pct": 1.8,
-          "lift": 0.61
+          "count": 32,
+          "prevalence": 0.012509773260359656,
+          "prevalence_pct": 1.3,
+          "lift": 0.42
         },
         {
           "canonical": "Qlik",
           "skill_group": "BI & visualization",
-          "count": 23,
-          "prevalence": 0.00901607212857703,
-          "prevalence_pct": 0.9,
-          "lift": 0.6
+          "count": 34,
+          "prevalence": 0.013291634089132134,
+          "prevalence_pct": 1.3,
+          "lift": 0.66
         },
         {
           "canonical": "Metabase",
           "skill_group": "BI & visualization",
-          "count": 6,
-          "prevalence": 0.002352018816150529,
-          "prevalence_pct": 0.2,
-          "lift": 0.4
+          "count": 19,
+          "prevalence": 0.007427677873338546,
+          "prevalence_pct": 0.7,
+          "lift": 1.19
         },
         {
           "canonical": "Apache Superset",
           "skill_group": "BI & visualization",
-          "count": 9,
-          "prevalence": 0.0035280282242257936,
-          "prevalence_pct": 0.4,
-          "lift": 0.9
+          "count": 7,
+          "prevalence": 0.002736512900703675,
+          "prevalence_pct": 0.3,
+          "lift": 0.56
         },
         {
           "canonical": "Azure",
           "skill_group": "Cloud & infrastructure",
-          "count": 489,
-          "prevalence": 0.19168953351626813,
-          "prevalence_pct": 19.2,
-          "lift": 0.65
+          "count": 563,
+          "prevalence": 0.2200938232994527,
+          "prevalence_pct": 22.0,
+          "lift": 0.74
         },
         {
           "canonical": "AWS",
           "skill_group": "Cloud & infrastructure",
-          "count": 469,
-          "prevalence": 0.18384947079576636,
-          "prevalence_pct": 18.4,
-          "lift": 0.78
+          "count": 535,
+          "prevalence": 0.209147771696638,
+          "prevalence_pct": 20.9,
+          "lift": 0.89
         },
         {
           "canonical": "GCP",
           "skill_group": "Cloud & infrastructure",
-          "count": 374,
-          "prevalence": 0.146609172873383,
-          "prevalence_pct": 14.7,
-          "lift": 0.83
+          "count": 431,
+          "prevalence": 0.16849100860046912,
+          "prevalence_pct": 16.8,
+          "lift": 0.89
         },
         {
           "canonical": "Databricks",
           "skill_group": "Cloud & infrastructure",
-          "count": 301,
-          "prevalence": 0.11799294394355155,
-          "prevalence_pct": 11.8,
-          "lift": 0.55
+          "count": 350,
+          "prevalence": 0.13682564503518374,
+          "prevalence_pct": 13.7,
+          "lift": 0.67
         },
         {
           "canonical": "Apache Spark",
           "skill_group": "Cloud & infrastructure",
-          "count": 374,
-          "prevalence": 0.146609172873383,
-          "prevalence_pct": 14.7,
-          "lift": 0.67
+          "count": 402,
+          "prevalence": 0.15715402658326819,
+          "prevalence_pct": 15.7,
+          "lift": 0.76
         },
         {
           "canonical": "dbt",
           "skill_group": "Cloud & infrastructure",
-          "count": 62,
-          "prevalence": 0.024304194433555467,
-          "prevalence_pct": 2.4,
-          "lift": 0.2
+          "count": 76,
+          "prevalence": 0.029710711493354185,
+          "prevalence_pct": 3.0,
+          "lift": 0.24
         },
         {
           "canonical": "Apache Kafka",
           "skill_group": "Cloud & infrastructure",
-          "count": 36,
-          "prevalence": 0.014112112896903175,
-          "prevalence_pct": 1.4,
-          "lift": 0.2
+          "count": 32,
+          "prevalence": 0.012509773260359656,
+          "prevalence_pct": 1.3,
+          "lift": 0.18
         },
         {
           "canonical": "Apache Airflow",
           "skill_group": "Cloud & infrastructure",
-          "count": 131,
-          "prevalence": 0.051352410819286556,
-          "prevalence_pct": 5.1,
-          "lift": 0.42
+          "count": 151,
+          "prevalence": 0.059030492572322124,
+          "prevalence_pct": 5.9,
+          "lift": 0.49
         },
         {
           "canonical": "Docker",
           "skill_group": "Cloud & infrastructure",
-          "count": 229,
-          "prevalence": 0.0897687181497452,
-          "prevalence_pct": 9.0,
-          "lift": 1.02
+          "count": 246,
+          "prevalence": 0.09616888193901485,
+          "prevalence_pct": 9.6,
+          "lift": 1.01
         },
         {
           "canonical": "Kubernetes",
           "skill_group": "Cloud & infrastructure",
-          "count": 123,
-          "prevalence": 0.04821638573108585,
-          "prevalence_pct": 4.8,
-          "lift": 0.59
+          "count": 115,
+          "prevalence": 0.04495699765441751,
+          "prevalence_pct": 4.5,
+          "lift": 0.51
         },
         {
           "canonical": "Terraform",
           "skill_group": "Cloud & infrastructure",
-          "count": 28,
-          "prevalence": 0.01097608780870247,
-          "prevalence_pct": 1.1,
-          "lift": 0.15
+          "count": 32,
+          "prevalence": 0.012509773260359656,
+          "prevalence_pct": 1.3,
+          "lift": 0.16
         },
         {
           "canonical": "Git",
           "skill_group": "Cloud & infrastructure",
-          "count": 389,
-          "prevalence": 0.1524892199137593,
-          "prevalence_pct": 15.2,
-          "lift": 0.9
+          "count": 454,
+          "prevalence": 0.17748240813135263,
+          "prevalence_pct": 17.7,
+          "lift": 0.95
         },
         {
           "canonical": "CI/CD",
           "skill_group": "Cloud & infrastructure",
-          "count": 291,
-          "prevalence": 0.11407291258330067,
-          "prevalence_pct": 11.4,
-          "lift": 0.5
+          "count": 350,
+          "prevalence": 0.13682564503518374,
+          "prevalence_pct": 13.7,
+          "lift": 0.55
         },
         {
           "canonical": "PyTorch",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 355,
-          "prevalence": 0.13916111328890632,
-          "prevalence_pct": 13.9,
-          "lift": 2.72
+          "count": 401,
+          "prevalence": 0.15676309616888193,
+          "prevalence_pct": 15.7,
+          "lift": 2.62
         },
         {
           "canonical": "TensorFlow",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 296,
-          "prevalence": 0.11603292826342611,
-          "prevalence_pct": 11.6,
-          "lift": 3.04
+          "count": 337,
+          "prevalence": 0.13174354964816262,
+          "prevalence_pct": 13.2,
+          "lift": 3.0
         },
         {
           "canonical": "Scikit-learn",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 394,
-          "prevalence": 0.15444923559388474,
-          "prevalence_pct": 15.4,
-          "lift": 4.6
+          "count": 436,
+          "prevalence": 0.1704456606724003,
+          "prevalence_pct": 17.0,
+          "lift": 4.33
         },
         {
           "canonical": "Pandas",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 349,
-          "prevalence": 0.13680909447275577,
-          "prevalence_pct": 13.7,
-          "lift": 3.47
+          "count": 360,
+          "prevalence": 0.14073494917904614,
+          "prevalence_pct": 14.1,
+          "lift": 3.34
         },
         {
           "canonical": "NumPy",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 231,
-          "prevalence": 0.09055272442179538,
+          "count": 233,
+          "prevalence": 0.09108678655199375,
           "prevalence_pct": 9.1,
-          "lift": 4.42
+          "lift": 4.02
         },
         {
           "canonical": "MLflow",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 117,
-          "prevalence": 0.04586436691493532,
-          "prevalence_pct": 4.6,
-          "lift": 1.97
+          "count": 138,
+          "prevalence": 0.05394839718530102,
+          "prevalence_pct": 5.4,
+          "lift": 1.96
         },
         {
           "canonical": "Hugging Face",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 94,
-          "prevalence": 0.03684829478635829,
-          "prevalence_pct": 3.7,
-          "lift": 2.16
+          "count": 118,
+          "prevalence": 0.046129788897576234,
+          "prevalence_pct": 4.6,
+          "lift": 2.24
         },
         {
           "canonical": "LangChain",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 120,
-          "prevalence": 0.047040376323010585,
-          "prevalence_pct": 4.7,
+          "count": 143,
+          "prevalence": 0.05590304925723221,
+          "prevalence_pct": 5.6,
           "lift": 1.33
         },
         {
           "canonical": "OpenCV",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 11,
-          "prevalence": 0.00431203449627597,
-          "prevalence_pct": 0.4,
-          "lift": 1.68
+          "count": 12,
+          "prevalence": 0.004691164972634871,
+          "prevalence_pct": 0.5,
+          "lift": 1.49
         },
         {
           "canonical": "XGBoost",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 99,
-          "prevalence": 0.03880831046648373,
-          "prevalence_pct": 3.9,
-          "lift": 5.6
+          "count": 106,
+          "prevalence": 0.04143862392494136,
+          "prevalence_pct": 4.1,
+          "lift": 5.51
         },
         {
           "canonical": "LLMs / Generative AI",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 907,
-          "prevalence": 0.355546844374755,
-          "prevalence_pct": 35.6,
-          "lift": 1.6
+          "count": 970,
+          "prevalence": 0.37920250195465205,
+          "prevalence_pct": 37.9,
+          "lift": 1.51
         }
       ]
     },
     "ml_ai": {
       "category_id": "ml_ai",
       "category_name": "ML/AI",
-      "total_postings": 1367,
+      "total_postings": 1411,
       "top_in_demand": [
         {
           "canonical": "Python",
           "skill_group": "Programming languages",
-          "count": 969,
-          "prevalence": 0.7088514996342355,
-          "prevalence_pct": 70.9,
-          "lift": 1.29
+          "count": 1050,
+          "prevalence": 0.744153082919915,
+          "prevalence_pct": 74.4,
+          "lift": 1.3
         },
         {
           "canonical": "LLMs / Generative AI",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 604,
-          "prevalence": 0.44184345281638626,
-          "prevalence_pct": 44.2,
-          "lift": 1.99
+          "count": 617,
+          "prevalence": 0.4372785258681786,
+          "prevalence_pct": 43.7,
+          "lift": 1.75
         },
         {
           "canonical": "PyTorch",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 531,
-          "prevalence": 0.3884418434528164,
-          "prevalence_pct": 38.8,
-          "lift": 7.59
+          "count": 565,
+          "prevalence": 0.40042523033309707,
+          "prevalence_pct": 40.0,
+          "lift": 6.7
         },
         {
           "canonical": "CI/CD",
           "skill_group": "Cloud & infrastructure",
-          "count": 358,
-          "prevalence": 0.2618873445501097,
-          "prevalence_pct": 26.2,
-          "lift": 1.15
+          "count": 375,
+          "prevalence": 0.2657689581856839,
+          "prevalence_pct": 26.6,
+          "lift": 1.07
         },
         {
           "canonical": "AWS",
           "skill_group": "Cloud & infrastructure",
-          "count": 355,
-          "prevalence": 0.25969275786393564,
-          "prevalence_pct": 26.0,
-          "lift": 1.11
+          "count": 370,
+          "prevalence": 0.26222537207654145,
+          "prevalence_pct": 26.2,
+          "lift": 1.12
         },
         {
           "canonical": "TensorFlow",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 342,
-          "prevalence": 0.2501828822238478,
-          "prevalence_pct": 25.0,
-          "lift": 6.55
+          "count": 356,
+          "prevalence": 0.2523033309709426,
+          "prevalence_pct": 25.2,
+          "lift": 5.74
         },
         {
           "canonical": "Azure",
           "skill_group": "Cloud & infrastructure",
-          "count": 276,
-          "prevalence": 0.20190197512801755,
-          "prevalence_pct": 20.2,
-          "lift": 0.69
+          "count": 297,
+          "prevalence": 0.21048901488306165,
+          "prevalence_pct": 21.0,
+          "lift": 0.71
         },
         {
           "canonical": "Docker",
           "skill_group": "Cloud & infrastructure",
-          "count": 265,
-          "prevalence": 0.1938551572787125,
-          "prevalence_pct": 19.4,
-          "lift": 2.21
+          "count": 287,
+          "prevalence": 0.20340184266477676,
+          "prevalence_pct": 20.3,
+          "lift": 2.14
         },
         {
           "canonical": "Git",
           "skill_group": "Cloud & infrastructure",
-          "count": 263,
-          "prevalence": 0.19239209948792976,
-          "prevalence_pct": 19.2,
-          "lift": 1.13
+          "count": 286,
+          "prevalence": 0.20269312544294826,
+          "prevalence_pct": 20.3,
+          "lift": 1.08
         },
         {
           "canonical": "Kubernetes",
           "skill_group": "Cloud & infrastructure",
-          "count": 250,
-          "prevalence": 0.182882223847842,
-          "prevalence_pct": 18.3,
-          "lift": 2.25
+          "count": 268,
+          "prevalence": 0.18993621545003544,
+          "prevalence_pct": 19.0,
+          "lift": 2.16
         }
       ],
       "top_distinctive": [
         {
           "canonical": "OpenCV",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 37,
-          "prevalence": 0.027066569129480616,
-          "prevalence_pct": 2.7,
-          "lift": 10.57
+          "count": 40,
+          "prevalence": 0.028348688873139617,
+          "prevalence_pct": 2.8,
+          "lift": 9.02
         },
         {
           "canonical": "C++",
           "skill_group": "Programming languages",
-          "count": 168,
-          "prevalence": 0.12289685442574981,
-          "prevalence_pct": 12.3,
-          "lift": 7.78
+          "count": 179,
+          "prevalence": 0.1268603827072998,
+          "prevalence_pct": 12.7,
+          "lift": 6.74
         },
         {
           "canonical": "PyTorch",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 531,
-          "prevalence": 0.3884418434528164,
-          "prevalence_pct": 38.8,
-          "lift": 7.59
+          "count": 565,
+          "prevalence": 0.40042523033309707,
+          "prevalence_pct": 40.0,
+          "lift": 6.7
         },
         {
           "canonical": "TensorFlow",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 342,
-          "prevalence": 0.2501828822238478,
-          "prevalence_pct": 25.0,
-          "lift": 6.55
+          "count": 356,
+          "prevalence": 0.2523033309709426,
+          "prevalence_pct": 25.2,
+          "lift": 5.74
         },
         {
           "canonical": "MLflow",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 199,
-          "prevalence": 0.14557425018288223,
-          "prevalence_pct": 14.6,
-          "lift": 6.24
+          "count": 219,
+          "prevalence": 0.1552090715804394,
+          "prevalence_pct": 15.5,
+          "lift": 5.65
         },
         {
           "canonical": "Hugging Face",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 143,
-          "prevalence": 0.10460863204096561,
-          "prevalence_pct": 10.5,
-          "lift": 6.13
+          "count": 140,
+          "prevalence": 0.09922041105598867,
+          "prevalence_pct": 9.9,
+          "lift": 4.81
         },
         {
           "canonical": "XGBoost",
           "skill_group": "ML/AI frameworks & tools",
           "count": 46,
-          "prevalence": 0.033650329188002925,
-          "prevalence_pct": 3.4,
-          "lift": 4.86
+          "prevalence": 0.03260099220411056,
+          "prevalence_pct": 3.3,
+          "lift": 4.34
         },
         {
           "canonical": "Scikit-learn",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 204,
-          "prevalence": 0.14923189465983908,
-          "prevalence_pct": 14.9,
-          "lift": 4.45
+          "count": 235,
+          "prevalence": 0.16654854712969525,
+          "prevalence_pct": 16.7,
+          "lift": 4.23
         },
         {
           "canonical": "NumPy",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 85,
-          "prevalence": 0.06217995610826628,
-          "prevalence_pct": 6.2,
-          "lift": 3.04
+          "count": 96,
+          "prevalence": 0.06803685329553508,
+          "prevalence_pct": 6.8,
+          "lift": 3.0
         },
         {
           "canonical": "Kubernetes",
           "skill_group": "Cloud & infrastructure",
-          "count": 250,
-          "prevalence": 0.182882223847842,
-          "prevalence_pct": 18.3,
-          "lift": 2.25
+          "count": 268,
+          "prevalence": 0.18993621545003544,
+          "prevalence_pct": 19.0,
+          "lift": 2.16
         }
       ],
       "all_skills": [
         {
           "canonical": "Python",
           "skill_group": "Programming languages",
-          "count": 969,
-          "prevalence": 0.7088514996342355,
-          "prevalence_pct": 70.9,
-          "lift": 1.29
+          "count": 1050,
+          "prevalence": 0.744153082919915,
+          "prevalence_pct": 74.4,
+          "lift": 1.3
         },
         {
           "canonical": "SQL",
           "skill_group": "Programming languages",
-          "count": 217,
-          "prevalence": 0.15874177029992684,
-          "prevalence_pct": 15.9,
-          "lift": 0.34
+          "count": 245,
+          "prevalence": 0.17363571934798017,
+          "prevalence_pct": 17.4,
+          "lift": 0.36
         },
         {
           "canonical": "R",
           "skill_group": "Programming languages",
-          "count": 32,
-          "prevalence": 0.023408924652523776,
-          "prevalence_pct": 2.3,
-          "lift": 0.53
+          "count": 43,
+          "prevalence": 0.03047484053862509,
+          "prevalence_pct": 3.0,
+          "lift": 0.64
         },
         {
           "canonical": "Java",
           "skill_group": "Programming languages",
-          "count": 105,
-          "prevalence": 0.07681053401609364,
+          "count": 109,
+          "prevalence": 0.07725017717930546,
           "prevalence_pct": 7.7,
-          "lift": 1.19
+          "lift": 1.1
         },
         {
           "canonical": "Scala",
           "skill_group": "Programming languages",
-          "count": 33,
-          "prevalence": 0.024140453547915143,
-          "prevalence_pct": 2.4,
-          "lift": 0.4
+          "count": 48,
+          "prevalence": 0.03401842664776754,
+          "prevalence_pct": 3.4,
+          "lift": 0.59
         },
         {
           "canonical": "C++",
           "skill_group": "Programming languages",
-          "count": 168,
-          "prevalence": 0.12289685442574981,
-          "prevalence_pct": 12.3,
-          "lift": 7.78
+          "count": 179,
+          "prevalence": 0.1268603827072998,
+          "prevalence_pct": 12.7,
+          "lift": 6.74
         },
         {
           "canonical": "Julia",
           "skill_group": "Programming languages",
-          "count": 5,
-          "prevalence": 0.0036576444769568397,
-          "prevalence_pct": 0.4,
-          "lift": 3.44
+          "count": 3,
+          "prevalence": 0.002126151665485471,
+          "prevalence_pct": 0.2,
+          "lift": 2.0
         },
         {
           "canonical": "Bash / Shell",
           "skill_group": "Programming languages",
-          "count": 23,
-          "prevalence": 0.016825164594001463,
-          "prevalence_pct": 1.7,
-          "lift": 0.79
+          "count": 29,
+          "prevalence": 0.020552799433026223,
+          "prevalence_pct": 2.1,
+          "lift": 0.93
         },
         {
           "canonical": "Go",
           "skill_group": "Programming languages",
-          "count": 1,
-          "prevalence": 0.000731528895391368,
-          "prevalence_pct": 0.1,
-          "lift": 0.33
+          "count": 3,
+          "prevalence": 0.002126151665485471,
+          "prevalence_pct": 0.2,
+          "lift": 0.9
         },
         {
           "canonical": "TypeScript",
           "skill_group": "Programming languages",
-          "count": 42,
-          "prevalence": 0.030724213606437453,
-          "prevalence_pct": 3.1,
-          "lift": 1.3
+          "count": 32,
+          "prevalence": 0.022678951098511695,
+          "prevalence_pct": 2.3,
+          "lift": 0.9
         },
         {
           "canonical": "Snowflake",
           "skill_group": "Databases & data warehouses",
-          "count": 34,
-          "prevalence": 0.02487198244330651,
+          "count": 35,
+          "prevalence": 0.024805102763997167,
           "prevalence_pct": 2.5,
-          "lift": 0.2
+          "lift": 0.19
         },
         {
           "canonical": "PostgreSQL",
           "skill_group": "Databases & data warehouses",
-          "count": 48,
-          "prevalence": 0.03511338697878566,
-          "prevalence_pct": 3.5,
-          "lift": 0.82
+          "count": 45,
+          "prevalence": 0.031892274982282066,
+          "prevalence_pct": 3.2,
+          "lift": 0.66
         },
         {
           "canonical": "BigQuery",
           "skill_group": "Databases & data warehouses",
-          "count": 20,
-          "prevalence": 0.014630577907827359,
-          "prevalence_pct": 1.5,
-          "lift": 0.18
+          "count": 35,
+          "prevalence": 0.024805102763997167,
+          "prevalence_pct": 2.5,
+          "lift": 0.29
         },
         {
           "canonical": "Amazon Redshift",
           "skill_group": "Databases & data warehouses",
-          "count": 10,
-          "prevalence": 0.0073152889539136795,
-          "prevalence_pct": 0.7,
-          "lift": 0.25
+          "count": 8,
+          "prevalence": 0.005669737774627924,
+          "prevalence_pct": 0.6,
+          "lift": 0.23
         },
         {
           "canonical": "MySQL",
           "skill_group": "Databases & data warehouses",
-          "count": 6,
-          "prevalence": 0.0043891733723482075,
+          "count": 5,
+          "prevalence": 0.003543586109142452,
           "prevalence_pct": 0.4,
-          "lift": 0.4
+          "lift": 0.34
         },
         {
           "canonical": "MongoDB",
           "skill_group": "Databases & data warehouses",
-          "count": 15,
-          "prevalence": 0.010972933430870519,
-          "prevalence_pct": 1.1,
-          "lift": 0.71
+          "count": 14,
+          "prevalence": 0.009922041105598866,
+          "prevalence_pct": 1.0,
+          "lift": 0.58
         },
         {
           "canonical": "Redis",
           "skill_group": "Databases & data warehouses",
-          "count": 10,
-          "prevalence": 0.0073152889539136795,
-          "prevalence_pct": 0.7,
-          "lift": 1.29
+          "count": 15,
+          "prevalence": 0.010630758327427357,
+          "prevalence_pct": 1.1,
+          "lift": 1.68
         },
         {
           "canonical": "Cassandra",
           "skill_group": "Databases & data warehouses",
-          "count": 6,
-          "prevalence": 0.0043891733723482075,
-          "prevalence_pct": 0.4,
-          "lift": 0.8
+          "count": 7,
+          "prevalence": 0.004961020552799433,
+          "prevalence_pct": 0.5,
+          "lift": 0.99
         },
         {
           "canonical": "Oracle DB",
           "skill_group": "Databases & data warehouses",
-          "count": 19,
-          "prevalence": 0.013899049012435992,
-          "prevalence_pct": 1.4,
-          "lift": 0.57
+          "count": 18,
+          "prevalence": 0.012756909992912827,
+          "prevalence_pct": 1.3,
+          "lift": 0.43
         },
         {
           "canonical": "MS SQL Server",
           "skill_group": "Databases & data warehouses",
-          "count": 6,
-          "prevalence": 0.0043891733723482075,
-          "prevalence_pct": 0.4,
-          "lift": 0.14
+          "count": 0,
+          "prevalence": 0.0,
+          "prevalence_pct": 0.0,
+          "lift": 0.0
         },
         {
           "canonical": "Elasticsearch",
           "skill_group": "Databases & data warehouses",
-          "count": 15,
-          "prevalence": 0.010972933430870519,
-          "prevalence_pct": 1.1,
-          "lift": 1.17
+          "count": 17,
+          "prevalence": 0.012048192771084338,
+          "prevalence_pct": 1.2,
+          "lift": 1.21
         },
         {
           "canonical": "Power BI",
           "skill_group": "BI & visualization",
           "count": 18,
-          "prevalence": 0.013167520117044623,
+          "prevalence": 0.012756909992912827,
           "prevalence_pct": 1.3,
-          "lift": 0.09
+          "lift": 0.07
         },
         {
           "canonical": "Tableau",
           "skill_group": "BI & visualization",
-          "count": 9,
-          "prevalence": 0.006583760058522311,
+          "count": 10,
+          "prevalence": 0.007087172218284904,
           "prevalence_pct": 0.7,
-          "lift": 0.12
+          "lift": 0.11
         },
         {
           "canonical": "Excel",
           "skill_group": "BI & visualization",
-          "count": 14,
-          "prevalence": 0.010241404535479151,
-          "prevalence_pct": 1.0,
-          "lift": 0.27
+          "count": 13,
+          "prevalence": 0.009213323883770375,
+          "prevalence_pct": 0.9,
+          "lift": 0.2
         },
         {
           "canonical": "Looker",
           "skill_group": "BI & visualization",
-          "count": 3,
-          "prevalence": 0.0021945866861741038,
-          "prevalence_pct": 0.2,
-          "lift": 0.08
-        },
-        {
-          "canonical": "Qlik",
-          "skill_group": "BI & visualization",
-          "count": 1,
-          "prevalence": 0.000731528895391368,
+          "count": 2,
+          "prevalence": 0.001417434443656981,
           "prevalence_pct": 0.1,
           "lift": 0.05
         },
         {
+          "canonical": "Qlik",
+          "skill_group": "BI & visualization",
+          "count": 3,
+          "prevalence": 0.002126151665485471,
+          "prevalence_pct": 0.2,
+          "lift": 0.11
+        },
+        {
           "canonical": "Metabase",
           "skill_group": "BI & visualization",
-          "count": 5,
-          "prevalence": 0.0036576444769568397,
-          "prevalence_pct": 0.4,
-          "lift": 0.62
+          "count": 1,
+          "prevalence": 0.0007087172218284905,
+          "prevalence_pct": 0.1,
+          "lift": 0.11
         },
         {
           "canonical": "Apache Superset",
           "skill_group": "BI & visualization",
-          "count": 2,
-          "prevalence": 0.001463057790782736,
+          "count": 1,
+          "prevalence": 0.0007087172218284905,
           "prevalence_pct": 0.1,
-          "lift": 0.37
+          "lift": 0.14
         },
         {
           "canonical": "Azure",
           "skill_group": "Cloud & infrastructure",
-          "count": 276,
-          "prevalence": 0.20190197512801755,
-          "prevalence_pct": 20.2,
-          "lift": 0.69
+          "count": 297,
+          "prevalence": 0.21048901488306165,
+          "prevalence_pct": 21.0,
+          "lift": 0.71
         },
         {
           "canonical": "AWS",
           "skill_group": "Cloud & infrastructure",
-          "count": 355,
-          "prevalence": 0.25969275786393564,
-          "prevalence_pct": 26.0,
-          "lift": 1.11
+          "count": 370,
+          "prevalence": 0.26222537207654145,
+          "prevalence_pct": 26.2,
+          "lift": 1.12
         },
         {
           "canonical": "GCP",
           "skill_group": "Cloud & infrastructure",
-          "count": 224,
-          "prevalence": 0.16386247256766642,
-          "prevalence_pct": 16.4,
-          "lift": 0.92
+          "count": 266,
+          "prevalence": 0.18851878100637845,
+          "prevalence_pct": 18.9,
+          "lift": 0.99
         },
         {
           "canonical": "Databricks",
           "skill_group": "Cloud & infrastructure",
-          "count": 94,
-          "prevalence": 0.06876371616678859,
-          "prevalence_pct": 6.9,
-          "lift": 0.32
+          "count": 102,
+          "prevalence": 0.07228915662650602,
+          "prevalence_pct": 7.2,
+          "lift": 0.35
         },
         {
           "canonical": "Apache Spark",
           "skill_group": "Cloud & infrastructure",
-          "count": 176,
-          "prevalence": 0.12874908558888076,
-          "prevalence_pct": 12.9,
-          "lift": 0.59
+          "count": 177,
+          "prevalence": 0.1254429482636428,
+          "prevalence_pct": 12.5,
+          "lift": 0.61
         },
         {
           "canonical": "dbt",
           "skill_group": "Cloud & infrastructure",
-          "count": 23,
-          "prevalence": 0.016825164594001463,
-          "prevalence_pct": 1.7,
-          "lift": 0.14
+          "count": 26,
+          "prevalence": 0.01842664776754075,
+          "prevalence_pct": 1.8,
+          "lift": 0.15
         },
         {
           "canonical": "Apache Kafka",
           "skill_group": "Cloud & infrastructure",
-          "count": 55,
-          "prevalence": 0.04023408924652524,
-          "prevalence_pct": 4.0,
-          "lift": 0.57
+          "count": 65,
+          "prevalence": 0.04606661941885188,
+          "prevalence_pct": 4.6,
+          "lift": 0.65
         },
         {
           "canonical": "Apache Airflow",
           "skill_group": "Cloud & infrastructure",
-          "count": 117,
-          "prevalence": 0.08558888076079005,
-          "prevalence_pct": 8.6,
-          "lift": 0.7
+          "count": 135,
+          "prevalence": 0.0956768249468462,
+          "prevalence_pct": 9.6,
+          "lift": 0.79
         },
         {
           "canonical": "Docker",
           "skill_group": "Cloud & infrastructure",
-          "count": 265,
-          "prevalence": 0.1938551572787125,
-          "prevalence_pct": 19.4,
-          "lift": 2.21
+          "count": 287,
+          "prevalence": 0.20340184266477676,
+          "prevalence_pct": 20.3,
+          "lift": 2.14
         },
         {
           "canonical": "Kubernetes",
           "skill_group": "Cloud & infrastructure",
-          "count": 250,
-          "prevalence": 0.182882223847842,
-          "prevalence_pct": 18.3,
-          "lift": 2.25
+          "count": 268,
+          "prevalence": 0.18993621545003544,
+          "prevalence_pct": 19.0,
+          "lift": 2.16
         },
         {
           "canonical": "Terraform",
           "skill_group": "Cloud & infrastructure",
-          "count": 82,
-          "prevalence": 0.05998536942209217,
-          "prevalence_pct": 6.0,
-          "lift": 0.83
+          "count": 88,
+          "prevalence": 0.06236711552090716,
+          "prevalence_pct": 6.2,
+          "lift": 0.81
         },
         {
           "canonical": "Git",
           "skill_group": "Cloud & infrastructure",
-          "count": 263,
-          "prevalence": 0.19239209948792976,
-          "prevalence_pct": 19.2,
-          "lift": 1.13
+          "count": 286,
+          "prevalence": 0.20269312544294826,
+          "prevalence_pct": 20.3,
+          "lift": 1.08
         },
         {
           "canonical": "CI/CD",
           "skill_group": "Cloud & infrastructure",
-          "count": 358,
-          "prevalence": 0.2618873445501097,
-          "prevalence_pct": 26.2,
-          "lift": 1.15
+          "count": 375,
+          "prevalence": 0.2657689581856839,
+          "prevalence_pct": 26.6,
+          "lift": 1.07
         },
         {
           "canonical": "PyTorch",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 531,
-          "prevalence": 0.3884418434528164,
-          "prevalence_pct": 38.8,
-          "lift": 7.59
+          "count": 565,
+          "prevalence": 0.40042523033309707,
+          "prevalence_pct": 40.0,
+          "lift": 6.7
         },
         {
           "canonical": "TensorFlow",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 342,
-          "prevalence": 0.2501828822238478,
-          "prevalence_pct": 25.0,
-          "lift": 6.55
+          "count": 356,
+          "prevalence": 0.2523033309709426,
+          "prevalence_pct": 25.2,
+          "lift": 5.74
         },
         {
           "canonical": "Scikit-learn",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 204,
-          "prevalence": 0.14923189465983908,
-          "prevalence_pct": 14.9,
-          "lift": 4.45
+          "count": 235,
+          "prevalence": 0.16654854712969525,
+          "prevalence_pct": 16.7,
+          "lift": 4.23
         },
         {
           "canonical": "Pandas",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 113,
-          "prevalence": 0.08266276517922458,
-          "prevalence_pct": 8.3,
-          "lift": 2.1
+          "count": 123,
+          "prevalence": 0.08717221828490432,
+          "prevalence_pct": 8.7,
+          "lift": 2.07
         },
         {
           "canonical": "NumPy",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 85,
-          "prevalence": 0.06217995610826628,
-          "prevalence_pct": 6.2,
-          "lift": 3.04
+          "count": 96,
+          "prevalence": 0.06803685329553508,
+          "prevalence_pct": 6.8,
+          "lift": 3.0
         },
         {
           "canonical": "MLflow",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 199,
-          "prevalence": 0.14557425018288223,
-          "prevalence_pct": 14.6,
-          "lift": 6.24
+          "count": 219,
+          "prevalence": 0.1552090715804394,
+          "prevalence_pct": 15.5,
+          "lift": 5.65
         },
         {
           "canonical": "Hugging Face",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 143,
-          "prevalence": 0.10460863204096561,
-          "prevalence_pct": 10.5,
-          "lift": 6.13
+          "count": 140,
+          "prevalence": 0.09922041105598867,
+          "prevalence_pct": 9.9,
+          "lift": 4.81
         },
         {
           "canonical": "LangChain",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 93,
-          "prevalence": 0.06803218727139722,
-          "prevalence_pct": 6.8,
-          "lift": 1.92
+          "count": 103,
+          "prevalence": 0.07299787384833452,
+          "prevalence_pct": 7.3,
+          "lift": 1.74
         },
         {
           "canonical": "OpenCV",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 37,
-          "prevalence": 0.027066569129480616,
-          "prevalence_pct": 2.7,
-          "lift": 10.57
+          "count": 40,
+          "prevalence": 0.028348688873139617,
+          "prevalence_pct": 2.8,
+          "lift": 9.02
         },
         {
           "canonical": "XGBoost",
           "skill_group": "ML/AI frameworks & tools",
           "count": 46,
-          "prevalence": 0.033650329188002925,
-          "prevalence_pct": 3.4,
-          "lift": 4.86
+          "prevalence": 0.03260099220411056,
+          "prevalence_pct": 3.3,
+          "lift": 4.34
         },
         {
           "canonical": "LLMs / Generative AI",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 604,
-          "prevalence": 0.44184345281638626,
-          "prevalence_pct": 44.2,
-          "lift": 1.99
+          "count": 617,
+          "prevalence": 0.4372785258681786,
+          "prevalence_pct": 43.7,
+          "lift": 1.75
         }
       ]
     },
     "ai_engineering": {
       "category_id": "ai_engineering",
       "category_name": "AI Engineering",
-      "total_postings": 2959,
+      "total_postings": 3345,
       "top_in_demand": [
         {
           "canonical": "LLMs / Generative AI",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 2350,
-          "prevalence": 0.7941872254139912,
-          "prevalence_pct": 79.4,
-          "lift": 3.58
+          "count": 2735,
+          "prevalence": 0.8176382660687593,
+          "prevalence_pct": 81.8,
+          "lift": 3.27
         },
         {
           "canonical": "Python",
           "skill_group": "Programming languages",
-          "count": 1908,
-          "prevalence": 0.644812436633998,
-          "prevalence_pct": 64.5,
-          "lift": 1.17
+          "count": 2264,
+          "prevalence": 0.6768310911808669,
+          "prevalence_pct": 67.7,
+          "lift": 1.19
         },
         {
           "canonical": "Azure",
           "skill_group": "Cloud & infrastructure",
-          "count": 971,
-          "prevalence": 0.3281514025008449,
-          "prevalence_pct": 32.8,
-          "lift": 1.12
+          "count": 1157,
+          "prevalence": 0.3458893871449925,
+          "prevalence_pct": 34.6,
+          "lift": 1.17
         },
         {
           "canonical": "CI/CD",
           "skill_group": "Cloud & infrastructure",
-          "count": 900,
-          "prevalence": 0.3041568097330179,
-          "prevalence_pct": 30.4,
+          "count": 1098,
+          "prevalence": 0.32825112107623317,
+          "prevalence_pct": 32.8,
           "lift": 1.33
         },
         {
           "canonical": "AWS",
           "skill_group": "Cloud & infrastructure",
-          "count": 845,
-          "prevalence": 0.28556944913822235,
-          "prevalence_pct": 28.6,
-          "lift": 1.22
-        },
-        {
-          "canonical": "GCP",
-          "skill_group": "Cloud & infrastructure",
-          "count": 651,
-          "prevalence": 0.2200067590402163,
-          "prevalence_pct": 22.0,
-          "lift": 1.24
+          "count": 946,
+          "prevalence": 0.2828101644245142,
+          "prevalence_pct": 28.3,
+          "lift": 1.21
         },
         {
           "canonical": "Git",
           "skill_group": "Cloud & infrastructure",
-          "count": 628,
-          "prevalence": 0.2122338627914836,
-          "prevalence_pct": 21.2,
-          "lift": 1.25
-        },
-        {
-          "canonical": "LangChain",
-          "skill_group": "ML/AI frameworks & tools",
-          "count": 584,
-          "prevalence": 0.19736397431564717,
-          "prevalence_pct": 19.7,
-          "lift": 5.58
+          "count": 798,
+          "prevalence": 0.23856502242152466,
+          "prevalence_pct": 23.9,
+          "lift": 1.27
         },
         {
           "canonical": "Docker",
           "skill_group": "Cloud & infrastructure",
-          "count": 575,
-          "prevalence": 0.194322406218317,
-          "prevalence_pct": 19.4,
-          "lift": 2.21
+          "count": 709,
+          "prevalence": 0.21195814648729447,
+          "prevalence_pct": 21.2,
+          "lift": 2.23
+        },
+        {
+          "canonical": "LangChain",
+          "skill_group": "ML/AI frameworks & tools",
+          "count": 698,
+          "prevalence": 0.20866965620328848,
+          "prevalence_pct": 20.9,
+          "lift": 4.97
+        },
+        {
+          "canonical": "GCP",
+          "skill_group": "Cloud & infrastructure",
+          "count": 675,
+          "prevalence": 0.20179372197309417,
+          "prevalence_pct": 20.2,
+          "lift": 1.06
         },
         {
           "canonical": "SQL",
           "skill_group": "Programming languages",
-          "count": 516,
-          "prevalence": 0.1743832375802636,
-          "prevalence_pct": 17.4,
-          "lift": 0.37
+          "count": 591,
+          "prevalence": 0.17668161434977578,
+          "prevalence_pct": 17.7,
+          "lift": 0.36
         }
       ],
       "top_distinctive": [
         {
           "canonical": "LangChain",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 584,
-          "prevalence": 0.19736397431564717,
-          "prevalence_pct": 19.7,
-          "lift": 5.58
+          "count": 698,
+          "prevalence": 0.20866965620328848,
+          "prevalence_pct": 20.9,
+          "lift": 4.97
         },
         {
           "canonical": "TypeScript",
           "skill_group": "Programming languages",
-          "count": 338,
-          "prevalence": 0.11422777965528895,
-          "prevalence_pct": 11.4,
-          "lift": 4.84
+          "count": 397,
+          "prevalence": 0.11868460388639761,
+          "prevalence_pct": 11.9,
+          "lift": 4.69
         },
         {
           "canonical": "LLMs / Generative AI",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 2350,
-          "prevalence": 0.7941872254139912,
-          "prevalence_pct": 79.4,
-          "lift": 3.58
+          "count": 2735,
+          "prevalence": 0.8176382660687593,
+          "prevalence_pct": 81.8,
+          "lift": 3.27
         },
         {
           "canonical": "Hugging Face",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 172,
-          "prevalence": 0.05812774586008787,
-          "prevalence_pct": 5.8,
-          "lift": 3.41
+          "count": 218,
+          "prevalence": 0.06517189835575486,
+          "prevalence_pct": 6.5,
+          "lift": 3.16
         },
         {
-          "canonical": "PyTorch",
-          "skill_group": "ML/AI frameworks & tools",
-          "count": 337,
-          "prevalence": 0.11388982764447449,
-          "prevalence_pct": 11.4,
-          "lift": 2.22
+          "canonical": "Redis",
+          "skill_group": "Databases & data warehouses",
+          "count": 57,
+          "prevalence": 0.017040358744394617,
+          "prevalence_pct": 1.7,
+          "lift": 2.69
         },
         {
           "canonical": "Docker",
           "skill_group": "Cloud & infrastructure",
-          "count": 575,
-          "prevalence": 0.194322406218317,
-          "prevalence_pct": 19.4,
-          "lift": 2.21
+          "count": 709,
+          "prevalence": 0.21195814648729447,
+          "prevalence_pct": 21.2,
+          "lift": 2.23
         },
         {
           "canonical": "C++",
           "skill_group": "Programming languages",
-          "count": 101,
-          "prevalence": 0.0341331530922609,
-          "prevalence_pct": 3.4,
-          "lift": 2.16
+          "count": 137,
+          "prevalence": 0.04095665171898356,
+          "prevalence_pct": 4.1,
+          "lift": 2.18
+        },
+        {
+          "canonical": "PyTorch",
+          "skill_group": "ML/AI frameworks & tools",
+          "count": 413,
+          "prevalence": 0.1234678624813154,
+          "prevalence_pct": 12.3,
+          "lift": 2.07
         },
         {
           "canonical": "TensorFlow",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 235,
-          "prevalence": 0.07941872254139912,
-          "prevalence_pct": 7.9,
-          "lift": 2.08
+          "count": 296,
+          "prevalence": 0.08849028400597907,
+          "prevalence_pct": 8.8,
+          "lift": 2.01
         },
         {
           "canonical": "Kubernetes",
           "skill_group": "Cloud & infrastructure",
-          "count": 486,
-          "prevalence": 0.16424467725582967,
-          "prevalence_pct": 16.4,
-          "lift": 2.02
-        },
-        {
-          "canonical": "MLflow",
-          "skill_group": "ML/AI frameworks & tools",
-          "count": 136,
-          "prevalence": 0.04596147347076715,
-          "prevalence_pct": 4.6,
-          "lift": 1.97
+          "count": 559,
+          "prevalence": 0.16711509715994022,
+          "prevalence_pct": 16.7,
+          "lift": 1.9
         }
       ],
       "all_skills": [
         {
           "canonical": "Python",
           "skill_group": "Programming languages",
-          "count": 1908,
-          "prevalence": 0.644812436633998,
-          "prevalence_pct": 64.5,
-          "lift": 1.17
+          "count": 2264,
+          "prevalence": 0.6768310911808669,
+          "prevalence_pct": 67.7,
+          "lift": 1.19
         },
         {
           "canonical": "SQL",
           "skill_group": "Programming languages",
-          "count": 516,
-          "prevalence": 0.1743832375802636,
-          "prevalence_pct": 17.4,
-          "lift": 0.37
+          "count": 591,
+          "prevalence": 0.17668161434977578,
+          "prevalence_pct": 17.7,
+          "lift": 0.36
         },
         {
           "canonical": "R",
           "skill_group": "Programming languages",
-          "count": 49,
-          "prevalence": 0.016559648529908752,
-          "prevalence_pct": 1.7,
-          "lift": 0.38
+          "count": 67,
+          "prevalence": 0.020029895366218235,
+          "prevalence_pct": 2.0,
+          "lift": 0.42
         },
         {
           "canonical": "Java",
           "skill_group": "Programming languages",
-          "count": 254,
-          "prevalence": 0.08583981074687394,
-          "prevalence_pct": 8.6,
-          "lift": 1.33
+          "count": 314,
+          "prevalence": 0.09387144992526159,
+          "prevalence_pct": 9.4,
+          "lift": 1.34
         },
         {
           "canonical": "Scala",
           "skill_group": "Programming languages",
-          "count": 56,
-          "prevalence": 0.018925312605610003,
-          "prevalence_pct": 1.9,
+          "count": 60,
+          "prevalence": 0.017937219730941704,
+          "prevalence_pct": 1.8,
           "lift": 0.31
         },
         {
           "canonical": "C++",
           "skill_group": "Programming languages",
-          "count": 101,
-          "prevalence": 0.0341331530922609,
-          "prevalence_pct": 3.4,
-          "lift": 2.16
+          "count": 137,
+          "prevalence": 0.04095665171898356,
+          "prevalence_pct": 4.1,
+          "lift": 2.18
         },
         {
           "canonical": "Julia",
           "skill_group": "Programming languages",
-          "count": 6,
-          "prevalence": 0.002027712064886786,
+          "count": 7,
+          "prevalence": 0.0020926756352765323,
           "prevalence_pct": 0.2,
-          "lift": 1.91
+          "lift": 1.97
         },
         {
           "canonical": "Bash / Shell",
           "skill_group": "Programming languages",
-          "count": 37,
-          "prevalence": 0.012504224400135181,
-          "prevalence_pct": 1.3,
-          "lift": 0.59
+          "count": 30,
+          "prevalence": 0.008968609865470852,
+          "prevalence_pct": 0.9,
+          "lift": 0.4
         },
         {
           "canonical": "Go",
           "skill_group": "Programming languages",
-          "count": 14,
-          "prevalence": 0.004731328151402501,
-          "prevalence_pct": 0.5,
-          "lift": 2.11
+          "count": 13,
+          "prevalence": 0.0038863976083707025,
+          "prevalence_pct": 0.4,
+          "lift": 1.64
         },
         {
           "canonical": "TypeScript",
           "skill_group": "Programming languages",
-          "count": 338,
-          "prevalence": 0.11422777965528895,
-          "prevalence_pct": 11.4,
-          "lift": 4.84
+          "count": 397,
+          "prevalence": 0.11868460388639761,
+          "prevalence_pct": 11.9,
+          "lift": 4.69
         },
         {
           "canonical": "Snowflake",
           "skill_group": "Databases & data warehouses",
-          "count": 134,
-          "prevalence": 0.045285569449138224,
-          "prevalence_pct": 4.5,
-          "lift": 0.36
+          "count": 140,
+          "prevalence": 0.04185351270553064,
+          "prevalence_pct": 4.2,
+          "lift": 0.33
         },
         {
           "canonical": "PostgreSQL",
           "skill_group": "Databases & data warehouses",
-          "count": 165,
-          "prevalence": 0.055762081784386616,
-          "prevalence_pct": 5.6,
-          "lift": 1.3
+          "count": 209,
+          "prevalence": 0.0624813153961136,
+          "prevalence_pct": 6.2,
+          "lift": 1.29
         },
         {
           "canonical": "BigQuery",
           "skill_group": "Databases & data warehouses",
-          "count": 103,
-          "prevalence": 0.034809057113889826,
-          "prevalence_pct": 3.5,
-          "lift": 0.43
+          "count": 77,
+          "prevalence": 0.023019431988041853,
+          "prevalence_pct": 2.3,
+          "lift": 0.27
         },
         {
           "canonical": "Amazon Redshift",
           "skill_group": "Databases & data warehouses",
-          "count": 5,
-          "prevalence": 0.0016897600540723217,
-          "prevalence_pct": 0.2,
-          "lift": 0.06
+          "count": 10,
+          "prevalence": 0.0029895366218236174,
+          "prevalence_pct": 0.3,
+          "lift": 0.12
         },
         {
           "canonical": "MySQL",
           "skill_group": "Databases & data warehouses",
-          "count": 16,
-          "prevalence": 0.005407232173031429,
-          "prevalence_pct": 0.5,
-          "lift": 0.5
+          "count": 24,
+          "prevalence": 0.007174887892376682,
+          "prevalence_pct": 0.7,
+          "lift": 0.69
         },
         {
           "canonical": "MongoDB",
           "skill_group": "Databases & data warehouses",
-          "count": 44,
-          "prevalence": 0.01486988847583643,
-          "prevalence_pct": 1.5,
-          "lift": 0.97
+          "count": 63,
+          "prevalence": 0.01883408071748879,
+          "prevalence_pct": 1.9,
+          "lift": 1.11
         },
         {
           "canonical": "Redis",
           "skill_group": "Databases & data warehouses",
-          "count": 44,
-          "prevalence": 0.01486988847583643,
-          "prevalence_pct": 1.5,
-          "lift": 2.62
+          "count": 57,
+          "prevalence": 0.017040358744394617,
+          "prevalence_pct": 1.7,
+          "lift": 2.69
         },
         {
           "canonical": "Cassandra",
           "skill_group": "Databases & data warehouses",
-          "count": 10,
-          "prevalence": 0.0033795201081446434,
-          "prevalence_pct": 0.3,
-          "lift": 0.61
+          "count": 8,
+          "prevalence": 0.002391629297458894,
+          "prevalence_pct": 0.2,
+          "lift": 0.48
         },
         {
           "canonical": "Oracle DB",
           "skill_group": "Databases & data warehouses",
           "count": 21,
-          "prevalence": 0.0070969922271037515,
-          "prevalence_pct": 0.7,
-          "lift": 0.29
+          "prevalence": 0.006278026905829596,
+          "prevalence_pct": 0.6,
+          "lift": 0.21
         },
         {
           "canonical": "MS SQL Server",
           "skill_group": "Databases & data warehouses",
-          "count": 21,
-          "prevalence": 0.0070969922271037515,
+          "count": 24,
+          "prevalence": 0.007174887892376682,
           "prevalence_pct": 0.7,
-          "lift": 0.22
+          "lift": 0.19
         },
         {
           "canonical": "Elasticsearch",
           "skill_group": "Databases & data warehouses",
-          "count": 24,
-          "prevalence": 0.008110848259547145,
-          "prevalence_pct": 0.8,
-          "lift": 0.87
+          "count": 35,
+          "prevalence": 0.01046337817638266,
+          "prevalence_pct": 1.0,
+          "lift": 1.05
         },
         {
           "canonical": "Power BI",
           "skill_group": "BI & visualization",
-          "count": 82,
-          "prevalence": 0.027712064886786077,
-          "prevalence_pct": 2.8,
-          "lift": 0.18
+          "count": 73,
+          "prevalence": 0.021823617339312408,
+          "prevalence_pct": 2.2,
+          "lift": 0.13
         },
         {
           "canonical": "Tableau",
           "skill_group": "BI & visualization",
-          "count": 30,
-          "prevalence": 0.01013856032443393,
-          "prevalence_pct": 1.0,
-          "lift": 0.18
+          "count": 26,
+          "prevalence": 0.007772795216741405,
+          "prevalence_pct": 0.8,
+          "lift": 0.12
         },
         {
           "canonical": "Excel",
           "skill_group": "BI & visualization",
-          "count": 42,
-          "prevalence": 0.014193984454207503,
-          "prevalence_pct": 1.4,
-          "lift": 0.37
+          "count": 44,
+          "prevalence": 0.013153961136023917,
+          "prevalence_pct": 1.3,
+          "lift": 0.28
         },
         {
           "canonical": "Looker",
           "skill_group": "BI & visualization",
-          "count": 51,
-          "prevalence": 0.01723555255153768,
-          "prevalence_pct": 1.7,
-          "lift": 0.59
+          "count": 5,
+          "prevalence": 0.0014947683109118087,
+          "prevalence_pct": 0.1,
+          "lift": 0.05
         },
         {
           "canonical": "Qlik",
           "skill_group": "BI & visualization",
           "count": 4,
-          "prevalence": 0.0013518080432578573,
+          "prevalence": 0.001195814648729447,
           "prevalence_pct": 0.1,
-          "lift": 0.09
+          "lift": 0.06
         },
         {
           "canonical": "Metabase",
           "skill_group": "BI & visualization",
           "count": 2,
-          "prevalence": 0.0006759040216289286,
+          "prevalence": 0.0005979073243647235,
           "prevalence_pct": 0.1,
-          "lift": 0.12
+          "lift": 0.1
         },
         {
           "canonical": "Apache Superset",
           "skill_group": "BI & visualization",
           "count": 1,
-          "prevalence": 0.0003379520108144643,
+          "prevalence": 0.00029895366218236175,
           "prevalence_pct": 0.0,
-          "lift": 0.09
+          "lift": 0.06
         },
         {
           "canonical": "Azure",
           "skill_group": "Cloud & infrastructure",
-          "count": 971,
-          "prevalence": 0.3281514025008449,
-          "prevalence_pct": 32.8,
-          "lift": 1.12
+          "count": 1157,
+          "prevalence": 0.3458893871449925,
+          "prevalence_pct": 34.6,
+          "lift": 1.17
         },
         {
           "canonical": "AWS",
           "skill_group": "Cloud & infrastructure",
-          "count": 845,
-          "prevalence": 0.28556944913822235,
-          "prevalence_pct": 28.6,
-          "lift": 1.22
+          "count": 946,
+          "prevalence": 0.2828101644245142,
+          "prevalence_pct": 28.3,
+          "lift": 1.21
         },
         {
           "canonical": "GCP",
           "skill_group": "Cloud & infrastructure",
-          "count": 651,
-          "prevalence": 0.2200067590402163,
-          "prevalence_pct": 22.0,
-          "lift": 1.24
+          "count": 675,
+          "prevalence": 0.20179372197309417,
+          "prevalence_pct": 20.2,
+          "lift": 1.06
         },
         {
           "canonical": "Databricks",
           "skill_group": "Cloud & infrastructure",
-          "count": 280,
-          "prevalence": 0.09462656302805002,
-          "prevalence_pct": 9.5,
-          "lift": 0.44
+          "count": 310,
+          "prevalence": 0.09267563527653214,
+          "prevalence_pct": 9.3,
+          "lift": 0.45
         },
         {
           "canonical": "Apache Spark",
           "skill_group": "Cloud & infrastructure",
-          "count": 177,
-          "prevalence": 0.05981750591416019,
-          "prevalence_pct": 6.0,
-          "lift": 0.27
+          "count": 169,
+          "prevalence": 0.05052316890881913,
+          "prevalence_pct": 5.1,
+          "lift": 0.24
         },
         {
           "canonical": "dbt",
           "skill_group": "Cloud & infrastructure",
-          "count": 81,
-          "prevalence": 0.027374112875971614,
-          "prevalence_pct": 2.7,
-          "lift": 0.23
+          "count": 80,
+          "prevalence": 0.02391629297458894,
+          "prevalence_pct": 2.4,
+          "lift": 0.19
         },
         {
           "canonical": "Apache Kafka",
           "skill_group": "Cloud & infrastructure",
-          "count": 74,
-          "prevalence": 0.025008448800270363,
-          "prevalence_pct": 2.5,
-          "lift": 0.36
+          "count": 75,
+          "prevalence": 0.02242152466367713,
+          "prevalence_pct": 2.2,
+          "lift": 0.31
         },
         {
           "canonical": "Apache Airflow",
           "skill_group": "Cloud & infrastructure",
-          "count": 128,
-          "prevalence": 0.04325785738425143,
-          "prevalence_pct": 4.3,
-          "lift": 0.35
+          "count": 80,
+          "prevalence": 0.02391629297458894,
+          "prevalence_pct": 2.4,
+          "lift": 0.2
         },
         {
           "canonical": "Docker",
           "skill_group": "Cloud & infrastructure",
-          "count": 575,
-          "prevalence": 0.194322406218317,
-          "prevalence_pct": 19.4,
-          "lift": 2.21
+          "count": 709,
+          "prevalence": 0.21195814648729447,
+          "prevalence_pct": 21.2,
+          "lift": 2.23
         },
         {
           "canonical": "Kubernetes",
           "skill_group": "Cloud & infrastructure",
-          "count": 486,
-          "prevalence": 0.16424467725582967,
-          "prevalence_pct": 16.4,
-          "lift": 2.02
+          "count": 559,
+          "prevalence": 0.16711509715994022,
+          "prevalence_pct": 16.7,
+          "lift": 1.9
         },
         {
           "canonical": "Terraform",
           "skill_group": "Cloud & infrastructure",
-          "count": 239,
-          "prevalence": 0.08077053058465698,
-          "prevalence_pct": 8.1,
-          "lift": 1.12
+          "count": 284,
+          "prevalence": 0.08490284005979074,
+          "prevalence_pct": 8.5,
+          "lift": 1.1
         },
         {
           "canonical": "Git",
           "skill_group": "Cloud & infrastructure",
-          "count": 628,
-          "prevalence": 0.2122338627914836,
-          "prevalence_pct": 21.2,
-          "lift": 1.25
+          "count": 798,
+          "prevalence": 0.23856502242152466,
+          "prevalence_pct": 23.9,
+          "lift": 1.27
         },
         {
           "canonical": "CI/CD",
           "skill_group": "Cloud & infrastructure",
-          "count": 900,
-          "prevalence": 0.3041568097330179,
-          "prevalence_pct": 30.4,
+          "count": 1098,
+          "prevalence": 0.32825112107623317,
+          "prevalence_pct": 32.8,
           "lift": 1.33
         },
         {
           "canonical": "PyTorch",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 337,
-          "prevalence": 0.11388982764447449,
-          "prevalence_pct": 11.4,
-          "lift": 2.22
+          "count": 413,
+          "prevalence": 0.1234678624813154,
+          "prevalence_pct": 12.3,
+          "lift": 2.07
         },
         {
           "canonical": "TensorFlow",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 235,
-          "prevalence": 0.07941872254139912,
-          "prevalence_pct": 7.9,
-          "lift": 2.08
+          "count": 296,
+          "prevalence": 0.08849028400597907,
+          "prevalence_pct": 8.8,
+          "lift": 2.01
         },
         {
           "canonical": "Scikit-learn",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 142,
-          "prevalence": 0.047989185535653935,
-          "prevalence_pct": 4.8,
-          "lift": 1.43
+          "count": 179,
+          "prevalence": 0.05351270553064275,
+          "prevalence_pct": 5.4,
+          "lift": 1.36
         },
         {
           "canonical": "Pandas",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 64,
-          "prevalence": 0.021628928692125717,
-          "prevalence_pct": 2.2,
-          "lift": 0.55
+          "count": 91,
+          "prevalence": 0.027204783258594916,
+          "prevalence_pct": 2.7,
+          "lift": 0.65
         },
         {
           "canonical": "NumPy",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 39,
-          "prevalence": 0.013180128421764109,
-          "prevalence_pct": 1.3,
-          "lift": 0.64
+          "count": 65,
+          "prevalence": 0.01943198804185351,
+          "prevalence_pct": 1.9,
+          "lift": 0.86
         },
         {
           "canonical": "MLflow",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 136,
-          "prevalence": 0.04596147347076715,
-          "prevalence_pct": 4.6,
-          "lift": 1.97
+          "count": 169,
+          "prevalence": 0.05052316890881913,
+          "prevalence_pct": 5.1,
+          "lift": 1.84
         },
         {
           "canonical": "Hugging Face",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 172,
-          "prevalence": 0.05812774586008787,
-          "prevalence_pct": 5.8,
-          "lift": 3.41
+          "count": 218,
+          "prevalence": 0.06517189835575486,
+          "prevalence_pct": 6.5,
+          "lift": 3.16
         },
         {
           "canonical": "LangChain",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 584,
-          "prevalence": 0.19736397431564717,
-          "prevalence_pct": 19.7,
-          "lift": 5.58
+          "count": 698,
+          "prevalence": 0.20866965620328848,
+          "prevalence_pct": 20.9,
+          "lift": 4.97
         },
         {
           "canonical": "OpenCV",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 15,
-          "prevalence": 0.005069280162216965,
-          "prevalence_pct": 0.5,
-          "lift": 1.98
+          "count": 24,
+          "prevalence": 0.007174887892376682,
+          "prevalence_pct": 0.7,
+          "lift": 2.28
         },
         {
           "canonical": "XGBoost",
           "skill_group": "ML/AI frameworks & tools",
           "count": 19,
-          "prevalence": 0.006421088205474822,
+          "prevalence": 0.005680119581464873,
           "prevalence_pct": 0.6,
-          "lift": 0.93
+          "lift": 0.76
         },
         {
           "canonical": "LLMs / Generative AI",
           "skill_group": "ML/AI frameworks & tools",
-          "count": 2350,
-          "prevalence": 0.7941872254139912,
-          "prevalence_pct": 79.4,
-          "lift": 3.58
+          "count": 2735,
+          "prevalence": 0.8176382660687593,
+          "prevalence_pct": 81.8,
+          "lift": 3.27
         }
       ]
     }
   },
   "geographic": {
     "threshold": 300,
-    "eligible_count": 12,
-    "excluded_count": 15,
+    "eligible_count": 11,
+    "excluded_count": 16,
     "country_map": [
       {
         "iso_code": "FR",
         "country_name": "France",
-        "postings": 4278,
+        "postings": 4972,
         "eligible": true
       },
       {
         "iso_code": "NL",
         "country_name": "Netherlands",
-        "postings": 4242,
-        "eligible": true
-      },
-      {
-        "iso_code": "ES",
-        "country_name": "Spain",
-        "postings": 3886,
+        "postings": 3307,
         "eligible": true
       },
       {
         "iso_code": "PL",
         "country_name": "Poland",
-        "postings": 3018,
+        "postings": 2826,
+        "eligible": true
+      },
+      {
+        "iso_code": "ES",
+        "country_name": "Spain",
+        "postings": 2740,
         "eligible": true
       },
       {
         "iso_code": "DE",
         "country_name": "Germany",
-        "postings": 2771,
+        "postings": 2396,
         "eligible": true
       },
       {
         "iso_code": "IT",
         "country_name": "Italy",
-        "postings": 2027,
+        "postings": 2129,
         "eligible": true
       },
       {
         "iso_code": "PT",
         "country_name": "Portugal",
-        "postings": 756,
-        "eligible": true
-      },
-      {
-        "iso_code": "IE",
-        "country_name": "Ireland",
-        "postings": 670,
-        "eligible": true
-      },
-      {
-        "iso_code": "SE",
-        "country_name": "Sweden",
-        "postings": 607,
-        "eligible": true
-      },
-      {
-        "iso_code": "DK",
-        "country_name": "Denmark",
-        "postings": 530,
+        "postings": 1366,
         "eligible": true
       },
       {
         "iso_code": "BE",
         "country_name": "Belgium",
-        "postings": 514,
+        "postings": 1012,
         "eligible": true
       },
       {
-        "iso_code": "FI",
-        "country_name": "Finland",
-        "postings": 336,
+        "iso_code": "SE",
+        "country_name": "Sweden",
+        "postings": 885,
+        "eligible": true
+      },
+      {
+        "iso_code": "IE",
+        "country_name": "Ireland",
+        "postings": 470,
+        "eligible": true
+      },
+      {
+        "iso_code": "DK",
+        "country_name": "Denmark",
+        "postings": 416,
         "eligible": true
       },
       {
         "iso_code": "RO",
         "country_name": "Romania",
-        "postings": 284,
+        "postings": 277,
+        "eligible": false
+      },
+      {
+        "iso_code": "FI",
+        "country_name": "Finland",
+        "postings": 258,
         "eligible": false
       },
       {
         "iso_code": "AT",
         "country_name": "Austria",
-        "postings": 265,
+        "postings": 248,
         "eligible": false
       },
       {
         "iso_code": "HU",
         "country_name": "Hungary",
-        "postings": 197,
+        "postings": 194,
         "eligible": false
       },
       {
         "iso_code": "CZ",
         "country_name": "Czechia",
-        "postings": 196,
+        "postings": 179,
         "eligible": false
       },
       {
         "iso_code": "BG",
         "country_name": "Bulgaria",
-        "postings": 170,
+        "postings": 161,
         "eligible": false
       },
       {
         "iso_code": "GR",
         "country_name": "Greece",
-        "postings": 133,
+        "postings": 131,
         "eligible": false
       },
       {
         "iso_code": "LT",
         "country_name": "Lithuania",
-        "postings": 98,
-        "eligible": false
-      },
-      {
-        "iso_code": "HR",
-        "country_name": "Croatia",
-        "postings": 87,
+        "postings": 112,
         "eligible": false
       },
       {
         "iso_code": "CY",
         "country_name": "Cyprus",
-        "postings": 77,
+        "postings": 101,
         "eligible": false
       },
       {
         "iso_code": "LU",
         "country_name": "Luxembourg",
-        "postings": 74,
+        "postings": 98,
         "eligible": false
       },
       {
         "iso_code": "SK",
         "country_name": "Slovakia",
-        "postings": 67,
+        "postings": 57,
+        "eligible": false
+      },
+      {
+        "iso_code": "HR",
+        "country_name": "Croatia",
+        "postings": 56,
         "eligible": false
       },
       {
         "iso_code": "MT",
         "country_name": "Malta",
-        "postings": 40,
+        "postings": 41,
         "eligible": false
       },
       {
         "iso_code": "EE",
         "country_name": "Estonia",
-        "postings": 37,
-        "eligible": false
-      },
-      {
-        "iso_code": "LV",
-        "country_name": "Latvia",
-        "postings": 19,
+        "postings": 25,
         "eligible": false
       },
       {
         "iso_code": "SI",
         "country_name": "Slovenia",
-        "postings": 15,
+        "postings": 17,
+        "eligible": false
+      },
+      {
+        "iso_code": "LV",
+        "country_name": "Latvia",
+        "postings": 14,
         "eligible": false
       }
     ],
@@ -3258,384 +3258,352 @@
       {
         "iso_code": "FR",
         "country_name": "France",
-        "total_postings": 4278,
+        "total_postings": 4972,
         "categories": {
           "data_analytics": {
             "category_name": "Data Analytics",
-            "count": 560,
-            "share_pct": 13.1
+            "count": 776,
+            "share_pct": 15.6
           },
           "data_engineering": {
             "category_name": "Data Engineering",
-            "count": 2802,
-            "share_pct": 65.5
+            "count": 2735,
+            "share_pct": 55.0
           },
           "data_science": {
             "category_name": "Data Science",
-            "count": 396,
-            "share_pct": 9.3
+            "count": 530,
+            "share_pct": 10.7
           },
           "ml_ai": {
             "category_name": "ML/AI",
-            "count": 179,
-            "share_pct": 4.2
+            "count": 221,
+            "share_pct": 4.4
           },
           "ai_engineering": {
             "category_name": "AI Engineering",
-            "count": 341,
-            "share_pct": 8.0
+            "count": 710,
+            "share_pct": 14.3
           }
         }
       },
       {
         "iso_code": "NL",
         "country_name": "Netherlands",
-        "total_postings": 4242,
+        "total_postings": 3307,
         "categories": {
           "data_analytics": {
             "category_name": "Data Analytics",
-            "count": 344,
-            "share_pct": 8.1
+            "count": 374,
+            "share_pct": 11.3
           },
           "data_engineering": {
             "category_name": "Data Engineering",
-            "count": 2996,
-            "share_pct": 70.6
+            "count": 2196,
+            "share_pct": 66.4
           },
           "data_science": {
             "category_name": "Data Science",
-            "count": 422,
+            "count": 285,
+            "share_pct": 8.6
+          },
+          "ml_ai": {
+            "category_name": "ML/AI",
+            "count": 126,
+            "share_pct": 3.8
+          },
+          "ai_engineering": {
+            "category_name": "AI Engineering",
+            "count": 326,
             "share_pct": 9.9
-          },
-          "ml_ai": {
-            "category_name": "ML/AI",
-            "count": 142,
-            "share_pct": 3.3
-          },
-          "ai_engineering": {
-            "category_name": "AI Engineering",
-            "count": 338,
-            "share_pct": 8.0
-          }
-        }
-      },
-      {
-        "iso_code": "ES",
-        "country_name": "Spain",
-        "total_postings": 3886,
-        "categories": {
-          "data_analytics": {
-            "category_name": "Data Analytics",
-            "count": 332,
-            "share_pct": 8.5
-          },
-          "data_engineering": {
-            "category_name": "Data Engineering",
-            "count": 2802,
-            "share_pct": 72.1
-          },
-          "data_science": {
-            "category_name": "Data Science",
-            "count": 252,
-            "share_pct": 6.5
-          },
-          "ml_ai": {
-            "category_name": "ML/AI",
-            "count": 109,
-            "share_pct": 2.8
-          },
-          "ai_engineering": {
-            "category_name": "AI Engineering",
-            "count": 391,
-            "share_pct": 10.1
           }
         }
       },
       {
         "iso_code": "PL",
         "country_name": "Poland",
-        "total_postings": 3018,
+        "total_postings": 2826,
         "categories": {
           "data_analytics": {
             "category_name": "Data Analytics",
-            "count": 237,
-            "share_pct": 7.9
+            "count": 298,
+            "share_pct": 10.5
           },
           "data_engineering": {
             "category_name": "Data Engineering",
-            "count": 2190,
-            "share_pct": 72.6
+            "count": 1909,
+            "share_pct": 67.6
           },
           "data_science": {
             "category_name": "Data Science",
             "count": 160,
-            "share_pct": 5.3
+            "share_pct": 5.7
           },
           "ml_ai": {
             "category_name": "ML/AI",
-            "count": 136,
-            "share_pct": 4.5
+            "count": 142,
+            "share_pct": 5.0
           },
           "ai_engineering": {
             "category_name": "AI Engineering",
-            "count": 295,
-            "share_pct": 9.8
+            "count": 317,
+            "share_pct": 11.2
+          }
+        }
+      },
+      {
+        "iso_code": "ES",
+        "country_name": "Spain",
+        "total_postings": 2740,
+        "categories": {
+          "data_analytics": {
+            "category_name": "Data Analytics",
+            "count": 316,
+            "share_pct": 11.5
+          },
+          "data_engineering": {
+            "category_name": "Data Engineering",
+            "count": 1751,
+            "share_pct": 63.9
+          },
+          "data_science": {
+            "category_name": "Data Science",
+            "count": 231,
+            "share_pct": 8.4
+          },
+          "ml_ai": {
+            "category_name": "ML/AI",
+            "count": 135,
+            "share_pct": 4.9
+          },
+          "ai_engineering": {
+            "category_name": "AI Engineering",
+            "count": 307,
+            "share_pct": 11.2
           }
         }
       },
       {
         "iso_code": "DE",
         "country_name": "Germany",
-        "total_postings": 2771,
+        "total_postings": 2396,
         "categories": {
           "data_analytics": {
             "category_name": "Data Analytics",
-            "count": 496,
-            "share_pct": 17.9
+            "count": 437,
+            "share_pct": 18.2
           },
           "data_engineering": {
             "category_name": "Data Engineering",
-            "count": 881,
-            "share_pct": 31.8
+            "count": 740,
+            "share_pct": 30.9
           },
           "data_science": {
             "category_name": "Data Science",
-            "count": 525,
-            "share_pct": 18.9
+            "count": 489,
+            "share_pct": 20.4
           },
           "ml_ai": {
             "category_name": "ML/AI",
-            "count": 303,
-            "share_pct": 10.9
+            "count": 245,
+            "share_pct": 10.2
           },
           "ai_engineering": {
             "category_name": "AI Engineering",
-            "count": 566,
-            "share_pct": 20.4
+            "count": 485,
+            "share_pct": 20.2
           }
         }
       },
       {
         "iso_code": "IT",
         "country_name": "Italy",
-        "total_postings": 2027,
+        "total_postings": 2129,
         "categories": {
           "data_analytics": {
             "category_name": "Data Analytics",
-            "count": 183,
-            "share_pct": 9.0
+            "count": 352,
+            "share_pct": 16.5
           },
           "data_engineering": {
             "category_name": "Data Engineering",
-            "count": 1344,
-            "share_pct": 66.3
+            "count": 1131,
+            "share_pct": 53.1
           },
           "data_science": {
             "category_name": "Data Science",
-            "count": 241,
-            "share_pct": 11.9
+            "count": 296,
+            "share_pct": 13.9
           },
           "ml_ai": {
             "category_name": "ML/AI",
-            "count": 50,
-            "share_pct": 2.5
+            "count": 69,
+            "share_pct": 3.2
           },
           "ai_engineering": {
             "category_name": "AI Engineering",
-            "count": 209,
-            "share_pct": 10.3
+            "count": 281,
+            "share_pct": 13.2
           }
         }
       },
       {
         "iso_code": "PT",
         "country_name": "Portugal",
-        "total_postings": 756,
+        "total_postings": 1366,
         "categories": {
           "data_analytics": {
             "category_name": "Data Analytics",
-            "count": 116,
-            "share_pct": 15.3
+            "count": 200,
+            "share_pct": 14.6
           },
           "data_engineering": {
             "category_name": "Data Engineering",
-            "count": 375,
-            "share_pct": 49.6
+            "count": 842,
+            "share_pct": 61.6
           },
           "data_science": {
             "category_name": "Data Science",
-            "count": 90,
-            "share_pct": 11.9
+            "count": 95,
+            "share_pct": 7.0
           },
           "ml_ai": {
             "category_name": "ML/AI",
-            "count": 62,
-            "share_pct": 8.2
-          },
-          "ai_engineering": {
-            "category_name": "AI Engineering",
-            "count": 113,
-            "share_pct": 14.9
-          }
-        }
-      },
-      {
-        "iso_code": "IE",
-        "country_name": "Ireland",
-        "total_postings": 670,
-        "categories": {
-          "data_analytics": {
-            "category_name": "Data Analytics",
-            "count": 92,
-            "share_pct": 13.7
-          },
-          "data_engineering": {
-            "category_name": "Data Engineering",
-            "count": 398,
-            "share_pct": 59.4
-          },
-          "data_science": {
-            "category_name": "Data Science",
-            "count": 45,
-            "share_pct": 6.7
-          },
-          "ml_ai": {
-            "category_name": "ML/AI",
-            "count": 69,
-            "share_pct": 10.3
-          },
-          "ai_engineering": {
-            "category_name": "AI Engineering",
-            "count": 66,
-            "share_pct": 9.9
-          }
-        }
-      },
-      {
-        "iso_code": "SE",
-        "country_name": "Sweden",
-        "total_postings": 607,
-        "categories": {
-          "data_analytics": {
-            "category_name": "Data Analytics",
             "count": 70,
-            "share_pct": 11.5
-          },
-          "data_engineering": {
-            "category_name": "Data Engineering",
-            "count": 274,
-            "share_pct": 45.1
-          },
-          "data_science": {
-            "category_name": "Data Science",
-            "count": 62,
-            "share_pct": 10.2
-          },
-          "ml_ai": {
-            "category_name": "ML/AI",
-            "count": 72,
-            "share_pct": 11.9
+            "share_pct": 5.1
           },
           "ai_engineering": {
             "category_name": "AI Engineering",
-            "count": 129,
-            "share_pct": 21.3
-          }
-        }
-      },
-      {
-        "iso_code": "DK",
-        "country_name": "Denmark",
-        "total_postings": 530,
-        "categories": {
-          "data_analytics": {
-            "category_name": "Data Analytics",
-            "count": 50,
-            "share_pct": 9.4
-          },
-          "data_engineering": {
-            "category_name": "Data Engineering",
-            "count": 327,
-            "share_pct": 61.7
-          },
-          "data_science": {
-            "category_name": "Data Science",
-            "count": 46,
-            "share_pct": 8.7
-          },
-          "ml_ai": {
-            "category_name": "ML/AI",
-            "count": 39,
-            "share_pct": 7.4
-          },
-          "ai_engineering": {
-            "category_name": "AI Engineering",
-            "count": 68,
-            "share_pct": 12.8
+            "count": 159,
+            "share_pct": 11.6
           }
         }
       },
       {
         "iso_code": "BE",
         "country_name": "Belgium",
-        "total_postings": 514,
+        "total_postings": 1012,
         "categories": {
           "data_analytics": {
             "category_name": "Data Analytics",
-            "count": 91,
-            "share_pct": 17.7
+            "count": 194,
+            "share_pct": 19.2
           },
           "data_engineering": {
             "category_name": "Data Engineering",
-            "count": 271,
-            "share_pct": 52.7
+            "count": 583,
+            "share_pct": 57.6
           },
           "data_science": {
             "category_name": "Data Science",
-            "count": 50,
-            "share_pct": 9.7
+            "count": 81,
+            "share_pct": 8.0
           },
           "ml_ai": {
             "category_name": "ML/AI",
-            "count": 23,
-            "share_pct": 4.5
+            "count": 27,
+            "share_pct": 2.7
           },
           "ai_engineering": {
             "category_name": "AI Engineering",
-            "count": 79,
-            "share_pct": 15.4
+            "count": 127,
+            "share_pct": 12.5
           }
         }
       },
       {
-        "iso_code": "FI",
-        "country_name": "Finland",
-        "total_postings": 336,
+        "iso_code": "SE",
+        "country_name": "Sweden",
+        "total_postings": 885,
         "categories": {
           "data_analytics": {
             "category_name": "Data Analytics",
-            "count": 34,
-            "share_pct": 10.1
+            "count": 98,
+            "share_pct": 11.1
           },
           "data_engineering": {
             "category_name": "Data Engineering",
-            "count": 241,
-            "share_pct": 71.7
+            "count": 498,
+            "share_pct": 56.3
           },
           "data_science": {
             "category_name": "Data Science",
-            "count": 12,
-            "share_pct": 3.6
+            "count": 79,
+            "share_pct": 8.9
           },
           "ml_ai": {
             "category_name": "ML/AI",
-            "count": 19,
-            "share_pct": 5.7
+            "count": 69,
+            "share_pct": 7.8
           },
           "ai_engineering": {
             "category_name": "AI Engineering",
-            "count": 30,
-            "share_pct": 8.9
+            "count": 141,
+            "share_pct": 15.9
+          }
+        }
+      },
+      {
+        "iso_code": "IE",
+        "country_name": "Ireland",
+        "total_postings": 470,
+        "categories": {
+          "data_analytics": {
+            "category_name": "Data Analytics",
+            "count": 56,
+            "share_pct": 11.9
+          },
+          "data_engineering": {
+            "category_name": "Data Engineering",
+            "count": 252,
+            "share_pct": 53.6
+          },
+          "data_science": {
+            "category_name": "Data Science",
+            "count": 37,
+            "share_pct": 7.9
+          },
+          "ml_ai": {
+            "category_name": "ML/AI",
+            "count": 56,
+            "share_pct": 11.9
+          },
+          "ai_engineering": {
+            "category_name": "AI Engineering",
+            "count": 69,
+            "share_pct": 14.7
+          }
+        }
+      },
+      {
+        "iso_code": "DK",
+        "country_name": "Denmark",
+        "total_postings": 416,
+        "categories": {
+          "data_analytics": {
+            "category_name": "Data Analytics",
+            "count": 46,
+            "share_pct": 11.1
+          },
+          "data_engineering": {
+            "category_name": "Data Engineering",
+            "count": 235,
+            "share_pct": 56.5
+          },
+          "data_science": {
+            "category_name": "Data Science",
+            "count": 44,
+            "share_pct": 10.6
+          },
+          "ml_ai": {
+            "category_name": "ML/AI",
+            "count": 39,
+            "share_pct": 9.4
+          },
+          "ai_engineering": {
+            "category_name": "AI Engineering",
+            "count": 52,
+            "share_pct": 12.5
           }
         }
       }
@@ -3644,77 +3612,82 @@
       {
         "iso_code": "RO",
         "country_name": "Romania",
-        "postings": 284
+        "postings": 277
+      },
+      {
+        "iso_code": "FI",
+        "country_name": "Finland",
+        "postings": 258
       },
       {
         "iso_code": "AT",
         "country_name": "Austria",
-        "postings": 265
+        "postings": 248
       },
       {
         "iso_code": "HU",
         "country_name": "Hungary",
-        "postings": 197
+        "postings": 194
       },
       {
         "iso_code": "CZ",
         "country_name": "Czechia",
-        "postings": 196
+        "postings": 179
       },
       {
         "iso_code": "BG",
         "country_name": "Bulgaria",
-        "postings": 170
+        "postings": 161
       },
       {
         "iso_code": "GR",
         "country_name": "Greece",
-        "postings": 133
+        "postings": 131
       },
       {
         "iso_code": "LT",
         "country_name": "Lithuania",
-        "postings": 98
-      },
-      {
-        "iso_code": "HR",
-        "country_name": "Croatia",
-        "postings": 87
+        "postings": 112
       },
       {
         "iso_code": "CY",
         "country_name": "Cyprus",
-        "postings": 77
+        "postings": 101
       },
       {
         "iso_code": "LU",
         "country_name": "Luxembourg",
-        "postings": 74
+        "postings": 98
       },
       {
         "iso_code": "SK",
         "country_name": "Slovakia",
-        "postings": 67
+        "postings": 57
+      },
+      {
+        "iso_code": "HR",
+        "country_name": "Croatia",
+        "postings": 56
       },
       {
         "iso_code": "MT",
         "country_name": "Malta",
-        "postings": 40
+        "postings": 41
       },
       {
         "iso_code": "EE",
         "country_name": "Estonia",
-        "postings": 37
-      },
-      {
-        "iso_code": "LV",
-        "country_name": "Latvia",
-        "postings": 19
+        "postings": 25
       },
       {
         "iso_code": "SI",
         "country_name": "Slovenia",
-        "postings": 15
+        "postings": 17
+      },
+      {
+        "iso_code": "LV",
+        "country_name": "Latvia",
+        "postings": 14
       }
     ]
   }

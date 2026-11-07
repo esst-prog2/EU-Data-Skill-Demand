@@ -1,313 +1,313 @@
 scope,category,skill,precomputed_count,dynamic_count,precomputed_only_count,dynamic_only_count,precomputed_only_sample,dynamic_only_sample,status
-Corpus (All Roles),all,Python,13951,13951,0,0,,,PASS
-Corpus (All Roles),all,SQL,11870,11870,0,0,,,PASS
-Corpus (All Roles),all,R,1116,1116,0,0,,,PASS
-Corpus (All Roles),all,Java,1637,1637,0,0,,,PASS
-Corpus (All Roles),all,Scala,1547,1547,0,0,,,PASS
-Corpus (All Roles),all,C++,401,401,0,0,,,PASS
-Corpus (All Roles),all,Julia,27,27,0,0,,,PASS
-Corpus (All Roles),all,Bash / Shell,540,540,0,0,,,PASS
-Corpus (All Roles),all,Go,57,57,0,0,,,PASS
-Corpus (All Roles),all,TypeScript,599,599,0,0,,,PASS
-Corpus (All Roles),all,Snowflake,3237,3237,0,0,,,PASS
-Corpus (All Roles),all,PostgreSQL,1092,1092,0,0,,,PASS
-Corpus (All Roles),all,BigQuery,2045,2045,0,0,,,PASS
-Corpus (All Roles),all,Amazon Redshift,730,730,0,0,,,PASS
-Corpus (All Roles),all,MySQL,277,277,0,0,,,PASS
-Corpus (All Roles),all,MongoDB,390,390,0,0,,,PASS
-Corpus (All Roles),all,Redis,144,144,0,0,,,PASS
-Corpus (All Roles),all,Cassandra,140,140,0,0,,,PASS
-Corpus (All Roles),all,Oracle DB,620,620,0,0,,,PASS
-Corpus (All Roles),all,MS SQL Server,816,816,0,0,,,PASS
-Corpus (All Roles),all,Elasticsearch,238,238,0,0,,,PASS
-Corpus (All Roles),all,Power BI,3836,3836,0,0,,,PASS
-Corpus (All Roles),all,Tableau,1418,1418,0,0,,,PASS
-Corpus (All Roles),all,Excel,965,965,0,0,,,PASS
-Corpus (All Roles),all,Looker,737,737,0,0,,,PASS
-Corpus (All Roles),all,Qlik,382,382,0,0,,,PASS
-Corpus (All Roles),all,Metabase,149,149,0,0,,,PASS
-Corpus (All Roles),all,Apache Superset,100,100,0,0,,,PASS
-Corpus (All Roles),all,Azure,7446,7446,0,0,,,PASS
-Corpus (All Roles),all,AWS,5951,5951,0,0,,,PASS
-Corpus (All Roles),all,GCP,4507,4507,0,0,,,PASS
-Corpus (All Roles),all,Databricks,5465,5465,0,0,,,PASS
-Corpus (All Roles),all,Apache Spark,5540,5540,0,0,,,PASS
-Corpus (All Roles),all,dbt,3080,3080,0,0,,,PASS
-Corpus (All Roles),all,Apache Kafka,1779,1779,0,0,,,PASS
-Corpus (All Roles),all,Apache Airflow,3119,3119,0,0,,,PASS
-Corpus (All Roles),all,Docker,2230,2230,0,0,,,PASS
-Corpus (All Roles),all,Kubernetes,2062,2062,0,0,,,PASS
-Corpus (All Roles),all,Terraform,1837,1837,0,0,,,PASS
-Corpus (All Roles),all,Git,4322,4322,0,0,,,PASS
-Corpus (All Roles),all,CI/CD,5803,5803,0,0,,,PASS
-Corpus (All Roles),all,PyTorch,1300,1300,0,0,,,PASS
-Corpus (All Roles),all,TensorFlow,970,970,0,0,,,PASS
-Corpus (All Roles),all,Scikit-learn,852,852,0,0,,,PASS
-Corpus (All Roles),all,Pandas,1000,1000,0,0,,,PASS
-Corpus (All Roles),all,NumPy,520,520,0,0,,,PASS
-Corpus (All Roles),all,MLflow,592,592,0,0,,,PASS
-Corpus (All Roles),all,Hugging Face,433,433,0,0,,,PASS
-Corpus (All Roles),all,LangChain,898,898,0,0,,,PASS
-Corpus (All Roles),all,OpenCV,65,65,0,0,,,PASS
-Corpus (All Roles),all,XGBoost,176,176,0,0,,,PASS
-Corpus (All Roles),all,LLMs / Generative AI,5629,5629,0,0,,,PASS
-Category: data_analytics,data_analytics,Python,1328,1328,0,0,,,PASS
-Category: data_analytics,data_analytics,SQL,1862,1862,0,0,,,PASS
-Category: data_analytics,data_analytics,R,316,316,0,0,,,PASS
+Corpus (All Roles),all,Python,13979,13979,0,0,,,PASS
+Corpus (All Roles),all,SQL,11892,11892,0,0,,,PASS
+Corpus (All Roles),all,R,1172,1172,0,0,,,PASS
+Corpus (All Roles),all,Java,1720,1720,0,0,,,PASS
+Corpus (All Roles),all,Scala,1407,1407,0,0,,,PASS
+Corpus (All Roles),all,C++,461,461,0,0,,,PASS
+Corpus (All Roles),all,Julia,26,26,0,0,,,PASS
+Corpus (All Roles),all,Bash / Shell,543,543,0,0,,,PASS
+Corpus (All Roles),all,Go,58,58,0,0,,,PASS
+Corpus (All Roles),all,TypeScript,620,620,0,0,,,PASS
+Corpus (All Roles),all,Snowflake,3129,3129,0,0,,,PASS
+Corpus (All Roles),all,PostgreSQL,1188,1188,0,0,,,PASS
+Corpus (All Roles),all,BigQuery,2085,2085,0,0,,,PASS
+Corpus (All Roles),all,Amazon Redshift,593,593,0,0,,,PASS
+Corpus (All Roles),all,MySQL,255,255,0,0,,,PASS
+Corpus (All Roles),all,MongoDB,416,416,0,0,,,PASS
+Corpus (All Roles),all,Redis,155,155,0,0,,,PASS
+Corpus (All Roles),all,Cassandra,123,123,0,0,,,PASS
+Corpus (All Roles),all,Oracle DB,719,719,0,0,,,PASS
+Corpus (All Roles),all,MS SQL Server,931,931,0,0,,,PASS
+Corpus (All Roles),all,Elasticsearch,243,243,0,0,,,PASS
+Corpus (All Roles),all,Power BI,4195,4195,0,0,,,PASS
+Corpus (All Roles),all,Tableau,1526,1526,0,0,,,PASS
+Corpus (All Roles),all,Excel,1141,1141,0,0,,,PASS
+Corpus (All Roles),all,Looker,723,723,0,0,,,PASS
+Corpus (All Roles),all,Qlik,492,492,0,0,,,PASS
+Corpus (All Roles),all,Metabase,153,153,0,0,,,PASS
+Corpus (All Roles),all,Apache Superset,120,120,0,0,,,PASS
+Corpus (All Roles),all,Azure,7259,7259,0,0,,,PASS
+Corpus (All Roles),all,AWS,5732,5732,0,0,,,PASS
+Corpus (All Roles),all,GCP,4648,4648,0,0,,,PASS
+Corpus (All Roles),all,Databricks,5032,5032,0,0,,,PASS
+Corpus (All Roles),all,Apache Spark,5063,5063,0,0,,,PASS
+Corpus (All Roles),all,dbt,3067,3067,0,0,,,PASS
+Corpus (All Roles),all,Apache Kafka,1744,1744,0,0,,,PASS
+Corpus (All Roles),all,Apache Airflow,2967,2967,0,0,,,PASS
+Corpus (All Roles),all,Docker,2330,2330,0,0,,,PASS
+Corpus (All Roles),all,Kubernetes,2150,2150,0,0,,,PASS
+Corpus (All Roles),all,Terraform,1888,1888,0,0,,,PASS
+Corpus (All Roles),all,Git,4585,4585,0,0,,,PASS
+Corpus (All Roles),all,CI/CD,6065,6065,0,0,,,PASS
+Corpus (All Roles),all,PyTorch,1463,1463,0,0,,,PASS
+Corpus (All Roles),all,TensorFlow,1076,1076,0,0,,,PASS
+Corpus (All Roles),all,Scikit-learn,965,965,0,0,,,PASS
+Corpus (All Roles),all,Pandas,1031,1031,0,0,,,PASS
+Corpus (All Roles),all,NumPy,555,555,0,0,,,PASS
+Corpus (All Roles),all,MLflow,673,673,0,0,,,PASS
+Corpus (All Roles),all,Hugging Face,505,505,0,0,,,PASS
+Corpus (All Roles),all,LangChain,1028,1028,0,0,,,PASS
+Corpus (All Roles),all,OpenCV,77,77,0,0,,,PASS
+Corpus (All Roles),all,XGBoost,184,184,0,0,,,PASS
+Corpus (All Roles),all,LLMs / Generative AI,6132,6132,0,0,,,PASS
+Category: data_analytics,data_analytics,Python,1510,1510,0,0,,,PASS
+Category: data_analytics,data_analytics,SQL,2283,2283,0,0,,,PASS
+Category: data_analytics,data_analytics,R,364,364,0,0,,,PASS
 Category: data_analytics,data_analytics,Java,30,30,0,0,,,PASS
-Category: data_analytics,data_analytics,Scala,30,30,0,0,,,PASS
-Category: data_analytics,data_analytics,C++,10,10,0,0,,,PASS
-Category: data_analytics,data_analytics,Julia,3,3,0,0,,,PASS
-Category: data_analytics,data_analytics,Bash / Shell,19,19,0,0,,,PASS
-Category: data_analytics,data_analytics,Go,2,2,0,0,,,PASS
-Category: data_analytics,data_analytics,TypeScript,6,6,0,0,,,PASS
-Category: data_analytics,data_analytics,Snowflake,356,356,0,0,,,PASS
-Category: data_analytics,data_analytics,PostgreSQL,64,64,0,0,,,PASS
-Category: data_analytics,data_analytics,BigQuery,317,317,0,0,,,PASS
-Category: data_analytics,data_analytics,Amazon Redshift,90,90,0,0,,,PASS
-Category: data_analytics,data_analytics,MySQL,27,27,0,0,,,PASS
-Category: data_analytics,data_analytics,MongoDB,14,14,0,0,,,PASS
-Category: data_analytics,data_analytics,Redis,4,4,0,0,,,PASS
-Category: data_analytics,data_analytics,Cassandra,4,4,0,0,,,PASS
-Category: data_analytics,data_analytics,Oracle DB,73,73,0,0,,,PASS
-Category: data_analytics,data_analytics,MS SQL Server,94,94,0,0,,,PASS
-Category: data_analytics,data_analytics,Elasticsearch,5,5,0,0,,,PASS
-Category: data_analytics,data_analytics,Power BI,1291,1291,0,0,,,PASS
-Category: data_analytics,data_analytics,Tableau,638,638,0,0,,,PASS
-Category: data_analytics,data_analytics,Excel,633,633,0,0,,,PASS
-Category: data_analytics,data_analytics,Looker,357,357,0,0,,,PASS
-Category: data_analytics,data_analytics,Qlik,142,142,0,0,,,PASS
-Category: data_analytics,data_analytics,Metabase,65,65,0,0,,,PASS
-Category: data_analytics,data_analytics,Apache Superset,29,29,0,0,,,PASS
-Category: data_analytics,data_analytics,Azure,392,392,0,0,,,PASS
-Category: data_analytics,data_analytics,AWS,240,240,0,0,,,PASS
-Category: data_analytics,data_analytics,GCP,251,251,0,0,,,PASS
-Category: data_analytics,data_analytics,Databricks,340,340,0,0,,,PASS
-Category: data_analytics,data_analytics,Apache Spark,184,184,0,0,,,PASS
-Category: data_analytics,data_analytics,dbt,503,503,0,0,,,PASS
-Category: data_analytics,data_analytics,Apache Kafka,19,19,0,0,,,PASS
-Category: data_analytics,data_analytics,Apache Airflow,179,179,0,0,,,PASS
-Category: data_analytics,data_analytics,Docker,36,36,0,0,,,PASS
-Category: data_analytics,data_analytics,Kubernetes,18,18,0,0,,,PASS
-Category: data_analytics,data_analytics,Terraform,36,36,0,0,,,PASS
-Category: data_analytics,data_analytics,Git,334,334,0,0,,,PASS
-Category: data_analytics,data_analytics,CI/CD,192,192,0,0,,,PASS
-Category: data_analytics,data_analytics,PyTorch,9,9,0,0,,,PASS
-Category: data_analytics,data_analytics,TensorFlow,8,8,0,0,,,PASS
-Category: data_analytics,data_analytics,Scikit-learn,20,20,0,0,,,PASS
-Category: data_analytics,data_analytics,Pandas,98,98,0,0,,,PASS
-Category: data_analytics,data_analytics,NumPy,50,50,0,0,,,PASS
-Category: data_analytics,data_analytics,MLflow,4,4,0,0,,,PASS
-Category: data_analytics,data_analytics,Hugging Face,3,3,0,0,,,PASS
-Category: data_analytics,data_analytics,LangChain,3,3,0,0,,,PASS
+Category: data_analytics,data_analytics,Scala,24,24,0,0,,,PASS
+Category: data_analytics,data_analytics,C++,12,12,0,0,,,PASS
+Category: data_analytics,data_analytics,Julia,1,1,0,0,,,PASS
+Category: data_analytics,data_analytics,Bash / Shell,14,14,0,0,,,PASS
+Category: data_analytics,data_analytics,Go,0,0,0,0,,,PASS
+Category: data_analytics,data_analytics,TypeScript,14,14,0,0,,,PASS
+Category: data_analytics,data_analytics,Snowflake,379,379,0,0,,,PASS
+Category: data_analytics,data_analytics,PostgreSQL,76,76,0,0,,,PASS
+Category: data_analytics,data_analytics,BigQuery,363,363,0,0,,,PASS
+Category: data_analytics,data_analytics,Amazon Redshift,88,88,0,0,,,PASS
+Category: data_analytics,data_analytics,MySQL,28,28,0,0,,,PASS
+Category: data_analytics,data_analytics,MongoDB,22,22,0,0,,,PASS
+Category: data_analytics,data_analytics,Redis,1,1,0,0,,,PASS
+Category: data_analytics,data_analytics,Cassandra,1,1,0,0,,,PASS
+Category: data_analytics,data_analytics,Oracle DB,105,105,0,0,,,PASS
+Category: data_analytics,data_analytics,MS SQL Server,143,143,0,0,,,PASS
+Category: data_analytics,data_analytics,Elasticsearch,11,11,0,0,,,PASS
+Category: data_analytics,data_analytics,Power BI,1603,1603,0,0,,,PASS
+Category: data_analytics,data_analytics,Tableau,754,754,0,0,,,PASS
+Category: data_analytics,data_analytics,Excel,790,790,0,0,,,PASS
+Category: data_analytics,data_analytics,Looker,412,412,0,0,,,PASS
+Category: data_analytics,data_analytics,Qlik,202,202,0,0,,,PASS
+Category: data_analytics,data_analytics,Metabase,63,63,0,0,,,PASS
+Category: data_analytics,data_analytics,Apache Superset,38,38,0,0,,,PASS
+Category: data_analytics,data_analytics,Azure,450,450,0,0,,,PASS
+Category: data_analytics,data_analytics,AWS,306,306,0,0,,,PASS
+Category: data_analytics,data_analytics,GCP,333,333,0,0,,,PASS
+Category: data_analytics,data_analytics,Databricks,381,381,0,0,,,PASS
+Category: data_analytics,data_analytics,Apache Spark,194,194,0,0,,,PASS
+Category: data_analytics,data_analytics,dbt,538,538,0,0,,,PASS
+Category: data_analytics,data_analytics,Apache Kafka,15,15,0,0,,,PASS
+Category: data_analytics,data_analytics,Apache Airflow,191,191,0,0,,,PASS
+Category: data_analytics,data_analytics,Docker,37,37,0,0,,,PASS
+Category: data_analytics,data_analytics,Kubernetes,21,21,0,0,,,PASS
+Category: data_analytics,data_analytics,Terraform,20,20,0,0,,,PASS
+Category: data_analytics,data_analytics,Git,425,425,0,0,,,PASS
+Category: data_analytics,data_analytics,CI/CD,228,228,0,0,,,PASS
+Category: data_analytics,data_analytics,PyTorch,8,8,0,0,,,PASS
+Category: data_analytics,data_analytics,TensorFlow,11,11,0,0,,,PASS
+Category: data_analytics,data_analytics,Scikit-learn,29,29,0,0,,,PASS
+Category: data_analytics,data_analytics,Pandas,119,119,0,0,,,PASS
+Category: data_analytics,data_analytics,NumPy,64,64,0,0,,,PASS
+Category: data_analytics,data_analytics,MLflow,1,1,0,0,,,PASS
+Category: data_analytics,data_analytics,Hugging Face,2,2,0,0,,,PASS
+Category: data_analytics,data_analytics,LangChain,2,2,0,0,,,PASS
 Category: data_analytics,data_analytics,OpenCV,0,0,0,0,,,PASS
-Category: data_analytics,data_analytics,XGBoost,0,0,0,0,,,PASS
-Category: data_analytics,data_analytics,LLMs / Generative AI,293,293,0,0,,,PASS
-Category: data_engineering,data_engineering,Python,8038,8038,0,0,,,PASS
-Category: data_engineering,data_engineering,SQL,8200,8200,0,0,,,PASS
-Category: data_engineering,data_engineering,R,328,328,0,0,,,PASS
-Category: data_engineering,data_engineering,Java,1187,1187,0,0,,,PASS
-Category: data_engineering,data_engineering,Scala,1367,1367,0,0,,,PASS
-Category: data_engineering,data_engineering,C++,80,80,0,0,,,PASS
-Category: data_engineering,data_engineering,Julia,7,7,0,0,,,PASS
-Category: data_engineering,data_engineering,Bash / Shell,436,436,0,0,,,PASS
+Category: data_analytics,data_analytics,XGBoost,1,1,0,0,,,PASS
+Category: data_analytics,data_analytics,LLMs / Generative AI,342,342,0,0,,,PASS
+Category: data_engineering,data_engineering,Python,7268,7268,0,0,,,PASS
+Category: data_engineering,data_engineering,SQL,7591,7591,0,0,,,PASS
+Category: data_engineering,data_engineering,R,278,278,0,0,,,PASS
+Category: data_engineering,data_engineering,Java,1199,1199,0,0,,,PASS
+Category: data_engineering,data_engineering,Scala,1211,1211,0,0,,,PASS
+Category: data_engineering,data_engineering,C++,87,87,0,0,,,PASS
+Category: data_engineering,data_engineering,Julia,10,10,0,0,,,PASS
+Category: data_engineering,data_engineering,Bash / Shell,438,438,0,0,,,PASS
 Category: data_engineering,data_engineering,Go,39,39,0,0,,,PASS
-Category: data_engineering,data_engineering,TypeScript,184,184,0,0,,,PASS
-Category: data_engineering,data_engineering,Snowflake,2603,2603,0,0,,,PASS
-Category: data_engineering,data_engineering,PostgreSQL,752,752,0,0,,,PASS
-Category: data_engineering,data_engineering,BigQuery,1484,1484,0,0,,,PASS
-Category: data_engineering,data_engineering,Amazon Redshift,602,602,0,0,,,PASS
-Category: data_engineering,data_engineering,MySQL,202,202,0,0,,,PASS
-Category: data_engineering,data_engineering,MongoDB,289,289,0,0,,,PASS
-Category: data_engineering,data_engineering,Redis,74,74,0,0,,,PASS
-Category: data_engineering,data_engineering,Cassandra,114,114,0,0,,,PASS
-Category: data_engineering,data_engineering,Oracle DB,491,491,0,0,,,PASS
-Category: data_engineering,data_engineering,MS SQL Server,676,676,0,0,,,PASS
-Category: data_engineering,data_engineering,Elasticsearch,176,176,0,0,,,PASS
-Category: data_engineering,data_engineering,Power BI,2175,2175,0,0,,,PASS
-Category: data_engineering,data_engineering,Tableau,571,571,0,0,,,PASS
-Category: data_engineering,data_engineering,Excel,194,194,0,0,,,PASS
-Category: data_engineering,data_engineering,Looker,281,281,0,0,,,PASS
-Category: data_engineering,data_engineering,Qlik,212,212,0,0,,,PASS
-Category: data_engineering,data_engineering,Metabase,71,71,0,0,,,PASS
-Category: data_engineering,data_engineering,Apache Superset,59,59,0,0,,,PASS
-Category: data_engineering,data_engineering,Azure,5318,5318,0,0,,,PASS
-Category: data_engineering,data_engineering,AWS,4042,4042,0,0,,,PASS
-Category: data_engineering,data_engineering,GCP,3007,3007,0,0,,,PASS
-Category: data_engineering,data_engineering,Databricks,4450,4450,0,0,,,PASS
-Category: data_engineering,data_engineering,Apache Spark,4629,4629,0,0,,,PASS
-Category: data_engineering,data_engineering,dbt,2411,2411,0,0,,,PASS
-Category: data_engineering,data_engineering,Apache Kafka,1595,1595,0,0,,,PASS
-Category: data_engineering,data_engineering,Apache Airflow,2564,2564,0,0,,,PASS
-Category: data_engineering,data_engineering,Docker,1125,1125,0,0,,,PASS
-Category: data_engineering,data_engineering,Kubernetes,1185,1185,0,0,,,PASS
-Category: data_engineering,data_engineering,Terraform,1452,1452,0,0,,,PASS
-Category: data_engineering,data_engineering,Git,2708,2708,0,0,,,PASS
-Category: data_engineering,data_engineering,CI/CD,4062,4062,0,0,,,PASS
-Category: data_engineering,data_engineering,PyTorch,68,68,0,0,,,PASS
-Category: data_engineering,data_engineering,TensorFlow,89,89,0,0,,,PASS
-Category: data_engineering,data_engineering,Scikit-learn,92,92,0,0,,,PASS
-Category: data_engineering,data_engineering,Pandas,376,376,0,0,,,PASS
-Category: data_engineering,data_engineering,NumPy,115,115,0,0,,,PASS
-Category: data_engineering,data_engineering,MLflow,136,136,0,0,,,PASS
-Category: data_engineering,data_engineering,Hugging Face,21,21,0,0,,,PASS
-Category: data_engineering,data_engineering,LangChain,98,98,0,0,,,PASS
-Category: data_engineering,data_engineering,OpenCV,2,2,0,0,,,PASS
+Category: data_engineering,data_engineering,TypeScript,151,151,0,0,,,PASS
+Category: data_engineering,data_engineering,Snowflake,2437,2437,0,0,,,PASS
+Category: data_engineering,data_engineering,PostgreSQL,775,775,0,0,,,PASS
+Category: data_engineering,data_engineering,BigQuery,1506,1506,0,0,,,PASS
+Category: data_engineering,data_engineering,Amazon Redshift,472,472,0,0,,,PASS
+Category: data_engineering,data_engineering,MySQL,178,178,0,0,,,PASS
+Category: data_engineering,data_engineering,MongoDB,284,284,0,0,,,PASS
+Category: data_engineering,data_engineering,Redis,57,57,0,0,,,PASS
+Category: data_engineering,data_engineering,Cassandra,102,102,0,0,,,PASS
+Category: data_engineering,data_engineering,Oracle DB,554,554,0,0,,,PASS
+Category: data_engineering,data_engineering,MS SQL Server,739,739,0,0,,,PASS
+Category: data_engineering,data_engineering,Elasticsearch,156,156,0,0,,,PASS
+Category: data_engineering,data_engineering,Power BI,2212,2212,0,0,,,PASS
+Category: data_engineering,data_engineering,Tableau,579,579,0,0,,,PASS
+Category: data_engineering,data_engineering,Excel,215,215,0,0,,,PASS
+Category: data_engineering,data_engineering,Looker,272,272,0,0,,,PASS
+Category: data_engineering,data_engineering,Qlik,249,249,0,0,,,PASS
+Category: data_engineering,data_engineering,Metabase,68,68,0,0,,,PASS
+Category: data_engineering,data_engineering,Apache Superset,73,73,0,0,,,PASS
+Category: data_engineering,data_engineering,Azure,4792,4792,0,0,,,PASS
+Category: data_engineering,data_engineering,AWS,3575,3575,0,0,,,PASS
+Category: data_engineering,data_engineering,GCP,2943,2943,0,0,,,PASS
+Category: data_engineering,data_engineering,Databricks,3889,3889,0,0,,,PASS
+Category: data_engineering,data_engineering,Apache Spark,4121,4121,0,0,,,PASS
+Category: data_engineering,data_engineering,dbt,2347,2347,0,0,,,PASS
+Category: data_engineering,data_engineering,Apache Kafka,1557,1557,0,0,,,PASS
+Category: data_engineering,data_engineering,Apache Airflow,2410,2410,0,0,,,PASS
+Category: data_engineering,data_engineering,Docker,1051,1051,0,0,,,PASS
+Category: data_engineering,data_engineering,Kubernetes,1187,1187,0,0,,,PASS
+Category: data_engineering,data_engineering,Terraform,1464,1464,0,0,,,PASS
+Category: data_engineering,data_engineering,Git,2622,2622,0,0,,,PASS
+Category: data_engineering,data_engineering,CI/CD,4014,4014,0,0,,,PASS
+Category: data_engineering,data_engineering,PyTorch,76,76,0,0,,,PASS
+Category: data_engineering,data_engineering,TensorFlow,76,76,0,0,,,PASS
+Category: data_engineering,data_engineering,Scikit-learn,86,86,0,0,,,PASS
+Category: data_engineering,data_engineering,Pandas,338,338,0,0,,,PASS
+Category: data_engineering,data_engineering,NumPy,97,97,0,0,,,PASS
+Category: data_engineering,data_engineering,MLflow,146,146,0,0,,,PASS
+Category: data_engineering,data_engineering,Hugging Face,27,27,0,0,,,PASS
+Category: data_engineering,data_engineering,LangChain,82,82,0,0,,,PASS
+Category: data_engineering,data_engineering,OpenCV,1,1,0,0,,,PASS
 Category: data_engineering,data_engineering,XGBoost,12,12,0,0,,,PASS
-Category: data_engineering,data_engineering,LLMs / Generative AI,1475,1475,0,0,,,PASS
-Category: data_science,data_science,Python,1708,1708,0,0,,,PASS
-Category: data_science,data_science,SQL,1075,1075,0,0,,,PASS
-Category: data_science,data_science,R,391,391,0,0,,,PASS
-Category: data_science,data_science,Java,61,61,0,0,,,PASS
-Category: data_science,data_science,Scala,61,61,0,0,,,PASS
-Category: data_science,data_science,C++,42,42,0,0,,,PASS
-Category: data_science,data_science,Julia,6,6,0,0,,,PASS
-Category: data_science,data_science,Bash / Shell,25,25,0,0,,,PASS
-Category: data_science,data_science,Go,1,1,0,0,,,PASS
-Category: data_science,data_science,TypeScript,29,29,0,0,,,PASS
-Category: data_science,data_science,Snowflake,110,110,0,0,,,PASS
-Category: data_science,data_science,PostgreSQL,63,63,0,0,,,PASS
-Category: data_science,data_science,BigQuery,121,121,0,0,,,PASS
-Category: data_science,data_science,Amazon Redshift,23,23,0,0,,,PASS
-Category: data_science,data_science,MySQL,26,26,0,0,,,PASS
-Category: data_science,data_science,MongoDB,28,28,0,0,,,PASS
-Category: data_science,data_science,Redis,12,12,0,0,,,PASS
-Category: data_science,data_science,Cassandra,6,6,0,0,,,PASS
-Category: data_science,data_science,Oracle DB,16,16,0,0,,,PASS
-Category: data_science,data_science,MS SQL Server,19,19,0,0,,,PASS
-Category: data_science,data_science,Elasticsearch,18,18,0,0,,,PASS
-Category: data_science,data_science,Power BI,270,270,0,0,,,PASS
-Category: data_science,data_science,Tableau,170,170,0,0,,,PASS
-Category: data_science,data_science,Excel,82,82,0,0,,,PASS
-Category: data_science,data_science,Looker,45,45,0,0,,,PASS
-Category: data_science,data_science,Qlik,23,23,0,0,,,PASS
-Category: data_science,data_science,Metabase,6,6,0,0,,,PASS
-Category: data_science,data_science,Apache Superset,9,9,0,0,,,PASS
-Category: data_science,data_science,Azure,489,489,0,0,,,PASS
-Category: data_science,data_science,AWS,469,469,0,0,,,PASS
-Category: data_science,data_science,GCP,374,374,0,0,,,PASS
-Category: data_science,data_science,Databricks,301,301,0,0,,,PASS
-Category: data_science,data_science,Apache Spark,374,374,0,0,,,PASS
-Category: data_science,data_science,dbt,62,62,0,0,,,PASS
-Category: data_science,data_science,Apache Kafka,36,36,0,0,,,PASS
-Category: data_science,data_science,Apache Airflow,131,131,0,0,,,PASS
-Category: data_science,data_science,Docker,229,229,0,0,,,PASS
-Category: data_science,data_science,Kubernetes,123,123,0,0,,,PASS
-Category: data_science,data_science,Terraform,28,28,0,0,,,PASS
-Category: data_science,data_science,Git,389,389,0,0,,,PASS
-Category: data_science,data_science,CI/CD,291,291,0,0,,,PASS
-Category: data_science,data_science,PyTorch,355,355,0,0,,,PASS
-Category: data_science,data_science,TensorFlow,296,296,0,0,,,PASS
-Category: data_science,data_science,Scikit-learn,394,394,0,0,,,PASS
-Category: data_science,data_science,Pandas,349,349,0,0,,,PASS
-Category: data_science,data_science,NumPy,231,231,0,0,,,PASS
-Category: data_science,data_science,MLflow,117,117,0,0,,,PASS
-Category: data_science,data_science,Hugging Face,94,94,0,0,,,PASS
-Category: data_science,data_science,LangChain,120,120,0,0,,,PASS
-Category: data_science,data_science,OpenCV,11,11,0,0,,,PASS
-Category: data_science,data_science,XGBoost,99,99,0,0,,,PASS
-Category: data_science,data_science,LLMs / Generative AI,907,907,0,0,,,PASS
-Category: ml_ai,ml_ai,Python,969,969,0,0,,,PASS
-Category: ml_ai,ml_ai,SQL,217,217,0,0,,,PASS
-Category: ml_ai,ml_ai,R,32,32,0,0,,,PASS
-Category: ml_ai,ml_ai,Java,105,105,0,0,,,PASS
-Category: ml_ai,ml_ai,Scala,33,33,0,0,,,PASS
-Category: ml_ai,ml_ai,C++,168,168,0,0,,,PASS
-Category: ml_ai,ml_ai,Julia,5,5,0,0,,,PASS
-Category: ml_ai,ml_ai,Bash / Shell,23,23,0,0,,,PASS
-Category: ml_ai,ml_ai,Go,1,1,0,0,,,PASS
-Category: ml_ai,ml_ai,TypeScript,42,42,0,0,,,PASS
-Category: ml_ai,ml_ai,Snowflake,34,34,0,0,,,PASS
-Category: ml_ai,ml_ai,PostgreSQL,48,48,0,0,,,PASS
-Category: ml_ai,ml_ai,BigQuery,20,20,0,0,,,PASS
-Category: ml_ai,ml_ai,Amazon Redshift,10,10,0,0,,,PASS
-Category: ml_ai,ml_ai,MySQL,6,6,0,0,,,PASS
-Category: ml_ai,ml_ai,MongoDB,15,15,0,0,,,PASS
-Category: ml_ai,ml_ai,Redis,10,10,0,0,,,PASS
-Category: ml_ai,ml_ai,Cassandra,6,6,0,0,,,PASS
-Category: ml_ai,ml_ai,Oracle DB,19,19,0,0,,,PASS
-Category: ml_ai,ml_ai,MS SQL Server,6,6,0,0,,,PASS
-Category: ml_ai,ml_ai,Elasticsearch,15,15,0,0,,,PASS
+Category: data_engineering,data_engineering,LLMs / Generative AI,1468,1468,0,0,,,PASS
+Category: data_science,data_science,Python,1887,1887,0,0,,,PASS
+Category: data_science,data_science,SQL,1182,1182,0,0,,,PASS
+Category: data_science,data_science,R,420,420,0,0,,,PASS
+Category: data_science,data_science,Java,68,68,0,0,,,PASS
+Category: data_science,data_science,Scala,64,64,0,0,,,PASS
+Category: data_science,data_science,C++,46,46,0,0,,,PASS
+Category: data_science,data_science,Julia,5,5,0,0,,,PASS
+Category: data_science,data_science,Bash / Shell,32,32,0,0,,,PASS
+Category: data_science,data_science,Go,3,3,0,0,,,PASS
+Category: data_science,data_science,TypeScript,26,26,0,0,,,PASS
+Category: data_science,data_science,Snowflake,138,138,0,0,,,PASS
+Category: data_science,data_science,PostgreSQL,83,83,0,0,,,PASS
+Category: data_science,data_science,BigQuery,104,104,0,0,,,PASS
+Category: data_science,data_science,Amazon Redshift,15,15,0,0,,,PASS
+Category: data_science,data_science,MySQL,20,20,0,0,,,PASS
+Category: data_science,data_science,MongoDB,33,33,0,0,,,PASS
+Category: data_science,data_science,Redis,25,25,0,0,,,PASS
+Category: data_science,data_science,Cassandra,5,5,0,0,,,PASS
+Category: data_science,data_science,Oracle DB,21,21,0,0,,,PASS
+Category: data_science,data_science,MS SQL Server,25,25,0,0,,,PASS
+Category: data_science,data_science,Elasticsearch,24,24,0,0,,,PASS
+Category: data_science,data_science,Power BI,289,289,0,0,,,PASS
+Category: data_science,data_science,Tableau,157,157,0,0,,,PASS
+Category: data_science,data_science,Excel,79,79,0,0,,,PASS
+Category: data_science,data_science,Looker,32,32,0,0,,,PASS
+Category: data_science,data_science,Qlik,34,34,0,0,,,PASS
+Category: data_science,data_science,Metabase,19,19,0,0,,,PASS
+Category: data_science,data_science,Apache Superset,7,7,0,0,,,PASS
+Category: data_science,data_science,Azure,563,563,0,0,,,PASS
+Category: data_science,data_science,AWS,535,535,0,0,,,PASS
+Category: data_science,data_science,GCP,431,431,0,0,,,PASS
+Category: data_science,data_science,Databricks,350,350,0,0,,,PASS
+Category: data_science,data_science,Apache Spark,402,402,0,0,,,PASS
+Category: data_science,data_science,dbt,76,76,0,0,,,PASS
+Category: data_science,data_science,Apache Kafka,32,32,0,0,,,PASS
+Category: data_science,data_science,Apache Airflow,151,151,0,0,,,PASS
+Category: data_science,data_science,Docker,246,246,0,0,,,PASS
+Category: data_science,data_science,Kubernetes,115,115,0,0,,,PASS
+Category: data_science,data_science,Terraform,32,32,0,0,,,PASS
+Category: data_science,data_science,Git,454,454,0,0,,,PASS
+Category: data_science,data_science,CI/CD,350,350,0,0,,,PASS
+Category: data_science,data_science,PyTorch,401,401,0,0,,,PASS
+Category: data_science,data_science,TensorFlow,337,337,0,0,,,PASS
+Category: data_science,data_science,Scikit-learn,436,436,0,0,,,PASS
+Category: data_science,data_science,Pandas,360,360,0,0,,,PASS
+Category: data_science,data_science,NumPy,233,233,0,0,,,PASS
+Category: data_science,data_science,MLflow,138,138,0,0,,,PASS
+Category: data_science,data_science,Hugging Face,118,118,0,0,,,PASS
+Category: data_science,data_science,LangChain,143,143,0,0,,,PASS
+Category: data_science,data_science,OpenCV,12,12,0,0,,,PASS
+Category: data_science,data_science,XGBoost,106,106,0,0,,,PASS
+Category: data_science,data_science,LLMs / Generative AI,970,970,0,0,,,PASS
+Category: ml_ai,ml_ai,Python,1050,1050,0,0,,,PASS
+Category: ml_ai,ml_ai,SQL,245,245,0,0,,,PASS
+Category: ml_ai,ml_ai,R,43,43,0,0,,,PASS
+Category: ml_ai,ml_ai,Java,109,109,0,0,,,PASS
+Category: ml_ai,ml_ai,Scala,48,48,0,0,,,PASS
+Category: ml_ai,ml_ai,C++,179,179,0,0,,,PASS
+Category: ml_ai,ml_ai,Julia,3,3,0,0,,,PASS
+Category: ml_ai,ml_ai,Bash / Shell,29,29,0,0,,,PASS
+Category: ml_ai,ml_ai,Go,3,3,0,0,,,PASS
+Category: ml_ai,ml_ai,TypeScript,32,32,0,0,,,PASS
+Category: ml_ai,ml_ai,Snowflake,35,35,0,0,,,PASS
+Category: ml_ai,ml_ai,PostgreSQL,45,45,0,0,,,PASS
+Category: ml_ai,ml_ai,BigQuery,35,35,0,0,,,PASS
+Category: ml_ai,ml_ai,Amazon Redshift,8,8,0,0,,,PASS
+Category: ml_ai,ml_ai,MySQL,5,5,0,0,,,PASS
+Category: ml_ai,ml_ai,MongoDB,14,14,0,0,,,PASS
+Category: ml_ai,ml_ai,Redis,15,15,0,0,,,PASS
+Category: ml_ai,ml_ai,Cassandra,7,7,0,0,,,PASS
+Category: ml_ai,ml_ai,Oracle DB,18,18,0,0,,,PASS
+Category: ml_ai,ml_ai,MS SQL Server,0,0,0,0,,,PASS
+Category: ml_ai,ml_ai,Elasticsearch,17,17,0,0,,,PASS
 Category: ml_ai,ml_ai,Power BI,18,18,0,0,,,PASS
-Category: ml_ai,ml_ai,Tableau,9,9,0,0,,,PASS
-Category: ml_ai,ml_ai,Excel,14,14,0,0,,,PASS
-Category: ml_ai,ml_ai,Looker,3,3,0,0,,,PASS
-Category: ml_ai,ml_ai,Qlik,1,1,0,0,,,PASS
-Category: ml_ai,ml_ai,Metabase,5,5,0,0,,,PASS
-Category: ml_ai,ml_ai,Apache Superset,2,2,0,0,,,PASS
-Category: ml_ai,ml_ai,Azure,276,276,0,0,,,PASS
-Category: ml_ai,ml_ai,AWS,355,355,0,0,,,PASS
-Category: ml_ai,ml_ai,GCP,224,224,0,0,,,PASS
-Category: ml_ai,ml_ai,Databricks,94,94,0,0,,,PASS
-Category: ml_ai,ml_ai,Apache Spark,176,176,0,0,,,PASS
-Category: ml_ai,ml_ai,dbt,23,23,0,0,,,PASS
-Category: ml_ai,ml_ai,Apache Kafka,55,55,0,0,,,PASS
-Category: ml_ai,ml_ai,Apache Airflow,117,117,0,0,,,PASS
-Category: ml_ai,ml_ai,Docker,265,265,0,0,,,PASS
-Category: ml_ai,ml_ai,Kubernetes,250,250,0,0,,,PASS
-Category: ml_ai,ml_ai,Terraform,82,82,0,0,,,PASS
-Category: ml_ai,ml_ai,Git,263,263,0,0,,,PASS
-Category: ml_ai,ml_ai,CI/CD,358,358,0,0,,,PASS
-Category: ml_ai,ml_ai,PyTorch,531,531,0,0,,,PASS
-Category: ml_ai,ml_ai,TensorFlow,342,342,0,0,,,PASS
-Category: ml_ai,ml_ai,Scikit-learn,204,204,0,0,,,PASS
-Category: ml_ai,ml_ai,Pandas,113,113,0,0,,,PASS
-Category: ml_ai,ml_ai,NumPy,85,85,0,0,,,PASS
-Category: ml_ai,ml_ai,MLflow,199,199,0,0,,,PASS
-Category: ml_ai,ml_ai,Hugging Face,143,143,0,0,,,PASS
-Category: ml_ai,ml_ai,LangChain,93,93,0,0,,,PASS
-Category: ml_ai,ml_ai,OpenCV,37,37,0,0,,,PASS
+Category: ml_ai,ml_ai,Tableau,10,10,0,0,,,PASS
+Category: ml_ai,ml_ai,Excel,13,13,0,0,,,PASS
+Category: ml_ai,ml_ai,Looker,2,2,0,0,,,PASS
+Category: ml_ai,ml_ai,Qlik,3,3,0,0,,,PASS
+Category: ml_ai,ml_ai,Metabase,1,1,0,0,,,PASS
+Category: ml_ai,ml_ai,Apache Superset,1,1,0,0,,,PASS
+Category: ml_ai,ml_ai,Azure,297,297,0,0,,,PASS
+Category: ml_ai,ml_ai,AWS,370,370,0,0,,,PASS
+Category: ml_ai,ml_ai,GCP,266,266,0,0,,,PASS
+Category: ml_ai,ml_ai,Databricks,102,102,0,0,,,PASS
+Category: ml_ai,ml_ai,Apache Spark,177,177,0,0,,,PASS
+Category: ml_ai,ml_ai,dbt,26,26,0,0,,,PASS
+Category: ml_ai,ml_ai,Apache Kafka,65,65,0,0,,,PASS
+Category: ml_ai,ml_ai,Apache Airflow,135,135,0,0,,,PASS
+Category: ml_ai,ml_ai,Docker,287,287,0,0,,,PASS
+Category: ml_ai,ml_ai,Kubernetes,268,268,0,0,,,PASS
+Category: ml_ai,ml_ai,Terraform,88,88,0,0,,,PASS
+Category: ml_ai,ml_ai,Git,286,286,0,0,,,PASS
+Category: ml_ai,ml_ai,CI/CD,375,375,0,0,,,PASS
+Category: ml_ai,ml_ai,PyTorch,565,565,0,0,,,PASS
+Category: ml_ai,ml_ai,TensorFlow,356,356,0,0,,,PASS
+Category: ml_ai,ml_ai,Scikit-learn,235,235,0,0,,,PASS
+Category: ml_ai,ml_ai,Pandas,123,123,0,0,,,PASS
+Category: ml_ai,ml_ai,NumPy,96,96,0,0,,,PASS
+Category: ml_ai,ml_ai,MLflow,219,219,0,0,,,PASS
+Category: ml_ai,ml_ai,Hugging Face,140,140,0,0,,,PASS
+Category: ml_ai,ml_ai,LangChain,103,103,0,0,,,PASS
+Category: ml_ai,ml_ai,OpenCV,40,40,0,0,,,PASS
 Category: ml_ai,ml_ai,XGBoost,46,46,0,0,,,PASS
-Category: ml_ai,ml_ai,LLMs / Generative AI,604,604,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Python,1908,1908,0,0,,,PASS
-Category: ai_engineering,ai_engineering,SQL,516,516,0,0,,,PASS
-Category: ai_engineering,ai_engineering,R,49,49,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Java,254,254,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Scala,56,56,0,0,,,PASS
-Category: ai_engineering,ai_engineering,C++,101,101,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Julia,6,6,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Bash / Shell,37,37,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Go,14,14,0,0,,,PASS
-Category: ai_engineering,ai_engineering,TypeScript,338,338,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Snowflake,134,134,0,0,,,PASS
-Category: ai_engineering,ai_engineering,PostgreSQL,165,165,0,0,,,PASS
-Category: ai_engineering,ai_engineering,BigQuery,103,103,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Amazon Redshift,5,5,0,0,,,PASS
-Category: ai_engineering,ai_engineering,MySQL,16,16,0,0,,,PASS
-Category: ai_engineering,ai_engineering,MongoDB,44,44,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Redis,44,44,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Cassandra,10,10,0,0,,,PASS
+Category: ml_ai,ml_ai,LLMs / Generative AI,617,617,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Python,2264,2264,0,0,,,PASS
+Category: ai_engineering,ai_engineering,SQL,591,591,0,0,,,PASS
+Category: ai_engineering,ai_engineering,R,67,67,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Java,314,314,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Scala,60,60,0,0,,,PASS
+Category: ai_engineering,ai_engineering,C++,137,137,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Julia,7,7,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Bash / Shell,30,30,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Go,13,13,0,0,,,PASS
+Category: ai_engineering,ai_engineering,TypeScript,397,397,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Snowflake,140,140,0,0,,,PASS
+Category: ai_engineering,ai_engineering,PostgreSQL,209,209,0,0,,,PASS
+Category: ai_engineering,ai_engineering,BigQuery,77,77,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Amazon Redshift,10,10,0,0,,,PASS
+Category: ai_engineering,ai_engineering,MySQL,24,24,0,0,,,PASS
+Category: ai_engineering,ai_engineering,MongoDB,63,63,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Redis,57,57,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Cassandra,8,8,0,0,,,PASS
 Category: ai_engineering,ai_engineering,Oracle DB,21,21,0,0,,,PASS
-Category: ai_engineering,ai_engineering,MS SQL Server,21,21,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Elasticsearch,24,24,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Power BI,82,82,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Tableau,30,30,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Excel,42,42,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Looker,51,51,0,0,,,PASS
+Category: ai_engineering,ai_engineering,MS SQL Server,24,24,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Elasticsearch,35,35,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Power BI,73,73,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Tableau,26,26,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Excel,44,44,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Looker,5,5,0,0,,,PASS
 Category: ai_engineering,ai_engineering,Qlik,4,4,0,0,,,PASS
 Category: ai_engineering,ai_engineering,Metabase,2,2,0,0,,,PASS
 Category: ai_engineering,ai_engineering,Apache Superset,1,1,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Azure,971,971,0,0,,,PASS
-Category: ai_engineering,ai_engineering,AWS,845,845,0,0,,,PASS
-Category: ai_engineering,ai_engineering,GCP,651,651,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Databricks,280,280,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Apache Spark,177,177,0,0,,,PASS
-Category: ai_engineering,ai_engineering,dbt,81,81,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Apache Kafka,74,74,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Apache Airflow,128,128,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Docker,575,575,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Kubernetes,486,486,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Terraform,239,239,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Git,628,628,0,0,,,PASS
-Category: ai_engineering,ai_engineering,CI/CD,900,900,0,0,,,PASS
-Category: ai_engineering,ai_engineering,PyTorch,337,337,0,0,,,PASS
-Category: ai_engineering,ai_engineering,TensorFlow,235,235,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Scikit-learn,142,142,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Pandas,64,64,0,0,,,PASS
-Category: ai_engineering,ai_engineering,NumPy,39,39,0,0,,,PASS
-Category: ai_engineering,ai_engineering,MLflow,136,136,0,0,,,PASS
-Category: ai_engineering,ai_engineering,Hugging Face,172,172,0,0,,,PASS
-Category: ai_engineering,ai_engineering,LangChain,584,584,0,0,,,PASS
-Category: ai_engineering,ai_engineering,OpenCV,15,15,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Azure,1157,1157,0,0,,,PASS
+Category: ai_engineering,ai_engineering,AWS,946,946,0,0,,,PASS
+Category: ai_engineering,ai_engineering,GCP,675,675,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Databricks,310,310,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Apache Spark,169,169,0,0,,,PASS
+Category: ai_engineering,ai_engineering,dbt,80,80,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Apache Kafka,75,75,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Apache Airflow,80,80,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Docker,709,709,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Kubernetes,559,559,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Terraform,284,284,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Git,798,798,0,0,,,PASS
+Category: ai_engineering,ai_engineering,CI/CD,1098,1098,0,0,,,PASS
+Category: ai_engineering,ai_engineering,PyTorch,413,413,0,0,,,PASS
+Category: ai_engineering,ai_engineering,TensorFlow,296,296,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Scikit-learn,179,179,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Pandas,91,91,0,0,,,PASS
+Category: ai_engineering,ai_engineering,NumPy,65,65,0,0,,,PASS
+Category: ai_engineering,ai_engineering,MLflow,169,169,0,0,,,PASS
+Category: ai_engineering,ai_engineering,Hugging Face,218,218,0,0,,,PASS
+Category: ai_engineering,ai_engineering,LangChain,698,698,0,0,,,PASS
+Category: ai_engineering,ai_engineering,OpenCV,24,24,0,0,,,PASS
 Category: ai_engineering,ai_engineering,XGBoost,19,19,0,0,,,PASS
-Category: ai_engineering,ai_engineering,LLMs / Generative AI,2350,2350,0,0,,,PASS
+Category: ai_engineering,ai_engineering,LLMs / Generative AI,2735,2735,0,0,,,PASS

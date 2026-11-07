@@ -135,3 +135,7 @@
 
 ## 2026-10-30: Final Closeout, Reproducibility & Evidence Audit (Phase 5)
 - 2026-10-30: Completed final evidence audit of analysis/llm_regex_audit/ and verified 100% test reproducibility (38 audit tests passed, 390 repository tests passed), verified benchmark provenance, cleaned up temporary scratch investigation scripts, confirmed zero changes to production code or canonical vocabulary, and finalized project closeout. (Decided by: User, implemented by Agent)
+
+## 2026-11-07: Final Dataset Refresh & Regeneration for Submission
+- 2026-11-07: Refreshed the FreeHire EU-27 job-posting dataset (24,488 unique postings collected from 2013-11-18 to 2026-11-07 across 27 EU member states), regenerated data/processed/analytics_summary.json and .postings_cache.json, resolved multi-page API pagination in eu27.py where pages under 100 items prematurely halted collection, achieved 100.00% posting-ID extraction parity across 312 comparisons, and updated 3 dataset-specific assertions in tests/test_app.py to pass all 390 repository tests. (Decided by: User, implemented by Agent)
+- 2026-11-07: Dynamically derived corpus baseline x-axis title from corpus_total formatted with thousands separators in app.py, and updated README.md to describe the final submission snapshot of 24,488 unique postings collected on 7 November 2026 with 42.9% seniority coverage. (Decided by: User, implemented by Agent)

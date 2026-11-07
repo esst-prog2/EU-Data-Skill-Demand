@@ -1,7 +1,7 @@
 {
   "source": "FreeHire",
   "api_endpoint": "https://freehire.me/api/v1/agent/jobs/search",
-  "collection_timestamp_utc": "2026-10-18T11:38:31.436835+00:00",
+  "collection_timestamp_utc": "2026-11-07T16:38:16.199426+00:00",
   "geographic_scope": "European Union EU-27",
   "countries": {
     "AT": "Austria",
@@ -41,781 +41,781 @@
   ],
   "country_count": 27,
   "category_count": 5,
-  "unique_jobs": 25394,
+  "unique_jobs": 24488,
   "category_distribution": {
-    "data_engineering": 15504,
-    "data_analytics": 3013,
-    "ai_engineering": 2959,
-    "data_science": 2551,
-    "ml_ai": 1367
+    "data_engineering": 13592,
+    "data_analytics": 3582,
+    "ai_engineering": 3345,
+    "data_science": 2558,
+    "ml_ai": 1411
   },
   "country_distribution": {
-    "FR": 4329,
-    "NL": 4319,
-    "ES": 3957,
-    "PL": 3129,
-    "DE": 2820,
-    "IT": 2062,
-    "PT": 815,
-    "IE": 719,
-    "SE": 651,
-    "DK": 536,
-    "BE": 522,
-    "RO": 353,
-    "FI": 350,
-    "AT": 265,
-    "HU": 219,
-    "CZ": 209,
-    "BG": 174,
-    "GR": 148,
-    "LT": 118,
-    "HR": 100,
-    "CY": 94,
-    "LU": 85,
-    "SK": 83,
-    "EE": 52,
-    "LV": 46,
-    "MT": 43,
-    "SI": 26
+    "FR": 5045,
+    "NL": 3398,
+    "PL": 2994,
+    "ES": 2837,
+    "DE": 2450,
+    "IT": 2182,
+    "PT": 1469,
+    "BE": 1032,
+    "SE": 946,
+    "IE": 524,
+    "DK": 437,
+    "RO": 377,
+    "FI": 286,
+    "AT": 248,
+    "HU": 234,
+    "CZ": 208,
+    "BG": 181,
+    "GR": 170,
+    "LT": 148,
+    "CY": 124,
+    "LU": 123,
+    "SK": 92,
+    "HR": 84,
+    "LV": 65,
+    "MT": 58,
+    "EE": 55,
+    "SI": 43
   },
   "query_summary": [
     {
       "country_code": "AT",
       "country": "Austria",
       "category": "data_analytics",
-      "jobs_returned": 58
-    },
-    {
-      "country_code": "AT",
-      "country": "Austria",
-      "category": "data_engineering",
-      "jobs_returned": 86
-    },
-    {
-      "country_code": "AT",
-      "country": "Austria",
-      "category": "data_science",
-      "jobs_returned": 49
-    },
-    {
-      "country_code": "AT",
-      "country": "Austria",
-      "category": "ml_ai",
-      "jobs_returned": 14
-    },
-    {
-      "country_code": "AT",
-      "country": "Austria",
-      "category": "ai_engineering",
-      "jobs_returned": 58
-    },
-    {
-      "country_code": "BE",
-      "country": "Belgium",
-      "category": "data_analytics",
-      "jobs_returned": 94
-    },
-    {
-      "country_code": "BE",
-      "country": "Belgium",
-      "category": "data_engineering",
-      "jobs_returned": 273
-    },
-    {
-      "country_code": "BE",
-      "country": "Belgium",
-      "category": "data_science",
-      "jobs_returned": 51
-    },
-    {
-      "country_code": "BE",
-      "country": "Belgium",
-      "category": "ml_ai",
-      "jobs_returned": 24
-    },
-    {
-      "country_code": "BE",
-      "country": "Belgium",
-      "category": "ai_engineering",
-      "jobs_returned": 80
-    },
-    {
-      "country_code": "BG",
-      "country": "Bulgaria",
-      "category": "data_analytics",
-      "jobs_returned": 43
-    },
-    {
-      "country_code": "BG",
-      "country": "Bulgaria",
-      "category": "data_engineering",
-      "jobs_returned": 58
-    },
-    {
-      "country_code": "BG",
-      "country": "Bulgaria",
-      "category": "data_science",
-      "jobs_returned": 25
-    },
-    {
-      "country_code": "BG",
-      "country": "Bulgaria",
-      "category": "ml_ai",
-      "jobs_returned": 14
-    },
-    {
-      "country_code": "BG",
-      "country": "Bulgaria",
-      "category": "ai_engineering",
-      "jobs_returned": 34
-    },
-    {
-      "country_code": "CY",
-      "country": "Cyprus",
-      "category": "data_analytics",
-      "jobs_returned": 26
-    },
-    {
-      "country_code": "CY",
-      "country": "Cyprus",
-      "category": "data_engineering",
-      "jobs_returned": 23
-    },
-    {
-      "country_code": "CY",
-      "country": "Cyprus",
-      "category": "data_science",
-      "jobs_returned": 16
-    },
-    {
-      "country_code": "CY",
-      "country": "Cyprus",
-      "category": "ml_ai",
-      "jobs_returned": 13
-    },
-    {
-      "country_code": "CY",
-      "country": "Cyprus",
-      "category": "ai_engineering",
-      "jobs_returned": 16
-    },
-    {
-      "country_code": "CZ",
-      "country": "Czechia",
-      "category": "data_analytics",
-      "jobs_returned": 47
-    },
-    {
-      "country_code": "CZ",
-      "country": "Czechia",
-      "category": "data_engineering",
-      "jobs_returned": 69
-    },
-    {
-      "country_code": "CZ",
-      "country": "Czechia",
-      "category": "data_science",
-      "jobs_returned": 25
-    },
-    {
-      "country_code": "CZ",
-      "country": "Czechia",
-      "category": "ml_ai",
-      "jobs_returned": 21
-    },
-    {
-      "country_code": "CZ",
-      "country": "Czechia",
-      "category": "ai_engineering",
-      "jobs_returned": 47
-    },
-    {
-      "country_code": "DE",
-      "country": "Germany",
-      "category": "data_analytics",
-      "jobs_returned": 508
-    },
-    {
-      "country_code": "DE",
-      "country": "Germany",
-      "category": "data_engineering",
-      "jobs_returned": 892
-    },
-    {
-      "country_code": "DE",
-      "country": "Germany",
-      "category": "data_science",
-      "jobs_returned": 531
-    },
-    {
-      "country_code": "DE",
-      "country": "Germany",
-      "category": "ml_ai",
-      "jobs_returned": 310
-    },
-    {
-      "country_code": "DE",
-      "country": "Germany",
-      "category": "ai_engineering",
-      "jobs_returned": 579
-    },
-    {
-      "country_code": "DK",
-      "country": "Denmark",
-      "category": "data_analytics",
-      "jobs_returned": 51
-    },
-    {
-      "country_code": "DK",
-      "country": "Denmark",
-      "category": "data_engineering",
-      "jobs_returned": 329
-    },
-    {
-      "country_code": "DK",
-      "country": "Denmark",
-      "category": "data_science",
-      "jobs_returned": 48
-    },
-    {
-      "country_code": "DK",
-      "country": "Denmark",
-      "category": "ml_ai",
-      "jobs_returned": 39
-    },
-    {
-      "country_code": "DK",
-      "country": "Denmark",
-      "category": "ai_engineering",
-      "jobs_returned": 69
-    },
-    {
-      "country_code": "EE",
-      "country": "Estonia",
-      "category": "data_analytics",
-      "jobs_returned": 10
-    },
-    {
-      "country_code": "EE",
-      "country": "Estonia",
-      "category": "data_engineering",
-      "jobs_returned": 16
-    },
-    {
-      "country_code": "EE",
-      "country": "Estonia",
-      "category": "data_science",
-      "jobs_returned": 2
-    },
-    {
-      "country_code": "EE",
-      "country": "Estonia",
-      "category": "ml_ai",
-      "jobs_returned": 12
-    },
-    {
-      "country_code": "EE",
-      "country": "Estonia",
-      "category": "ai_engineering",
-      "jobs_returned": 12
-    },
-    {
-      "country_code": "ES",
-      "country": "Spain",
-      "category": "data_analytics",
-      "jobs_returned": 340
-    },
-    {
-      "country_code": "ES",
-      "country": "Spain",
-      "category": "data_engineering",
-      "jobs_returned": 2815
-    },
-    {
-      "country_code": "ES",
-      "country": "Spain",
-      "category": "data_science",
-      "jobs_returned": 264
-    },
-    {
-      "country_code": "ES",
-      "country": "Spain",
-      "category": "ml_ai",
-      "jobs_returned": 128
-    },
-    {
-      "country_code": "ES",
-      "country": "Spain",
-      "category": "ai_engineering",
-      "jobs_returned": 410
-    },
-    {
-      "country_code": "FI",
-      "country": "Finland",
-      "category": "data_analytics",
-      "jobs_returned": 38
-    },
-    {
-      "country_code": "FI",
-      "country": "Finland",
-      "category": "data_engineering",
-      "jobs_returned": 242
-    },
-    {
-      "country_code": "FI",
-      "country": "Finland",
-      "category": "data_science",
-      "jobs_returned": 13
-    },
-    {
-      "country_code": "FI",
-      "country": "Finland",
-      "category": "ml_ai",
-      "jobs_returned": 23
-    },
-    {
-      "country_code": "FI",
-      "country": "Finland",
-      "category": "ai_engineering",
-      "jobs_returned": 34
-    },
-    {
-      "country_code": "FR",
-      "country": "France",
-      "category": "data_analytics",
-      "jobs_returned": 567
-    },
-    {
-      "country_code": "FR",
-      "country": "France",
-      "category": "data_engineering",
-      "jobs_returned": 2810
-    },
-    {
-      "country_code": "FR",
-      "country": "France",
-      "category": "data_science",
-      "jobs_returned": 402
-    },
-    {
-      "country_code": "FR",
-      "country": "France",
-      "category": "ml_ai",
-      "jobs_returned": 190
-    },
-    {
-      "country_code": "FR",
-      "country": "France",
-      "category": "ai_engineering",
-      "jobs_returned": 360
-    },
-    {
-      "country_code": "GR",
-      "country": "Greece",
-      "category": "data_analytics",
-      "jobs_returned": 35
-    },
-    {
-      "country_code": "GR",
-      "country": "Greece",
-      "category": "data_engineering",
       "jobs_returned": 42
     },
     {
-      "country_code": "GR",
-      "country": "Greece",
-      "category": "data_science",
-      "jobs_returned": 24
-    },
-    {
-      "country_code": "GR",
-      "country": "Greece",
-      "category": "ml_ai",
-      "jobs_returned": 15
-    },
-    {
-      "country_code": "GR",
-      "country": "Greece",
-      "category": "ai_engineering",
-      "jobs_returned": 32
-    },
-    {
-      "country_code": "HR",
-      "country": "Croatia",
-      "category": "data_analytics",
-      "jobs_returned": 12
-    },
-    {
-      "country_code": "HR",
-      "country": "Croatia",
+      "country_code": "AT",
+      "country": "Austria",
       "category": "data_engineering",
-      "jobs_returned": 31
+      "jobs_returned": 76
     },
     {
-      "country_code": "HR",
-      "country": "Croatia",
+      "country_code": "AT",
+      "country": "Austria",
       "category": "data_science",
+      "jobs_returned": 40
+    },
+    {
+      "country_code": "AT",
+      "country": "Austria",
+      "category": "ml_ai",
       "jobs_returned": 26
     },
     {
-      "country_code": "HR",
-      "country": "Croatia",
+      "country_code": "AT",
+      "country": "Austria",
+      "category": "ai_engineering",
+      "jobs_returned": 64
+    },
+    {
+      "country_code": "BE",
+      "country": "Belgium",
+      "category": "data_analytics",
+      "jobs_returned": 195
+    },
+    {
+      "country_code": "BE",
+      "country": "Belgium",
+      "category": "data_engineering",
+      "jobs_returned": 585
+    },
+    {
+      "country_code": "BE",
+      "country": "Belgium",
+      "category": "data_science",
+      "jobs_returned": 87
+    },
+    {
+      "country_code": "BE",
+      "country": "Belgium",
+      "category": "ml_ai",
+      "jobs_returned": 32
+    },
+    {
+      "country_code": "BE",
+      "country": "Belgium",
+      "category": "ai_engineering",
+      "jobs_returned": 133
+    },
+    {
+      "country_code": "BG",
+      "country": "Bulgaria",
+      "category": "data_analytics",
+      "jobs_returned": 39
+    },
+    {
+      "country_code": "BG",
+      "country": "Bulgaria",
+      "category": "data_engineering",
+      "jobs_returned": 57
+    },
+    {
+      "country_code": "BG",
+      "country": "Bulgaria",
+      "category": "data_science",
+      "jobs_returned": 23
+    },
+    {
+      "country_code": "BG",
+      "country": "Bulgaria",
+      "category": "ml_ai",
+      "jobs_returned": 24
+    },
+    {
+      "country_code": "BG",
+      "country": "Bulgaria",
+      "category": "ai_engineering",
+      "jobs_returned": 38
+    },
+    {
+      "country_code": "CY",
+      "country": "Cyprus",
+      "category": "data_analytics",
+      "jobs_returned": 48
+    },
+    {
+      "country_code": "CY",
+      "country": "Cyprus",
+      "category": "data_engineering",
+      "jobs_returned": 20
+    },
+    {
+      "country_code": "CY",
+      "country": "Cyprus",
+      "category": "data_science",
+      "jobs_returned": 18
+    },
+    {
+      "country_code": "CY",
+      "country": "Cyprus",
+      "category": "ml_ai",
+      "jobs_returned": 16
+    },
+    {
+      "country_code": "CY",
+      "country": "Cyprus",
+      "category": "ai_engineering",
+      "jobs_returned": 22
+    },
+    {
+      "country_code": "CZ",
+      "country": "Czechia",
+      "category": "data_analytics",
+      "jobs_returned": 39
+    },
+    {
+      "country_code": "CZ",
+      "country": "Czechia",
+      "category": "data_engineering",
+      "jobs_returned": 59
+    },
+    {
+      "country_code": "CZ",
+      "country": "Czechia",
+      "category": "data_science",
+      "jobs_returned": 30
+    },
+    {
+      "country_code": "CZ",
+      "country": "Czechia",
+      "category": "ml_ai",
+      "jobs_returned": 23
+    },
+    {
+      "country_code": "CZ",
+      "country": "Czechia",
+      "category": "ai_engineering",
+      "jobs_returned": 57
+    },
+    {
+      "country_code": "DE",
+      "country": "Germany",
+      "category": "data_analytics",
+      "jobs_returned": 445
+    },
+    {
+      "country_code": "DE",
+      "country": "Germany",
+      "category": "data_engineering",
+      "jobs_returned": 749
+    },
+    {
+      "country_code": "DE",
+      "country": "Germany",
+      "category": "data_science",
+      "jobs_returned": 498
+    },
+    {
+      "country_code": "DE",
+      "country": "Germany",
+      "category": "ml_ai",
+      "jobs_returned": 258
+    },
+    {
+      "country_code": "DE",
+      "country": "Germany",
+      "category": "ai_engineering",
+      "jobs_returned": 500
+    },
+    {
+      "country_code": "DK",
+      "country": "Denmark",
+      "category": "data_analytics",
+      "jobs_returned": 46
+    },
+    {
+      "country_code": "DK",
+      "country": "Denmark",
+      "category": "data_engineering",
+      "jobs_returned": 238
+    },
+    {
+      "country_code": "DK",
+      "country": "Denmark",
+      "category": "data_science",
+      "jobs_returned": 52
+    },
+    {
+      "country_code": "DK",
+      "country": "Denmark",
+      "category": "ml_ai",
+      "jobs_returned": 44
+    },
+    {
+      "country_code": "DK",
+      "country": "Denmark",
+      "category": "ai_engineering",
+      "jobs_returned": 57
+    },
+    {
+      "country_code": "EE",
+      "country": "Estonia",
+      "category": "data_analytics",
+      "jobs_returned": 7
+    },
+    {
+      "country_code": "EE",
+      "country": "Estonia",
+      "category": "data_engineering",
+      "jobs_returned": 13
+    },
+    {
+      "country_code": "EE",
+      "country": "Estonia",
+      "category": "data_science",
+      "jobs_returned": 10
+    },
+    {
+      "country_code": "EE",
+      "country": "Estonia",
       "category": "ml_ai",
       "jobs_returned": 13
     },
     {
-      "country_code": "HR",
-      "country": "Croatia",
+      "country_code": "EE",
+      "country": "Estonia",
       "category": "ai_engineering",
-      "jobs_returned": 18
+      "jobs_returned": 12
     },
     {
-      "country_code": "HU",
-      "country": "Hungary",
+      "country_code": "ES",
+      "country": "Spain",
       "category": "data_analytics",
-      "jobs_returned": 51
+      "jobs_returned": 329
     },
     {
-      "country_code": "HU",
-      "country": "Hungary",
+      "country_code": "ES",
+      "country": "Spain",
       "category": "data_engineering",
-      "jobs_returned": 83
+      "jobs_returned": 1766
     },
     {
-      "country_code": "HU",
-      "country": "Hungary",
+      "country_code": "ES",
+      "country": "Spain",
       "category": "data_science",
-      "jobs_returned": 19
+      "jobs_returned": 248
     },
     {
-      "country_code": "HU",
-      "country": "Hungary",
-      "category": "ml_ai",
-      "jobs_returned": 32
-    },
-    {
-      "country_code": "HU",
-      "country": "Hungary",
-      "category": "ai_engineering",
-      "jobs_returned": 34
-    },
-    {
-      "country_code": "IE",
-      "country": "Ireland",
-      "category": "data_analytics",
-      "jobs_returned": 97
-    },
-    {
-      "country_code": "IE",
-      "country": "Ireland",
-      "category": "data_engineering",
-      "jobs_returned": 406
-    },
-    {
-      "country_code": "IE",
-      "country": "Ireland",
-      "category": "data_science",
-      "jobs_returned": 51
-    },
-    {
-      "country_code": "IE",
-      "country": "Ireland",
-      "category": "ml_ai",
-      "jobs_returned": 82
-    },
-    {
-      "country_code": "IE",
-      "country": "Ireland",
-      "category": "ai_engineering",
-      "jobs_returned": 83
-    },
-    {
-      "country_code": "IT",
-      "country": "Italy",
-      "category": "data_analytics",
-      "jobs_returned": 189
-    },
-    {
-      "country_code": "IT",
-      "country": "Italy",
-      "category": "data_engineering",
-      "jobs_returned": 1357
-    },
-    {
-      "country_code": "IT",
-      "country": "Italy",
-      "category": "data_science",
-      "jobs_returned": 249
-    },
-    {
-      "country_code": "IT",
-      "country": "Italy",
-      "category": "ml_ai",
-      "jobs_returned": 55
-    },
-    {
-      "country_code": "IT",
-      "country": "Italy",
-      "category": "ai_engineering",
-      "jobs_returned": 212
-    },
-    {
-      "country_code": "LT",
-      "country": "Lithuania",
-      "category": "data_analytics",
-      "jobs_returned": 38
-    },
-    {
-      "country_code": "LT",
-      "country": "Lithuania",
-      "category": "data_engineering",
-      "jobs_returned": 39
-    },
-    {
-      "country_code": "LT",
-      "country": "Lithuania",
-      "category": "data_science",
-      "jobs_returned": 16
-    },
-    {
-      "country_code": "LT",
-      "country": "Lithuania",
-      "category": "ml_ai",
-      "jobs_returned": 3
-    },
-    {
-      "country_code": "LT",
-      "country": "Lithuania",
-      "category": "ai_engineering",
-      "jobs_returned": 22
-    },
-    {
-      "country_code": "LU",
-      "country": "Luxembourg",
-      "category": "data_analytics",
-      "jobs_returned": 22
-    },
-    {
-      "country_code": "LU",
-      "country": "Luxembourg",
-      "category": "data_engineering",
-      "jobs_returned": 35
-    },
-    {
-      "country_code": "LU",
-      "country": "Luxembourg",
-      "category": "data_science",
-      "jobs_returned": 10
-    },
-    {
-      "country_code": "LU",
-      "country": "Luxembourg",
-      "category": "ml_ai",
-      "jobs_returned": 9
-    },
-    {
-      "country_code": "LU",
-      "country": "Luxembourg",
-      "category": "ai_engineering",
-      "jobs_returned": 9
-    },
-    {
-      "country_code": "LV",
-      "country": "Latvia",
-      "category": "data_analytics",
-      "jobs_returned": 5
-    },
-    {
-      "country_code": "LV",
-      "country": "Latvia",
-      "category": "data_engineering",
-      "jobs_returned": 21
-    },
-    {
-      "country_code": "LV",
-      "country": "Latvia",
-      "category": "data_science",
-      "jobs_returned": 10
-    },
-    {
-      "country_code": "LV",
-      "country": "Latvia",
-      "category": "ml_ai",
-      "jobs_returned": 5
-    },
-    {
-      "country_code": "LV",
-      "country": "Latvia",
-      "category": "ai_engineering",
-      "jobs_returned": 5
-    },
-    {
-      "country_code": "MT",
-      "country": "Malta",
-      "category": "data_analytics",
-      "jobs_returned": 15
-    },
-    {
-      "country_code": "MT",
-      "country": "Malta",
-      "category": "data_engineering",
-      "jobs_returned": 15
-    },
-    {
-      "country_code": "MT",
-      "country": "Malta",
-      "category": "data_science",
-      "jobs_returned": 1
-    },
-    {
-      "country_code": "MT",
-      "country": "Malta",
-      "category": "ml_ai",
-      "jobs_returned": 5
-    },
-    {
-      "country_code": "MT",
-      "country": "Malta",
-      "category": "ai_engineering",
-      "jobs_returned": 7
-    },
-    {
-      "country_code": "NL",
-      "country": "Netherlands",
-      "category": "data_analytics",
-      "jobs_returned": 352
-    },
-    {
-      "country_code": "NL",
-      "country": "Netherlands",
-      "category": "data_engineering",
-      "jobs_returned": 3011
-    },
-    {
-      "country_code": "NL",
-      "country": "Netherlands",
-      "category": "data_science",
-      "jobs_returned": 440
-    },
-    {
-      "country_code": "NL",
-      "country": "Netherlands",
+      "country_code": "ES",
+      "country": "Spain",
       "category": "ml_ai",
       "jobs_returned": 161
     },
     {
-      "country_code": "NL",
-      "country": "Netherlands",
+      "country_code": "ES",
+      "country": "Spain",
       "category": "ai_engineering",
-      "jobs_returned": 355
+      "jobs_returned": 333
     },
     {
-      "country_code": "PL",
-      "country": "Poland",
+      "country_code": "FI",
+      "country": "Finland",
       "category": "data_analytics",
-      "jobs_returned": 259
+      "jobs_returned": 22
     },
     {
-      "country_code": "PL",
-      "country": "Poland",
+      "country_code": "FI",
+      "country": "Finland",
       "category": "data_engineering",
-      "jobs_returned": 2222
+      "jobs_returned": 176
     },
     {
-      "country_code": "PL",
-      "country": "Poland",
+      "country_code": "FI",
+      "country": "Finland",
       "category": "data_science",
-      "jobs_returned": 174
+      "jobs_returned": 24
     },
     {
-      "country_code": "PL",
-      "country": "Poland",
+      "country_code": "FI",
+      "country": "Finland",
       "category": "ml_ai",
-      "jobs_returned": 159
+      "jobs_returned": 27
     },
     {
-      "country_code": "PL",
-      "country": "Poland",
+      "country_code": "FI",
+      "country": "Finland",
       "category": "ai_engineering",
-      "jobs_returned": 315
+      "jobs_returned": 37
     },
     {
-      "country_code": "PT",
-      "country": "Portugal",
+      "country_code": "FR",
+      "country": "France",
       "category": "data_analytics",
-      "jobs_returned": 127
+      "jobs_returned": 786
     },
     {
-      "country_code": "PT",
-      "country": "Portugal",
+      "country_code": "FR",
+      "country": "France",
       "category": "data_engineering",
-      "jobs_returned": 392
+      "jobs_returned": 2743
     },
     {
-      "country_code": "PT",
-      "country": "Portugal",
+      "country_code": "FR",
+      "country": "France",
       "category": "data_science",
-      "jobs_returned": 95
+      "jobs_returned": 543
     },
     {
-      "country_code": "PT",
-      "country": "Portugal",
+      "country_code": "FR",
+      "country": "France",
       "category": "ml_ai",
-      "jobs_returned": 75
+      "jobs_returned": 237
     },
     {
-      "country_code": "PT",
-      "country": "Portugal",
+      "country_code": "FR",
+      "country": "France",
       "category": "ai_engineering",
-      "jobs_returned": 126
+      "jobs_returned": 736
     },
     {
-      "country_code": "RO",
-      "country": "Romania",
+      "country_code": "GR",
+      "country": "Greece",
       "category": "data_analytics",
-      "jobs_returned": 56
+      "jobs_returned": 33
     },
     {
-      "country_code": "RO",
-      "country": "Romania",
+      "country_code": "GR",
+      "country": "Greece",
       "category": "data_engineering",
-      "jobs_returned": 147
+      "jobs_returned": 37
     },
     {
-      "country_code": "RO",
-      "country": "Romania",
+      "country_code": "GR",
+      "country": "Greece",
       "category": "data_science",
-      "jobs_returned": 44
+      "jobs_returned": 24
     },
     {
-      "country_code": "RO",
-      "country": "Romania",
+      "country_code": "GR",
+      "country": "Greece",
       "category": "ml_ai",
+      "jobs_returned": 28
+    },
+    {
+      "country_code": "GR",
+      "country": "Greece",
+      "category": "ai_engineering",
+      "jobs_returned": 48
+    },
+    {
+      "country_code": "HR",
+      "country": "Croatia",
+      "category": "data_analytics",
+      "jobs_returned": 7
+    },
+    {
+      "country_code": "HR",
+      "country": "Croatia",
+      "category": "data_engineering",
+      "jobs_returned": 19
+    },
+    {
+      "country_code": "HR",
+      "country": "Croatia",
+      "category": "data_science",
+      "jobs_returned": 15
+    },
+    {
+      "country_code": "HR",
+      "country": "Croatia",
+      "category": "ml_ai",
+      "jobs_returned": 21
+    },
+    {
+      "country_code": "HR",
+      "country": "Croatia",
+      "category": "ai_engineering",
+      "jobs_returned": 22
+    },
+    {
+      "country_code": "HU",
+      "country": "Hungary",
+      "category": "data_analytics",
+      "jobs_returned": 45
+    },
+    {
+      "country_code": "HU",
+      "country": "Hungary",
+      "category": "data_engineering",
+      "jobs_returned": 73
+    },
+    {
+      "country_code": "HU",
+      "country": "Hungary",
+      "category": "data_science",
+      "jobs_returned": 32
+    },
+    {
+      "country_code": "HU",
+      "country": "Hungary",
+      "category": "ml_ai",
+      "jobs_returned": 41
+    },
+    {
+      "country_code": "HU",
+      "country": "Hungary",
+      "category": "ai_engineering",
+      "jobs_returned": 43
+    },
+    {
+      "country_code": "IE",
+      "country": "Ireland",
+      "category": "data_analytics",
+      "jobs_returned": 62
+    },
+    {
+      "country_code": "IE",
+      "country": "Ireland",
+      "category": "data_engineering",
+      "jobs_returned": 258
+    },
+    {
+      "country_code": "IE",
+      "country": "Ireland",
+      "category": "data_science",
+      "jobs_returned": 48
+    },
+    {
+      "country_code": "IE",
+      "country": "Ireland",
+      "category": "ml_ai",
+      "jobs_returned": 65
+    },
+    {
+      "country_code": "IE",
+      "country": "Ireland",
+      "category": "ai_engineering",
+      "jobs_returned": 91
+    },
+    {
+      "country_code": "IT",
+      "country": "Italy",
+      "category": "data_analytics",
+      "jobs_returned": 357
+    },
+    {
+      "country_code": "IT",
+      "country": "Italy",
+      "category": "data_engineering",
+      "jobs_returned": 1139
+    },
+    {
+      "country_code": "IT",
+      "country": "Italy",
+      "category": "data_science",
+      "jobs_returned": 309
+    },
+    {
+      "country_code": "IT",
+      "country": "Italy",
+      "category": "ml_ai",
+      "jobs_returned": 83
+    },
+    {
+      "country_code": "IT",
+      "country": "Italy",
+      "category": "ai_engineering",
+      "jobs_returned": 294
+    },
+    {
+      "country_code": "LT",
+      "country": "Lithuania",
+      "category": "data_analytics",
+      "jobs_returned": 42
+    },
+    {
+      "country_code": "LT",
+      "country": "Lithuania",
+      "category": "data_engineering",
+      "jobs_returned": 40
+    },
+    {
+      "country_code": "LT",
+      "country": "Lithuania",
+      "category": "data_science",
+      "jobs_returned": 23
+    },
+    {
+      "country_code": "LT",
+      "country": "Lithuania",
+      "category": "ml_ai",
+      "jobs_returned": 7
+    },
+    {
+      "country_code": "LT",
+      "country": "Lithuania",
+      "category": "ai_engineering",
       "jobs_returned": 36
     },
     {
+      "country_code": "LU",
+      "country": "Luxembourg",
+      "category": "data_analytics",
+      "jobs_returned": 45
+    },
+    {
+      "country_code": "LU",
+      "country": "Luxembourg",
+      "category": "data_engineering",
+      "jobs_returned": 35
+    },
+    {
+      "country_code": "LU",
+      "country": "Luxembourg",
+      "category": "data_science",
+      "jobs_returned": 17
+    },
+    {
+      "country_code": "LU",
+      "country": "Luxembourg",
+      "category": "ml_ai",
+      "jobs_returned": 12
+    },
+    {
+      "country_code": "LU",
+      "country": "Luxembourg",
+      "category": "ai_engineering",
+      "jobs_returned": 14
+    },
+    {
+      "country_code": "LV",
+      "country": "Latvia",
+      "category": "data_analytics",
+      "jobs_returned": 8
+    },
+    {
+      "country_code": "LV",
+      "country": "Latvia",
+      "category": "data_engineering",
+      "jobs_returned": 19
+    },
+    {
+      "country_code": "LV",
+      "country": "Latvia",
+      "category": "data_science",
+      "jobs_returned": 13
+    },
+    {
+      "country_code": "LV",
+      "country": "Latvia",
+      "category": "ml_ai",
+      "jobs_returned": 8
+    },
+    {
+      "country_code": "LV",
+      "country": "Latvia",
+      "category": "ai_engineering",
+      "jobs_returned": 17
+    },
+    {
+      "country_code": "MT",
+      "country": "Malta",
+      "category": "data_analytics",
+      "jobs_returned": 15
+    },
+    {
+      "country_code": "MT",
+      "country": "Malta",
+      "category": "data_engineering",
+      "jobs_returned": 15
+    },
+    {
+      "country_code": "MT",
+      "country": "Malta",
+      "category": "data_science",
+      "jobs_returned": 6
+    },
+    {
+      "country_code": "MT",
+      "country": "Malta",
+      "category": "ml_ai",
+      "jobs_returned": 10
+    },
+    {
+      "country_code": "MT",
+      "country": "Malta",
+      "category": "ai_engineering",
+      "jobs_returned": 12
+    },
+    {
+      "country_code": "NL",
+      "country": "Netherlands",
+      "category": "data_analytics",
+      "jobs_returned": 385
+    },
+    {
+      "country_code": "NL",
+      "country": "Netherlands",
+      "category": "data_engineering",
+      "jobs_returned": 2209
+    },
+    {
+      "country_code": "NL",
+      "country": "Netherlands",
+      "category": "data_science",
+      "jobs_returned": 308
+    },
+    {
+      "country_code": "NL",
+      "country": "Netherlands",
+      "category": "ml_ai",
+      "jobs_returned": 148
+    },
+    {
+      "country_code": "NL",
+      "country": "Netherlands",
+      "category": "ai_engineering",
+      "jobs_returned": 348
+    },
+    {
+      "country_code": "PL",
+      "country": "Poland",
+      "category": "data_analytics",
+      "jobs_returned": 331
+    },
+    {
+      "country_code": "PL",
+      "country": "Poland",
+      "category": "data_engineering",
+      "jobs_returned": 1946
+    },
+    {
+      "country_code": "PL",
+      "country": "Poland",
+      "category": "data_science",
+      "jobs_returned": 181
+    },
+    {
+      "country_code": "PL",
+      "country": "Poland",
+      "category": "ml_ai",
+      "jobs_returned": 180
+    },
+    {
+      "country_code": "PL",
+      "country": "Poland",
+      "category": "ai_engineering",
+      "jobs_returned": 356
+    },
+    {
+      "country_code": "PT",
+      "country": "Portugal",
+      "category": "data_analytics",
+      "jobs_returned": 217
+    },
+    {
+      "country_code": "PT",
+      "country": "Portugal",
+      "category": "data_engineering",
+      "jobs_returned": 871
+    },
+    {
+      "country_code": "PT",
+      "country": "Portugal",
+      "category": "data_science",
+      "jobs_returned": 106
+    },
+    {
+      "country_code": "PT",
+      "country": "Portugal",
+      "category": "ml_ai",
+      "jobs_returned": 86
+    },
+    {
+      "country_code": "PT",
+      "country": "Portugal",
+      "category": "ai_engineering",
+      "jobs_returned": 189
+    },
+    {
+      "country_code": "RO",
+      "country": "Romania",
+      "category": "data_analytics",
+      "jobs_returned": 70
+    },
+    {
+      "country_code": "RO",
+      "country": "Romania",
+      "category": "data_engineering",
+      "jobs_returned": 152
+    },
+    {
+      "country_code": "RO",
+      "country": "Romania",
+      "category": "data_science",
+      "jobs_returned": 47
+    },
+    {
+      "country_code": "RO",
+      "country": "Romania",
+      "category": "ml_ai",
+      "jobs_returned": 41
+    },
+    {
       "country_code": "RO",
       "country": "Romania",
       "category": "ai_engineering",
-      "jobs_returned": 70
+      "jobs_returned": 67
     },
     {
       "country_code": "SE",
       "country": "Sweden",
       "category": "data_analytics",
-      "jobs_returned": 74
+      "jobs_returned": 102
     },
     {
       "country_code": "SE",
       "country": "Sweden",
       "category": "data_engineering",
-      "jobs_returned": 284
+      "jobs_returned": 513
     },
     {
       "country_code": "SE",
       "country": "Sweden",
       "category": "data_science",
-      "jobs_returned": 67
+      "jobs_returned": 89
     },
     {
       "country_code": "SE",
@@ -827,13 +827,13 @@
       "country_code": "SE",
       "country": "Sweden",
       "category": "ai_engineering",
-      "jobs_returned": 145
+      "jobs_returned": 161
     },
     {
       "country_code": "SI",
       "country": "Slovenia",
       "category": "data_analytics",
-      "jobs_returned": 2
+      "jobs_returned": 4
     },
     {
       "country_code": "SI",
@@ -845,25 +845,25 @@
       "country_code": "SI",
       "country": "Slovenia",
       "category": "data_science",
-      "jobs_returned": 9
+      "jobs_returned": 13
     },
     {
       "country_code": "SI",
       "country": "Slovenia",
       "category": "ml_ai",
-      "jobs_returned": 5
+      "jobs_returned": 11
     },
     {
       "country_code": "SI",
       "country": "Slovenia",
       "category": "ai_engineering",
-      "jobs_returned": 4
+      "jobs_returned": 9
     },
     {
       "country_code": "SK",
       "country": "Slovakia",
       "category": "data_analytics",
-      "jobs_returned": 26
+      "jobs_returned": 18
     },
     {
       "country_code": "SK",
@@ -875,19 +875,19 @@
       "country_code": "SK",
       "country": "Slovakia",
       "category": "data_science",
-      "jobs_returned": 12
+      "jobs_returned": 19
     },
     {
       "country_code": "SK",
       "country": "Slovakia",
       "category": "ml_ai",
-      "jobs_returned": 6
+      "jobs_returned": 13
     },
     {
       "country_code": "SK",
       "country": "Slovakia",
       "category": "ai_engineering",
-      "jobs_returned": 17
+      "jobs_returned": 20
     }
   ]
 }

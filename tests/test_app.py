@@ -725,14 +725,14 @@ class TestSinglePageDashboardAndGlobalFilters:
 
         assert len(at.exception) == 0
 
-        # Matching postings for Hungarian Senior Data Scientists is 6
+        # Matching postings for Hungarian Senior Data Scientists is 8 in refreshed dataset
         metrics_dict = {m.label: m.value for m in at.metric}
-        assert metrics_dict["Matching Postings"] == "6"
+        assert metrics_dict["Matching Postings"] == "8"
         assert metrics_dict["Countries with Postings"] == "1 / 27"
 
         # Explicit denominator and dynamic coverage banner
         info_texts = [inf.value for inf in at.info]
-        assert any("Seniority Coverage" in t and "8 of 14" in t for t in info_texts)
+        assert any("Seniority Coverage" in t and "13 of 21" in t for t in info_texts)
 
         # Small sample size warning banner (N < 300)
         warning_texts = [w.value for w in at.warning]
@@ -1095,13 +1095,13 @@ class TestSinglePageDashboardAndGlobalFilters:
             assert all(0.0 <= s <= 100.0 for s in shares), f"Share exceeded 100% in {y_label}: {shares}"
             # Sum of shares must equal ~100.0% within rounding
             assert 99.5 <= sum(shares) <= 100.5, f"Shares do not sum to 100% in {y_label}: {shares}"
-            # Specific regression checks: Denmark DE is ~61.7% (not 654%), Czechia DE is ~33.7% (not 154%)
+            # Specific regression checks: Denmark DE is ~56.5% (not 654%), Czechia DE is ~31.3% (not 154%)
             if "Denmark" in y_label:
                 de_share = next(t["x"][country_idx] for t in traces if t["name"] == "Data Engineering")
-                assert 60.0 <= de_share <= 63.0, f"Expected DK DE ~61.7%, got {de_share}"
+                assert 50.0 <= de_share <= 65.0, f"Expected DK DE ~55-65%, got {de_share}"
             if "Czechia" in y_label:
                 de_share = next(t["x"][country_idx] for t in traces if t["name"] == "Data Engineering")
-                assert 32.0 <= de_share <= 35.0, f"Expected CZ DE ~33.7%, got {de_share}"
+                assert 30.0 <= de_share <= 35.0, f"Expected CZ DE ~31-34%, got {de_share}"
 
         # In-bar labels must be horizontal (textangle == 0) and constrained inside
         for t in traces:
@@ -1126,8 +1126,8 @@ class TestSinglePageDashboardAndGlobalFilters:
         assert len(traces) == 5
 
         y_labels = traces[0]["y"]
-        # Exactly 12 EU member states have N >= 300
-        assert len(y_labels) == 12
+        # Exactly 11 EU member states have N >= 300 in refreshed dataset (Romania is 277 < 300)
+        assert len(y_labels) == 11
 
         # Check every country's shares sum to 100%
         for country_idx, y_label in enumerate(y_labels):

@@ -200,11 +200,11 @@ def get_jobs(
         # Stop when all matching jobs have been retrieved.
         # ----------------------------------------------------
 
-        if total is not None and len(jobs) >= total:
+        if total is not None and (len(jobs) >= total or offset + PAGE_SIZE >= total):
             break
 
-        # Safety check.
-        if len(page) < PAGE_SIZE:
+        # Safety check when total is not provided by the API.
+        if total is None and len(page) < PAGE_SIZE:
             break
 
         offset += PAGE_SIZE

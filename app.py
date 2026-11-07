@@ -654,6 +654,7 @@ def build_corpus_benchmark_bar(
     overview_top_skills: list[Dict[str, Any]],
     top_n: int = 10,
     height: int = 400,
+    corpus_total: int | None = None,
 ) -> go.Figure:
     """
     Builds horizontal bar chart of top skills across entire corpus (unfiltered benchmark).
@@ -682,10 +683,11 @@ def build_corpus_benchmark_bar(
     )
     fig.add_trace(trace)
     max_p = max(prevs) if prevs else 100.0
+    xaxis_desc = f"% of all {corpus_total:,} EU postings" if corpus_total else "% of all EU postings"
     return apply_standard_bar_layout(
         fig,
         height=height,
-        xaxis_title="Corpus Baseline Prevalence (% of all 25,394 EU postings)",
+        xaxis_title=f"Corpus Baseline Prevalence ({xaxis_desc})",
         max_val=max_p,
         headroom_factor=1.35,
         min_range=10.0,
@@ -949,7 +951,7 @@ def main() -> None:
     summary = load_analytics_summary()
     postings = load_postings_dataset()
     kpis_summary = summary.get("kpis", {})
-    corpus_total = kpis_summary.get("total_postings", len(postings) or 25394)
+    corpus_total = kpis_summary.get("total_postings", len(postings) or 24488)
     snapshot_date = format_snapshot_date(summary.get("snapshot_collected_at"))
 
     # Vocabulary & Corpus Skill Counts
@@ -1606,7 +1608,7 @@ def main() -> None:
 
         market_overview = summary.get("market_overview", {})
         top_corpus = market_overview.get("top_skills_overall", [])
-        fig_bench = build_corpus_benchmark_bar(top_corpus, top_n=10, height=400)
+        fig_bench = build_corpus_benchmark_bar(top_corpus, top_n=10, height=400, corpus_total=corpus_total)
 
         with btn_b:
             if st.button("⛶ Expand", key="expand_bench"):
