@@ -58,6 +58,13 @@ uv run python scripts/refresh_weekly.py
 - **Diff Inspection:** After a successful refresh, inspect the substantive changes (`git diff data/processed/analytics_summary.json`), verify the dashboard locally (`uv run streamlit run app.py`), and manually commit and push when satisfied.
 - **Continuous Integration:** A lightweight GitHub Actions CI workflow (`.github/workflows/weekly-data-refresh.yml`) automatically runs tests on push, pull requests, and manual dispatch.
 
+### Test Suite and CI Execution
+
+The test suite separates fast, deterministic CI execution from full production-data validation:
+
+- **Standard CI Tests (`uv run pytest`):** Run by default on clean checkouts (such as GitHub Actions) without downloading or requiring the large raw dataset. Streamlit UI and dashboard interactions are tested deterministically against a tracked test fixture (`data/fixtures/test_postings_fixture.json`), while analytical regressions validate corpus-wide statistics (24,488 postings, category counts, R skill demand) directly against the tracked `data/processed/analytics_summary.json`.
+- **Production Regression Tests (`uv run pytest -m production_data`):** Verify exact production behavior across the complete 24,488-posting dataset (interactive multi-filter slices, cross-country composition distributions, and raw R skill extraction). These require the local raw snapshot (`data/raw/freehire_eu_raw.json`, ~143 MB, excluded from Git due to size) or the processed postings cache (`data/processed/.postings_cache.json`). If executed without production data, they fail explicitly with a clear explanatory error rather than silently falling back.
+
 
 ## 3. The Size
 

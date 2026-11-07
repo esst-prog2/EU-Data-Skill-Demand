@@ -18,4 +18,8 @@ dev = [
 [tool.pytest.ini_options]
 pythonpath = ["."]
 testpaths = ["tests"]
+markers = [
+    "production_data: Production regression tests requiring the full local dataset (data/raw/freehire_eu_raw.json or .postings_cache.json)",
+]
+addopts = "-m 'not production_data'"
 

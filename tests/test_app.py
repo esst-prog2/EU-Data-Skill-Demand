@@ -709,8 +709,9 @@ class TestSinglePageDashboardAndGlobalFilters:
         # Complete Skill Demand Table is visible by default (not in expander)
         assert len(at.dataframe) >= 1
 
+    @pytest.mark.production_data
     def test_interconnected_filtering_country_category_seniority(self):
-        """Verifies selecting Country (multiselect), Category, and Seniority updates KPIs, table, and banners."""
+        """Verifies selecting Country (multiselect), Category, and Seniority updates KPIs, table, and banners on production data."""
         app.load_analytics_summary.clear()
         at = AppTest.from_file(APP_FILE).run(timeout=15)
 
@@ -733,6 +734,40 @@ class TestSinglePageDashboardAndGlobalFilters:
         # Explicit denominator and dynamic coverage banner
         info_texts = [inf.value for inf in at.info]
         assert any("Seniority Coverage" in t and "13 of 21" in t for t in info_texts)
+
+        # Small sample size warning banner (N < 300)
+        warning_texts = [w.value for w in at.warning]
+        assert any("Small Sample Size Warning" in w for w in warning_texts)
+
+        # Traceability: Detected skills KPI matches the rows in complete table
+        detected_kpi_val = int(metrics_dict["Detected Technical Skills"])
+        table_df = at.dataframe[0].value
+        assert len(table_df) == detected_kpi_val
+
+    def test_interconnected_filtering_with_test_fixture(self):
+        """Verifies Country, Category, and Seniority filtering updates KPIs, banners, and table using deterministic test fixture."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+
+        country_ms = next(ms for ms in at.multiselect if "Country" in ms.label)
+        country_ms.select("HU").run(timeout=15)
+
+        cat_sb = next(sb for sb in at.selectbox if "Job Family" in sb.label)
+        cat_sb.select("Data Science").run(timeout=15)
+
+        sen_sb = next(sb for sb in at.selectbox if "Seniority" in sb.label)
+        sen_sb.select("Senior").run(timeout=15)
+
+        assert len(at.exception) == 0
+
+        metrics_dict = {m.label: m.value for m in at.metric}
+        # In test fixture, HU Senior Data Science has matching postings
+        assert int(metrics_dict["Matching Postings"]) > 0
+        assert metrics_dict["Countries with Postings"] == "1 / 27"
+
+        # Explicit denominator and dynamic coverage banner
+        info_texts = [inf.value for inf in at.info]
+        assert any("Seniority Coverage" in t for t in info_texts)
 
         # Small sample size warning banner (N < 300)
         warning_texts = [w.value for w in at.warning]
@@ -829,8 +864,79 @@ class TestSinglePageDashboardAndGlobalFilters:
         # Scatter plot shows baseline parity guidance annotation
         assert any("Lift = 1.00 by definition" in str(ch.proto.spec) for ch in charts)
 
+    def test_r_skill_demand_in_analytical_summary(self):
+        """
+        Verifies deterministic R skill demand directly from tracked data/processed/analytics_summary.json.
+        Covers:
+        - Data Analytics: 3,582 total, 364 R postings, 10.2% prevalence
+        - Data Engineering: 13,592 total, 278 R postings, 2.0% prevalence
+        - Data Science: 2,558 total, 420 R postings, 16.4% prevalence
+        - ML/AI: 1,411 total, 43 R postings, 3.0% prevalence
+        - AI Engineering: 3,345 total, 67 R postings, 2.0% prevalence
+        - Total corpus postings = 24,488
+        - Derived total R postings = 1,172
+        """
+        summary = app.load_analytics_summary()
+        profiles = summary["category_profiles"]
+
+        expected_r_by_category = {
+            "data_analytics": {"total": 3582, "r_count": 364, "r_prev_pct": 10.2},
+            "data_engineering": {"total": 13592, "r_count": 278, "r_prev_pct": 2.0},
+            "data_science": {"total": 2558, "r_count": 420, "r_prev_pct": 16.4},
+            "ml_ai": {"total": 1411, "r_count": 43, "r_prev_pct": 3.0},
+            "ai_engineering": {"total": 3345, "r_count": 67, "r_prev_pct": 2.0},
+        }
+
+        derived_total_postings = 0
+        derived_total_r = 0
+        for cat_id, expected in expected_r_by_category.items():
+            profile = profiles[cat_id]
+            cat_total = profile["total_postings"]
+            assert cat_total == expected["total"], f"Mismatch for {cat_id} total: got {cat_total}, expected {expected['total']}"
+            derived_total_postings += cat_total
+
+            r_skill = next((s for s in profile["all_skills"] if s["canonical"] == "R"), None)
+            assert r_skill is not None, f"R skill not found in {cat_id} profile"
+            assert r_skill["count"] == expected["r_count"], f"Mismatch in R count for {cat_id}: got {r_skill['count']}, expected {expected['r_count']}"
+
+            # Calculate and validate prevalence using actual category denominator
+            calculated_prev = r_skill["count"] / cat_total
+            calculated_prev_pct = round(calculated_prev * 100, 1)
+            assert math.isclose(r_skill["prevalence"], calculated_prev, rel_tol=1e-4), (
+                f"Mismatch in R raw prevalence for {cat_id}: got {r_skill['prevalence']}, calculated {calculated_prev}"
+            )
+            assert math.isclose(r_skill["prevalence_pct"], calculated_prev_pct, abs_tol=0.1), (
+                f"Mismatch in R prevalence_pct for {cat_id}: got {r_skill['prevalence_pct']}, calculated {calculated_prev_pct}"
+            )
+            assert math.isclose(r_skill["prevalence_pct"], expected["r_prev_pct"], abs_tol=0.1), (
+                f"Mismatch in R expected prevalence_pct for {cat_id}: got {r_skill['prevalence_pct']}, expected {expected['r_prev_pct']}"
+            )
+            derived_total_r += r_skill["count"]
+
+        assert summary["kpis"]["total_postings"] == 24488
+        assert derived_total_postings == 24488
+        assert derived_total_r == 1172
+
+    def test_r_skill_extraction_logic(self):
+        """Verifies that extraction logic recognizes genuine R mentions and prevents false positives."""
+        from src.analytics import extract_skills_from_posting, SkillVocabulary
+
+        vocab = SkillVocabulary.load_from_file(app.VOCAB_PATH)
+
+        # True positives
+        tp_posting = {"title": "Data Scientist", "skills": [], "description": "Requires strong skills in Python and R for statistical modeling."}
+        extracted_tp = extract_skills_from_posting(tp_posting, vocab)
+        assert "R" in extracted_tp
+        assert "Python" in extracted_tp
+
+        # False positives prevented (e.g. R&D)
+        fp_posting = {"title": "Analyst", "skills": [], "description": "Works within the global R&D department on financial metrics."}
+        extracted_fp = extract_skills_from_posting(fp_posting, vocab)
+        assert "R" not in extracted_fp
+
+    @pytest.mark.production_data
     def test_r_skill_extraction_and_market_demand_in_dashboard(self):
-        """Verifies R has substantial detected market demand across Data Science and Data Analytics, not 2 jobs."""
+        """Verifies R has substantial detected market demand across Data Science and Data Analytics on production dataset."""
         postings = app.load_postings_dataset()
         r_postings = sum(1 for p in postings if "R" in p.get("skills", set()))
         assert r_postings > 1000, f"Expected >1000 R postings across corpus, got {r_postings}"
@@ -1044,8 +1150,9 @@ class TestSinglePageDashboardAndGlobalFilters:
 
         assert any("Lift = 1.00 by definition" in t for t in annotations_text)
 
+    @pytest.mark.production_data
     def test_cross_country_composition_czechia_denmark_single_category_filter(self):
-        """Verifies Czechia and Denmark with Data Analytics selected exhibits valid shares summing to ~100%."""
+        """Verifies Czechia and Denmark with Data Analytics selected exhibits valid shares summing to ~100% on production data."""
         app.load_analytics_summary.clear()
         at = AppTest.from_file(APP_FILE).run(timeout=15)
 
@@ -1108,8 +1215,9 @@ class TestSinglePageDashboardAndGlobalFilters:
             assert t.get("textangle") == 0
             assert t.get("constraintext") == "inside"
 
+    @pytest.mark.production_data
     def test_cross_country_composition_unfiltered_view_all_shares_sum_to_100(self):
-        """Verifies unfiltered EU-wide view includes N>=300 countries with valid 100% shares and horizontal text."""
+        """Verifies unfiltered EU-wide view includes N>=300 countries with valid 100% shares and horizontal text on production data."""
         app.load_analytics_summary.clear()
         at = AppTest.from_file(APP_FILE).run(timeout=15)
 
@@ -1156,6 +1264,23 @@ class TestSinglePageDashboardAndGlobalFilters:
         assert "baseline parity" in distinctiveness_info
         assert "Lift < 1.00" in distinctiveness_info
         assert "under-representation" in distinctiveness_info
+
+    def test_data_loading_modes_and_source_identification(self, monkeypatch):
+        """Verifies that load_postings_dataset distinguishes production vs test fixture vs error when missing."""
+        # 1. Test fixture mode
+        monkeypatch.setenv("EU_DATA_MODE", "test_fixture")
+        app.load_postings_dataset.clear()
+        fixture_postings = app.load_postings_dataset()
+        assert len(fixture_postings) > 0
+        assert app.get_active_data_source() == app.DATA_SOURCE_TEST_FIXTURE
+
+        # 2. Production mode when files missing raises FileNotFoundError (does NOT fall back to synthetic)
+        monkeypatch.setenv("EU_DATA_MODE", "production")
+        monkeypatch.setattr(app, "POSTINGS_CACHE_PATH", Path("non_existent_cache.json"))
+        monkeypatch.setattr(app, "RAW_POSTINGS_PATH", Path("non_existent_raw.json"))
+        app.load_postings_dataset.clear()
+        with pytest.raises(FileNotFoundError, match="Requested production data mode but production dataset is missing"):
+            app.load_postings_dataset()
 
 
 class TestDashboardBarChartLabelPolicy:
@@ -1368,5 +1493,19 @@ class TestDashboardBarChartLabelPolicy:
             # Rule 5: Uniformtext hide protection is enabled on layout
             assert layout.get("uniformtext", {}).get("mode") == "hide"
 
-        # Ensure all bar charts were found and verified
-        assert bar_chart_count >= 5
+        # Ensure all available bar charts were found and verified
+        if app.get_active_data_source() == app.DATA_SOURCE_PRODUCTION:
+            assert bar_chart_count >= 5
+        else:
+            # Under test fixture without N >= 300 countries, 4 bar charts have active bar traces,
+            # and the 5th (cross-country composition) verifies the subthreshold empty annotation.
+            assert bar_chart_count >= 4
+            empty_composition_chart = next(
+                (
+                    ch for ch in charts
+                    if any("No countries with matching postings" in a.get("text", "")
+                           for a in json.loads(ch.proto.spec).get("layout", {}).get("annotations", []))
+                ),
+                None
+            )
+            assert empty_composition_chart is not None

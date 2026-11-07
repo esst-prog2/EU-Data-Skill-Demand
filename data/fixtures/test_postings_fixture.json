@@ -1,0 +1,2115 @@
+{
+  "metadata": {
+    "description": "Deterministic test fixture for dashboard functionality, UI interaction, and CI testing.",
+    "is_test_fixture": true,
+    "total_postings": 176,
+    "categories": [
+      "data_analytics",
+      "data_engineering",
+      "data_science",
+      "ml_ai",
+      "ai_engineering"
+    ],
+    "total_countries": 27
+  },
+  "postings": [
+    {
+      "id": "fixture_001",
+      "country": "DE",
+      "category": "data_science",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "SQL",
+        "PyTorch",
+        "R",
+        "Pandas"
+      ]
+    },
+    {
+      "id": "fixture_002",
+      "country": "DE",
+      "category": "data_science",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "SQL",
+        "PyTorch",
+        "R",
+        "Pandas"
+      ]
+    },
+    {
+      "id": "fixture_003",
+      "country": "DE",
+      "category": "data_science",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "SQL",
+        "PyTorch",
+        "R",
+        "Pandas"
+      ]
+    },
+    {
+      "id": "fixture_004",
+      "country": "DE",
+      "category": "data_science",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "SQL",
+        "PyTorch",
+        "R",
+        "Pandas"
+      ]
+    },
+    {
+      "id": "fixture_005",
+      "country": "DE",
+      "category": "data_science",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "SQL",
+        "PyTorch",
+        "R",
+        "Pandas"
+      ]
+    },
+    {
+      "id": "fixture_006",
+      "country": "DE",
+      "category": "data_science",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "SQL",
+        "PyTorch",
+        "R",
+        "Pandas"
+      ]
+    },
+    {
+      "id": "fixture_007",
+      "country": "DE",
+      "category": "data_science",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "SQL",
+        "PyTorch",
+        "R",
+        "Pandas"
+      ]
+    },
+    {
+      "id": "fixture_008",
+      "country": "DE",
+      "category": "data_science",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "SQL",
+        "PyTorch",
+        "R",
+        "Pandas"
+      ]
+    },
+    {
+      "id": "fixture_009",
+      "country": "DE",
+      "category": "data_science",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "SQL",
+        "PyTorch",
+        "R",
+        "Pandas"
+      ]
+    },
+    {
+      "id": "fixture_010",
+      "country": "DE",
+      "category": "data_science",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "SQL",
+        "PyTorch",
+        "R",
+        "Pandas"
+      ]
+    },
+    {
+      "id": "fixture_011",
+      "country": "FR",
+      "category": "data_science",
+      "seniority": "mid",
+      "skills": [
+        "Python",
+        "SQL",
+        "PyTorch",
+        "Docker"
+      ]
+    },
+    {
+      "id": "fixture_012",
+      "country": "FR",
+      "category": "data_science",
+      "seniority": "mid",
+      "skills": [
+        "Python",
+        "SQL",
+        "PyTorch",
+        "Docker"
+      ]
+    },
+    {
+      "id": "fixture_013",
+      "country": "FR",
+      "category": "data_science",
+      "seniority": "mid",
+      "skills": [
+        "Python",
+        "SQL",
+        "PyTorch",
+        "Docker"
+      ]
+    },
+    {
+      "id": "fixture_014",
+      "country": "FR",
+      "category": "data_science",
+      "seniority": "mid",
+      "skills": [
+        "Python",
+        "SQL",
+        "PyTorch",
+        "Docker"
+      ]
+    },
+    {
+      "id": "fixture_015",
+      "country": "FR",
+      "category": "data_science",
+      "seniority": "mid",
+      "skills": [
+        "Python",
+        "SQL",
+        "PyTorch",
+        "Docker"
+      ]
+    },
+    {
+      "id": "fixture_016",
+      "country": "FR",
+      "category": "data_science",
+      "seniority": "mid",
+      "skills": [
+        "Python",
+        "SQL",
+        "PyTorch",
+        "Docker"
+      ]
+    },
+    {
+      "id": "fixture_017",
+      "country": "FR",
+      "category": "data_science",
+      "seniority": "mid",
+      "skills": [
+        "Python",
+        "SQL",
+        "PyTorch",
+        "Docker"
+      ]
+    },
+    {
+      "id": "fixture_018",
+      "country": "FR",
+      "category": "data_science",
+      "seniority": "mid",
+      "skills": [
+        "Python",
+        "SQL",
+        "PyTorch",
+        "Docker"
+      ]
+    },
+    {
+      "id": "fixture_019",
+      "country": "HU",
+      "category": "data_science",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "SQL",
+        "PyTorch",
+        "R"
+      ]
+    },
+    {
+      "id": "fixture_020",
+      "country": "HU",
+      "category": "data_science",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "SQL",
+        "PyTorch",
+        "R"
+      ]
+    },
+    {
+      "id": "fixture_021",
+      "country": "HU",
+      "category": "data_science",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "SQL",
+        "PyTorch",
+        "R"
+      ]
+    },
+    {
+      "id": "fixture_022",
+      "country": "HU",
+      "category": "data_science",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "SQL",
+        "PyTorch",
+        "R"
+      ]
+    },
+    {
+      "id": "fixture_023",
+      "country": "ES",
+      "category": "data_science",
+      "seniority": "junior",
+      "skills": [
+        "Python",
+        "PyTorch",
+        "Scikit-learn",
+        "FastAPI"
+      ]
+    },
+    {
+      "id": "fixture_024",
+      "country": "ES",
+      "category": "data_science",
+      "seniority": "junior",
+      "skills": [
+        "Python",
+        "PyTorch",
+        "Scikit-learn",
+        "FastAPI"
+      ]
+    },
+    {
+      "id": "fixture_025",
+      "country": "ES",
+      "category": "data_science",
+      "seniority": "junior",
+      "skills": [
+        "Python",
+        "PyTorch",
+        "Scikit-learn",
+        "FastAPI"
+      ]
+    },
+    {
+      "id": "fixture_026",
+      "country": "ES",
+      "category": "data_science",
+      "seniority": "junior",
+      "skills": [
+        "Python",
+        "PyTorch",
+        "Scikit-learn",
+        "FastAPI"
+      ]
+    },
+    {
+      "id": "fixture_027",
+      "country": "AT",
+      "category": "data_science",
+      "seniority": null,
+      "skills": [
+        "Python",
+        "SQL",
+        "Tableau",
+        "AWS"
+      ]
+    },
+    {
+      "id": "fixture_028",
+      "country": "AT",
+      "category": "data_science",
+      "seniority": null,
+      "skills": [
+        "Python",
+        "SQL",
+        "Tableau",
+        "AWS"
+      ]
+    },
+    {
+      "id": "fixture_029",
+      "country": "AT",
+      "category": "data_science",
+      "seniority": null,
+      "skills": [
+        "Python",
+        "SQL",
+        "Tableau",
+        "AWS"
+      ]
+    },
+    {
+      "id": "fixture_030",
+      "country": "IT",
+      "category": "data_science",
+      "seniority": "senior",
+      "skills": [
+        "Git",
+        "Spark",
+        "Python",
+        "PyTorch"
+      ]
+    },
+    {
+      "id": "fixture_031",
+      "country": "IT",
+      "category": "data_science",
+      "seniority": "senior",
+      "skills": [
+        "Git",
+        "Spark",
+        "Python",
+        "PyTorch"
+      ]
+    },
+    {
+      "id": "fixture_032",
+      "country": "IT",
+      "category": "data_science",
+      "seniority": "senior",
+      "skills": [
+        "Git",
+        "Spark",
+        "Python",
+        "PyTorch"
+      ]
+    },
+    {
+      "id": "fixture_033",
+      "country": "DE",
+      "category": "data_engineering",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Python",
+        "Spark",
+        "Airflow",
+        "AWS"
+      ]
+    },
+    {
+      "id": "fixture_034",
+      "country": "DE",
+      "category": "data_engineering",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Python",
+        "Spark",
+        "Airflow",
+        "AWS"
+      ]
+    },
+    {
+      "id": "fixture_035",
+      "country": "DE",
+      "category": "data_engineering",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Python",
+        "Spark",
+        "Airflow",
+        "AWS"
+      ]
+    },
+    {
+      "id": "fixture_036",
+      "country": "DE",
+      "category": "data_engineering",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Python",
+        "Spark",
+        "Airflow",
+        "AWS"
+      ]
+    },
+    {
+      "id": "fixture_037",
+      "country": "DE",
+      "category": "data_engineering",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Python",
+        "Spark",
+        "Airflow",
+        "AWS"
+      ]
+    },
+    {
+      "id": "fixture_038",
+      "country": "DE",
+      "category": "data_engineering",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Python",
+        "Spark",
+        "Airflow",
+        "AWS"
+      ]
+    },
+    {
+      "id": "fixture_039",
+      "country": "DE",
+      "category": "data_engineering",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Python",
+        "Spark",
+        "Airflow",
+        "AWS"
+      ]
+    },
+    {
+      "id": "fixture_040",
+      "country": "DE",
+      "category": "data_engineering",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Python",
+        "Spark",
+        "Airflow",
+        "AWS"
+      ]
+    },
+    {
+      "id": "fixture_041",
+      "country": "DE",
+      "category": "data_engineering",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Python",
+        "Spark",
+        "Airflow",
+        "AWS"
+      ]
+    },
+    {
+      "id": "fixture_042",
+      "country": "DE",
+      "category": "data_engineering",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Python",
+        "Spark",
+        "Airflow",
+        "AWS"
+      ]
+    },
+    {
+      "id": "fixture_043",
+      "country": "DE",
+      "category": "data_engineering",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Python",
+        "Spark",
+        "Airflow",
+        "AWS"
+      ]
+    },
+    {
+      "id": "fixture_044",
+      "country": "DE",
+      "category": "data_engineering",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Python",
+        "Spark",
+        "Airflow",
+        "AWS"
+      ]
+    },
+    {
+      "id": "fixture_045",
+      "country": "FR",
+      "category": "data_engineering",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Python",
+        "Docker",
+        "Kubernetes",
+        "GCP"
+      ]
+    },
+    {
+      "id": "fixture_046",
+      "country": "FR",
+      "category": "data_engineering",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Python",
+        "Docker",
+        "Kubernetes",
+        "GCP"
+      ]
+    },
+    {
+      "id": "fixture_047",
+      "country": "FR",
+      "category": "data_engineering",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Python",
+        "Docker",
+        "Kubernetes",
+        "GCP"
+      ]
+    },
+    {
+      "id": "fixture_048",
+      "country": "FR",
+      "category": "data_engineering",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Python",
+        "Docker",
+        "Kubernetes",
+        "GCP"
+      ]
+    },
+    {
+      "id": "fixture_049",
+      "country": "FR",
+      "category": "data_engineering",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Python",
+        "Docker",
+        "Kubernetes",
+        "GCP"
+      ]
+    },
+    {
+      "id": "fixture_050",
+      "country": "FR",
+      "category": "data_engineering",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Python",
+        "Docker",
+        "Kubernetes",
+        "GCP"
+      ]
+    },
+    {
+      "id": "fixture_051",
+      "country": "FR",
+      "category": "data_engineering",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Python",
+        "Docker",
+        "Kubernetes",
+        "GCP"
+      ]
+    },
+    {
+      "id": "fixture_052",
+      "country": "FR",
+      "category": "data_engineering",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Python",
+        "Docker",
+        "Kubernetes",
+        "GCP"
+      ]
+    },
+    {
+      "id": "fixture_053",
+      "country": "FR",
+      "category": "data_engineering",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Python",
+        "Docker",
+        "Kubernetes",
+        "GCP"
+      ]
+    },
+    {
+      "id": "fixture_054",
+      "country": "FR",
+      "category": "data_engineering",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Python",
+        "Docker",
+        "Kubernetes",
+        "GCP"
+      ]
+    },
+    {
+      "id": "fixture_055",
+      "country": "NL",
+      "category": "data_engineering",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Python",
+        "Snowflake",
+        "Kafka"
+      ]
+    },
+    {
+      "id": "fixture_056",
+      "country": "NL",
+      "category": "data_engineering",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Python",
+        "Snowflake",
+        "Kafka"
+      ]
+    },
+    {
+      "id": "fixture_057",
+      "country": "NL",
+      "category": "data_engineering",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Python",
+        "Snowflake",
+        "Kafka"
+      ]
+    },
+    {
+      "id": "fixture_058",
+      "country": "NL",
+      "category": "data_engineering",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Python",
+        "Snowflake",
+        "Kafka"
+      ]
+    },
+    {
+      "id": "fixture_059",
+      "country": "NL",
+      "category": "data_engineering",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Python",
+        "Snowflake",
+        "Kafka"
+      ]
+    },
+    {
+      "id": "fixture_060",
+      "country": "NL",
+      "category": "data_engineering",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Python",
+        "Snowflake",
+        "Kafka"
+      ]
+    },
+    {
+      "id": "fixture_061",
+      "country": "NL",
+      "category": "data_engineering",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Python",
+        "Snowflake",
+        "Kafka"
+      ]
+    },
+    {
+      "id": "fixture_062",
+      "country": "NL",
+      "category": "data_engineering",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Python",
+        "Snowflake",
+        "Kafka"
+      ]
+    },
+    {
+      "id": "fixture_063",
+      "country": "PL",
+      "category": "data_engineering",
+      "seniority": "junior",
+      "skills": [
+        "SQL",
+        "Python",
+        "PostgreSQL",
+        "Airflow"
+      ]
+    },
+    {
+      "id": "fixture_064",
+      "country": "PL",
+      "category": "data_engineering",
+      "seniority": "junior",
+      "skills": [
+        "SQL",
+        "Python",
+        "PostgreSQL",
+        "Airflow"
+      ]
+    },
+    {
+      "id": "fixture_065",
+      "country": "PL",
+      "category": "data_engineering",
+      "seniority": "junior",
+      "skills": [
+        "SQL",
+        "Python",
+        "PostgreSQL",
+        "Airflow"
+      ]
+    },
+    {
+      "id": "fixture_066",
+      "country": "PL",
+      "category": "data_engineering",
+      "seniority": "junior",
+      "skills": [
+        "SQL",
+        "Python",
+        "PostgreSQL",
+        "Airflow"
+      ]
+    },
+    {
+      "id": "fixture_067",
+      "country": "PL",
+      "category": "data_engineering",
+      "seniority": "junior",
+      "skills": [
+        "SQL",
+        "Python",
+        "PostgreSQL",
+        "Airflow"
+      ]
+    },
+    {
+      "id": "fixture_068",
+      "country": "PL",
+      "category": "data_engineering",
+      "seniority": "junior",
+      "skills": [
+        "SQL",
+        "Python",
+        "PostgreSQL",
+        "Airflow"
+      ]
+    },
+    {
+      "id": "fixture_069",
+      "country": "DK",
+      "category": "data_engineering",
+      "seniority": null,
+      "skills": [
+        "SQL",
+        "Python",
+        "Spark",
+        "Azure"
+      ]
+    },
+    {
+      "id": "fixture_070",
+      "country": "DK",
+      "category": "data_engineering",
+      "seniority": null,
+      "skills": [
+        "SQL",
+        "Python",
+        "Spark",
+        "Azure"
+      ]
+    },
+    {
+      "id": "fixture_071",
+      "country": "DK",
+      "category": "data_engineering",
+      "seniority": null,
+      "skills": [
+        "SQL",
+        "Python",
+        "Spark",
+        "Azure"
+      ]
+    },
+    {
+      "id": "fixture_072",
+      "country": "DK",
+      "category": "data_engineering",
+      "seniority": null,
+      "skills": [
+        "SQL",
+        "Python",
+        "Spark",
+        "Azure"
+      ]
+    },
+    {
+      "id": "fixture_073",
+      "country": "DK",
+      "category": "data_engineering",
+      "seniority": null,
+      "skills": [
+        "SQL",
+        "Python",
+        "Spark",
+        "Azure"
+      ]
+    },
+    {
+      "id": "fixture_074",
+      "country": "DK",
+      "category": "data_engineering",
+      "seniority": null,
+      "skills": [
+        "SQL",
+        "Python",
+        "Spark",
+        "Azure"
+      ]
+    },
+    {
+      "id": "fixture_075",
+      "country": "DE",
+      "category": "data_analytics",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Tableau"
+      ]
+    },
+    {
+      "id": "fixture_076",
+      "country": "DE",
+      "category": "data_analytics",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Tableau"
+      ]
+    },
+    {
+      "id": "fixture_077",
+      "country": "DE",
+      "category": "data_analytics",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Tableau"
+      ]
+    },
+    {
+      "id": "fixture_078",
+      "country": "DE",
+      "category": "data_analytics",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Tableau"
+      ]
+    },
+    {
+      "id": "fixture_079",
+      "country": "DE",
+      "category": "data_analytics",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Tableau"
+      ]
+    },
+    {
+      "id": "fixture_080",
+      "country": "DE",
+      "category": "data_analytics",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Tableau"
+      ]
+    },
+    {
+      "id": "fixture_081",
+      "country": "DE",
+      "category": "data_analytics",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Tableau"
+      ]
+    },
+    {
+      "id": "fixture_082",
+      "country": "DE",
+      "category": "data_analytics",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Tableau"
+      ]
+    },
+    {
+      "id": "fixture_083",
+      "country": "DE",
+      "category": "data_analytics",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Tableau"
+      ]
+    },
+    {
+      "id": "fixture_084",
+      "country": "DE",
+      "category": "data_analytics",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Tableau"
+      ]
+    },
+    {
+      "id": "fixture_085",
+      "country": "DE",
+      "category": "data_analytics",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Tableau"
+      ]
+    },
+    {
+      "id": "fixture_086",
+      "country": "DE",
+      "category": "data_analytics",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Tableau"
+      ]
+    },
+    {
+      "id": "fixture_087",
+      "country": "FR",
+      "category": "data_analytics",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_088",
+      "country": "FR",
+      "category": "data_analytics",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_089",
+      "country": "FR",
+      "category": "data_analytics",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_090",
+      "country": "FR",
+      "category": "data_analytics",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_091",
+      "country": "FR",
+      "category": "data_analytics",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_092",
+      "country": "FR",
+      "category": "data_analytics",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_093",
+      "country": "FR",
+      "category": "data_analytics",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_094",
+      "country": "FR",
+      "category": "data_analytics",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_095",
+      "country": "FR",
+      "category": "data_analytics",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_096",
+      "country": "FR",
+      "category": "data_analytics",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_097",
+      "country": "ES",
+      "category": "data_analytics",
+      "seniority": "junior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Tableau",
+        "R"
+      ]
+    },
+    {
+      "id": "fixture_098",
+      "country": "ES",
+      "category": "data_analytics",
+      "seniority": "junior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Tableau",
+        "R"
+      ]
+    },
+    {
+      "id": "fixture_099",
+      "country": "ES",
+      "category": "data_analytics",
+      "seniority": "junior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Tableau",
+        "R"
+      ]
+    },
+    {
+      "id": "fixture_100",
+      "country": "ES",
+      "category": "data_analytics",
+      "seniority": "junior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Tableau",
+        "R"
+      ]
+    },
+    {
+      "id": "fixture_101",
+      "country": "ES",
+      "category": "data_analytics",
+      "seniority": "junior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Tableau",
+        "R"
+      ]
+    },
+    {
+      "id": "fixture_102",
+      "country": "ES",
+      "category": "data_analytics",
+      "seniority": "junior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Tableau",
+        "R"
+      ]
+    },
+    {
+      "id": "fixture_103",
+      "country": "CZ",
+      "category": "data_analytics",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI"
+      ]
+    },
+    {
+      "id": "fixture_104",
+      "country": "CZ",
+      "category": "data_analytics",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI"
+      ]
+    },
+    {
+      "id": "fixture_105",
+      "country": "CZ",
+      "category": "data_analytics",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI"
+      ]
+    },
+    {
+      "id": "fixture_106",
+      "country": "CZ",
+      "category": "data_analytics",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI"
+      ]
+    },
+    {
+      "id": "fixture_107",
+      "country": "CZ",
+      "category": "data_analytics",
+      "seniority": "senior",
+      "skills": [
+        "SQL",
+        "Excel",
+        "Power BI"
+      ]
+    },
+    {
+      "id": "fixture_108",
+      "country": "DK",
+      "category": "data_analytics",
+      "seniority": null,
+      "skills": [
+        "SQL",
+        "Excel",
+        "Tableau",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_109",
+      "country": "DK",
+      "category": "data_analytics",
+      "seniority": null,
+      "skills": [
+        "SQL",
+        "Excel",
+        "Tableau",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_110",
+      "country": "DK",
+      "category": "data_analytics",
+      "seniority": null,
+      "skills": [
+        "SQL",
+        "Excel",
+        "Tableau",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_111",
+      "country": "DK",
+      "category": "data_analytics",
+      "seniority": null,
+      "skills": [
+        "SQL",
+        "Excel",
+        "Tableau",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_112",
+      "country": "DK",
+      "category": "data_analytics",
+      "seniority": null,
+      "skills": [
+        "SQL",
+        "Excel",
+        "Tableau",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_113",
+      "country": "DE",
+      "category": "ml_ai",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "Scikit-learn"
+      ]
+    },
+    {
+      "id": "fixture_114",
+      "country": "DE",
+      "category": "ml_ai",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "Scikit-learn"
+      ]
+    },
+    {
+      "id": "fixture_115",
+      "country": "DE",
+      "category": "ml_ai",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "Scikit-learn"
+      ]
+    },
+    {
+      "id": "fixture_116",
+      "country": "DE",
+      "category": "ml_ai",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "Scikit-learn"
+      ]
+    },
+    {
+      "id": "fixture_117",
+      "country": "DE",
+      "category": "ml_ai",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "Scikit-learn"
+      ]
+    },
+    {
+      "id": "fixture_118",
+      "country": "DE",
+      "category": "ml_ai",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "Scikit-learn"
+      ]
+    },
+    {
+      "id": "fixture_119",
+      "country": "DE",
+      "category": "ml_ai",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "Scikit-learn"
+      ]
+    },
+    {
+      "id": "fixture_120",
+      "country": "DE",
+      "category": "ml_ai",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "PyTorch",
+        "TensorFlow",
+        "Scikit-learn"
+      ]
+    },
+    {
+      "id": "fixture_121",
+      "country": "FR",
+      "category": "ml_ai",
+      "seniority": "mid",
+      "skills": [
+        "Python",
+        "PyTorch",
+        "Hugging Face",
+        "LLMs / Generative AI"
+      ]
+    },
+    {
+      "id": "fixture_122",
+      "country": "FR",
+      "category": "ml_ai",
+      "seniority": "mid",
+      "skills": [
+        "Python",
+        "PyTorch",
+        "Hugging Face",
+        "LLMs / Generative AI"
+      ]
+    },
+    {
+      "id": "fixture_123",
+      "country": "FR",
+      "category": "ml_ai",
+      "seniority": "mid",
+      "skills": [
+        "Python",
+        "PyTorch",
+        "Hugging Face",
+        "LLMs / Generative AI"
+      ]
+    },
+    {
+      "id": "fixture_124",
+      "country": "FR",
+      "category": "ml_ai",
+      "seniority": "mid",
+      "skills": [
+        "Python",
+        "PyTorch",
+        "Hugging Face",
+        "LLMs / Generative AI"
+      ]
+    },
+    {
+      "id": "fixture_125",
+      "country": "FR",
+      "category": "ml_ai",
+      "seniority": "mid",
+      "skills": [
+        "Python",
+        "PyTorch",
+        "Hugging Face",
+        "LLMs / Generative AI"
+      ]
+    },
+    {
+      "id": "fixture_126",
+      "country": "FR",
+      "category": "ml_ai",
+      "seniority": "mid",
+      "skills": [
+        "Python",
+        "PyTorch",
+        "Hugging Face",
+        "LLMs / Generative AI"
+      ]
+    },
+    {
+      "id": "fixture_127",
+      "country": "FR",
+      "category": "ml_ai",
+      "seniority": "mid",
+      "skills": [
+        "Python",
+        "PyTorch",
+        "Hugging Face",
+        "LLMs / Generative AI"
+      ]
+    },
+    {
+      "id": "fixture_128",
+      "country": "FR",
+      "category": "ml_ai",
+      "seniority": "mid",
+      "skills": [
+        "Python",
+        "PyTorch",
+        "Hugging Face",
+        "LLMs / Generative AI"
+      ]
+    },
+    {
+      "id": "fixture_129",
+      "country": "ES",
+      "category": "ml_ai",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "TensorFlow",
+        "MLflow",
+        "Docker"
+      ]
+    },
+    {
+      "id": "fixture_130",
+      "country": "ES",
+      "category": "ml_ai",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "TensorFlow",
+        "MLflow",
+        "Docker"
+      ]
+    },
+    {
+      "id": "fixture_131",
+      "country": "ES",
+      "category": "ml_ai",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "TensorFlow",
+        "MLflow",
+        "Docker"
+      ]
+    },
+    {
+      "id": "fixture_132",
+      "country": "ES",
+      "category": "ml_ai",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "TensorFlow",
+        "MLflow",
+        "Docker"
+      ]
+    },
+    {
+      "id": "fixture_133",
+      "country": "ES",
+      "category": "ml_ai",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "TensorFlow",
+        "MLflow",
+        "Docker"
+      ]
+    },
+    {
+      "id": "fixture_134",
+      "country": "IT",
+      "category": "ml_ai",
+      "seniority": null,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "LangChain"
+      ]
+    },
+    {
+      "id": "fixture_135",
+      "country": "IT",
+      "category": "ml_ai",
+      "seniority": null,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "LangChain"
+      ]
+    },
+    {
+      "id": "fixture_136",
+      "country": "IT",
+      "category": "ml_ai",
+      "seniority": null,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "LangChain"
+      ]
+    },
+    {
+      "id": "fixture_137",
+      "country": "IT",
+      "category": "ml_ai",
+      "seniority": null,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "LangChain"
+      ]
+    },
+    {
+      "id": "fixture_138",
+      "country": "IT",
+      "category": "ml_ai",
+      "seniority": null,
+      "skills": [
+        "Python",
+        "PyTorch",
+        "LangChain"
+      ]
+    },
+    {
+      "id": "fixture_139",
+      "country": "DE",
+      "category": "ai_engineering",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "Docker",
+        "LLMs / Generative AI",
+        "FastAPI"
+      ]
+    },
+    {
+      "id": "fixture_140",
+      "country": "DE",
+      "category": "ai_engineering",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "Docker",
+        "LLMs / Generative AI",
+        "FastAPI"
+      ]
+    },
+    {
+      "id": "fixture_141",
+      "country": "DE",
+      "category": "ai_engineering",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "Docker",
+        "LLMs / Generative AI",
+        "FastAPI"
+      ]
+    },
+    {
+      "id": "fixture_142",
+      "country": "DE",
+      "category": "ai_engineering",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "Docker",
+        "LLMs / Generative AI",
+        "FastAPI"
+      ]
+    },
+    {
+      "id": "fixture_143",
+      "country": "DE",
+      "category": "ai_engineering",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "Docker",
+        "LLMs / Generative AI",
+        "FastAPI"
+      ]
+    },
+    {
+      "id": "fixture_144",
+      "country": "DE",
+      "category": "ai_engineering",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "Docker",
+        "LLMs / Generative AI",
+        "FastAPI"
+      ]
+    },
+    {
+      "id": "fixture_145",
+      "country": "DE",
+      "category": "ai_engineering",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "Docker",
+        "LLMs / Generative AI",
+        "FastAPI"
+      ]
+    },
+    {
+      "id": "fixture_146",
+      "country": "FR",
+      "category": "ai_engineering",
+      "seniority": "mid",
+      "skills": [
+        "Python",
+        "Kubernetes",
+        "LangChain",
+        "PyTorch"
+      ]
+    },
+    {
+      "id": "fixture_147",
+      "country": "FR",
+      "category": "ai_engineering",
+      "seniority": "mid",
+      "skills": [
+        "Python",
+        "Kubernetes",
+        "LangChain",
+        "PyTorch"
+      ]
+    },
+    {
+      "id": "fixture_148",
+      "country": "FR",
+      "category": "ai_engineering",
+      "seniority": "mid",
+      "skills": [
+        "Python",
+        "Kubernetes",
+        "LangChain",
+        "PyTorch"
+      ]
+    },
+    {
+      "id": "fixture_149",
+      "country": "FR",
+      "category": "ai_engineering",
+      "seniority": "mid",
+      "skills": [
+        "Python",
+        "Kubernetes",
+        "LangChain",
+        "PyTorch"
+      ]
+    },
+    {
+      "id": "fixture_150",
+      "country": "FR",
+      "category": "ai_engineering",
+      "seniority": "mid",
+      "skills": [
+        "Python",
+        "Kubernetes",
+        "LangChain",
+        "PyTorch"
+      ]
+    },
+    {
+      "id": "fixture_151",
+      "country": "FR",
+      "category": "ai_engineering",
+      "seniority": "mid",
+      "skills": [
+        "Python",
+        "Kubernetes",
+        "LangChain",
+        "PyTorch"
+      ]
+    },
+    {
+      "id": "fixture_152",
+      "country": "NL",
+      "category": "ai_engineering",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "Docker",
+        "AWS",
+        "LLMs / Generative AI"
+      ]
+    },
+    {
+      "id": "fixture_153",
+      "country": "NL",
+      "category": "ai_engineering",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "Docker",
+        "AWS",
+        "LLMs / Generative AI"
+      ]
+    },
+    {
+      "id": "fixture_154",
+      "country": "NL",
+      "category": "ai_engineering",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "Docker",
+        "AWS",
+        "LLMs / Generative AI"
+      ]
+    },
+    {
+      "id": "fixture_155",
+      "country": "NL",
+      "category": "ai_engineering",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "Docker",
+        "AWS",
+        "LLMs / Generative AI"
+      ]
+    },
+    {
+      "id": "fixture_156",
+      "country": "NL",
+      "category": "ai_engineering",
+      "seniority": "senior",
+      "skills": [
+        "Python",
+        "Docker",
+        "AWS",
+        "LLMs / Generative AI"
+      ]
+    },
+    {
+      "id": "fixture_157",
+      "country": "SE",
+      "category": "ai_engineering",
+      "seniority": null,
+      "skills": [
+        "Python",
+        "FastAPI",
+        "Git"
+      ]
+    },
+    {
+      "id": "fixture_158",
+      "country": "SE",
+      "category": "ai_engineering",
+      "seniority": null,
+      "skills": [
+        "Python",
+        "FastAPI",
+        "Git"
+      ]
+    },
+    {
+      "id": "fixture_159",
+      "country": "SE",
+      "category": "ai_engineering",
+      "seniority": null,
+      "skills": [
+        "Python",
+        "FastAPI",
+        "Git"
+      ]
+    },
+    {
+      "id": "fixture_160",
+      "country": "SE",
+      "category": "ai_engineering",
+      "seniority": null,
+      "skills": [
+        "Python",
+        "FastAPI",
+        "Git"
+      ]
+    },
+    {
+      "id": "fixture_161",
+      "country": "BE",
+      "category": "data_analytics",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_162",
+      "country": "BG",
+      "category": "data_engineering",
+      "seniority": null,
+      "skills": [
+        "SQL",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_163",
+      "country": "CY",
+      "category": "data_science",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_164",
+      "country": "EE",
+      "category": "ml_ai",
+      "seniority": null,
+      "skills": [
+        "SQL",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_165",
+      "country": "FI",
+      "category": "ai_engineering",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_166",
+      "country": "GR",
+      "category": "data_analytics",
+      "seniority": null,
+      "skills": [
+        "SQL",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_167",
+      "country": "HR",
+      "category": "data_engineering",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_168",
+      "country": "IE",
+      "category": "data_science",
+      "seniority": null,
+      "skills": [
+        "SQL",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_169",
+      "country": "LT",
+      "category": "ml_ai",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_170",
+      "country": "LU",
+      "category": "ai_engineering",
+      "seniority": null,
+      "skills": [
+        "SQL",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_171",
+      "country": "LV",
+      "category": "data_analytics",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_172",
+      "country": "MT",
+      "category": "data_engineering",
+      "seniority": null,
+      "skills": [
+        "SQL",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_173",
+      "country": "PT",
+      "category": "data_science",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_174",
+      "country": "RO",
+      "category": "ml_ai",
+      "seniority": null,
+      "skills": [
+        "SQL",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_175",
+      "country": "SI",
+      "category": "ai_engineering",
+      "seniority": "mid",
+      "skills": [
+        "SQL",
+        "Python"
+      ]
+    },
+    {
+      "id": "fixture_176",
+      "country": "SK",
+      "category": "data_analytics",
+      "seniority": null,
+      "skills": [
+        "SQL",
+        "Python"
+      ]
+    }
+  ]
+}

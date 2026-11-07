@@ -14,6 +14,7 @@ from collections import Counter
 from datetime import datetime, timezone
 import json
 import math
+import os
 from pathlib import Path
 from typing import Any, Dict, List, Sequence, Set
 
@@ -51,6 +52,19 @@ DATA_PATH = SUMMARY_PATH
 RAW_POSTINGS_PATH = Path(__file__).resolve().parent / "data" / "raw" / "freehire_eu_raw.json"
 VOCAB_PATH = Path(__file__).resolve().parent / "data" / "fixtures" / "skills_vocabulary.json"
 POSTINGS_CACHE_PATH = Path(__file__).resolve().parent / "data" / "processed" / ".postings_cache.json"
+FIXTURE_POSTINGS_PATH = Path(__file__).resolve().parent / "data" / "fixtures" / "test_postings_fixture.json"
+
+# Data Source Identifiers
+DATA_SOURCE_PRODUCTION = "production"
+DATA_SOURCE_TEST_FIXTURE = "test_fixture"
+DATA_SOURCE_SYNTHETIC = "synthetic"
+
+_ACTIVE_DATA_SOURCE: str = DATA_SOURCE_PRODUCTION
+
+
+def get_active_data_source() -> str:
+    """Returns the identifier of the active postings data source ('production', 'test_fixture', or 'synthetic')."""
+    return _ACTIVE_DATA_SOURCE
 
 st.set_page_config(
     page_title="EU Data Jobs & Skill Demand",
@@ -255,51 +269,109 @@ def load_analytics_summary() -> Dict[str, Any]:
     return data
 
 
+def load_fixture_postings(path: Path) -> list[Dict[str, Any]]:
+    """Loads and normalizes postings from a deterministic test fixture JSON file."""
+    if not path.exists():
+        raise FileNotFoundError(f"Fixture postings file not found: {path}")
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    raw_list = data.get("postings", data) if isinstance(data, dict) else data
+    if not isinstance(raw_list, list):
+        raise ValueError(f"Invalid fixture format in {path}: expected list or dict with 'postings' key")
+
+    postings: list[Dict[str, Any]] = []
+    for p in raw_list:
+        postings.append({
+            "id": str(p.get("id", "")),
+            "country": p.get("country"),
+            "category": p.get("category"),
+            "seniority": p.get("seniority"),
+            "skills": set(p.get("skills", [])),
+        })
+    return postings
+
+
 @st.cache_data
-def load_postings_dataset() -> list[Dict[str, Any]]:
-    """Loads postings from fingerprint-verified processed cache, raw json, or synthesizes from summary."""
-    if RAW_POSTINGS_PATH.exists() and VOCAB_PATH.exists():
-        try:
+def load_postings_dataset(data_mode: str | None = None, source: str | None = None) -> list[Dict[str, Any]]:
+    """
+    Loads the postings dataset distinguishing between:
+    1. Explicit file path / override via source argument or POSTINGS_DATA_PATH env var.
+    2. Explicit mode via data_mode argument or EU_DATA_MODE env var ('production' or 'test_fixture').
+    3. Production dataset from .postings_cache.json or freehire_eu_raw.json.
+    4. Deterministic test fixture fallback (data/fixtures/test_postings_fixture.json).
+    """
+    global _ACTIVE_DATA_SOURCE
+
+    # 1. Explicit override via argument or env var
+    env_path = os.environ.get("POSTINGS_DATA_PATH")
+    target_path = Path(source) if source else (Path(env_path) if env_path else None)
+
+    if target_path and target_path.exists():
+        if "fixture" in target_path.name.lower():
+            _ACTIVE_DATA_SOURCE = DATA_SOURCE_TEST_FIXTURE
+            return load_fixture_postings(target_path)
+        else:
+            _ACTIVE_DATA_SOURCE = DATA_SOURCE_PRODUCTION
+            cached = validate_postings_cache(target_path, expected_fingerprint={})
+            if cached:
+                return cached
+            return load_fixture_postings(target_path)
+
+    # 2. Explicit mode via argument or env var
+    effective_mode = (data_mode or os.environ.get("EU_DATA_MODE", "")).lower().strip()
+    if effective_mode == "test_fixture":
+        if FIXTURE_POSTINGS_PATH.exists():
+            _ACTIVE_DATA_SOURCE = DATA_SOURCE_TEST_FIXTURE
+            return load_fixture_postings(FIXTURE_POSTINGS_PATH)
+        raise FileNotFoundError(f"Requested test_fixture mode but fixture not found: {FIXTURE_POSTINGS_PATH}")
+
+    if effective_mode == "production":
+        # Strictly require production data; DO NOT silently fall back!
+        if POSTINGS_CACHE_PATH.exists():
+            cached = validate_postings_cache(POSTINGS_CACHE_PATH, expected_fingerprint={})
+            if cached:
+                _ACTIVE_DATA_SOURCE = DATA_SOURCE_PRODUCTION
+                return cached
+        if RAW_POSTINGS_PATH.exists() and VOCAB_PATH.exists():
+            _ACTIVE_DATA_SOURCE = DATA_SOURCE_PRODUCTION
             return load_or_create_postings_cache(
                 cache_path=POSTINGS_CACHE_PATH,
                 raw_path=RAW_POSTINGS_PATH,
                 vocab_path=VOCAB_PATH,
             )
+        raise FileNotFoundError(
+            f"Requested production data mode but production dataset is missing. "
+            f"Expected {POSTINGS_CACHE_PATH} or {RAW_POSTINGS_PATH}."
+        )
+
+    # 3. Default auto-discovery: Prefer production data if available locally
+    if RAW_POSTINGS_PATH.exists() and VOCAB_PATH.exists():
+        try:
+            records = load_or_create_postings_cache(
+                cache_path=POSTINGS_CACHE_PATH,
+                raw_path=RAW_POSTINGS_PATH,
+                vocab_path=VOCAB_PATH,
+            )
+            _ACTIVE_DATA_SOURCE = DATA_SOURCE_PRODUCTION
+            return records
         except Exception:
             pass
 
-    # Fallback if raw dataset is omitted (e.g. CI / isolated testing without raw data)
     if POSTINGS_CACHE_PATH.exists():
         cached_records = validate_postings_cache(POSTINGS_CACHE_PATH, expected_fingerprint={})
         if cached_records:
+            _ACTIVE_DATA_SOURCE = DATA_SOURCE_PRODUCTION
             return cached_records
 
-    # Synthetic fallback for isolated test environments
-    summary = load_analytics_summary()
-    kpis = summary.get("kpis", {})
-    categories = summary.get("category_profiles", {})
-    geo = summary.get("geographic", {})
-    country_map = geo.get("country_map", [])
+    # 4. Deterministic test fixture fallback when production files are absent (e.g. CI / clean checkout)
+    if FIXTURE_POSTINGS_PATH.exists():
+        _ACTIVE_DATA_SOURCE = DATA_SOURCE_TEST_FIXTURE
+        return load_fixture_postings(FIXTURE_POSTINGS_PATH)
 
-    synthetic_postings: list[Dict[str, Any]] = []
-    pid = 0
-    c_codes = [r["iso_code"] for r in country_map if "iso_code" in r] or ["DE", "FR", "HU", "CZ"]
-
-    for cat_id, profile in categories.items():
-        n_cat = profile.get("total_postings", 0)
-        skills_in_cat = [s["canonical"] for s in profile.get("top_in_demand", [])[:10]]
-        for i in range(n_cat):
-            pid += 1
-            country = c_codes[i % len(c_codes)]
-            sen = "senior" if (i % 3 == 0) else ("mid" if (i % 3 == 1) else None)
-            assigned_skills = set(skills_in_cat[: (i % len(skills_in_cat) + 1)]) if skills_in_cat else set()
-            synthetic_postings.append({
-                "country": country,
-                "category": cat_id,
-                "seniority": sen,
-                "skills": assigned_skills,
-            })
-    return synthetic_postings
+    raise FileNotFoundError(
+        "No postings data available: neither production dataset nor test fixture "
+        f"({FIXTURE_POSTINGS_PATH}) was found."
+    )
 
 
 # =============================================================================
@@ -949,7 +1021,7 @@ def build_scatter_figure(
 def main() -> None:
     # 1. Load Data
     summary = load_analytics_summary()
-    postings = load_postings_dataset()
+    postings = load_postings_dataset(data_mode=os.environ.get("EU_DATA_MODE", "").lower().strip())
     kpis_summary = summary.get("kpis", {})
     corpus_total = kpis_summary.get("total_postings", len(postings) or 24488)
     snapshot_date = format_snapshot_date(summary.get("snapshot_collected_at"))
@@ -967,6 +1039,13 @@ def main() -> None:
         f"Empirical European technical skill intelligence across 27 EU member states and 5 target data occupations. "
         f"Audited snapshot of {corpus_total:,} job postings • Snapshot date: {snapshot_date or 'Recent'}"
     )
+
+    if get_active_data_source() == DATA_SOURCE_TEST_FIXTURE:
+        st.info(
+            f"🧪 **Test Fixture Mode Active:** The dashboard is running with a deterministic test fixture "
+            f"(`data/fixtures/test_postings_fixture.json`, {len(postings)} postings). "
+            "To view the full 24,488-posting production analysis, provide the audited production dataset."
+        )
 
     # 3. Session State Initialization
     if "filter_version" not in st.session_state:
