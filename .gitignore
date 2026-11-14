@@ -13,3 +13,6 @@ venv/
 data/raw/freehire_eu_raw.json
 data/raw/freehire_eu_raw.xlsx
 data/processed/.postings_cache.json
+
+# Tooling executables
+*.exe
