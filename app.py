@@ -1132,6 +1132,8 @@ def main() -> None:
     # 3. Session State Initialization
     if "filter_version" not in st.session_state:
         st.session_state["filter_version"] = 0
+    if "r2_filter_version" not in st.session_state:
+        st.session_state["r2_filter_version"] = 0
     if "filter_countries" not in st.session_state:
         st.session_state["filter_countries"] = []
     if "filter_category" not in st.session_state:
@@ -1286,11 +1288,12 @@ def main() -> None:
             if st.session_state.get("_last_global_category") != sel_category:
                 st.session_state["_last_global_category"] = sel_category
                 if sel_category != "All Categories":
-                    st.session_state[f"local_dist_cat_{ver}"] = sel_category
-                    st.session_state[f"local_scatter_cat_{ver}"] = sel_category
+                    st.session_state["local_dist_cat"] = sel_category
+                    st.session_state["local_scatter_cat"] = sel_category
                 else:
-                    st.session_state[f"local_dist_cat_{ver}"] = "-- Select a Job Family for Distinctiveness --"
-                    st.session_state[f"local_scatter_cat_{ver}"] = "-- Select a Job Family for Distinctiveness --"
+                    st.session_state["local_dist_cat"] = "-- Select a Job Family for Distinctiveness --"
+                    st.session_state["local_scatter_cat"] = "-- Select a Job Family for Distinctiveness --"
+                st.session_state["r2_filter_version"] = st.session_state.get("r2_filter_version", 0) + 1
             st.session_state["filter_category"] = sel_category
 
         with f_col3:
@@ -1313,10 +1316,9 @@ def main() -> None:
             )
             if sel_family != st.session_state.get("_last_global_family"):
                 st.session_state["_last_global_family"] = sel_family
-                st.session_state[f"local_dist_family_{ver}"] = sel_family
-                st.session_state[f"local_scatter_family_{ver}"] = sel_family
                 st.session_state["local_dist_family"] = sel_family
                 st.session_state["local_scatter_family"] = sel_family
+                st.session_state["r2_filter_version"] = st.session_state.get("r2_filter_version", 0) + 1
             st.session_state["filter_family"] = sel_family
 
         with f_col_btn:
@@ -1575,81 +1577,53 @@ def main() -> None:
     cat_choice_display = {"-- Select a Job Family for Distinctiveness --": "🔍 Select a Job Family for Distinctiveness..."}
     cat_choice_display.update(OCCUPATIONAL_CATEGORIES)
 
-    # Resolve defaults based on global filter
+    # Resolve Section 2 shared filter defaults based on global filter or local state
     if st.session_state["filter_category"] != "All Categories":
-        default_dist_cat = st.session_state["filter_category"]
-        default_scatter_cat = st.session_state["filter_category"]
+        default_shared_role = st.session_state["filter_category"]
     else:
-        default_dist_cat = st.session_state.get("local_dist_cat", "-- Select a Job Family for Distinctiveness --")
-        default_scatter_cat = st.session_state.get("local_scatter_cat", "-- Select a Job Family for Distinctiveness --")
+        default_shared_role = st.session_state.get("local_dist_cat", "-- Select a Job Family for Distinctiveness --")
 
-    default_dist_family = st.session_state.get("local_dist_family", "All Families")
-    default_scatter_family = st.session_state.get("local_scatter_family", "All Families")
+    if st.session_state["filter_family"] != "All Families":
+        default_shared_family = st.session_state.get("local_dist_family", st.session_state["filter_family"])
+    else:
+        default_shared_family = st.session_state.get("local_dist_family", "All Families")
 
-    # Unified Row 2 Control Deck Container with Decoupled Family Filters
+    r2_ver = f"{ver}_{st.session_state.get('r2_filter_version', 0)}"
+
+    # Shared Section 2 Control Area (One unified filter deck above both visualizations)
     with st.container(border=True):
-        r2_deck_left, r2_deck_right = st.columns(2)
-        with r2_deck_left:
-            st.markdown("<div style='font-size: 13px; font-weight: 600; color: #1e293b; margin-bottom: 4px;'>Distinctive Skills Filters</div>", unsafe_allow_html=True)
-            dl_c1, dl_c2 = st.columns(2)
-            with dl_c1:
-                sel_dist_cat = st.selectbox(
-                    "Occupational Role (for Distinctive Ranking):",
-                    options=cat_choice_keys,
-                    format_func=lambda k: cat_choice_display.get(k, k),
-                    index=cat_choice_keys.index(default_dist_cat) if default_dist_cat in cat_choice_keys else 0,
-                    key=f"local_dist_cat_{ver}",
-                    help="Select an occupational role to benchmark distinctive skills against the full corpus baseline.",
-                )
-                st.session_state["local_dist_cat"] = sel_dist_cat
-            with dl_c2:
-                sel_dist_family = st.selectbox(
-                    "Skill Family (Distinctive Skills):",
-                    options=family_options,
-                    index=family_options.index(default_dist_family) if default_dist_family in family_options else 0,
-                    key=f"local_dist_family_{ver}",
-                    help="Filter distinctive skills by technical domain independently of the scatter plot.",
-                )
-                st.session_state["local_dist_family"] = sel_dist_family
-
-        with r2_deck_right:
-            st.markdown("<div style='font-size: 13px; font-weight: 600; color: #1e293b; margin-bottom: 4px;'>Scatter Plot Filters</div>", unsafe_allow_html=True)
-            dr_c1, dr_c2 = st.columns(2)
-            with dr_c1:
-                sel_scatter_cat = st.selectbox(
-                    "Occupational Role (for Scatter Plot):",
-                    options=cat_choice_keys,
-                    format_func=lambda k: cat_choice_display.get(k, k),
-                    index=cat_choice_keys.index(default_scatter_cat) if default_scatter_cat in cat_choice_keys else 0,
-                    key=f"local_scatter_cat_{ver}",
-                    help="Select an occupational role to visualize prevalence vs. distinctiveness lift in the quadrant scatter plot.",
-                )
-                st.session_state["local_scatter_cat"] = sel_scatter_cat
-            with dr_c2:
-                sel_scatter_family = st.selectbox(
-                    "Skill Family (Scatter Plot):",
-                    options=family_options,
-                    index=family_options.index(default_scatter_family) if default_scatter_family in family_options else 0,
-                    key=f"local_scatter_family_{ver}",
-                    help="Filter quadrant scatter skills by technical domain independently of the distinctive skills chart.",
-                )
-                st.session_state["local_scatter_family"] = sel_scatter_family
-            show_dense = st.checkbox(
-                "Include all detected skills (including unqualified skills)",
-                value=False,
-                key=f"scatter_dense_{ver}",
-                help="Unchecked: Top 10 qualified distinctive skills. Checked: All detected skills in this population.",
+        r2_c1, r2_c2, r2_c_btn = st.columns([3.5, 3.5, 1.2])
+        with r2_c1:
+            sel_shared_role = st.selectbox(
+                "Occupational Role (for Distinctive Ranking):",
+                options=cat_choice_keys,
+                format_func=lambda k: cat_choice_display.get(k, k),
+                index=cat_choice_keys.index(default_shared_role) if default_shared_role in cat_choice_keys else 0,
+                key=f"shared_role_{r2_ver}",
+                help="Select an occupational role to benchmark distinctive skills and quadrant positioning against the full corpus baseline.",
             )
-
-    # Determine effective roles for tandem synchronization:
-    # If a role is selected in either selector while the other remains at the default prompt,
-    # both Row 2 visualizations synchronize to that role.
-    effective_dist_cat = sel_dist_cat
-    effective_scatter_cat = sel_scatter_cat
-    if effective_dist_cat == "-- Select a Job Family for Distinctiveness --" and effective_scatter_cat != "-- Select a Job Family for Distinctiveness --":
-        effective_dist_cat = effective_scatter_cat
-    elif effective_scatter_cat == "-- Select a Job Family for Distinctiveness --" and effective_dist_cat != "-- Select a Job Family for Distinctiveness --":
-        effective_scatter_cat = effective_dist_cat
+            st.session_state["local_dist_cat"] = sel_shared_role
+            st.session_state["local_scatter_cat"] = sel_shared_role
+        with r2_c2:
+            sel_shared_family = st.selectbox(
+                "Skill Family (Distinctive Skills):",
+                options=family_options,
+                index=family_options.index(default_shared_family) if default_shared_family in family_options else 0,
+                key=f"shared_family_{r2_ver}",
+                help="Filter both Section 2 visualizations by technical domain.",
+            )
+            st.session_state["local_dist_family"] = sel_shared_family
+            st.session_state["local_scatter_family"] = sel_shared_family
+        with r2_c_btn:
+            st.write("")
+            st.write("")
+            if st.button("↺ Reset Filters", key=f"reset_r2_{r2_ver}", help="Reset Section 2 role and skill family filters to default"):
+                st.session_state["r2_filter_version"] = st.session_state.get("r2_filter_version", 0) + 1
+                st.session_state["local_dist_cat"] = "-- Select a Job Family for Distinctiveness --"
+                st.session_state["local_scatter_cat"] = "-- Select a Job Family for Distinctiveness --"
+                st.session_state["local_dist_family"] = "All Families"
+                st.session_state["local_scatter_family"] = "All Families"
+                st.rerun()
 
     r2_col_dist, r2_col_scatter = st.columns(2)
 
@@ -1661,24 +1635,24 @@ def main() -> None:
         with d_btn_col:
             expand_dist_clicked = st.button("⛶ Expand", key="expand_dist")
 
-        is_unselected_dist = effective_dist_cat == "-- Select a Job Family for Distinctiveness --"
+        is_unselected_dist = sel_shared_role == "-- Select a Job Family for Distinctiveness --"
         if not is_unselected_dist:
             dist_pop = filter_postings_population(
                 postings,
                 country=active_c_list,
-                category=effective_dist_cat,
+                category=sel_shared_role,
                 seniority=st.session_state["filter_seniority"],
             )["active_postings"]
 
             dist_stats = compute_population_skill_stats(
                 dist_pop, corpus_skill_counts, corpus_total, vocab
             )
-            if sel_dist_family != "All Families":
-                dist_stats = filter_skills_by_family(dist_stats, sel_dist_family)
+            if sel_shared_family != "All Families":
+                dist_stats = filter_skills_by_family(dist_stats, sel_shared_family)
 
-            fam_suffix = f" • **Skill Family:** {sel_dist_family}" if sel_dist_family != "All Families" else ""
+            fam_suffix = f" • **Skill Family:** {sel_shared_family}" if sel_shared_family != "All Families" else ""
             st.caption(
-                f"**Active Population:** {OCCUPATIONAL_CATEGORIES.get(effective_dist_cat)} in {c_summary} ({len(dist_pop):,} postings){fam_suffix} • "
+                f"**Active Population:** {OCCUPATIONAL_CATEGORIES.get(sel_shared_role)} in {c_summary} ({len(dist_pop):,} postings){fam_suffix} • "
                 f"**Baseline:** Entire EU Corpus ({corpus_total:,} postings)"
             )
             fig_dist = build_most_distinctive_bar(
@@ -1707,38 +1681,45 @@ def main() -> None:
 
     # Right: Prevalence vs. Distinctiveness (Lift) Scatter Plot
     with r2_col_scatter:
-        s_head_col, s_btn_col = st.columns([4, 1])
+        s_head_col, s_dense_col, s_btn_col = st.columns([2.5, 2.7, 0.8])
         with s_head_col:
             st.markdown("##### Bivariate Demand & Lift Landscape")
+        with s_dense_col:
+            show_dense = st.checkbox(
+                "Include all detected skills (including unqualified skills)",
+                value=False,
+                key=f"scatter_dense_{ver}",
+                help="Unchecked: Top 10 qualified distinctive skills. Checked: All detected skills in this population.",
+            )
         with s_btn_col:
             expand_scatter_clicked = st.button("⛶ Expand", key="expand_scatter")
 
-        is_unselected_scatter = effective_scatter_cat == "-- Select a Job Family for Distinctiveness --"
+        is_unselected_scatter = sel_shared_role == "-- Select a Job Family for Distinctiveness --"
         if not is_unselected_scatter:
             scatter_pop = filter_postings_population(
                 postings,
                 country=active_c_list,
-                category=effective_scatter_cat,
+                category=sel_shared_role,
                 seniority=st.session_state["filter_seniority"],
             )["active_postings"]
 
             scatter_stats = compute_population_skill_stats(
                 scatter_pop, corpus_skill_counts, corpus_total, vocab
             )
-            if sel_scatter_family != "All Families":
-                scatter_stats = filter_skills_by_family(scatter_stats, sel_scatter_family)
+            if sel_shared_family != "All Families":
+                scatter_stats = filter_skills_by_family(scatter_stats, sel_shared_family)
 
             scatter_items = prepare_scatter_data(scatter_stats, min_count=1)
-            fam_suffix = f" • **Skill Family:** {sel_scatter_family}" if sel_scatter_family != "All Families" else ""
+            fam_suffix = f" • **Skill Family:** {sel_shared_family}" if sel_shared_family != "All Families" else ""
             st.caption(
-                f"**Active Population:** {OCCUPATIONAL_CATEGORIES.get(effective_scatter_cat)} in {c_summary} ({len(scatter_pop):,} postings){fam_suffix} • "
+                f"**Active Population:** {OCCUPATIONAL_CATEGORIES.get(sel_shared_role)} in {c_summary} ({len(scatter_pop):,} postings){fam_suffix} • "
                 f"Showing {'all ' + str(len(scatter_items)) + ' detected skills' if show_dense else 'Top 10 qualified distinctive skills'}"
             )
             fig_scatter = build_scatter_figure(
                 scatter_items,
                 is_unselected_category=False,
                 show_dense=show_dense,
-                selected_family=sel_scatter_family,
+                selected_family=sel_shared_family,
                 height=380,
             )
         else:
@@ -1747,7 +1728,7 @@ def main() -> None:
                 [],
                 is_unselected_category=True,
                 show_dense=show_dense,
-                selected_family=sel_scatter_family,
+                selected_family=sel_shared_family,
                 height=380,
             )
 

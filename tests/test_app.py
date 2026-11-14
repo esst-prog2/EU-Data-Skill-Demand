@@ -525,7 +525,7 @@ class TestSection2SkillQuadrantAndFamilyFilter:
         assert any("Lift = 1.00 by definition" in str(ch.proto.spec) for ch in charts)
 
         # Select an occupational role (e.g. Data Science) to activate bivariate markers
-        role_sb = next(sb for sb in at.selectbox if "Occupational Role (for Scatter Plot)" in sb.label)
+        role_sb = next(sb for sb in at.selectbox if "Occupational Role" in sb.label)
         role_sb.select("data_science").run(timeout=15)
         assert len(at.exception) == 0
 
@@ -562,7 +562,7 @@ class TestSection2SkillQuadrantAndFamilyFilter:
         assert len(at.exception) == 0
 
         # Select occupational role to activate scatter plot
-        role_sb = next(sb for sb in at.selectbox if "Occupational Role (for Scatter Plot)" in sb.label)
+        role_sb = next(sb for sb in at.selectbox if "Occupational Role" in sb.label)
         role_sb.select("data_science").run(timeout=15)
         assert len(at.exception) == 0
 
@@ -588,45 +588,37 @@ class TestSection2SkillQuadrantAndFamilyFilter:
         trace_names = [t.get("name") for t in scatter_spec.get("data", [])]
         assert trace_names == [target_family]
 
-    def test_section2_decoupled_family_filters(self):
-        """Verifies Distinctive Skills and Scatter Plot skill family filters operate completely independently."""
+    def test_section2_shared_filters_and_local_reset(self):
+        """Verifies Section 2 shared filters control both charts in unison and local reset restores defaults."""
         app.load_analytics_summary.clear()
         at = AppTest.from_file(APP_FILE).run(timeout=15)
         assert len(at.exception) == 0
 
-        # Activate Section 2 by selecting Data Science
-        role_sb = next(sb for sb in at.selectbox if "Occupational Role (for Scatter Plot)" in sb.label)
+        # Initially, Section 2 role is unselected default and family is All Families
+        role_sb = next(sb for sb in at.selectbox if "Occupational Role (for Distinctive Ranking):" in sb.label)
+        fam_sb = next(sb for sb in at.selectbox if "Skill Family (Distinctive Skills):" in sb.label)
+        assert role_sb.value == "-- Select a Job Family for Distinctiveness --"
+        assert fam_sb.value == "All Families"
+
+        # Verify scatter plot shows baseline parity guidance annotation in unselected state
+        charts = at.get("plotly_chart")
+        assert any("Lift = 1.00 by definition" in str(ch.proto.spec) for ch in charts)
+
+        # 1. Select role (Data Science) and family (Programming languages) in shared controls
         role_sb.select("data_science").run(timeout=15)
         assert len(at.exception) == 0
 
-        dist_fam_sb = next(sb for sb in at.selectbox if "Skill Family (Distinctive Skills)" in sb.label)
-        scatter_fam_sb = next(sb for sb in at.selectbox if "Skill Family (Scatter Plot)" in sb.label)
-
-        assert dist_fam_sb.value == "All Families"
-        assert scatter_fam_sb.value == "All Families"
-
-        # 1. Select 'BI & visualization' on Distinctive Skills ONLY
-        dist_fam_sb.select("BI & visualization").run(timeout=15)
+        fam_sb = next(sb for sb in at.selectbox if "Skill Family (Distinctive Skills):" in sb.label)
+        fam_sb.select("Programming languages").run(timeout=15)
         assert len(at.exception) == 0
 
-        # Verify scatter family is unchanged
-        updated_scatter_fam_sb = next(sb for sb in at.selectbox if "Skill Family (Scatter Plot)" in sb.label)
-        assert updated_scatter_fam_sb.value == "All Families"
-        assert at.session_state["local_dist_family"] == "BI & visualization"
-        assert at.session_state["local_scatter_family"] == "All Families"
-
-        # 2. Select 'Programming languages' on Scatter Plot ONLY
-        scatter_fam_sb = next(sb for sb in at.selectbox if "Skill Family (Scatter Plot)" in sb.label)
-        scatter_fam_sb.select("Programming languages").run(timeout=15)
-        assert len(at.exception) == 0
-
-        # Verify distinctive skills family is still 'BI & visualization'
-        updated_dist_fam_sb = next(sb for sb in at.selectbox if "Skill Family (Distinctive Skills)" in sb.label)
-        assert updated_dist_fam_sb.value == "BI & visualization"
-        assert at.session_state["local_dist_family"] == "BI & visualization"
+        # Verify session state updated for both visualizations
+        assert at.session_state["local_dist_cat"] == "data_science"
+        assert at.session_state["local_scatter_cat"] == "data_science"
+        assert at.session_state["local_dist_family"] == "Programming languages"
         assert at.session_state["local_scatter_family"] == "Programming languages"
 
-        # Verify scatter plot displays only Programming languages
+        # Verify scatter plot reflects both filters (only Programming languages data points)
         scatter_chart = None
         for el in at.get("plotly_chart"):
             spec = json.loads(el.proto.spec)
@@ -638,6 +630,41 @@ class TestSection2SkillQuadrantAndFamilyFilter:
         assert scatter_chart is not None
         scatter_spec = json.loads(scatter_chart.proto.spec)
         assert [t.get("name") for t in scatter_spec.get("data", [])] == ["Programming languages"]
+
+        # Distinctive skills bar chart also reflects selected role and family
+        dist_chart = None
+        for el in at.get("plotly_chart"):
+            spec = json.loads(el.proto.spec)
+            xaxis_title = str(spec.get("layout", {}).get("xaxis", {}).get("title", {}).get("text", ""))
+            if "Distinctiveness Lift" in xaxis_title and any(t.get("type") == "bar" for t in spec.get("data", [])):
+                dist_chart = el
+                break
+        assert dist_chart is not None
+
+        # Dense view checkbox in scatter plot header operates independently
+        dense_cb = next(cb for cb in at.checkbox if "unqualified" in cb.label.lower())
+        assert dense_cb.value is False
+        dense_cb.check().run(timeout=15)
+        assert len(at.exception) == 0
+        updated_dense_cb = next(cb for cb in at.checkbox if "unqualified" in cb.label.lower())
+        assert updated_dense_cb.value is True
+
+        # 2. Click Section 2 Reset Filters button
+        reset_r2_btn = next(b for b in at.button if "Reset Filters" in b.label)
+        reset_r2_btn.click().run(timeout=15)
+        assert len(at.exception) == 0
+
+        # Verify shared filters restored to defaults
+        updated_role_sb = next(sb for sb in at.selectbox if "Occupational Role (for Distinctive Ranking):" in sb.label)
+        updated_fam_sb = next(sb for sb in at.selectbox if "Skill Family (Distinctive Skills):" in sb.label)
+        assert updated_role_sb.value == "-- Select a Job Family for Distinctiveness --"
+        assert updated_fam_sb.value == "All Families"
+        assert at.session_state["local_dist_cat"] == "-- Select a Job Family for Distinctiveness --"
+        assert at.session_state["local_dist_family"] == "All Families"
+
+        # Verify scatter plot returned to unselected parity guidance
+        charts_after_reset = at.get("plotly_chart")
+        assert any("Lift = 1.00 by definition" in str(ch.proto.spec) for ch in charts_after_reset)
 
     def test_section2_synthetic_empty_and_subthreshold_handling(self):
         """Verifies synthetic summary with sub-threshold and empty category handles gracefully."""
@@ -863,9 +890,6 @@ class TestSinglePageDashboardAndGlobalFilters:
         dist_sb = next(sb for sb in at.selectbox if "for Distinctive Ranking" in sb.label)
         dist_sb.select("data_engineering").run(timeout=15)
 
-        scatter_sb = next(sb for sb in at.selectbox if "for Scatter Plot" in sb.label)
-        scatter_sb.select("ai_engineering").run(timeout=15)
-
         dense_cb = next(cb for cb in at.checkbox if "unqualified" in cb.label.lower())
         dense_cb.check().run(timeout=15)
 
@@ -875,7 +899,7 @@ class TestSinglePageDashboardAndGlobalFilters:
         assert at.session_state["filter_seniority"] == "senior"
         assert at.session_state["filter_family"] == "Programming languages"
         assert at.session_state["local_dist_cat"] == "data_engineering"
-        assert at.session_state["local_scatter_cat"] == "ai_engineering"
+        assert at.session_state["local_scatter_cat"] == "data_engineering"
 
         # 3. Click Reset button
         reset_btn = next(b for b in at.button if "Reset" in b.label)
@@ -902,9 +926,6 @@ class TestSinglePageDashboardAndGlobalFilters:
         updated_dist = next(sb for sb in at.selectbox if "for Distinctive Ranking" in sb.label)
         assert updated_dist.value == "-- Select a Job Family for Distinctiveness --"
         assert at.session_state["local_dist_cat"] == "-- Select a Job Family for Distinctiveness --"
-
-        updated_scatter = next(sb for sb in at.selectbox if "for Scatter Plot" in sb.label)
-        assert updated_scatter.value == "-- Select a Job Family for Distinctiveness --"
         assert at.session_state["local_scatter_cat"] == "-- Select a Job Family for Distinctiveness --"
 
         updated_dense = next(cb for cb in at.checkbox if "unqualified" in cb.label.lower())
@@ -1088,7 +1109,7 @@ class TestSinglePageDashboardAndGlobalFilters:
         at = AppTest.from_file(APP_FILE).run(timeout=15)
 
         # Select occupational role via local selector
-        role_sb = next(sb for sb in at.selectbox if "Occupational Role (for Scatter Plot)" in sb.label)
+        role_sb = next(sb for sb in at.selectbox if "Occupational Role" in sb.label)
         role_sb.select("data_science").run(timeout=15)
         assert len(at.exception) == 0
 
