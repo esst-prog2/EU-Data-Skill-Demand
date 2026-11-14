@@ -78,20 +78,20 @@ st.set_page_config(
 # =============================================================================
 
 CATEGORY_PALETTE: Dict[str, str] = {
-    "data_engineering": "#1e40af",  # Deep Cobalt
-    "data_analytics": "#047857",    # Deep Emerald
-    "ai_engineering": "#6d28d9",    # Royal Violet
-    "data_science": "#b45309",      # Warm Amber / Sienna
-    "ml_ai": "#be185d",             # Deep Berry Rose
+    "data_engineering": "#3b82f6",  # Light / Vibrant Blue (Tailwind 500)
+    "data_analytics": "#10b981",    # Fresh Emerald Green (Tailwind 500)
+    "ai_engineering": "#8b5cf6",    # Bright Violet (Tailwind 500)
+    "data_science": "#f59e0b",      # Warm Golden Amber (Tailwind 500)
+    "ml_ai": "#ec4899",             # Vibrant Rose / Pink (Tailwind 500)
 }
 
-# Differentiated, restrained skill-family palette to decouple from occupational roles
+# Differentiated, accessible skill-family palette to decouple from occupational roles
 FAMILY_PALETTE: Dict[str, str] = {
-    "Programming languages": "#334155",        # Slate 700 / Charcoal Navy
-    "Databases & data warehouses": "#0f766e",   # Deep Teal
-    "BI & visualization": "#d97706",            # Warm Ochre / Amber 600
-    "Cloud & infrastructure": "#4338ca",        # Indigo 700
-    "ML/AI frameworks & tools": "#701a75",      # Deep Plum / Fuchsia 900
+    "Programming languages": "#475569",        # Medium Slate / Graphite
+    "Databases & data warehouses": "#0d9488",   # Teal 600
+    "BI & visualization": "#ea580c",            # Warm Orange / Tangerine
+    "Cloud & infrastructure": "#6366f1",        # Indigo 500
+    "ML/AI frameworks & tools": "#db2777",      # Pink / Berry 600
 }
 
 # Accessible marker shapes for skill families (non-color visual encoding)
@@ -819,8 +819,8 @@ def build_country_volume_comparison_bar(
     names = [f"{r['country_name']} ({r['iso_code']})" for r in sorted_records]
     counts = [r["total_postings"] for r in sorted_records]
     labels = [f"{c:,} jobs" for c in counts]
-    # WCAG AA compliant dark amber (#b45309) for subthreshold countries vs deep royal blue
-    colors = ["#b45309" if r.get("is_subthreshold") else "#2563eb" for r in sorted_records]
+    # Restored warm golden amber (#f59e0b) for subthreshold countries vs royal blue (#2563eb)
+    colors = ["#f59e0b" if r.get("is_subthreshold") else "#2563eb" for r in sorted_records]
 
     trace = create_horizontal_bar_trace(
         x=counts,
@@ -1166,11 +1166,11 @@ def main() -> None:
             background-color: #f8fafc;
         }
 
-        /* Editorial serif typography selectively for main title and section headings */
+        /* Clean, cohesive modern sans-serif typography across all headings */
         h1, h2, h3, [data-testid="stHeader"] h1 {
-            font-family: "Newsreader", "Charter", "Georgia", "Cambria", "Times New Roman", serif !important;
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
             font-weight: 700 !important;
-            letter-spacing: -0.02em !important;
+            letter-spacing: -0.01em !important;
             color: #0f172a !important;
         }
 
