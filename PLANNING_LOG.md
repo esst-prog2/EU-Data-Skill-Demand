@@ -146,3 +146,6 @@
 
 ## 2026-11-07: CI-Safe Deterministic Test Suite Architecture
 - 2026-11-07: Established a deterministic CI test architecture using tracked fixture data/fixtures/test_postings_fixture.json (176 postings across all 27 EU member states, 5 categories, varied seniorities, and 5 skill families) and data/processed/analytics_summary.json for standard CI execution without requiring the git-ignored 143 MB raw dataset, isolated @pytest.mark.production_data tests to fail explicitly if production data is missing, and enforced Streamlit cache isolation via explicit data_mode argument passing and cache clearing. (Decided by: User, implemented by Agent)
+
+## 2026-11-14: Step-by-Step Process Logging Workflow
+- 2026-11-14: Establish step-by-step process logging workflow where after each step, changes are committed and a row is appended to PROCESS.md recording the step, what the tool did, and what the user decided. (Decided by: User)
