@@ -14,6 +14,8 @@ Unit tests for offline LLM regular expression audit infrastructure:
 from __future__ import annotations
 
 import json
+import multiprocessing
+import multiprocessing.connection
 import time
 from pathlib import Path
 import pytest
@@ -343,9 +345,10 @@ def test_validate_regex_safety_catastrophic_nested_repetition():
 # 5. Multiprocessing Worker Timeout Protection
 # ==============================================================================
 
-def test_evaluator_worker_timeout_protection(mock_vocab):
+def test_evaluator_worker_timeout_protection(mock_vocab, monkeypatch):
     # Simulates a scenario where worker evaluation exceeds hard timeout threshold
-    # We pass a 0.0001s timeout to guarantee timeout trigger on Windows multiprocessing spawn
+    # Deterministically force parent connection poll to return False (timeout occurred)
+    monkeypatch.setattr(multiprocessing.connection.Connection, "poll", lambda self, timeout=None: False)
     postings = [
         {"id": f"p_{i}", "description": f"Some job posting text mention {i} with R programming."}
         for i in range(50)
@@ -367,7 +370,7 @@ def test_evaluator_worker_timeout_protection(mock_vocab):
         proposal,
         mock_vocab,
         postings,
-        worker_timeout_sec=0.0001,  # Sub-millisecond hard timeout triggers timeout handling
+        worker_timeout_sec=0.1,
     )
 
     assert result.worker_timeout_occurred is True
@@ -774,7 +777,7 @@ def test_strict_gating_skips_benchmark_on_synthetic_failure(mock_vocab):
     assert "Blind benchmark holdout evaluation was skipped" in report
 
 
-def test_strict_gating_skips_benchmark_on_worker_timeout(mock_vocab):
+def test_strict_gating_skips_benchmark_on_worker_timeout(mock_vocab, monkeypatch):
     proposal = CandidateProposal(
         canonical_skill="Excel",
         proposed_regex=r"\bexcel\b(?!\s+in\b)",
@@ -800,13 +803,14 @@ def test_strict_gating_skips_benchmark_on_worker_timeout(mock_vocab):
         )
     ]
 
-    # Worker timeout triggered by sub-millisecond timeout
+    # Deterministically force parent connection poll to return False (timeout occurred)
+    monkeypatch.setattr(multiprocessing.connection.Connection, "poll", lambda self, timeout=None: False)
     result = evaluate_candidate_proposal(
         proposal,
         mock_vocab,
         postings,
         human_validated_samples=human_samples,
-        worker_timeout_sec=0.0001,
+        worker_timeout_sec=0.1,
         run_domain_synthetic=False,
     )
 
