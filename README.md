@@ -2,7 +2,8 @@
 
 ## 1. Product Showcase & Demo
 
-> **Interactive Career Exploration Showcase:** For the complete evidence-based career guide, the 4-quadrant skill framework (*Universal Currency*, *Role Superpowers*, *Niche Specializations*, *Peripheral Skills*), and detailed breakdowns across all five data professions, see [**docs/promo_page.md**](docs/promo_page.md).
+> **Interactive Career Exploration Showcase:** For the complete evidence-based career guide, including the 4-quadrant skill framework (*Universal Currency*, *Role Superpowers*, *Niche Specializations*, *Peripheral Skills*) and detailed analyses of all five data professions, see [**docs/promo_page.md**](docs/promo_page.md).
+The corresponding [**GitHub Pages website**](https://esst-prog2.github.io/EU-Data-Skill-Demand/) provides the published presentation of the project.
 
 In a five-minute screenshot presentation, I introduce the single-page Streamlit dashboard (`app.py`), which analyses 24,488 job postings across all 27 EU member states and five data-related occupations as an evidence-based career exploration tool. I start with the dashboard header, sticky filter bar and four summary KPI cards, then show different job-family filter states to illustrate how skill demand varies across occupations, highlighting Python's prevalence of 73.8% in Data Science compared with 42.2% in Data Analytics (0.74× lift). Next, I explore the prevalence-versus-lift scatter plot, demonstrating how the technical skill-family filter changes the displayed skills and how the Lift = 1.00 reference line distinguishes skills with average occupational representation from those that are particularly characteristic of specific occupations. I then present the European choropleth map and the 100% stacked occupational composition chart, comparing the 11 countries with at least 300 job postings. Finally, I show the complete skill demand table and methodological notes, including seniority information available for 42.9% of postings, and explain how the dashboard uses precomputed analytics stored in `data/processed/analytics_summary.json`.
 
@@ -45,20 +46,22 @@ uv run pytest
 
 Because FreeHire job postings and search results change continuously over time, running a new collection with `eu27.py` will pull live postings from the API and will not reproduce the historical 24,488-posting snapshot exactly; counts, category shares, and skill rankings in the charts may differ accordingly.
 
-### Local Weekly Data Refresh
+### Local Data Refresh and Maintenance
 
-Data refreshes are performed locally via a single command to ensure human oversight, prevent unreviewed changes, and comply with organization permissions:
+Data refreshes are performed locally and manually when needed, rather than on a fixed schedule. This approach ensures human oversight, prevents unreviewed changes from entering the repository, and complies with organizational permissions.
+
+To initiate a data refresh:
 
 ```bash
 uv run python scripts/refresh_weekly.py
 ```
 
-- **Weekly Maintenance:** Run `uv run python scripts/refresh_weekly.py` manually every Sunday. After a successful run, review the updated data and dashboard, then commit and push the approved changes the same day. This process is currently manual: GitHub Actions runs CI tests on pushes, pull requests, and manual workflow dispatch; it does not schedule data collection or automatically publish refreshed data. The raw snapshot `data/raw/freehire_eu_raw.json` is Git-ignored, so it remains local. The processed analytics summary and collection metadata are tracked.
-- **Pipeline Execution:** Runs `eu27.py` to collect fresh postings from FreeHire, `scripts/preprocess.py` to regenerate `data/processed/analytics_summary.json`, non-destructively checks for substantive diffs against `HEAD` with `scripts/check_refresh_diff.py`, and validates the outputs against the complete test suite (`uv run pytest`).
-- **Resilience and Retries:** `eu27.py` includes bounded exponential backoff retries for transient connection errors, timeouts, and 5xx server responses, while respecting HTTP 429 `Retry-After` headers and raising immediately on permanent client errors.
-- **Safety and Rollback:** Before execution, existing managed dataset files are backed up. If a pipeline step fails, the script attempts to restore the previous files. If rollback also fails, inspect the reported errors and recover the files manually before continuing.
-- **Diff Inspection:** After a successful refresh, inspect the substantive changes (`git diff data/processed/analytics_summary.json`), verify the dashboard locally (`uv run streamlit run app.py`), and manually commit and push when satisfied.
-- **Continuous Integration:** A lightweight GitHub Actions CI workflow (`.github/workflows/weekly-data-refresh.yml`) automatically runs tests on push, pull requests, and manual dispatch.
+- **Manual Execution:** Run the refresh command when an update is required. After successful execution, review the updated data, inspect the resulting changes, and verify the dashboard before committing and pushing approved changes.
+- **Pipeline Execution:** Runs `eu27.py` to collect fresh postings from FreeHire, `scripts/preprocess.py` to regenerate `data/processed/analytics_summary.json`, checks for substantive differences against `HEAD` using `scripts/check_refresh_diff.py`, and validates the outputs against the complete test suite (`uv run pytest`).
+- **Resilience and Retries:** `eu27.py` implements bounded exponential backoff retries for transient connection errors, timeouts, and 5xx server responses, respects HTTP 429 `Retry-After` headers, and raises immediately on permanent client errors.
+- **Safety and Rollback:** Existing managed dataset files are backed up before execution. If a pipeline step fails, the script attempts to restore the previous files. If rollback also fails, manual recovery is required before proceeding.
+- **Diff Inspection:** Review substantive changes using `git diff data/processed/analytics_summary.json` and verify the dashboard locally using `uv run streamlit run app.py` before committing approved updates.
+- **Continuous Integration:** GitHub Actions validates repository changes through automated CI checks on pushes, pull requests, and manual workflow dispatch. It does not automatically collect new data or publish refreshed datasets. The raw snapshot (`data/raw/freehire_eu_raw.json`) is Git-ignored and remains local, while the processed analytics summary and collection metadata are tracked in the repository.
 
 ### Test Suite and CI Execution
 
