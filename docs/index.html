@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EU Data Career Compass — European Tech Job Market Analysis</title>
+  <meta name="description" content="An evidence-based investigation of technical skill demand across 24,488 European tech job postings and 5 core data professions. Explore skill prevalence vs. distinctiveness lift.">
+  
+  <!-- Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       CSS Variables & Reset — European Precision Atlas Theme
+       ========================================================================== */
+    :root {
+      --bg-ground: #f8fafc;
+      --bg-surface: #ffffff;
+      --border-subtle: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --ink-primary: #0f172a;
+      --ink-secondary: #334155;
+      --ink-muted: #64748b;
+      --brand-blue: #1d4ed8;
+      --brand-blue-hover: #1e40af;
+      --brand-blue-subtle: #eff6ff;
+      --parity-red: #b91c1c;
+      --parity-red-subtle: #fef2f2;
+      
+      /* Accessible Semantic Category Tokens (WCAG AA > 4.5:1 on light ground) */
+      --cat-analytics: #0369a1;      /* Sky 700 */
+      --cat-engineering: #047857;    /* Emerald 700 */
+      --cat-science: #1e40af;        /* Cobalt 700 */
+      --cat-mlai: #b45309;           /* Amber 700 */
+      --cat-aieng: #be123c;          /* Rose 700 */
+
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 10px;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+      --max-width: 1160px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-ground);
+      color: var(--ink-secondary);
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Tabular Numerics */
+    .num, .metric-val, code, .stat-val {
+      font-family: 'IBM Plex Mono', monospace;
+      font-feature-settings: "tnum" 1;
+    }
+
+    /* Container */
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ==========================================================================
+       Navigation
+       ========================================================================== */
+    header.site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(248, 250, 252, 0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--ink-primary);
+    }
+
+    .brand-icon {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .brand-title {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--ink-secondary);
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--brand-blue);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* CTA Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 9px 18px;
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border: 1px solid transparent;
+      line-height: 1.25;
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--brand-blue);
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      background: var(--ink-primary);
+      color: #ffffff;
+      border-color: var(--ink-primary);
+    }
+
+    .btn-primary:hover {
+      background: #1e293b;
+      border-color: #1e293b;
+    }
+
+    .btn-blue {
+      background: var(--brand-blue);
+      color: #ffffff;
+      border-color: var(--brand-blue);
+    }
+
+    .btn-blue:hover {
+      background: var(--brand-blue-hover);
+      border-color: var(--brand-blue-hover);
+    }
+
+    .btn-secondary {
+      background: var(--bg-surface);
+      color: var(--ink-primary);
+      border-color: var(--border-strong);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-ground);
+      border-color: #94a3b8;
+    }
+
+    /* Mobile Nav Toggle */
+    .mobile-menu-toggle {
+      display: none;
+      background: transparent;
+      border: 1px solid var(--border-strong);
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    /* ==========================================================================
+       Hero Section
+       ========================================================================== */
+    section.hero {
+      padding: 72px 0 48px;
+      text-align: center;
+    }
+
+    .meta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--brand-blue);
+      background: var(--brand-blue-subtle);
+      border: 1px solid #dbeafe;
+      padding: 4px 14px;
+      border-radius: 9999px;
+      margin-bottom: 20px;
+    }
+
+    .hero-title {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 46px;
+      line-height: 1.15;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--ink-primary);
+      max-width: 900px;
+      margin: 0 auto 20px;
+    }
+
+    .hero-subtitle {
+      font-size: 19px;
+      line-height: 1.6;
+      color: var(--ink-secondary);
+      max-width: 760px;
+      margin: 0 auto 36px;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 56px;
+    }
+
+    /* The Four Primary Dataset Metrics Ribbon */
+    .hero-metrics-ribbon {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      margin: 0 auto;
+    }
+
+    .metric-cell {
+      padding: 24px 16px;
+      text-align: center;
+      border-right: 1px solid var(--border-subtle);
+    }
+
+    .metric-cell:last-child {
+      border-right: none;
+    }
+
+    .metric-cell .stat-val {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--ink-primary);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .metric-cell .stat-lbl {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* ==========================================================================
+       Section Layout & Typography Rules
+       ========================================================================== */
+    section.editorial-section {
+      padding: 80px 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .section-heading {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--ink-primary);
+      margin-bottom: 16px;
+    }
+
+    .section-lead {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--ink-secondary);
+      max-width: 820px;
+      margin-bottom: 40px;
+    }
+
+    /* ==========================================================================
+       Section 1: The Junior Data Dilemma
+       ========================================================================== */
+    .dilemma-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .dilemma-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .dilemma-card .card-icon {
+      font-size: 26px;
+      margin-bottom: 14px;
+    }
+
+    .dilemma-card h3 {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink-primary);
+      margin-bottom: 10px;
+    }
+
+    .dilemma-card p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--ink-secondary);
+    }
+
+    /* ==========================================================================
+       Section 2: The Core Mechanism & Quadrants
+       ========================================================================== */
+    .formula-banner {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 24px 28px;
+      margin-bottom: 36px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .formula-col h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink-primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .formula-col .code-formula {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13.5px;
+      background: var(--bg-ground);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      color: var(--ink-primary);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .formula-col p {
+      font-size: 13px;
+      color: var(--ink-muted);
+      line-height: 1.5;
+    }
+
+    /* 4-Quadrant Visual Layout */
+    .quadrant-matrix {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      position: relative;
+    }
+
+    .quadrant-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .quadrant-box:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-2px);
+    }
+
+    .quadrant-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .quadrant-box h3 {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ink-primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .quadrant-box p {
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: var(--ink-secondary);
+      margin-bottom: 12px;
+    }
+
+    .quadrant-examples {
+      font-size: 12.5px;
+      color: var(--ink-muted);
+      background: var(--bg-ground);
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .quadrant-examples strong {
+      color: var(--ink-primary);
+    }
+
+    /* Parity Divider Line */
+    .parity-divider {
+      grid-column: span 2;
+      position: relative;
+      margin: 16px 0;
+      text-align: center;
+      padding: 12px 0;
+    }
+
+    .parity-divider::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      border-top: 1px dashed var(--border-strong);
+      z-index: 1;
+    }
+
+    .parity-pill {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      color: var(--ink-secondary);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 16px;
+      border-radius: 9999px;
+      position: relative;
+      z-index: 2;
+      display: inline-block;
+    }
+
+    /* ==========================================================================
+       Section 3: Concrete Evidence — Python vs. Excel & Power BI
+       ========================================================================== */
+    .proof-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .proof-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 26px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .proof-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .proof-header .skill-name {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--ink-primary);
+    }
+
+    .proof-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+    }
+
+    .proof-data-list {
+      list-style: none;
+      margin-bottom: 18px;
+    }
+
+    .proof-data-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      font-size: 13.5px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .proof-data-row:last-child {
+      border-bottom: none;
+    }
+
+    .proof-data-row .val {
+      font-weight: 700;
+      color: var(--ink-primary);
+    }
+
+    .proof-explanation {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--ink-secondary);
+      background: var(--bg-ground);
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* ==========================================================================
+       Section 4: Five Occupational Profiles
+       ========================================================================== */
+    .occupations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 18px;
+    }
+
+    .role-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .role-badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .role-card h3 {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--ink-primary);
+      margin-bottom: 4px;
+    }
+
+    .role-volume {
+      font-size: 12.5px;
+      color: var(--ink-muted);
+      margin-bottom: 18px;
+      display: block;
+    }
+
+    .mini-bar-group {
+      margin-bottom: 16px;
+    }
+
+    .mini-bar-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-muted);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .mini-bar-row {
+      margin-bottom: 6px;
+    }
+
+    .mini-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 3px;
+    }
+
+    .mini-bar-label span:first-child {
+      font-weight: 600;
+      color: var(--ink-primary);
+    }
+
+    .mini-bar-track {
+      height: 6px;
+      background: #f1f5f9;
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+
+    .mini-bar-fill {
+      height: 100%;
+      border-radius: 9999px;
+    }
+
+    /* Distinctive markers list */
+    .distinctive-tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 6px;
+    }
+
+    .dist-tag {
+      font-size: 11px;
+      font-family: 'IBM Plex Mono', monospace;
+      background: var(--bg-ground);
+      border: 1px solid var(--border-subtle);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      color: var(--ink-secondary);
+    }
+
+    /* ==========================================================================
+       Section 5: Geographic Scope & N >= 300 Guardrail
+       ========================================================================== */
+    .geo-stats-wrap {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .geo-header-note {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .qualify-badge {
+      font-size: 12px;
+      font-weight: 700;
+      color: #047857;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      padding: 4px 10px;
+      border-radius: 9999px;
+    }
+
+    .geo-country-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .country-pill {
+      background: var(--bg-ground);
+      border: 1px solid var(--border-subtle);
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13.5px;
+    }
+
+    .country-pill .c-name {
+      font-weight: 600;
+      color: var(--ink-primary);
+    }
+
+    .country-pill .c-count {
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 700;
+      color: var(--ink-secondary);
+    }
+
+    .geo-disclaimer {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--ink-muted);
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 16px;
+    }
+
+    /* ==========================================================================
+       Section 6: Methodological Rigor & Software Integrity
+       ========================================================================== */
+    .rigor-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .rigor-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 26px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .rigor-card .stat-callout {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--ink-primary);
+      margin-bottom: 6px;
+      line-height: 1.1;
+    }
+
+    .rigor-card h3 {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink-primary);
+      margin-bottom: 10px;
+    }
+
+    .rigor-card p {
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: var(--ink-secondary);
+    }
+
+    /* ==========================================================================
+       Section 7: Dashboard Preview Tour & Architectural Layout
+       ========================================================================== */
+    .architecture-box {
+      background: #0f172a;
+      color: #f8fafc;
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      border: 1px solid #334155;
+      box-shadow: var(--shadow-md);
+      margin-top: 24px;
+    }
+
+    .arch-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .arch-header h3 {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 18px;
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .arch-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+    }
+
+    .arch-component {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .arch-component h4 {
+      font-size: 14px;
+      color: #38bdf8;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .arch-component p {
+      font-size: 13px;
+      color: #94a3b8;
+      line-height: 1.55;
+    }
+
+    /* ==========================================================================
+       Section 8: Dashboard Access & Quickstart
+       ========================================================================== */
+    section.access-section {
+      padding: 80px 0 96px;
+      text-align: center;
+    }
+
+    .access-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-lg);
+      padding: 48px 36px;
+      max-width: 840px;
+      margin: 0 auto;
+      box-shadow: var(--shadow-md);
+    }
+
+    .access-card h2 {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--ink-primary);
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .access-card .access-desc {
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--ink-secondary);
+      max-width: 640px;
+      margin: 0 auto 32px;
+    }
+
+    .access-actions {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 36px;
+      flex-wrap: wrap;
+    }
+
+    .terminal-container {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      text-align: left;
+      color: #f8fafc;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    .terminal-container code {
+      color: #38bdf8;
+      word-break: break-all;
+    }
+
+    /* Copy button */
+    .copy-btn {
+      background: #1e293b;
+      border: 1px solid #475569;
+      color: #f8fafc;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      margin-left: 12px;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+
+    .copy-btn:hover {
+      background: #334155;
+    }
+
+    /* ==========================================================================
+       Footer
+       ========================================================================== */
+    footer.site-footer {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-subtle);
+      padding: 40px 0;
+      font-size: 13px;
+      color: var(--ink-muted);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-links a {
+      color: var(--ink-secondary);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      color: var(--brand-blue);
+    }
+
+    /* ==========================================================================
+       Responsive Media Queries
+       ========================================================================== */
+    @media (max-width: 900px) {
+      .hero-title { font-size: 36px; }
+      .hero-metrics-ribbon { grid-template-columns: repeat(2, 1fr); }
+      .metric-cell:nth-child(2) { border-right: none; }
+      .metric-cell:nth-child(-n+2) { border-bottom: 1px solid var(--border-subtle); }
+      .dilemma-grid, .proof-grid, .rigor-grid, .arch-grid { grid-template-columns: 1fr; }
+      .formula-banner { grid-template-columns: 1fr; gap: 20px; }
+      .quadrant-matrix { grid-template-columns: 1fr; }
+      .parity-divider { grid-column: span 1; }
+    }
+
+    @media (max-width: 640px) {
+      .hero-title { font-size: 30px; }
+      .hero-subtitle { font-size: 16px; }
+      .hero-metrics-ribbon { grid-template-columns: 1fr; }
+      .metric-cell { border-right: none; border-bottom: 1px solid var(--border-subtle); }
+      .metric-cell:last-child { border-bottom: none; }
+      .nav-links { display: none; }
+      .mobile-menu-toggle { display: block; }
+      .nav-links.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 68px;
+        left: 0;
+        right: 0;
+        background: var(--bg-surface);
+        padding: 20px;
+        border-bottom: 1px solid var(--border-subtle);
+        box-shadow: var(--shadow-md);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       Navigation Bar
+       ======================================================================== -->
+  <header class="site-header">
+    <div class="container">
+      <div class="nav-inner">
+        <a class="brand-group" href="#">
+          <span class="brand-icon">🧭</span>
+          <span class="brand-title">EU Data Career Compass</span>
+        </a>
+
+        <button class="mobile-menu-toggle" aria-label="Toggle navigation" onclick="toggleNav()">☰</button>
+
+        <nav>
+          <ul class="nav-links" id="mainNav">
+            <li><a href="#dilemma">The Problem</a></li>
+            <li><a href="#quadrants">4-Quadrant Framework</a></li>
+            <li><a href="#evidence">Empirical Proof</a></li>
+            <li><a href="#occupations">Occupations</a></li>
+            <li><a href="#geography">Geography</a></li>
+            <li><a href="#methodology">Rigor &amp; Tests</a></li>
+          </ul>
+        </nav>
+
+        <div class="nav-actions">
+          <a class="btn btn-primary" href="#dashboard-access">Launch Dashboard</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ========================================================================
+         Hero Section: The Reality Check
+         ======================================================================== -->
+    <section class="hero">
+      <div class="container">
+        <div class="meta-badge">Research Showcase & Career Reality Check</div>
+        <h1 class="hero-title">What the European Tech Job Market Actually Expects from You</h1>
+        <p class="hero-subtitle">
+          An empirical investigation of <strong>24,488 verified job postings</strong> across <strong>27 EU member states</strong> and <strong>5 core data professions</strong>: cutting through generic career advice by measuring within-role popularity against true occupational distinctiveness.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-blue" href="#dashboard-access">
+            <span>🚀</span> Explore Interactive Dashboard
+          </a>
+          <a class="btn btn-secondary" href="https://github.com/esst-prog2/EU-Data-Skill-Demand" target="_blank" rel="noopener noreferrer">
+            <span>📂</span> View on GitHub
+          </a>
+        </div>
+
+        <!-- The Four Primary Dataset Metrics Ribbon -->
+        <div class="hero-metrics-ribbon">
+          <div class="metric-cell">
+            <div class="stat-val">24,488</div>
+            <div class="stat-lbl">Observed Postings</div>
+          </div>
+          <div class="metric-cell">
+            <div class="stat-val">27</div>
+            <div class="stat-lbl">EU Member States</div>
+          </div>
+          <div class="metric-cell">
+            <div class="stat-val">5</div>
+            <div class="stat-lbl">Data Professions</div>
+          </div>
+          <div class="metric-cell">
+            <div class="stat-val">52</div>
+            <div class="stat-lbl">Canonical Skills</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         Section 1: The Junior Data Dilemma
+         ======================================================================== -->
+    <section class="editorial-section" id="dilemma">
+      <div class="container">
+        <h2 class="section-heading">The Trap of "Job Description Fatigue"</h2>
+        <p class="section-lead">
+          Entry-level job listings frequently read like exhaustive enterprise wishlists demanding Python, SQL, Spark, Docker, AWS, and PyTorch all in one role. Meanwhile, generic blogs advise everyone to <em>"just learn Python and SQL"</em> without revealing how requirements diverge in real European markets.
+        </p>
+
+        <div class="dilemma-grid">
+          <div class="dilemma-card">
+            <div class="card-icon">🎯</div>
+            <h3>Role Differentiation</h3>
+            <p>How do technical requirements diverge between Data Analytics, Data Engineering, Data Science, ML/AI, and AI Engineering?</p>
+          </div>
+          <div class="dilemma-card">
+            <div class="card-icon">⚖️</div>
+            <h3>Foundations vs. Superpowers</h3>
+            <p>Which skills are universal baseline expectations, and which ones uniquely characterize a specific occupational path?</p>
+          </div>
+          <div class="dilemma-card">
+            <div class="card-icon">🗺️</div>
+            <h3>European Context</h3>
+            <p>How do hiring volumes and occupational mixes vary across EU member states under practical sample-size thresholds?</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         Section 2: The Core Mechanism — 4-Quadrant Framework
+         ======================================================================== -->
+    <section class="editorial-section" id="quadrants">
+      <div class="container">
+        <h2 class="section-heading">Popularity vs. Distinctiveness: The 4-Quadrant Map</h2>
+        <p class="section-lead">
+          Raw popularity provides an incomplete picture. The EU Data Career Compass maps tools along two complementary mathematical dimensions: Within-Category Prevalence and Distinctiveness Lift relative to the European market baseline.
+        </p>
+
+        <!-- Formula Banner -->
+        <div class="formula-banner">
+          <div class="formula-col">
+            <h3><span>📊</span> Within-Category Prevalence</h3>
+            <span class="code-formula">P(skill | category) = count(skill ∩ category) / N_category</span>
+            <p>Measures how frequently a technology is requested within a chosen occupation.</p>
+          </div>
+          <div class="formula-col">
+            <h3><span>⚖️</span> Distinctiveness Lift</h3>
+            <span class="code-formula">Lift = P(skill | category) / P(skill | corpus)</span>
+            <p>Measures whether a skill is over-represented (Lift &gt; 1.00), at parity (Lift = 1.00), or under-represented (Lift &lt; 1.00) relative to the broader market baseline.</p>
+          </div>
+        </div>
+
+        <!-- 4-Quadrant Visual Layout -->
+        <div class="quadrant-matrix">
+          <!-- Top Left: Niche Specializations -->
+          <div class="quadrant-box">
+            <span class="quadrant-tag" style="color: var(--cat-science);">Lift &gt; 1.00 • Lower Prevalence (&lt; 20%)</span>
+            <h3><span>🔬</span> Niche Specializations</h3>
+            <p>Specialized tools with moderate volume that are disproportionately concentrated in this profession.</p>
+            <div class="quadrant-examples">
+              <strong>Examples:</strong> XGBoost in Data Science (4.1%, 5.51× lift) • OpenCV in ML/AI (2.8%, 9.02× lift).
+            </div>
+          </div>
+
+          <!-- Top Right: Role Superpowers -->
+          <div class="quadrant-box">
+            <span class="quadrant-tag" style="color: var(--cat-engineering);">Lift &gt; 1.00 • High Prevalence (&ge; 20%)</span>
+            <h3><span>⚡</span> Role Superpowers</h3>
+            <p>High prevalence combined with strong occupational concentration: the defining technical pillars of the discipline.</p>
+            <div class="quadrant-examples">
+              <strong>Examples:</strong> Power BI in Data Analytics (44.8%, 2.61× lift) • Spark in Data Engineering (30.3%, 1.47× lift).
+            </div>
+          </div>
+
+          <!-- Parity Divider -->
+          <div class="parity-divider">
+            <span class="parity-pill">── Lift = 1.00 European Market Baseline Parity ──</span>
+          </div>
+
+          <!-- Bottom Left: Peripheral Skills -->
+          <div class="quadrant-box">
+            <span class="quadrant-tag" style="color: var(--ink-muted);">Lift &le; 1.00 • Lower Prevalence (&lt; 20%)</span>
+            <h3><span>📎</span> Peripheral Skills</h3>
+            <p>Ancillary or secondary technologies appearing at rates below or near the broader market baseline.</p>
+            <div class="quadrant-examples">
+              <strong>Context:</strong> Tools with occasional appearances that do not define or distinguish the profession.
+            </div>
+          </div>
+
+          <!-- Bottom Right: Universal Currency -->
+          <div class="quadrant-box">
+            <span class="quadrant-tag" style="color: var(--brand-blue);">High Prevalence (&ge; 20%) • Universal Baseline</span>
+            <h3><span>🌐</span> Universal Currency</h3>
+            <p>Frequently requested tools that appear broadly across multiple data disciplines: foundational table-stakes requirements.</p>
+            <div class="quadrant-examples">
+              <strong>Examples:</strong> SQL in Data Analytics (63.7%, 1.09× lift) • SQL in Data Engineering (55.8%, 0.95× lift) • Git across engineering.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         Section 3: The Empirical Evidence — Python vs. Excel & Power BI
+         ======================================================================== -->
+    <section class="editorial-section" id="evidence">
+      <div class="container">
+        <h2 class="section-heading">Why Python and Excel Tell Different Stories in Data Analytics</h2>
+        <p class="section-lead">
+          Looking only at vacancy counts would suggest Python is the primary tool to emphasize for Data Analytics. Evaluating Distinctiveness Lift reveals why Business Intelligence and spreadsheet modeling are the true occupational markers:
+        </p>
+
+        <div class="proof-grid">
+          <!-- Python Card -->
+          <div class="proof-card">
+            <div class="proof-header">
+              <span class="skill-name">Python</span>
+              <span class="proof-tag" style="background: var(--parity-red-subtle); color: var(--parity-red);">0.74× Lift</span>
+            </div>
+            <ul class="proof-data-list">
+              <li class="proof-data-row"><span>Observed Analytics Postings</span><span class="val num">1,510 / 3,582</span></li>
+              <li class="proof-data-row"><span>Within-Role Prevalence</span><span class="val num">42.2%</span></li>
+              <li class="proof-data-row"><span>Corpus Market Baseline</span><span class="val num">57.1%</span></li>
+            </ul>
+            <div class="proof-explanation">
+              <strong>Broad Foundation:</strong> Requested in 42.2% of analytics roles, but requested less frequently than across the general corpus (57.1%) or in Data Science (73.8%). It provides versatile utility but does not distinguish this role.
+            </div>
+          </div>
+
+          <!-- Power BI Card -->
+          <div class="proof-card">
+            <div class="proof-header">
+              <span class="skill-name">Power BI</span>
+              <span class="proof-tag" style="background: #ecfdf5; color: var(--cat-engineering);">2.61× Lift</span>
+            </div>
+            <ul class="proof-data-list">
+              <li class="proof-data-row"><span>Observed Analytics Postings</span><span class="val num">1,603 / 3,582</span></li>
+              <li class="proof-data-row"><span>Within-Role Prevalence</span><span class="val num">44.8%</span></li>
+              <li class="proof-data-row"><span>Corpus Market Baseline</span><span class="val num">17.2%</span></li>
+            </ul>
+            <div class="proof-explanation">
+              <strong>Category Marker:</strong> Highest prevalence combined with a 2.61× concentration ratio makes Business Intelligence the primary distinguishing technical pillar of Data Analytics.
+            </div>
+          </div>
+
+          <!-- Excel Card -->
+          <div class="proof-card">
+            <div class="proof-header">
+              <span class="skill-name">Excel</span>
+              <span class="proof-tag" style="background: #eff6ff; color: var(--cat-science);">4.73× Lift</span>
+            </div>
+            <ul class="proof-data-list">
+              <li class="proof-data-row"><span>Observed Analytics Postings</span><span class="val num">790 / 3,582</span></li>
+              <li class="proof-data-row"><span>Within-Role Prevalence</span><span class="val num">22.1%</span></li>
+              <li class="proof-data-row"><span>Corpus Market Baseline</span><span class="val num">4.7%</span></li>
+            </ul>
+            <div class="proof-explanation">
+              <strong>High Distinctiveness:</strong> Appears in 22.1% of analytics roles vs. just 4.7% across the entire European corpus: an occupational concentration ratio of 4.73×.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         Section 4: The Five Occupational Profiles
+         ======================================================================== -->
+    <section class="editorial-section" id="occupations">
+      <div class="container">
+        <h2 class="section-heading">Technical Demands Across 24,488 European Postings</h2>
+        <p class="section-lead">
+          The snapshot spans five distinct professions. While foundational languages appear across all five, specialized tools reflect clear occupational divisions:
+        </p>
+
+        <div class="occupations-grid">
+          <!-- Data Engineering -->
+          <div class="role-card">
+            <span class="role-badge" style="background: #ecfdf5; color: var(--cat-engineering);">DE</span>
+            <h3>Data Engineering</h3>
+            <span class="role-volume num">13,592 postings (55.5%)</span>
+
+            <div class="mini-bar-group">
+              <span class="mini-bar-title">Top In-Demand</span>
+              <div class="mini-bar-row">
+                <div class="mini-bar-label"><span>SQL</span><span class="num">55.8%</span></div>
+                <div class="mini-bar-track"><div class="mini-bar-fill" style="width: 55.8%; background: var(--cat-engineering);"></div></div>
+              </div>
+              <div class="mini-bar-row">
+                <div class="mini-bar-label"><span>Python</span><span class="num">53.5%</span></div>
+                <div class="mini-bar-track"><div class="mini-bar-fill" style="width: 53.5%; background: var(--cat-engineering);"></div></div>
+              </div>
+              <div class="mini-bar-row">
+                <div class="mini-bar-label"><span>Azure</span><span class="num">35.3%</span></div>
+                <div class="mini-bar-track"><div class="mini-bar-fill" style="width: 35.3%; background: var(--cat-engineering);"></div></div>
+              </div>
+            </div>
+
+            <span class="mini-bar-title">Distinctive Markers</span>
+            <div class="distinctive-tag-list">
+              <span class="dist-tag">Kafka (1.61×)</span>
+              <span class="dist-tag">Scala (1.55×)</span>
+              <span class="dist-tag">Spark (1.47×)</span>
+            </div>
+          </div>
+
+          <!-- Data Analytics -->
+          <div class="role-card">
+            <span class="role-badge" style="background: #f0f9ff; color: var(--cat-analytics);">DA</span>
+            <h3>Data Analytics</h3>
+            <span class="role-volume num">3,582 postings (14.6%)</span>
+
+            <div class="mini-bar-group">
+              <span class="mini-bar-title">Top In-Demand</span>
+              <div class="mini-bar-row">
+                <div class="mini-bar-label"><span>SQL</span><span class="num">63.7%</span></div>
+                <div class="mini-bar-track"><div class="mini-bar-fill" style="width: 63.7%; background: var(--cat-analytics);"></div></div>
+              </div>
+              <div class="mini-bar-row">
+                <div class="mini-bar-label"><span>Power BI</span><span class="num">44.8%</span></div>
+                <div class="mini-bar-track"><div class="mini-bar-fill" style="width: 44.8%; background: var(--cat-analytics);"></div></div>
+              </div>
+              <div class="mini-bar-row">
+                <div class="mini-bar-label"><span>Python</span><span class="num">42.2%</span></div>
+                <div class="mini-bar-track"><div class="mini-bar-fill" style="width: 42.2%; background: var(--cat-analytics);"></div></div>
+              </div>
+            </div>
+
+            <span class="mini-bar-title">Distinctive Markers</span>
+            <div class="distinctive-tag-list">
+              <span class="dist-tag">Excel (4.73×)</span>
+              <span class="dist-tag">Looker (3.90×)</span>
+              <span class="dist-tag">Tableau (3.38×)</span>
+            </div>
+          </div>
+
+          <!-- AI Engineering -->
+          <div class="role-card">
+            <span class="role-badge" style="background: #fff1f2; color: var(--cat-aieng);">AIE</span>
+            <h3>AI Engineering</h3>
+            <span class="role-volume num">3,345 postings (13.7%)</span>
+
+            <div class="mini-bar-group">
+              <span class="mini-bar-title">Top In-Demand</span>
+              <div class="mini-bar-row">
+                <div class="mini-bar-label"><span>LLMs / GenAI</span><span class="num">81.8%</span></div>
+                <div class="mini-bar-track"><div class="mini-bar-fill" style="width: 81.8%; background: var(--cat-aieng);"></div></div>
+              </div>
+              <div class="mini-bar-row">
+                <div class="mini-bar-label"><span>Python</span><span class="num">67.7%</span></div>
+                <div class="mini-bar-track"><div class="mini-bar-fill" style="width: 67.7%; background: var(--cat-aieng);"></div></div>
+              </div>
+              <div class="mini-bar-row">
+                <div class="mini-bar-label"><span>CI/CD</span><span class="num">32.8%</span></div>
+                <div class="mini-bar-track"><div class="mini-bar-fill" style="width: 32.8%; background: var(--cat-aieng);"></div></div>
+              </div>
+            </div>
+
+            <span class="mini-bar-title">Distinctive Markers</span>
+            <div class="distinctive-tag-list">
+              <span class="dist-tag">LangChain (4.97×)</span>
+              <span class="dist-tag">TypeScript (4.69×)</span>
+              <span class="dist-tag">HuggingFace (3.16×)</span>
+            </div>
+          </div>
+
+          <!-- Data Science -->
+          <div class="role-card">
+            <span class="role-badge" style="background: #eff6ff; color: var(--cat-science);">DS</span>
+            <h3>Data Science</h3>
+            <span class="role-volume num">2,558 postings (10.4%)</span>
+
+            <div class="mini-bar-group">
+              <span class="mini-bar-title">Top In-Demand</span>
+              <div class="mini-bar-row">
+                <div class="mini-bar-label"><span>Python</span><span class="num">73.8%</span></div>
+                <div class="mini-bar-track"><div class="mini-bar-fill" style="width: 73.8%; background: var(--cat-science);"></div></div>
+              </div>
+              <div class="mini-bar-row">
+                <div class="mini-bar-label"><span>SQL</span><span class="num">46.2%</span></div>
+                <div class="mini-bar-track"><div class="mini-bar-fill" style="width: 46.2%; background: var(--cat-science);"></div></div>
+              </div>
+              <div class="mini-bar-row">
+                <div class="mini-bar-label"><span>Azure</span><span class="num">22.0%</span></div>
+                <div class="mini-bar-track"><div class="mini-bar-fill" style="width: 22.0%; background: var(--cat-science);"></div></div>
+              </div>
+            </div>
+
+            <span class="mini-bar-title">Distinctive Markers</span>
+            <div class="distinctive-tag-list">
+              <span class="dist-tag">XGBoost (5.51×)</span>
+              <span class="dist-tag">Scikit-learn (4.33×)</span>
+              <span class="dist-tag">R (3.43×)</span>
+            </div>
+          </div>
+
+          <!-- ML/AI -->
+          <div class="role-card">
+            <span class="role-badge" style="background: #fef3c7; color: var(--cat-mlai);">ML</span>
+            <h3>ML/AI</h3>
+            <span class="role-volume num">1,411 postings (5.8%)</span>
+
+            <div class="mini-bar-group">
+              <span class="mini-bar-title">Top In-Demand</span>
+              <div class="mini-bar-row">
+                <div class="mini-bar-label"><span>Python</span><span class="num">74.4%</span></div>
+                <div class="mini-bar-track"><div class="mini-bar-fill" style="width: 74.4%; background: var(--cat-mlai);"></div></div>
+              </div>
+              <div class="mini-bar-row">
+                <div class="mini-bar-label"><span>PyTorch</span><span class="num">40.0%</span></div>
+                <div class="mini-bar-track"><div class="mini-bar-fill" style="width: 40.0%; background: var(--cat-mlai);"></div></div>
+              </div>
+              <div class="mini-bar-row">
+                <div class="mini-bar-label"><span>CI/CD</span><span class="num">26.6%</span></div>
+                <div class="mini-bar-track"><div class="mini-bar-fill" style="width: 26.6%; background: var(--cat-mlai);"></div></div>
+              </div>
+            </div>
+
+            <span class="mini-bar-title">Distinctive Markers</span>
+            <div class="distinctive-tag-list">
+              <span class="dist-tag">OpenCV (9.02×)</span>
+              <span class="dist-tag">C++ (6.74×)</span>
+              <span class="dist-tag">TensorFlow (5.74×)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         Section 5: Geographic Scope & N >= 300 Guardrail
+         ======================================================================== -->
+    <section class="editorial-section" id="geography">
+      <div class="container">
+        <h2 class="section-heading">European Coverage &amp; The N &ge; 300 Threshold</h2>
+        <p class="section-lead">
+          While raw posting counts are mapped across all 27 EU member states, cross-country occupational composition comparisons are strictly restricted to the <strong>11 member states with N &ge; 300 observed postings</strong> to prevent small, volatile samples from skewing percentages.
+        </p>
+
+        <div class="geo-stats-wrap">
+          <div class="geo-header-note">
+            <span style="font-weight: 700; color: var(--ink-primary);">11 Qualifying EU Member States</span>
+            <span class="qualify-badge">Sample Stability Gate Met (N &ge; 300)</span>
+          </div>
+
+          <div class="geo-country-grid">
+            <div class="country-pill"><span class="c-name">🇫🇷 France</span><span class="c-count num">4,972</span></div>
+            <div class="country-pill"><span class="c-name">🇳🇱 Netherlands</span><span class="c-count num">3,307</span></div>
+            <div class="country-pill"><span class="c-name">🇵🇱 Poland</span><span class="c-count num">2,826</span></div>
+            <div class="country-pill"><span class="c-name">🇪🇸 Spain</span><span class="c-count num">2,740</span></div>
+            <div class="country-pill"><span class="c-name">🇩🇪 Germany</span><span class="c-count num">2,396</span></div>
+            <div class="country-pill"><span class="c-name">🇮🇹 Italy</span><span class="c-count num">2,129</span></div>
+            <div class="country-pill"><span class="c-name">🇵🇹 Portugal</span><span class="c-count num">1,366</span></div>
+            <div class="country-pill"><span class="c-name">🇧🇪 Belgium</span><span class="c-count num">1,012</span></div>
+            <div class="country-pill"><span class="c-name">🇸🇪 Sweden</span><span class="c-count num">885</span></div>
+            <div class="country-pill"><span class="c-name">🇮🇪 Ireland</span><span class="c-count num">470</span></div>
+            <div class="country-pill"><span class="c-name">🇩🇰 Denmark</span><span class="c-count num">416</span></div>
+          </div>
+
+          <p class="geo-disclaimer">
+            <em>Methodological Note:</em> Member states with fewer than 300 observed postings remain visible on the choropleth map with their observed totals, but are excluded from composition charts to avoid misleading comparisons. This threshold is a practical sample stability criterion, not a guarantee of population census representativeness.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         Section 6: Methodological Rigor & Software Integrity
+         ======================================================================== -->
+    <section class="editorial-section" id="methodology">
+      <div class="container">
+        <h2 class="section-heading">Tested, Validated, and Transparent</h2>
+        <p class="section-lead">
+          The EU Data Career Compass is backed by a fully reproducible, automated Python analytical pipeline that prioritizes statistical honesty over inflated claims.
+        </p>
+
+        <div class="rigor-grid">
+          <!-- 397 Automated Tests -->
+          <div class="rigor-card">
+            <div class="stat-callout num" style="color: var(--cat-engineering);">397 Tests</div>
+            <h3>Automated Software Test Suite</h3>
+            <p>Every analytical calculation, regex delimiter rule, atomic JSON output serialization, support threshold, and UI state transition is verified by an automated pytest suite passing with 100% test consistency.</p>
+          </div>
+
+          <!-- Holdout Validation Audits -->
+          <div class="rigor-card">
+            <div class="stat-callout num" style="color: var(--brand-blue);">98.8% &amp; 96.7%</div>
+            <h3>Holdout Extraction Audits</h3>
+            <p>Skill extraction accuracy was audited through manual human annotation on frozen holdout samples: achieving 98.8% precision across 50 general postings and 96.7% precision on an independent 30-posting R language audit.</p>
+          </div>
+
+          <!-- Seniority Integrity -->
+          <div class="rigor-card">
+            <div class="stat-callout num" style="color: var(--cat-science);">42.9% Stated</div>
+            <h3>Descriptive Seniority Integrity</h3>
+            <p>Seniority information is available for 42.9% of postings in the dataset (57.1% unstated). The project reports this descriptively as an observed fact without attempting unverified algorithmic imputation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         Section 7: Interactive Dashboard Tour & Architecture
+         ======================================================================== -->
+    <section class="editorial-section" id="tour">
+      <div class="container">
+        <h2 class="section-heading">The Analytical Dashboard Experience</h2>
+        <p class="section-lead">
+          While this promotional website presents the core empirical findings, the companion Streamlit web application (<code>app.py</code>) provides the full interactive analytical workspace:
+        </p>
+
+        <div class="architecture-box">
+          <div class="arch-header">
+            <h3>Streamlit Single-Page Architectural Layout</h3>
+            <span class="num" style="font-size: 13px; color: #94a3b8;">Streamlit Application • app.py</span>
+          </div>
+
+          <div class="arch-grid">
+            <div>
+              <div class="arch-component">
+                <h4><span>1.</span> Persistent Sticky Filter Bar</h4>
+                <p>Multi-select country filtering across all 27 EU member states, job family selection, seniority level, and technical skill-family filtering with synchronized resets.</p>
+              </div>
+
+              <div class="arch-component">
+                <h4><span>2.</span> Summary KPI Ribbon</h4>
+                <p>Four primary cards showing active matching postings, active countries, represented occupations, and stated seniority coverage with exact mathematical denominator subtitles.</p>
+              </div>
+
+              <div class="arch-component">
+                <h4><span>3.</span> Role Distinctiveness &amp; Skill Quadrant Analysis</h4>
+                <p>Side-by-side Most Distinctive Skills ranking (sorted by lift) and the Bivariate Skill Demand &amp; Distinctiveness Scatter Plot with Lift = 1.00 parity line and interactive dense toggle.</p>
+              </div>
+            </div>
+
+            <div>
+              <div class="arch-component">
+                <h4><span>4.</span> European Choropleth</h4>
+                <p>Interactive Plotly choropleth map plotting raw observed job postings across all 27 EU nations with country click callbacks.</p>
+              </div>
+
+              <div class="arch-component">
+                <h4><span>5.</span> Stacked Composition</h4>
+                <p>100% stacked horizontal bar chart displaying occupational mix across the 11 member states meeting the N &ge; 300 sample-size threshold.</p>
+              </div>
+
+              <div class="arch-component">
+                <h4><span>6.</span> Complete Skill Table</h4>
+                <p>Searchable, paginated data table showing count, prevalence, and lift across all 52 canonical technical skills.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         Section 8: Dashboard Access & Quickstart
+         ======================================================================== -->
+    <section class="access-section" id="dashboard-access">
+      <div class="container">
+        <div class="access-card">
+          <h2>Launch the EU Data Career Compass</h2>
+          <p class="access-desc">
+            The interactive analytical dashboard is built with Python and Streamlit. You can explore the complete repository on GitHub or run the dashboard locally in seconds using precomputed analytics.
+          </p>
+
+          <div class="access-actions">
+            <a class="btn btn-blue" href="https://github.com/esst-prog2/EU-Data-Skill-Demand" target="_blank" rel="noopener noreferrer">
+              <span>📂</span> Explore GitHub Repository
+            </a>
+            <a class="btn btn-secondary" href="https://github.com/esst-prog2/EU-Data-Skill-Demand/releases" target="_blank" rel="noopener noreferrer">
+              <span>📦</span> Download Dataset &amp; Releases
+            </a>
+          </div>
+
+          <div class="terminal-container">
+            <code>$ git clone https://github.com/esst-prog2/EU-Data-Skill-Demand.git &amp;&amp; cd EU-Data-Skill-Demand &amp;&amp; uv run streamlit run app.py</code>
+            <button class="copy-btn" onclick="copyQuickstart(this)">Copy</button>
+          </div>
+          <span style="display: block; font-size: 12px; color: var(--ink-muted); margin-top: 10px;">
+            Runs locally in seconds without requiring external database setup or API keys.
+          </span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       Footer
+       ======================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <strong>EU Data Career Compass</strong> &bull; Advanced Programming Project
+        </div>
+        <div class="footer-links">
+          <a href="https://github.com/esst-prog2/EU-Data-Skill-Demand" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://github.com/esst-prog2/EU-Data-Skill-Demand/blob/main/README.md" target="_blank" rel="noopener noreferrer">Documentation</a>
+          <a href="https://github.com/esst-prog2/EU-Data-Skill-Demand/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">License</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       Interactive Scripts
+       ======================================================================== -->
+  <script>
+    function toggleNav() {
+      const nav = document.getElementById('mainNav');
+      nav.classList.toggle('active');
+    }
+
+    function copyQuickstart(btn) {
+      const cmd = "git clone https://github.com/esst-prog2/EU-Data-Skill-Demand.git && cd EU-Data-Skill-Demand && uv run streamlit run app.py";
+      navigator.clipboard.writeText(cmd).then(() => {
+        const orig = btn.innerText;
+        btn.innerText = "Copied!";
+        setTimeout(() => { btn.innerText = orig; }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
