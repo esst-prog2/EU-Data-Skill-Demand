@@ -1,0 +1,827 @@
+<!-- Standalone copy of promo-website-variants-preview.html in docs/designs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EU Data Career Compass — Promotional Website Visual Variants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@500;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --app-bg: #0f172a;
+    --app-panel: #1e293b;
+    --app-border: #334155;
+    --app-text: #f8fafc;
+    --app-muted: #94a3b8;
+    --app-accent: #38bdf8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--app-bg);
+    color: var(--app-text);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  header.control-bar {
+    background: var(--app-panel);
+    border-bottom: 1px solid var(--app-border);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+  }
+
+  .branding {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .branding h1 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+  }
+  .badge-tag {
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 9999px;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+  }
+
+  .variant-selector {
+    display: flex;
+    background: #0f172a;
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid var(--app-border);
+    gap: 4px;
+  }
+  .variant-btn {
+    background: transparent;
+    border: none;
+    color: var(--app-muted);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .variant-btn:hover {
+    color: #ffffff;
+    background: rgba(255,255,255,0.05);
+  }
+  .variant-btn.active {
+    background: #2563eb;
+    color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  .viewport-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .view-btn {
+    background: #0f172a;
+    border: 1px solid var(--app-border);
+    color: var(--app-muted);
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.15s;
+  }
+  .view-btn.active, .view-btn:hover {
+    color: #ffffff;
+    border-color: #38bdf8;
+  }
+
+  main.canvas-container {
+    flex: 1;
+    overflow-y: auto;
+    background: #090d16;
+    display: flex;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .preview-wrapper {
+    width: 100%;
+    max-width: 1200px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    transition: max-width 0.25s ease;
+  }
+  .preview-wrapper.tablet { max-width: 768px; }
+  .preview-wrapper.mobile { max-width: 400px; }
+
+  .site-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 40px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .site-nav .logo {
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .site-nav .nav-links {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s;
+    border: none;
+  }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+
+  .hero-section {
+    padding: 70px 40px 50px;
+    text-align: center;
+  }
+  .hero-eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+    display: inline-block;
+  }
+  .hero-title {
+    font-size: 44px;
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    max-width: 860px;
+    margin: 0 auto 20px;
+  }
+  .hero-desc {
+    font-size: 18px;
+    line-height: 1.6;
+    max-width: 720px;
+    margin: 0 auto 30px;
+  }
+  .hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 40px;
+  }
+  .stat-ribbon {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+    padding: 16px 20px;
+    text-align: center;
+  }
+  .stat-item .val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    font-weight: 700;
+  }
+  .stat-item .lbl {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    margin-top: 4px;
+  }
+
+  .content-section {
+    padding: 60px 40px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+  .section-intro {
+    font-size: 16px;
+    line-height: 1.65;
+    max-width: 780px;
+    margin-bottom: 32px;
+  }
+
+  .matrix-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    position: relative;
+    padding: 20px 0;
+  }
+  .quadrant-card {
+    padding: 24px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    position: relative;
+  }
+  .quadrant-card h4 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .quadrant-card .tagline {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 12px;
+  }
+  .quadrant-card p {
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+  .parity-divider {
+    grid-column: span 2;
+    border-top: 2px dashed #dc2626;
+    margin: -10px 0;
+    position: relative;
+    text-align: center;
+  }
+  .parity-divider span {
+    background: #ffffff;
+    padding: 2px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: #dc2626;
+    position: relative;
+    top: -10px;
+    border: 1px solid #fecaca;
+    border-radius: 4px;
+  }
+
+  .proof-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .proof-card {
+    border-radius: 8px;
+    padding: 24px;
+    border: 1px solid #e2e8f0;
+  }
+  .proof-card .skill-name {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .proof-card .metric-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 13px;
+  }
+  .proof-card .metric-row:last-of-type { border-bottom: none; margin-bottom: 12px; }
+  .proof-card .metric-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+  }
+  .proof-card .card-explainer {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .prof-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  .prof-box {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 18px;
+  }
+  .prof-box h5 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .prof-box .count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .prof-box .skill-mini-list {
+    list-style: none;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+  .prof-box .skill-mini-list li strong {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .footer-cta {
+    padding: 70px 40px;
+    text-align: center;
+  }
+  .footer-cta h3 {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 14px;
+    letter-spacing: -0.02em;
+  }
+  .footer-cta p {
+    font-size: 16px;
+    max-width: 600px;
+    margin: 0 auto 28px;
+    line-height: 1.6;
+  }
+  .terminal-box {
+    background: #0f172a;
+    color: #f8fafc;
+    padding: 16px 24px;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    max-width: 520px;
+    margin: 24px auto 0;
+    text-align: left;
+    border: 1px solid #334155;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Option A */
+  .theme-option-a {
+    --text-color: #0f172a;
+    --text-muted: #475569;
+    --bg-page: #f8fafc;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-color);
+    background: var(--bg-page);
+  }
+  .theme-option-a .hero-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    color: #0f172a;
+  }
+  .theme-option-a .btn-primary { background: #0f172a; color: #ffffff; }
+  .theme-option-a .btn-primary:hover { background: #1e293b; }
+  .theme-option-a .btn-secondary { background: #ffffff; color: #0f172a; border: 1px solid #cbd5e1; }
+  .theme-option-a .btn-secondary:hover { background: #f1f5f9; }
+  .theme-option-a .hero-eyebrow { color: #2563eb; }
+  .theme-option-a .quadrant-card.superpowers { background: #f0fdf4; border-color: #bbf7d0; }
+  .theme-option-a .quadrant-card.universal { background: #f8fafc; border-color: #cbd5e1; }
+  .theme-option-a .quadrant-card.niche { background: #faf5ff; border-color: #e9d5ff; }
+  .theme-option-a .quadrant-card.peripheral { background: #f8fafc; border-color: #e2e8f0; }
+
+  /* Option B */
+  .theme-option-b {
+    --text-color: #0f172a;
+    --text-muted: #64748b;
+    --bg-page: #f1f5f9;
+    font-family: 'Cabinet Grotesk', 'Inter', sans-serif;
+    color: var(--text-color);
+    background: var(--bg-page);
+  }
+  .theme-option-b .site-nav { background: #0f172a; color: #ffffff; border-bottom: 1px solid #334155; }
+  .theme-option-b .site-nav .logo { color: #38bdf8; }
+  .theme-option-b .site-nav a { color: #94a3b8; text-decoration: none; }
+  .theme-option-b .btn-primary { background: #0284c7; color: #ffffff; }
+  .theme-option-b .btn-primary:hover { background: #0369a1; }
+  .theme-option-b .btn-secondary { background: rgba(255,255,255,0.1); color: #ffffff; border: 1px solid rgba(255,255,255,0.2); }
+  .theme-option-b .hero-section { background: #0f172a; color: #ffffff; border-bottom: 2px solid #0284c7; }
+  .theme-option-b .hero-title { color: #ffffff; font-family: 'Cabinet Grotesk', sans-serif; }
+  .theme-option-b .hero-desc { color: #94a3b8; }
+  .theme-option-b .hero-eyebrow { color: #38bdf8; }
+  .theme-option-b .stat-ribbon { background: #1e293b; border-color: #334155; color: #ffffff; }
+  .theme-option-b .stat-item .val { color: #38bdf8; }
+  .theme-option-b .stat-item .lbl { color: #94a3b8; }
+  .theme-option-b .quadrant-card, .theme-option-b .proof-card, .theme-option-b .prof-box {
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    border-color: #cbd5e1;
+  }
+
+  /* Option C */
+  .theme-option-c {
+    --text-color: #1c1917;
+    --text-muted: #57534e;
+    --bg-page: #fafaf9;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-color);
+    background: var(--bg-page);
+  }
+  .theme-option-c .hero-title { font-weight: 700; letter-spacing: -0.04em; color: #1c1917; }
+  .theme-option-c .hero-eyebrow { color: #78716c; border: 1px solid #d6d3d1; padding: 3px 10px; border-radius: 9999px; background: #ffffff; }
+  .theme-option-c .btn-primary { background: #1c1917; color: #fafaf9; border-radius: 4px; }
+  .theme-option-c .btn-primary:hover { background: #292524; }
+  .theme-option-c .btn-secondary { background: transparent; color: #1c1917; border: 1px solid #a8a29e; border-radius: 4px; }
+  .theme-option-c .btn-secondary:hover { background: #f5f5f4; }
+  .theme-option-c .stat-ribbon { background: transparent; border-color: #e7e5e4; }
+  .theme-option-c .quadrant-card, .theme-option-c .proof-card, .theme-option-c .prof-box { border-color: #e7e5e4; background: #ffffff; border-radius: 4px; }
+  .theme-option-c .parity-divider span { background: #fafaf9; border-color: #e7e5e4; color: #991b1b; }
+</style>
+</head>
+<body>
+
+  <header class="control-bar">
+    <div class="branding">
+      <h1>EU Data Career Compass — Design Generator</h1>
+      <span class="badge-tag">STEP 3 — GENERATE</span>
+    </div>
+
+    <div class="variant-selector">
+      <button class="variant-btn active" onclick="setTheme('option-a', this)">
+        Option A: Precision Atlas
+      </button>
+      <button class="variant-btn" onclick="setTheme('option-b', this)">
+        Option B: Data Terminal
+      </button>
+      <button class="variant-btn" onclick="setTheme('option-c', this)">
+        Option C: Nordic Folio
+      </button>
+    </div>
+
+    <div class="viewport-controls">
+      <button class="view-btn active" onclick="setViewport('desktop', this)">🖥️ Desktop</button>
+      <button class="view-btn" onclick="setViewport('tablet', this)">📱 Tablet</button>
+      <button class="view-btn" onclick="setViewport('mobile', this)">📱 Mobile</button>
+    </div>
+  </header>
+
+  <main class="canvas-container">
+    <div class="preview-wrapper theme-option-a" id="previewCanvas">
+
+      <nav class="site-nav">
+        <div class="logo">
+          <span>🧭</span> EU Data Career Compass
+        </div>
+        <div class="nav-links">
+          <a href="#quadrants" style="color: inherit; text-decoration: none;">Quadrants</a>
+          <a href="#evidence" style="color: inherit; text-decoration: none;">Evidence</a>
+          <a href="#occupations" style="color: inherit; text-decoration: none;">Occupations</a>
+          <a href="#geography" style="color: inherit; text-decoration: none;">Geography</a>
+          <button class="btn-primary" style="padding: 7px 14px; font-size: 13px;">Explore Dashboard</button>
+        </div>
+      </nav>
+
+      <section class="hero-section">
+        <span class="hero-eyebrow">Evidence-Based Career Reality Check</span>
+        <h2 class="hero-title">What the European Tech Job Market Actually Expects from You</h2>
+        <p class="hero-desc">
+          An empirical analysis of <strong>24,488 verified job postings</strong> across <strong>27 EU member states</strong> and <strong>5 core data professions</strong> — cutting through generic career advice by measuring within-role popularity against true occupational distinctiveness.
+        </p>
+        <div class="hero-actions">
+          <a class="btn-primary" href="#dashboard-tour">
+            <span>🚀</span> Explore Interactive Dashboard
+          </a>
+          <a class="btn-secondary" href="https://github.com/esst-prog2/EU-Data-Skill-Demand" target="_blank">
+            <span>📂</span> View on GitHub
+          </a>
+        </div>
+
+        <div class="stat-ribbon">
+          <div class="stat-item">
+            <div class="val">24,488</div>
+            <div class="lbl">Observed Postings</div>
+          </div>
+          <div class="stat-item">
+            <div class="val">27</div>
+            <div class="lbl">EU Member States</div>
+          </div>
+          <div class="stat-item">
+            <div class="val">5</div>
+            <div class="lbl">Data Professions</div>
+          </div>
+          <div class="stat-item">
+            <div class="val">52</div>
+            <div class="lbl">Canonical Skills</div>
+          </div>
+          <div class="stat-item">
+            <div class="val">397</div>
+            <div class="lbl">Automated Tests</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section" style="background: rgba(0,0,0,0.01);">
+        <div class="section-eyebrow" style="color: #64748b;">The Junior Data Dilemma</div>
+        <h3 class="section-title">The Trap of "Job Description Fatigue"</h3>
+        <p class="section-intro">
+          Entry-level job listings frequently read like exhaustive enterprise wishlists demanding Python, SQL, Spark, Docker, AWS, and PyTorch all in one role. Meanwhile, generic blogs advise everyone to <em>"just learn Python and SQL"</em> without revealing how requirements diverge in practice.
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+          <div style="padding: 18px; border-radius: 6px; border: 1px solid #e2e8f0; background: #ffffff;">
+            <div style="font-size: 20px; margin-bottom: 8px;">🎯</div>
+            <strong style="font-size: 14px; display: block; margin-bottom: 6px;">Role Differentiation</strong>
+            <p style="font-size: 13px; color: #64748b; line-height: 1.5;">How do skills split between Data Analytics, Engineering, Data Science, and ML/AI?</p>
+          </div>
+          <div style="padding: 18px; border-radius: 6px; border: 1px solid #e2e8f0; background: #ffffff;">
+            <div style="font-size: 20px; margin-bottom: 8px;">⚖️</div>
+            <strong style="font-size: 14px; display: block; margin-bottom: 6px;">Foundations vs. Superpowers</strong>
+            <p style="font-size: 13px; color: #64748b; line-height: 1.5;">Which skills are shared baselines, and which uniquely define a discipline?</p>
+          </div>
+          <div style="padding: 18px; border-radius: 6px; border: 1px solid #e2e8f0; background: #ffffff;">
+            <div style="font-size: 20px; margin-bottom: 8px;">🗺️</div>
+            <strong style="font-size: 14px; display: block; margin-bottom: 6px;">European Reality</strong>
+            <p style="font-size: 13px; color: #64748b; line-height: 1.5;">How do hiring volumes and occupational mixes vary across EU member states?</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section" id="quadrants">
+        <div class="section-eyebrow" style="color: #2563eb;">The Central Mechanism</div>
+        <h3 class="section-title">Popularity vs. Distinctiveness: The 4-Quadrant Map</h3>
+        <p class="section-intro">
+          Raw popularity provides an incomplete picture. The EU Data Career Compass maps tools along two axes: <strong>Within-Category Prevalence</strong> ($P$) on the horizontal axis, and <strong>Distinctiveness Lift</strong> ($\text{Lift} = P_{\text{role}} / P_{\text{corpus}}$) on the vertical axis against the <strong>Lift = 1.00 Corpus Parity line</strong>.
+        </p>
+
+        <div class="matrix-grid">
+          <div class="quadrant-card niche">
+            <span class="tagline" style="color: #7c3aed;">Lift &gt; 1.00 • Lower Prevalence</span>
+            <h4><span>🔬</span> Niche Specializations</h4>
+            <p>Tools with moderate volume that are disproportionately concentrated in this profession. E.g., <strong>XGBoost</strong> in Data Science (4.1%, 5.51× lift) or <strong>OpenCV</strong> in ML/AI (2.8%, 9.02× lift).</p>
+          </div>
+
+          <div class="quadrant-card superpowers">
+            <span class="tagline" style="color: #059669;">Lift &gt; 1.00 • High Prevalence</span>
+            <h4><span>⚡</span> Role Superpowers</h4>
+            <p>High prevalence combined with strong occupational concentration. The defining markers of the discipline. E.g., <strong>Power BI</strong> in Analytics (44.8%, 2.61× lift) or <strong>Spark</strong> in Data Engineering (30.3%, 1.47× lift).</p>
+          </div>
+
+          <div class="parity-divider">
+            <span>── Lift = 1.00 European Market Parity Baseline ──</span>
+          </div>
+
+          <div class="quadrant-card peripheral">
+            <span class="tagline" style="color: #64748b;">Lift &le; 1.00 • Lower Prevalence</span>
+            <h4><span>📎</span> Peripheral Skills</h4>
+            <p>Ancillary tools appearing at rates below or near the broader market baseline. Secondary or occasional technologies.</p>
+          </div>
+
+          <div class="quadrant-card universal">
+            <span class="tagline" style="color: #2563eb;">Lift &le; 1.00 • High Prevalence</span>
+            <h4><span>🌐</span> Universal Currency</h4>
+            <p>Frequently requested tools that appear across multiple disciplines. Table-stakes requirements. E.g., <strong>SQL</strong> in Analytics (63.7%, 1.09× lift) or <strong>Git</strong> across engineering.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section" id="evidence" style="background: rgba(0,0,0,0.01);">
+        <div class="section-eyebrow" style="color: #0284c7;">Concrete Empirical Proof</div>
+        <h3 class="section-title">Why Python and Excel Tell Different Stories in Data Analytics</h3>
+        <p class="section-intro">
+          Looking only at vacancy counts would suggest Python is the #1 tool to highlight for Data Analytics. Measuring Distinctiveness Lift reveals the true occupational markers:
+        </p>
+
+        <div class="proof-grid">
+          <div class="proof-card">
+            <div class="skill-name">
+              <span>Python</span>
+              <span style="font-size: 11px; background: #fee2e2; color: #991b1b; padding: 2px 6px; border-radius: 4px;">0.74× Lift</span>
+            </div>
+            <div class="metric-row"><span>Observed Postings</span><span class="metric-val">1,510 / 3,582</span></div>
+            <div class="metric-row"><span>Within-Role Prevalence</span><span class="metric-val">42.2%</span></div>
+            <div class="metric-row"><span>Corpus Baseline</span><span class="metric-val">57.1%</span></div>
+            <p class="card-explainer" style="color: #64748b;">
+              <strong>Broad Foundation:</strong> Requested in 42.2% of analytics jobs, but requested less than in the general corpus or Data Science (73.8%). It does not uniquely distinguish the role.
+            </p>
+          </div>
+
+          <div class="proof-card" style="border-top: 3px solid #059669;">
+            <div class="skill-name">
+              <span>Power BI</span>
+              <span style="font-size: 11px; background: #dcfce7; color: #166534; padding: 2px 6px; border-radius: 4px;">2.61× Lift</span>
+            </div>
+            <div class="metric-row"><span>Observed Postings</span><span class="metric-val">1,603 / 3,582</span></div>
+            <div class="metric-row"><span>Within-Role Prevalence</span><span class="metric-val">44.8%</span></div>
+            <div class="metric-row"><span>Corpus Baseline</span><span class="metric-val">17.2%</span></div>
+            <p class="card-explainer" style="color: #64748b;">
+              <strong>Category Marker:</strong> Highest prevalence combined with 2.61× concentration makes Business Intelligence the signature technical pillar of Data Analytics.
+            </p>
+          </div>
+
+          <div class="proof-card" style="border-top: 3px solid #7c3aed;">
+            <div class="skill-name">
+              <span>Excel</span>
+              <span style="font-size: 11px; background: #f3e8ff; color: #6b21a8; padding: 2px 6px; border-radius: 4px;">4.73× Lift</span>
+            </div>
+            <div class="metric-row"><span>Observed Postings</span><span class="metric-val">790 / 3,582</span></div>
+            <div class="metric-row"><span>Within-Role Prevalence</span><span class="metric-val">22.1%</span></div>
+            <div class="metric-row"><span>Corpus Baseline</span><span class="metric-val">4.7%</span></div>
+            <p class="card-explainer" style="color: #64748b;">
+              <strong>High Distinctiveness:</strong> Appears in nearly a quarter of analytics roles vs. just 4.7% across the broader European corpus — an occupational concentration ratio of 4.73×.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section" id="occupations">
+        <div class="section-eyebrow" style="color: #475569;">The 5 Disciplines</div>
+        <h3 class="section-title">Technical Profiles Across 24,488 European Postings</h3>
+        <p class="section-intro">
+          The verified distribution reveals how core requirements diverge across specialized professions:
+        </p>
+
+        <div class="prof-grid">
+          <div class="prof-box">
+            <h5 style="color: #059669;">Data Engineering</h5>
+            <span class="count">13,592 postings (55.5%)</span>
+            <ul class="skill-mini-list">
+              <li>SQL — <strong>55.8%</strong> (7,591 jobs)</li>
+              <li>Python — <strong>53.5%</strong> (7,268 jobs)</li>
+              <li>Azure — <strong>35.3%</strong> (4,792 jobs)</li>
+              <li>Kafka — <strong>1.61× lift</strong> (11.5%)</li>
+              <li>Spark — <strong>1.47× lift</strong> (30.3%)</li>
+            </ul>
+          </div>
+
+          <div class="prof-box">
+            <h5 style="color: #0284c7;">Data Analytics</h5>
+            <span class="count">3,582 postings (14.6%)</span>
+            <ul class="skill-mini-list">
+              <li>SQL — <strong>63.7%</strong> (2,283 jobs)</li>
+              <li>Power BI — <strong>44.8%</strong> (1,603 jobs)</li>
+              <li>Python — <strong>42.2%</strong> (1,510 jobs)</li>
+              <li>Excel — <strong>4.73× lift</strong> (22.1%)</li>
+              <li>Tableau — <strong>3.38× lift</strong> (21.0%)</li>
+            </ul>
+          </div>
+
+          <div class="prof-box">
+            <h5 style="color: #e11d48;">AI Engineering</h5>
+            <span class="count">3,345 postings (13.7%)</span>
+            <ul class="skill-mini-list">
+              <li>LLMs / GenAI — <strong>81.8%</strong> (2,735)</li>
+              <li>Python — <strong>67.7%</strong> (2,264 jobs)</li>
+              <li>CI/CD — <strong>32.8%</strong> (1,098 jobs)</li>
+              <li>LangChain — <strong>4.97× lift</strong> (20.9%)</li>
+              <li>TypeScript — <strong>4.69× lift</strong> (11.9%)</li>
+            </ul>
+          </div>
+
+          <div class="prof-box">
+            <h5 style="color: #7c3aed;">Data Science</h5>
+            <span class="count">2,558 postings (10.4%)</span>
+            <ul class="skill-mini-list">
+              <li>Python — <strong>73.8%</strong> (1,887 jobs)</li>
+              <li>SQL — <strong>46.2%</strong> (1,182 jobs)</li>
+              <li>Scikit-learn — <strong>4.33× lift</strong> (17.0%)</li>
+              <li>NumPy — <strong>4.02× lift</strong> (9.1%)</li>
+              <li>R — <strong>3.43× lift</strong> (16.4%)</li>
+            </ul>
+          </div>
+
+          <div class="prof-box">
+            <h5 style="color: #d97706;">ML/AI</h5>
+            <span class="count">1,411 postings (5.8%)</span>
+            <ul class="skill-mini-list">
+              <li>Python — <strong>74.4%</strong> (1,050 jobs)</li>
+              <li>PyTorch — <strong>40.0%</strong> (565 jobs)</li>
+              <li>OpenCV — <strong>9.02× lift</strong> (2.8%)</li>
+              <li>C++ — <strong>6.74× lift</strong> (12.7%)</li>
+              <li>TensorFlow — <strong>5.74× lift</strong> (25.2%)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section" id="geography" style="background: rgba(0,0,0,0.01);">
+        <div class="section-eyebrow" style="color: #d97706;">Geographic Guardrail</div>
+        <h3 class="section-title">European Scope & The Sample-Size Threshold (N &ge; 300)</h3>
+        <p class="section-intro">
+          While postings are mapped across all 27 EU member states, cross-country occupational composition comparisons are restricted to the <strong>11 member states with N &ge; 300 observed postings</strong> to prevent small, volatile samples from skewing percentages:
+        </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <span style="background: #ffffff; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: 13px;">🇫🇷 France: <strong>4,972</strong></span>
+          <span style="background: #ffffff; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: 13px;">🇳🇱 Netherlands: <strong>3,307</strong></span>
+          <span style="background: #ffffff; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: 13px;">🇵🇱 Poland: <strong>2,826</strong></span>
+          <span style="background: #ffffff; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: 13px;">🇪🇸 Spain: <strong>2,740</strong></span>
+          <span style="background: #ffffff; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: 13px;">🇩🇪 Germany: <strong>2,396</strong></span>
+          <span style="background: #ffffff; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: 13px;">🇮🇹 Italy: <strong>2,129</strong></span>
+          <span style="background: #ffffff; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: 13px;">🇵🇹 Portugal: <strong>1,366</strong></span>
+          <span style="background: #ffffff; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: 13px;">🇧🇪 Belgium: <strong>1,012</strong></span>
+          <span style="background: #ffffff; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: 13px;">🇸🇪 Sweden: <strong>885</strong></span>
+          <span style="background: #ffffff; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: 13px;">🇮🇪 Ireland: <strong>470</strong></span>
+          <span style="background: #ffffff; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 6px; font-size: 13px;">🇩🇰 Denmark: <strong>416</strong></span>
+        </div>
+      </section>
+
+      <section class="content-section">
+        <div class="section-eyebrow" style="color: #059669;">Engineering Rigor</div>
+        <h3 class="section-title">Tested, Validated, and Methodologically Transparent</h3>
+        <p class="section-intro">
+          This project prioritizes statistical honesty over inflated claims:
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+          <div style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 700; color: #059669; margin-bottom: 4px;">397 Tests</div>
+            <div style="font-size: 13px; font-weight: 700; margin-bottom: 6px;">Automated Pytest Suite</div>
+            <p style="font-size: 13px; color: #64748b; line-height: 1.5;">Verifies delimiter-guarded extraction, lift calculations, atomic JSON output, and UI state resilience.</p>
+          </div>
+          <div style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 700; color: #2563eb; margin-bottom: 4px;">98.8% / 96.7%</div>
+            <div style="font-size: 13px; font-weight: 700; margin-bottom: 6px;">Holdout Extraction Audits</div>
+            <p style="font-size: 13px; color: #64748b; line-height: 1.5;">Manual annotation holdouts (50 general postings and 30 R postings) confirming high precision without keyword leakage.</p>
+          </div>
+          <div style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 700; color: #7c3aed; margin-bottom: 4px;">42.9% Stated</div>
+            <div style="font-size: 13px; font-weight: 700; margin-bottom: 6px;">Transparent Seniority Reporting</div>
+            <p style="font-size: 13px; color: #64748b; line-height: 1.5;">Reported descriptively (57.1% unstated); no speculative algorithmic imputation or artificial filtering.</p>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer-cta" id="dashboard-tour">
+        <h3>Experience the EU Data Career Compass</h3>
+        <p>Explore the live interactive single-page dashboard or inspect the complete reproducible pipeline on GitHub.</p>
+        <div style="display: flex; justify-content: center; gap: 14px;">
+          <a class="btn-primary" href="#dashboard-tour" style="font-size: 15px; padding: 12px 24px;">
+            <span>🚀</span> Launch Interactive Dashboard
+          </a>
+          <a class="btn-secondary" href="https://github.com/esst-prog2/EU-Data-Skill-Demand" target="_blank" style="font-size: 15px; padding: 12px 24px;">
+            <span>📂</span> GitHub Repository
+          </a>
+        </div>
+        <div class="terminal-box">
+          <code>$ git clone https://github.com/esst-prog2/EU-Data-Skill-Demand.git && cd EU-Data-Skill-Demand && uv run streamlit run app.py</code>
+        </div>
+      </footer>
+
+    </div>
+  </main>
+
+  <script>
+    function setTheme(themeName, btn) {
+      const canvas = document.getElementById('previewCanvas');
+      canvas.className = 'preview-wrapper ' + 'theme-' + themeName;
+      document.querySelectorAll('.variant-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function setViewport(viewMode, btn) {
+      const canvas = document.getElementById('previewCanvas');
+      canvas.classList.remove('tablet', 'mobile');
+      if (viewMode === 'tablet') canvas.classList.add('tablet');
+      if (viewMode === 'mobile') canvas.classList.add('mobile');
+      document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+  </script>
+</body>
+</html>
