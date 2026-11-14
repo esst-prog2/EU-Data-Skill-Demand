@@ -36,7 +36,7 @@ This project addresses these questions by transforming an audited dataset of 24,
    - **Niche Specializations (Lower Prevalence, Lift > 1.00):** Tools with lower overall posting volume within the category that nonetheless show strong occupational concentration relative to the rest of the corpus (e.g., `XGBoost` in Data Science, `OpenCV` in ML/AI).
    - **Peripheral Skills (Lower Prevalence, Lift ≤ 1.00):** Tools that appear infrequently within the selected occupation and at rates below or near the broader market baseline.
 3. **Evidence-Based Exploration vs. Subjective Advice:**
-   Rather than relying on subjective opinions or anecdotal advice, every insight is grounded in an audited dataset of 24,488 observed FreeHire job postings across all 27 EU member states, supported by 394 automated software tests and an audited skill-extraction pipeline.
+   Rather than relying on subjective opinions or anecdotal advice, every insight is grounded in an audited dataset of 24,488 observed FreeHire job postings across all 27 EU member states, supported by 397 automated software tests and an audited skill-extraction pipeline.
 
 ---
 
@@ -56,7 +56,7 @@ To illustrate why prevalence and distinctiveness provide different but complemen
 - **Comparative Functionality, Not Automated Advice:** Role-to-role comparisons are a storytelling framework enabled by the user switching between occupational filters in the dashboard. The application does not generate personalized career-transition recommendations or compute custom skill-gap counts.
 - **Data Integrity:** All claims and visualizations reflect the audited snapshot of 24,488 unique EU-27 postings collected up to 7 November 2026.
 - **Geographic Robustness:** Cross-country occupational composition charts are strictly restricted to countries with $N \ge 300$ observed postings (11 member states); smaller markets remain visible on the choropleth map with raw sample counts.
-- **Testing Distinction:** Software tests (394 automated pytest tests verifying pipeline functions, atomic writes, thresholding, and UI rendering) are distinguished from manual dataset audits (e.g., the 50-posting manual validation sample and extraction precision audits).
+- **Testing Distinction:** Software tests (397 automated pytest tests verifying pipeline functions, atomic writes, thresholding, and UI rendering) are distinguished from manual dataset audits (e.g., the 50-posting manual validation sample and extraction precision audits).
 
 ---
 
@@ -127,7 +127,7 @@ We implement **Approach B** by authoring `docs/promo_page.md` structured into ei
    - Occupational composition comparison restricted to the **11 countries with $N \ge 300$ postings**: France (4,972), Netherlands (3,307), Poland (2,826), Spain (2,740), Germany (2,396), Italy (2,129), Portugal (1,366), Belgium (1,012), Sweden (885), Ireland (470), and Denmark (416).
 7. **Under the Hood (Engineering & Pipeline Integrity):**
    - Transparent methodology: hybrid skill extraction (native platform tags prioritized, delimiter-guarded regex fallback), controlled 52-skill canonical vocabulary, atomic JSON caching.
-   - Robust quality assurance: 394 automated software tests and documented empirical validation holdouts.
+   - Robust quality assurance: 397 automated software tests and documented empirical validation holdouts.
    - Descriptive seniority reporting: transparently noting that seniority metadata is available for 42.9% of postings (10,494 of 24,488 postings) without artificial imputation.
 8. **Call to Action & Student Takeaway:**
    - Dashboard launch command (`uv run streamlit run app.py`).
@@ -168,7 +168,7 @@ We implement **Approach B** by authoring `docs/promo_page.md` structured into ei
 │  Choropleth across EU-27 | 100% Stacked Composition for N >= 300 (11)  │
 ├────────────────────────────────────────────────────────────────────────┤
 │  PIPELINE INTEGRITY & REPRODUCIBILITY                                  │
-│  394 automated tests | Hybrid extraction | Descriptive seniority (42.9%)│
+│  397 automated tests | Hybrid extraction | Descriptive seniority (42.9%)│
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
