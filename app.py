@@ -85,12 +85,22 @@ CATEGORY_PALETTE: Dict[str, str] = {
     "ml_ai": "#be185d",             # Deep Berry Rose
 }
 
+# Differentiated, restrained skill-family palette to decouple from occupational roles
 FAMILY_PALETTE: Dict[str, str] = {
-    "Programming languages": "#1e40af",          # Deep Cobalt
-    "Databases & data warehouses": "#047857",     # Deep Emerald
-    "BI & visualization": "#b45309",              # Warm Amber / Sienna
-    "Cloud & infrastructure": "#6d28d9",          # Royal Violet
-    "ML/AI frameworks & tools": "#be185d",        # Deep Berry Rose
+    "Programming languages": "#334155",        # Slate 700 / Charcoal Navy
+    "Databases & data warehouses": "#0f766e",   # Deep Teal
+    "BI & visualization": "#d97706",            # Warm Ochre / Amber 600
+    "Cloud & infrastructure": "#4338ca",        # Indigo 700
+    "ML/AI frameworks & tools": "#701a75",      # Deep Plum / Fuchsia 900
+}
+
+# Accessible marker shapes for skill families (non-color visual encoding)
+FAMILY_MARKER_SHAPES: Dict[str, str] = {
+    "Programming languages": "circle",
+    "Databases & data warehouses": "square",
+    "BI & visualization": "diamond",
+    "Cloud & infrastructure": "triangle-up",
+    "ML/AI frameworks & tools": "hexagon",
 }
 
 ISO2_TO_ISO3: Dict[str, str] = {
@@ -809,7 +819,8 @@ def build_country_volume_comparison_bar(
     names = [f"{r['country_name']} ({r['iso_code']})" for r in sorted_records]
     counts = [r["total_postings"] for r in sorted_records]
     labels = [f"{c:,} jobs" for c in counts]
-    colors = ["#f59e0b" if r.get("is_subthreshold") else "#2563eb" for r in sorted_records]
+    # WCAG AA compliant dark amber (#b45309) for subthreshold countries vs deep royal blue
+    colors = ["#b45309" if r.get("is_subthreshold") else "#2563eb" for r in sorted_records]
 
     trace = create_horizontal_bar_trace(
         x=counts,
@@ -957,8 +968,20 @@ def build_scatter_figure(
             d["canonical"] if (not show_dense or d["is_eligible_distinctive"]) else ""
             for d in fam_items
         ]
+        # Restrained opacity: 1.0 for distinctive, reduced to 0.25 in dense mode to avoid clutter
         opacities = [
-            1.0 if d["is_eligible_distinctive"] else (0.45 if not show_dense else 0.35)
+            1.0 if d["is_eligible_distinctive"] else (0.25 if show_dense else 0.40)
+            for d in fam_items
+        ]
+        # Controlled point sizes: 7.5px/5.0px in dense mode, 10.5px/6.5px in default top-10 mode
+        marker_sizes = [
+            (7.5 if show_dense else 10.5) if d["is_eligible_distinctive"]
+            else (5.0 if show_dense else 6.5)
+            for d in fam_items
+        ]
+        line_widths = [
+            (1.2 if show_dense else 1.5) if d["is_eligible_distinctive"]
+            else 0.5
             for d in fam_items
         ]
 
@@ -972,11 +995,12 @@ def build_scatter_figure(
                 textposition="top center",
                 textfont=dict(size=11, color="#1e293b"),
                 marker=dict(
-                    size=[10.5 if d["is_eligible_distinctive"] else 6.5 for d in fam_items],
+                    symbol=FAMILY_MARKER_SHAPES.get(fam, "circle"),
+                    size=marker_sizes,
                     color=FAMILY_PALETTE.get(fam, "#64748b"),
                     opacity=opacities,
                     line=dict(
-                        width=[1.5 if d["is_eligible_distinctive"] else 0.5 for d in fam_items],
+                        width=line_widths,
                         color="#0f172a",
                     ),
                 ),
@@ -1514,42 +1538,96 @@ def main() -> None:
     st.subheader("2. Role Distinctiveness & Skill Quadrant Analysis")
     st.caption("Contrasting role-defining technical markers (Lift > 1.00 vs corpus baseline) with bivariate quadrant positioning.")
 
-    r2_col_dist, r2_col_scatter = st.columns(2)
+    # In-situ Lift explainer (collapsible, educational guidance)
+    with st.expander("ℹ️ How to Interpret Distinctiveness Lift and the Four Quadrants", expanded=False):
+        st.markdown(
+            "**Distinctiveness Lift** quantifies how much more (or less) frequently a technical skill is demanded\n"
+            "within a specific occupational role compared to the overall European data job market baseline:\n\n"
+            r"$$\text{Lift} = \frac{P(\text{skill} \mid \text{occupation})}{P(\text{skill} \mid \text{corpus})}" + "\n\n"
+            "- **Occupational Skill Prevalence ($P_{\\text{role}}$):** The percentage of unique job postings for the selected occupation that explicitly list the skill.\n"
+            "- **Corpus Baseline Prevalence ($P_{\\text{corpus}}$):** The percentage of postings across the entire European data corpus ($N = 23{,}138$) mentioning the skill.\n"
+            "- **Interpretation of Lift values:**\n"
+            "  - **Lift $> 1.00$ (Over-indexed):** The skill is concentrated in this profession relative to the overall market (e.g. **Power BI** in *Data Analytics*: $44.8\\% / 17.1\\% = 2.61\\times$ Lift).\n"
+            "  - **Lift $= 1.00$ (Corpus Parity):** The skill appears at the exact same rate as the general data market baseline.\n"
+            "  - **Lift $< 1.00$ (Under-indexed):** The skill appears less often than across data jobs generally, even if common (e.g. **Python** in *Data Analytics*: $42.2\\% / 57.1\\% = 0.74\\times$ Lift, because it is even more dominant in Engineering and Science).\n\n"
+            "**The Four Quadrant Landscape:**\n"
+            "1. **Role Superpowers (Top-Right):** High prevalence ($> 20\\%$) and high distinctiveness ($\\text{Lift} > 1.00$). Defining technical signatures of the role.\n"
+            "2. **Niche Specializations (Top-Left):** Lower prevalence ($< 20\\%$) but high distinctiveness ($\\text{Lift} > 1.00$). Specialized tools unique to this field.\n"
+            "3. **Universal Currency (Bottom-Right):** High prevalence ($> 20\\%$) but parity or sub-parity distinctiveness ($\\text{Lift} \\le 1.00$). Baseline skills expected across all data roles.\n"
+            "4. **Peripheral Skills (Bottom-Left):** Lower prevalence ($< 20\\%$) and lower distinctiveness ($\\text{Lift} \\le 1.00$). Ancillary or secondary tools.\n\n"
+            "*Note: Distinctive qualifications require $N \\ge 20$ postings and $P \\ge 1.5\\%$ to protect against small-sample lift inflation.*"
+        )
 
     cat_choice_keys = ["-- Select a Job Family for Distinctiveness --"] + list(OCCUPATIONAL_CATEGORIES.keys())
     cat_choice_display = {"-- Select a Job Family for Distinctiveness --": "🔍 Select a Job Family for Distinctiveness..."}
     cat_choice_display.update(OCCUPATIONAL_CATEGORIES)
 
-    # Left: Most Distinctive Skills (Ranked by Lift)
-    with r2_col_dist:
-        # Local category selector: defaults to global category if a specific one is selected
-        if st.session_state["filter_category"] != "All Categories":
-            default_dist_cat = st.session_state["filter_category"]
-        else:
-            default_dist_cat = st.session_state.get("local_dist_cat", "-- Select a Job Family for Distinctiveness --")
+    # Resolve defaults based on global filter
+    if st.session_state["filter_category"] != "All Categories":
+        default_dist_cat = st.session_state["filter_category"]
+        default_scatter_cat = st.session_state["filter_category"]
+    else:
+        default_dist_cat = st.session_state.get("local_dist_cat", "-- Select a Job Family for Distinctiveness --")
+        default_scatter_cat = st.session_state.get("local_scatter_cat", "-- Select a Job Family for Distinctiveness --")
 
-        c_d1, c_d2 = st.columns([4, 1])
-        with c_d1:
+    # Unified Row 2 Control Deck Container
+    with st.container(border=True):
+        r2_ctrl1, r2_ctrl2, r2_ctrl3 = st.columns([2.5, 2.5, 2.0])
+        with r2_ctrl1:
             sel_dist_cat = st.selectbox(
                 "Occupational Role (for Distinctive Ranking):",
                 options=cat_choice_keys,
                 format_func=lambda k: cat_choice_display.get(k, k),
                 index=cat_choice_keys.index(default_dist_cat) if default_dist_cat in cat_choice_keys else 0,
                 key=f"local_dist_cat_{ver}",
-                help="Select a specific occupational role to calculate lift against the full corpus baseline.",
+                help="Select an occupational role to benchmark distinctive skills against the full corpus baseline.",
             )
             st.session_state["local_dist_cat"] = sel_dist_cat
-        with c_d2:
-            st.write("")
-            st.write("")
+        with r2_ctrl2:
+            sel_scatter_cat = st.selectbox(
+                "Occupational Role (for Scatter Plot):",
+                options=cat_choice_keys,
+                format_func=lambda k: cat_choice_display.get(k, k),
+                index=cat_choice_keys.index(default_scatter_cat) if default_scatter_cat in cat_choice_keys else 0,
+                key=f"local_scatter_cat_{ver}",
+                help="Select an occupational role to visualize prevalence vs. distinctiveness lift in the quadrant scatter plot.",
+            )
+            st.session_state["local_scatter_cat"] = sel_scatter_cat
+        with r2_ctrl3:
+            st.markdown("<div style='height: 24px;'></div>", unsafe_allow_html=True)
+            show_dense = st.checkbox(
+                "Include all detected skills (including unqualified skills)",
+                value=False,
+                key=f"scatter_dense_{ver}",
+                help="Unchecked: Top 10 qualified distinctive skills. Checked: All detected skills in this population.",
+            )
+
+    # Determine effective roles for tandem synchronization:
+    # If a role is selected in either selector while the other remains at the default prompt,
+    # both Row 2 visualizations synchronize to that role.
+    effective_dist_cat = sel_dist_cat
+    effective_scatter_cat = sel_scatter_cat
+    if effective_dist_cat == "-- Select a Job Family for Distinctiveness --" and effective_scatter_cat != "-- Select a Job Family for Distinctiveness --":
+        effective_dist_cat = effective_scatter_cat
+    elif effective_scatter_cat == "-- Select a Job Family for Distinctiveness --" and effective_dist_cat != "-- Select a Job Family for Distinctiveness --":
+        effective_scatter_cat = effective_dist_cat
+
+    r2_col_dist, r2_col_scatter = st.columns(2)
+
+    # Left: Most Distinctive Skills (Ranked by Lift)
+    with r2_col_dist:
+        d_head_col, d_btn_col = st.columns([4, 1])
+        with d_head_col:
+            st.markdown("##### Most Distinctive Technical Skills")
+        with d_btn_col:
             expand_dist_clicked = st.button("⛶ Expand", key="expand_dist")
 
-        is_unselected_dist = sel_dist_cat == "-- Select a Job Family for Distinctiveness --"
+        is_unselected_dist = effective_dist_cat == "-- Select a Job Family for Distinctiveness --"
         if not is_unselected_dist:
             dist_pop = filter_postings_population(
                 postings,
                 country=active_c_list,
-                category=sel_dist_cat,
+                category=effective_dist_cat,
                 seniority=st.session_state["filter_seniority"],
             )["active_postings"]
 
@@ -1560,7 +1638,7 @@ def main() -> None:
                 dist_stats = filter_skills_by_family(dist_stats, active_family)
 
             st.caption(
-                f"**Active Population:** {OCCUPATIONAL_CATEGORIES.get(sel_dist_cat)} in {c_summary} ({len(dist_pop):,} postings) • "
+                f"**Active Population:** {OCCUPATIONAL_CATEGORIES.get(effective_dist_cat)} in {c_summary} ({len(dist_pop):,} postings) • "
                 f"**Baseline:** Entire EU Corpus ({corpus_total:,} postings)"
             )
             fig_dist = build_most_distinctive_bar(
@@ -1570,7 +1648,7 @@ def main() -> None:
                 height=380,
             )
         else:
-            st.caption("Select an occupational role to benchmark distinctive skills against the corpus baseline.")
+            st.caption("Select an occupational role above to benchmark distinctive skills against the corpus baseline.")
             fig_dist = build_most_distinctive_bar(
                 [],
                 is_unselected_category=True,
@@ -1589,41 +1667,18 @@ def main() -> None:
 
     # Right: Prevalence vs. Distinctiveness (Lift) Scatter Plot
     with r2_col_scatter:
-        if st.session_state["filter_category"] != "All Categories":
-            default_scatter_cat = st.session_state["filter_category"]
-        else:
-            default_scatter_cat = st.session_state.get("local_scatter_cat", "-- Select a Job Family for Distinctiveness --")
-
-        c_sc1, c_sc2 = st.columns([3.5, 1.5])
-        with c_sc1:
-            sel_scatter_cat = st.selectbox(
-                "Occupational Role (for Scatter Plot):",
-                options=cat_choice_keys,
-                format_func=lambda k: cat_choice_display.get(k, k),
-                index=cat_choice_keys.index(default_scatter_cat) if default_scatter_cat in cat_choice_keys else 0,
-                key=f"local_scatter_cat_{ver}",
-                help="Select an occupational role to visualize prevalence vs. distinctiveness lift.",
-            )
-            st.session_state["local_scatter_cat"] = sel_scatter_cat
-
-        with c_sc2:
-            st.write("")
-            st.write("")
+        s_head_col, s_btn_col = st.columns([4, 1])
+        with s_head_col:
+            st.markdown("##### Bivariate Demand & Lift Landscape")
+        with s_btn_col:
             expand_scatter_clicked = st.button("⛶ Expand", key="expand_scatter")
 
-        show_dense = st.checkbox(
-            "Include all detected skills (including unqualified skills)",
-            value=False,
-            key=f"scatter_dense_{ver}",
-            help="Unchecked: Top 10 qualified distinctive skills. Checked: All detected skills in this population.",
-        )
-
-        is_unselected_scatter = sel_scatter_cat == "-- Select a Job Family for Distinctiveness --"
+        is_unselected_scatter = effective_scatter_cat == "-- Select a Job Family for Distinctiveness --"
         if not is_unselected_scatter:
             scatter_pop = filter_postings_population(
                 postings,
                 country=active_c_list,
-                category=sel_scatter_cat,
+                category=effective_scatter_cat,
                 seniority=st.session_state["filter_seniority"],
             )["active_postings"]
 
@@ -1635,7 +1690,7 @@ def main() -> None:
 
             scatter_items = prepare_scatter_data(scatter_stats, min_count=1)
             st.caption(
-                f"**Active Population:** {OCCUPATIONAL_CATEGORIES.get(sel_scatter_cat)} in {c_summary} ({len(scatter_pop):,} postings) • "
+                f"**Active Population:** {OCCUPATIONAL_CATEGORIES.get(effective_scatter_cat)} in {c_summary} ({len(scatter_pop):,} postings) • "
                 f"Showing {'all ' + str(len(scatter_items)) + ' detected skills' if show_dense else 'Top 10 qualified distinctive skills'}"
             )
             fig_scatter = build_scatter_figure(
@@ -1646,7 +1701,7 @@ def main() -> None:
                 height=380,
             )
         else:
-            st.caption("Select an occupational role to explore its bivariate demand-versus-distinctiveness landscape.")
+            st.caption("Select an occupational role above to explore its bivariate demand-versus-distinctiveness landscape.")
             fig_scatter = build_scatter_figure(
                 [],
                 is_unselected_category=True,
