@@ -74,23 +74,23 @@ st.set_page_config(
 )
 
 # =============================================================================
-# Color Palettes
+# Color Palettes (Precision Editorial Console Specification)
 # =============================================================================
 
 CATEGORY_PALETTE: Dict[str, str] = {
-    "data_engineering": "#3b82f6",  # Blue
-    "data_analytics": "#10b981",    # Emerald
-    "ai_engineering": "#8b5cf6",    # Purple
-    "data_science": "#f59e0b",      # Amber
-    "ml_ai": "#ec4899",             # Pink
+    "data_engineering": "#1e40af",  # Deep Cobalt
+    "data_analytics": "#047857",    # Deep Emerald
+    "ai_engineering": "#6d28d9",    # Royal Violet
+    "data_science": "#b45309",      # Warm Amber / Sienna
+    "ml_ai": "#be185d",             # Deep Berry Rose
 }
 
 FAMILY_PALETTE: Dict[str, str] = {
-    "Programming languages": "#2563eb",
-    "Databases & data warehouses": "#059669",
-    "BI & visualization": "#f59e0b",
-    "Cloud & infrastructure": "#8b5cf6",
-    "ML/AI frameworks & tools": "#ec4899",
+    "Programming languages": "#1e40af",          # Deep Cobalt
+    "Databases & data warehouses": "#047857",     # Deep Emerald
+    "BI & visualization": "#b45309",              # Warm Amber / Sienna
+    "Cloud & infrastructure": "#6d28d9",          # Royal Violet
+    "ML/AI frameworks & tools": "#be185d",        # Deep Berry Rose
 }
 
 ISO2_TO_ISO3: Dict[str, str] = {
@@ -500,9 +500,30 @@ def build_europe_map_figure(
         center=dict(lat=54.0, lon=14.0),
         projection_scale=1.05,
     )
+    apply_editorial_chart_theme(fig, height=height, margin=dict(l=0, r=0, t=10, b=10))
+    return fig
+
+
+def apply_editorial_chart_theme(
+    fig: go.Figure,
+    height: int = 380,
+    margin: dict | None = None,
+) -> go.Figure:
+    """
+    Applies shared Precision Editorial Console styling to Plotly figures:
+    clean white canvas, Slate 200 gridlines, and clean sans-serif typography.
+    """
+    default_margin = dict(l=20, r=20, t=15, b=15)
     fig.update_layout(
-        margin=dict(l=0, r=0, t=10, b=10),
         height=height,
+        margin=margin or default_margin,
+        paper_bgcolor="#ffffff",
+        plot_bgcolor="#ffffff",
+        font=dict(
+            family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+            size=11,
+            color="#334155",
+        ),
     )
     return fig
 
@@ -552,11 +573,11 @@ def apply_standard_bar_layout(
     Ensures outside text labels have sufficient margin space and never rotate sideways.
     """
     upper_bound = max(float(max_val) * headroom_factor, min_range) if max_val else min_range
+    apply_editorial_chart_theme(fig, height=height, margin=dict(l=20, r=margin_right, t=10, b=10))
     fig.update_layout(
-        margin=dict(l=20, r=margin_right, t=10, b=10),
         xaxis_title=xaxis_title,
-        height=height,
         xaxis=dict(showgrid=True, gridcolor="#e2e8f0", range=[0, upper_bound]),
+        yaxis=dict(showgrid=False, tickfont=dict(size=11, color="#1e293b")),
         uniformtext=dict(mode="hide", minsize=9),
     )
     return fig
@@ -865,11 +886,10 @@ def build_cross_country_composition_stacked_bar(
             )
         )
 
+    apply_editorial_chart_theme(fig, height=height, margin=dict(l=20, r=20, t=10, b=10))
     fig.update_layout(
         barmode="stack",
         xaxis_title="Share of Country's Postings (% Composition)",
-        height=height,
-        margin=dict(l=20, r=20, t=10, b=10),
         xaxis=dict(range=[0, 100], showgrid=True, gridcolor="#e2e8f0"),
         legend=dict(orientation="h", yanchor="bottom", y=-0.25, xanchor="center", x=0.5),
         uniformtext=dict(mode="hide", minsize=9), # Hide text if it cannot fit horizontally at >=9pt
@@ -903,11 +923,10 @@ def build_scatter_figure(
             font=dict(size=12, color="#475569"),
             align="center",
         )
+        apply_editorial_chart_theme(fig_scatter, height=height, margin=dict(l=20, r=20, t=20, b=60))
         fig_scatter.update_layout(
             xaxis_title="Within-Selection Prevalence (%)",
             yaxis_title="Distinctiveness Lift (× baseline)",
-            height=height,
-            margin=dict(l=20, r=20, t=20, b=60),
         )
         return fig_scatter
 
@@ -917,7 +936,7 @@ def build_scatter_figure(
             xref="paper", yref="paper", x=0.5, y=0.5, showarrow=False,
             font=dict(size=13, color="#64748b"),
         )
-        fig_scatter.update_layout(height=height, margin=dict(l=20, r=20, t=20, b=60))
+        apply_editorial_chart_theme(fig_scatter, height=height, margin=dict(l=20, r=20, t=20, b=60))
         return fig_scatter
 
     # Filter to top 10 qualified distinctive skills by default, unless dense view is requested
@@ -953,11 +972,11 @@ def build_scatter_figure(
                 textposition="top center",
                 textfont=dict(size=11, color="#1e293b"),
                 marker=dict(
-                    size=[d["marker_size"] for d in fam_items],
+                    size=[10.5 if d["is_eligible_distinctive"] else 6.5 for d in fam_items],
                     color=FAMILY_PALETTE.get(fam, "#64748b"),
                     opacity=opacities,
                     line=dict(
-                        width=[1.8 if d["is_eligible_distinctive"] else 0.6 for d in fam_items],
+                        width=[1.5 if d["is_eligible_distinctive"] else 0.5 for d in fam_items],
                         color="#0f172a",
                     ),
                 ),
@@ -989,18 +1008,56 @@ def build_scatter_figure(
     fig_scatter.add_hline(
         y=1.0,
         line_dash="dash",
-        line_color="#ef4444",
+        line_color="#b91c1c",
         line_width=1.5,
         annotation_text="Corpus Parity (Lift = 1.0)",
         annotation_position="top right",
-        annotation_font=dict(color="#ef4444", size=11),
+        annotation_font=dict(color="#b91c1c", size=11, family="Inter, -apple-system, sans-serif"),
     )
 
+    # Subtle Quadrant Watermark Annotations (Framing the Bivariate Landscape)
+    if y_upper > 1.2:
+        fig_scatter.add_annotation(
+            text="<b>ROLE SUPERPOWERS</b><br><span style='font-size:9px'>High Demand · High Distinctiveness</span>",
+            xref="x", yref="y",
+            x=x_upper * 0.96, y=y_upper * 0.95,
+            xanchor="right", yanchor="top",
+            showarrow=False,
+            font=dict(size=9.5, color="rgba(4, 120, 87, 0.38)", family="Inter, -apple-system, sans-serif"),
+            align="right",
+        )
+        fig_scatter.add_annotation(
+            text="<b>NICHE SPECIALIZATIONS</b><br><span style='font-size:9px'>Lower Demand · High Distinctiveness</span>",
+            xref="x", yref="y",
+            x=x_upper * 0.03, y=y_upper * 0.95,
+            xanchor="left", yanchor="top",
+            showarrow=False,
+            font=dict(size=9.5, color="rgba(100, 116, 139, 0.38)", family="Inter, -apple-system, sans-serif"),
+            align="left",
+        )
+        fig_scatter.add_annotation(
+            text="<b>UNIVERSAL CURRENCY</b><br><span style='font-size:9px'>High Demand · Market Parity</span>",
+            xref="x", yref="y",
+            x=x_upper * 0.96, y=0.15,
+            xanchor="right", yanchor="bottom",
+            showarrow=False,
+            font=dict(size=9.5, color="rgba(30, 64, 175, 0.35)", family="Inter, -apple-system, sans-serif"),
+            align="right",
+        )
+        fig_scatter.add_annotation(
+            text="<b>PERIPHERAL SKILLS</b><br><span style='font-size:9px'>Lower Demand · Sub-Parity</span>",
+            xref="x", yref="y",
+            x=x_upper * 0.03, y=0.15,
+            xanchor="left", yanchor="bottom",
+            showarrow=False,
+            font=dict(size=9.5, color="rgba(148, 163, 184, 0.35)", family="Inter, -apple-system, sans-serif"),
+            align="left",
+        )
+
+    apply_editorial_chart_theme(fig_scatter, height=height, margin=dict(l=20, r=20, t=20, b=70))
     fig_scatter.update_layout(
         xaxis_title="Within-Selection Prevalence (%)",
         yaxis_title="Distinctiveness Lift (× baseline)",
-        height=height,
-        margin=dict(l=20, r=20, t=20, b=70),
         xaxis=dict(showgrid=True, gridcolor="#e2e8f0", range=[0, x_upper]),
         yaxis=dict(showgrid=True, gridcolor="#e2e8f0", range=[0, y_upper]),
         legend=dict(
@@ -1009,6 +1066,7 @@ def build_scatter_figure(
             y=-0.28,
             xanchor="center",
             x=0.5,
+            font=dict(size=10.5),
         ),
     )
     return fig_scatter
@@ -1075,18 +1133,98 @@ def main() -> None:
 
     family_options = ["All Families"] + list(SKILL_FAMILIES)
 
-    # Compact Sticky Styling for Persistent Global Filters
+    # Global Precision Editorial Console Styles
     st.markdown(
         """
         <style>
+        /* Canvas background */
+        .stApp {
+            background-color: #f8fafc;
+        }
+
+        /* Editorial serif typography selectively for main title and section headings */
+        h1, h2, h3, [data-testid="stHeader"] h1 {
+            font-family: "Newsreader", "Charter", "Georgia", "Cambria", "Times New Roman", serif !important;
+            font-weight: 700 !important;
+            letter-spacing: -0.02em !important;
+            color: #0f172a !important;
+        }
+
+        /* Clean, readable sans-serif for UI controls, body text, tables, and captions */
+        html, body, [data-testid="stAppViewContainer"], .stMarkdown p, .stMarkdown span, .stCaption, label, .stSelectbox, .stMultiSelect, button, input {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+        }
+
+        /* Tabular numerals for all metrics and data tables to prevent layout jitter */
+        [data-testid="stMetricValue"], [data-testid="stMetricLabel"], .tabular-nums, table, td, th {
+            font-variant-numeric: tabular-nums !important;
+        }
+
+        /* KPI Card styling: Clean hairline borders, subtle elevation, generous padding */
+        div[data-testid="stMetric"] {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 0.85rem 1rem;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+            transition: border-color 0.15s ease;
+        }
+
+        div[data-testid="stMetric"]:hover {
+            border-color: #cbd5e1;
+        }
+
+        div[data-testid="stMetricLabel"] {
+            font-size: 0.72rem !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.05em !important;
+            color: #64748b !important;
+        }
+
+        div[data-testid="stMetricValue"] {
+            font-size: 1.75rem !important;
+            font-weight: 700 !important;
+            color: #0f172a !important;
+            line-height: 1.2 !important;
+        }
+
+        /* Sticky Filter Command Bar */
         div[data-testid="stVerticalBlockBorderWrapper"]:has(div.sticky-filter-marker) {
             position: sticky;
             top: 2.85rem;
             z-index: 99;
-            background: white;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-            border-radius: 8px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05);
             margin-bottom: 0.8rem;
+        }
+
+        /* Card containers for chart sections */
+        div[data-testid="stVerticalBlockBorderWrapper"] {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+        }
+
+        /* Data Table refinement */
+        div[data-testid="stDataFrame"] {
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+        }
+
+        /* Button refinement */
+        div.stButton > button {
+            border-radius: 5px;
+            font-weight: 500;
+            border: 1px solid #cbd5e1;
+            transition: all 0.15s ease;
+        }
+
+        div.stButton > button:hover {
+            border-color: #94a3b8;
+            background-color: #f1f5f9;
         }
         </style>
         """,
@@ -1237,7 +1375,7 @@ def main() -> None:
             f"Occupational breakdowns, category distributions, and distinctiveness lift estimates should be interpreted with caution."
         )
 
-    # 6. KPI Cards (4 Compact Metric Containers)
+    # 6. KPI Cards (4 Compact Metric Containers with Mathematically Meaningful Subtitles)
     k_col1, k_col2, k_col3, k_col4 = st.columns(4)
 
     with k_col1:
@@ -1246,32 +1384,51 @@ def main() -> None:
             value=f"{pop_kpis['active_postings_count']:,}",
             help=f"{pop_kpis['corpus_share_pct']}% of the total EU data corpus ({corpus_total:,} postings).",
         )
+        st.caption(f"{pop_kpis['corpus_share_pct']}% of {corpus_total:,} corpus postings")
+
     with k_col2:
         # Clear, unambiguous metric: Countries with Postings out of 27 EU member states
         obs_c = pop_kpis["represented_countries_count"]
         sel_c_len = len(active_c_list)
         if sel_c_len > 0:
             c_help = f"{obs_c} of 27 EU member states ({obs_c} of {sel_c_len} selected countries have matching postings)."
+            denom_text = f"Across {sel_c_len} selected EU states"
         else:
             c_help = f"{obs_c} of 27 EU member states have matching job postings in this selection."
+            denom_text = "Across all 27 EU member states"
         st.metric(
             label="Countries with Postings",
             value=f"{obs_c} / 27",
             help=c_help,
         )
+        st.caption(denom_text)
+
     with k_col3:
         fam_note = f"within '{active_family}'" if active_family != "All Families" else "across all families"
+        if active_family != "All Families":
+            family_skills = get_skills_for_family(vocab, active_family)
+            denom_skills = len(family_skills)
+            skill_sub = f"Of {denom_skills} '{active_family}' skills"
+        else:
+            total_vocab_skills = len(vocab.skills) if hasattr(vocab, "skills") and vocab.skills else 52
+            denom_skills = total_vocab_skills
+            skill_sub = f"Of {denom_skills} canonical controlled skills"
+
         st.metric(
             label="Detected Technical Skills",
             value=pop_kpis["detected_skills_count"],
             help=f"Distinct technical skills observed in the active selection ({fam_note}). Traceable in the complete table below.",
         )
+        st.caption(skill_sub)
+
     with k_col4:
+        detected_kpi_val = pop_kpis["detected_skills_count"]
         st.metric(
             label="Qualified Distinctive Skills",
             value=pop_kpis["qualified_distinctive_count"],
             help="Skills meeting primary support thresholds (N ≥ 20, Prev ≥ 1.5%) with Lift > 1.0 vs corpus parity.",
         )
+        st.caption(f"Of {detected_kpi_val} detected skills in selection")
 
     st.markdown("---")
 
