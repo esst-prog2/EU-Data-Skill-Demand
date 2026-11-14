@@ -588,6 +588,57 @@ class TestSection2SkillQuadrantAndFamilyFilter:
         trace_names = [t.get("name") for t in scatter_spec.get("data", [])]
         assert trace_names == [target_family]
 
+    def test_section2_decoupled_family_filters(self):
+        """Verifies Distinctive Skills and Scatter Plot skill family filters operate completely independently."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+        assert len(at.exception) == 0
+
+        # Activate Section 2 by selecting Data Science
+        role_sb = next(sb for sb in at.selectbox if "Occupational Role (for Scatter Plot)" in sb.label)
+        role_sb.select("data_science").run(timeout=15)
+        assert len(at.exception) == 0
+
+        dist_fam_sb = next(sb for sb in at.selectbox if "Skill Family (Distinctive Skills)" in sb.label)
+        scatter_fam_sb = next(sb for sb in at.selectbox if "Skill Family (Scatter Plot)" in sb.label)
+
+        assert dist_fam_sb.value == "All Families"
+        assert scatter_fam_sb.value == "All Families"
+
+        # 1. Select 'BI & visualization' on Distinctive Skills ONLY
+        dist_fam_sb.select("BI & visualization").run(timeout=15)
+        assert len(at.exception) == 0
+
+        # Verify scatter family is unchanged
+        updated_scatter_fam_sb = next(sb for sb in at.selectbox if "Skill Family (Scatter Plot)" in sb.label)
+        assert updated_scatter_fam_sb.value == "All Families"
+        assert at.session_state["local_dist_family"] == "BI & visualization"
+        assert at.session_state["local_scatter_family"] == "All Families"
+
+        # 2. Select 'Programming languages' on Scatter Plot ONLY
+        scatter_fam_sb = next(sb for sb in at.selectbox if "Skill Family (Scatter Plot)" in sb.label)
+        scatter_fam_sb.select("Programming languages").run(timeout=15)
+        assert len(at.exception) == 0
+
+        # Verify distinctive skills family is still 'BI & visualization'
+        updated_dist_fam_sb = next(sb for sb in at.selectbox if "Skill Family (Distinctive Skills)" in sb.label)
+        assert updated_dist_fam_sb.value == "BI & visualization"
+        assert at.session_state["local_dist_family"] == "BI & visualization"
+        assert at.session_state["local_scatter_family"] == "Programming languages"
+
+        # Verify scatter plot displays only Programming languages
+        scatter_chart = None
+        for el in at.get("plotly_chart"):
+            spec = json.loads(el.proto.spec)
+            yaxis_title = str(spec.get("layout", {}).get("yaxis", {}).get("title", {}).get("text", ""))
+            if "Distinctiveness Lift" in yaxis_title and any(t.get("mode") == "markers+text" for t in spec.get("data", [])):
+                scatter_chart = el
+                break
+
+        assert scatter_chart is not None
+        scatter_spec = json.loads(scatter_chart.proto.spec)
+        assert [t.get("name") for t in scatter_spec.get("data", [])] == ["Programming languages"]
+
     def test_section2_synthetic_empty_and_subthreshold_handling(self):
         """Verifies synthetic summary with sub-threshold and empty category handles gracefully."""
         synth_data = {
