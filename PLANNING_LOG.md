@@ -151,3 +151,4 @@
 - 2026-11-14: Establish step-by-step process logging workflow where after each step, changes are committed and a row is appended to PROCESS.md recording the step, what the tool did, and what the user decided. (Decided by: User)
 - 2026-11-14: Approved workspace-scoped installation of the official gstack office-hours skill in .agents/skills/office-hours/ (including 6 modular section files) with workspace-relative section path normalization and Degraded Mode preamble execution for Antigravity IDE. (Decided by: User)
 - 2026-11-14: Selected Builder Mode (learning / university coursework for Homework 9) for the gstack office-hours session. (Decided by: User)
+- 2026-11-14: Confirmed three core premises for the program promo page: positioning as a Data Career Reality Check for aspiring professionals, structuring around the Prevalence vs. Lift (distinctiveness) narrative hook, and presenting as a polished modern product showcase. (Decided by: User, proposed by Agent)
