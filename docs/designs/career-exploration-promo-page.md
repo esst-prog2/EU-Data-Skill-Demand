@@ -29,12 +29,12 @@ This project addresses these questions by transforming an audited dataset of 24,
    Most career guides treat all skill mentions equally. This project introduces an intuitive two-dimensional model:
    - **Within-Category Prevalence ($P(\text{skill} \mid \text{role})$):** How common a skill is within a specific occupation (e.g., SQL is a foundational requirement across multiple data disciplines).
    - **Distinctiveness / Lift ($\text{Lift} = P(\text{skill} \mid \text{role}) / P(\text{skill} \mid \text{corpus})$):** How uniquely characteristic a skill is of a specific profession relative to the broader market baseline ($\text{Lift} = 1.00$).
-2. **The 4-Quadrant Skill Framework:**
-   Visualizing skills on an interactive 2D landscape (Within-Category Prevalence on the X-axis vs. Distinctiveness Lift on the Y-axis with a baseline parity reference at $\text{Lift} = 1.00$) classifies technologies into four intuitive quadrants:
-   - **Role Superpowers (High Prevalence, Lift > 1.00):** High-frequency, high-lift technologies that define the identity and daily craft of the target profession (e.g., `Power BI` in Data Analytics, `Python` and `Scikit-learn` in Data Science, `Apache Spark` in Data Engineering, `PyTorch` in ML/AI, `LLMs / Generative AI` in AI Engineering).
-   - **Universal Currency (High Prevalence, Lift ≤ 1.00):** High-frequency foundational skills (e.g., `SQL` across multiple roles) that are widely expected across the market but not unique to one role.
-   - **Niche Specializations (Lower Prevalence, Lift > 1.00):** Distinctive, specialized tools that strongly characterize a specific subfield even if overall market volume is selective (e.g., `XGBoost` in Data Science, `OpenCV` in ML/AI, `Looker` in Data Analytics).
-   - **Peripheral Skills (Lower Prevalence, Lift ≤ 1.00):** Technologies that appear only occasionally or as secondary mentions for the selected occupation.
+2. **The Four-Quadrant Explanatory Framework:**
+   Visualizing skills on an interactive 2D landscape (Within-Category Prevalence on the X-axis vs. Distinctiveness Lift on the Y-axis with an explicit baseline parity reference line at $\text{Lift} = 1.00$) provides an explanatory framework for interpreting the continuous bivariate space:
+   - **Role Superpowers (Higher Prevalence, Lift > 1.00):** Frequently requested skills that are simultaneously disproportionately concentrated within the selected occupation (e.g., `Power BI` in Data Analytics, `Apache Spark` in Data Engineering, `PyTorch` in ML/AI).
+   - **Universal Currency (Higher Prevalence, Lift ≤ 1.00):** Frequently requested technologies that appear across multiple data disciplines (such as `SQL`). They reflect broad market presence rather than occupational specialization.
+   - **Niche Specializations (Lower Prevalence, Lift > 1.00):** Tools with lower overall posting volume within the category that nonetheless show strong occupational concentration relative to the rest of the corpus (e.g., `XGBoost` in Data Science, `OpenCV` in ML/AI).
+   - **Peripheral Skills (Lower Prevalence, Lift ≤ 1.00):** Tools that appear infrequently within the selected occupation and at rates below or near the broader market baseline.
 3. **Evidence-Based Exploration vs. Subjective Advice:**
    Rather than relying on subjective opinions or anecdotal advice, every insight is grounded in an audited dataset of 24,488 observed FreeHire job postings across all 27 EU member states, supported by 394 automated software tests and an audited skill-extraction pipeline.
 
