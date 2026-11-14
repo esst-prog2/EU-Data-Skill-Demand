@@ -649,8 +649,9 @@ class TestSection2SkillQuadrantAndFamilyFilter:
         updated_dense_cb = next(cb for cb in at.checkbox if "unqualified" in cb.label.lower())
         assert updated_dense_cb.value is True
 
-        # 2. Click Section 2 Reset Filters button
-        reset_r2_btn = next(b for b in at.button if "Reset Filters" in b.label)
+        # 2. Click Section 2 Reset button (visually consistent 🔄 Reset)
+        reset_r2_btn = next(b for b in at.button if b.key and "reset_r2" in b.key)
+        assert reset_r2_btn.label == "🔄 Reset"
         reset_r2_btn.click().run(timeout=15)
         assert len(at.exception) == 0
 
@@ -665,6 +666,128 @@ class TestSection2SkillQuadrantAndFamilyFilter:
         # Verify scatter plot returned to unselected parity guidance
         charts_after_reset = at.get("plotly_chart")
         assert any("Lift = 1.00 by definition" in str(ch.proto.spec) for ch in charts_after_reset)
+
+    def test_section2_reset_restores_inherited_global_filters(self):
+        """Verifies Section 2 reset restores local role and family to CURRENT non-default global filter selections."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+        assert len(at.exception) == 0
+
+        # --- Test Example A: Global Occupational Role = Data Engineering ---
+        cat_sb = next(sb for sb in at.selectbox if "Job Family / Category:" in sb.label)
+        cat_sb.select("data_engineering").run(timeout=15)
+        assert len(at.exception) == 0
+        assert at.session_state["filter_category"] == "data_engineering"
+
+        # Section 2 should initially inherit Data Engineering
+        role_sb = next(sb for sb in at.selectbox if "Occupational Role (for Distinctive Ranking):" in sb.label)
+        assert role_sb.value == "data_engineering"
+
+        # Change Section 2 Role to AI Engineering locally
+        role_sb.select("ai_engineering").run(timeout=15)
+        assert len(at.exception) == 0
+        assert at.session_state["local_dist_cat"] == "ai_engineering"
+        assert at.session_state["filter_category"] == "data_engineering"
+
+        # Click Section 2 Reset button
+        reset_r2_btn = next(b for b in at.button if b.key and "reset_r2" in b.key)
+        assert reset_r2_btn.label == "🔄 Reset"
+        reset_r2_btn.click().run(timeout=15)
+        assert len(at.exception) == 0
+
+        # Section 2 Role must return to Data Engineering (the current global filter, NOT unselected)
+        updated_role_sb = next(sb for sb in at.selectbox if "Occupational Role (for Distinctive Ranking):" in sb.label)
+        assert updated_role_sb.value == "data_engineering"
+        assert at.session_state["local_dist_cat"] == "data_engineering"
+        assert at.session_state["filter_category"] == "data_engineering"
+
+        # Both charts must render data_engineering immediately
+        dist_chart = None
+        for el in at.get("plotly_chart"):
+            spec = json.loads(el.proto.spec)
+            xaxis_title = str(spec.get("layout", {}).get("xaxis", {}).get("title", {}).get("text", ""))
+            if "Distinctiveness Lift" in xaxis_title and any(t.get("type") == "bar" for t in spec.get("data", [])):
+                dist_chart = el
+                break
+        assert dist_chart is not None
+
+        # --- Test Example B: Global Skill Family = Databases & data warehouses ---
+        fam_sb = next(sb for sb in at.selectbox if "Filter by Technical Skill Family:" in sb.label)
+        fam_sb.select("Databases & data warehouses").run(timeout=15)
+        assert len(at.exception) == 0
+        assert at.session_state["filter_family"] == "Databases & data warehouses"
+
+        # Section 2 Skill Family should inherit Databases & data warehouses
+        s2_fam_sb = next(sb for sb in at.selectbox if "Skill Family (Distinctive Skills):" in sb.label)
+        assert s2_fam_sb.value == "Databases & data warehouses"
+
+        # Change Section 2 Skill Family to Cloud & infrastructure locally
+        s2_fam_sb.select("Cloud & infrastructure").run(timeout=15)
+        assert len(at.exception) == 0
+        assert at.session_state["local_dist_family"] == "Cloud & infrastructure"
+        assert at.session_state["filter_family"] == "Databases & data warehouses"
+
+        # Click Section 2 Reset button
+        reset_r2_btn = next(b for b in at.button if b.key and "reset_r2" in b.key)
+        reset_r2_btn.click().run(timeout=15)
+        assert len(at.exception) == 0
+
+        # Section 2 Skill Family must return to Databases & data warehouses (NOT All Families)
+        updated_fam_sb = next(sb for sb in at.selectbox if "Skill Family (Distinctive Skills):" in sb.label)
+        assert updated_fam_sb.value == "Databases & data warehouses"
+        assert at.session_state["local_dist_family"] == "Databases & data warehouses"
+        assert at.session_state["filter_family"] == "Databases & data warehouses"
+
+        # Section 2 Role should remain data_engineering
+        updated_role_sb = next(sb for sb in at.selectbox if "Occupational Role (for Distinctive Ranking):" in sb.label)
+        assert updated_role_sb.value == "data_engineering"
+
+        # --- Test Example C: Both Role & Family locally changed and reset together ---
+        # Modify both Section 2 filters locally away from global
+        updated_role_sb.select("data_science").run(timeout=15)
+        assert len(at.exception) == 0
+        updated_fam_sb = next(sb for sb in at.selectbox if "Skill Family (Distinctive Skills):" in sb.label)
+        updated_fam_sb.select("Programming languages").run(timeout=15)
+        assert len(at.exception) == 0
+
+        assert at.session_state["local_dist_cat"] == "data_science"
+        assert at.session_state["local_dist_family"] == "Programming languages"
+        assert at.session_state["filter_category"] == "data_engineering"
+        assert at.session_state["filter_family"] == "Databases & data warehouses"
+
+        # Click Section 2 Reset button
+        reset_r2_btn = next(b for b in at.button if b.key and "reset_r2" in b.key)
+        reset_r2_btn.click().run(timeout=15)
+        assert len(at.exception) == 0
+
+        # Both must restore to current global filters: data_engineering and Databases & data warehouses
+        final_role_sb = next(sb for sb in at.selectbox if "Occupational Role (for Distinctive Ranking):" in sb.label)
+        final_fam_sb = next(sb for sb in at.selectbox if "Skill Family (Distinctive Skills):" in sb.label)
+        assert final_role_sb.value == "data_engineering"
+        assert final_fam_sb.value == "Databases & data warehouses"
+        assert at.session_state["local_dist_cat"] == "data_engineering"
+        assert at.session_state["local_dist_family"] == "Databases & data warehouses"
+
+        # Global filters must remain untouched
+        assert at.session_state["filter_category"] == "data_engineering"
+        assert at.session_state["filter_family"] == "Databases & data warehouses"
+
+    def test_section2_reset_button_visual_consistency(self):
+        """Verifies Section 2 reset button matches global reset button emoji, label, and visual structure."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+        assert len(at.exception) == 0
+
+        # Find both reset buttons
+        reset_buttons = [b for b in at.button if "Reset" in b.label]
+        assert len(reset_buttons) >= 2, f"Expected at least 2 reset buttons, found {len(reset_buttons)}"
+
+        global_reset_btn = reset_buttons[0]
+        s2_reset_btn = next(b for b in reset_buttons if b.key and "reset_r2" in b.key)
+
+        # Both buttons must have identical emoji and label
+        assert global_reset_btn.label == "🔄 Reset"
+        assert s2_reset_btn.label == "🔄 Reset"
 
     def test_section2_synthetic_empty_and_subthreshold_handling(self):
         """Verifies synthetic summary with sub-threshold and empty category handles gracefully."""

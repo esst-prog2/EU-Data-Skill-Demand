@@ -1142,10 +1142,18 @@ def main() -> None:
         st.session_state["filter_seniority"] = "All Seniorities"
     if "filter_family" not in st.session_state:
         st.session_state["filter_family"] = "All Families"
+    if "local_dist_cat" not in st.session_state:
+        st.session_state["local_dist_cat"] = "-- Select a Job Family for Distinctiveness --"
+    if "local_scatter_cat" not in st.session_state:
+        st.session_state["local_scatter_cat"] = "-- Select a Job Family for Distinctiveness --"
     if "local_dist_family" not in st.session_state:
         st.session_state["local_dist_family"] = "All Families"
     if "local_scatter_family" not in st.session_state:
         st.session_state["local_scatter_family"] = "All Families"
+    if "_last_global_category" not in st.session_state:
+        st.session_state["_last_global_category"] = "All Categories"
+    if "_last_global_family" not in st.session_state:
+        st.session_state["_last_global_family"] = "All Families"
     if "_last_clicked_map_country" not in st.session_state:
         st.session_state["_last_clicked_map_country"] = None
 
@@ -1577,22 +1585,29 @@ def main() -> None:
     cat_choice_display = {"-- Select a Job Family for Distinctiveness --": "🔍 Select a Job Family for Distinctiveness..."}
     cat_choice_display.update(OCCUPATIONAL_CATEGORIES)
 
-    # Resolve Section 2 shared filter defaults based on global filter or local state
-    if st.session_state["filter_category"] != "All Categories":
-        default_shared_role = st.session_state["filter_category"]
-    else:
-        default_shared_role = st.session_state.get("local_dist_cat", "-- Select a Job Family for Distinctiveness --")
+    # Determine inherited default selections from current global filters
+    current_global_cat = st.session_state.get("filter_category", "All Categories")
+    current_global_fam = st.session_state.get("filter_family", "All Families")
 
-    if st.session_state["filter_family"] != "All Families":
-        default_shared_family = st.session_state.get("local_dist_family", st.session_state["filter_family"])
-    else:
-        default_shared_family = st.session_state.get("local_dist_family", "All Families")
+    target_reset_role = (
+        current_global_cat
+        if current_global_cat in OCCUPATIONAL_CATEGORIES
+        else "-- Select a Job Family for Distinctiveness --"
+    )
+    target_reset_family = (
+        current_global_fam
+        if current_global_fam in family_options
+        else "All Families"
+    )
+
+    default_shared_role = st.session_state.get("local_dist_cat", target_reset_role)
+    default_shared_family = st.session_state.get("local_dist_family", target_reset_family)
 
     r2_ver = f"{ver}_{st.session_state.get('r2_filter_version', 0)}"
 
     # Shared Section 2 Control Area (One unified filter deck above both visualizations)
     with st.container(border=True):
-        r2_c1, r2_c2, r2_c_btn = st.columns([3.5, 3.5, 1.2])
+        r2_c1, r2_c2, r2_c_btn = st.columns([4.1, 4.1, 1.0])
         with r2_c1:
             sel_shared_role = st.selectbox(
                 "Occupational Role (for Distinctive Ranking):",
@@ -1617,12 +1632,28 @@ def main() -> None:
         with r2_c_btn:
             st.write("")
             st.write("")
-            if st.button("↺ Reset Filters", key=f"reset_r2_{r2_ver}", help="Reset Section 2 role and skill family filters to default"):
+            if st.button(
+                "🔄 Reset",
+                key=f"reset_r2_{r2_ver}",
+                help="Reset Section 2 role and skill family filters to match current global filters",
+            ):
+                curr_cat = st.session_state.get("filter_category", "All Categories")
+                curr_fam = st.session_state.get("filter_family", "All Families")
+                target_role = (
+                    curr_cat
+                    if curr_cat in OCCUPATIONAL_CATEGORIES
+                    else "-- Select a Job Family for Distinctiveness --"
+                )
+                target_family = (
+                    curr_fam
+                    if curr_fam in family_options
+                    else "All Families"
+                )
+                st.session_state["local_dist_cat"] = target_role
+                st.session_state["local_scatter_cat"] = target_role
+                st.session_state["local_dist_family"] = target_family
+                st.session_state["local_scatter_family"] = target_family
                 st.session_state["r2_filter_version"] = st.session_state.get("r2_filter_version", 0) + 1
-                st.session_state["local_dist_cat"] = "-- Select a Job Family for Distinctiveness --"
-                st.session_state["local_scatter_cat"] = "-- Select a Job Family for Distinctiveness --"
-                st.session_state["local_dist_family"] = "All Families"
-                st.session_state["local_scatter_family"] = "All Families"
                 st.rerun()
 
     r2_col_dist, r2_col_scatter = st.columns(2)
