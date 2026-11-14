@@ -153,3 +153,4 @@
 - 2026-11-14: Selected Builder Mode (learning / university coursework for Homework 9) for the gstack office-hours session. (Decided by: User)
 - 2026-11-14: Confirmed three core premises for the program promo page: positioning as a Data Career Reality Check for aspiring professionals, structuring around the Prevalence vs. Lift (distinctiveness) narrative hook, and presenting as a polished modern product showcase. (Decided by: User, proposed by Agent)
 - 2026-11-14: Requested an independent second opinion review (Phase 3.5) before generating promo page alternatives. (Decided by: User)
+- 2026-11-14: Selected Approach B (Dedicated Promo Document in docs/promo_page.md + README sync) for the Homework 9 promotional showcase. (Decided by: User)
