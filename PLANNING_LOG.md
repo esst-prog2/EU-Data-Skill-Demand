@@ -155,3 +155,4 @@
 - 2026-11-14: Requested an independent second opinion review (Phase 3.5) before generating promo page alternatives. (Decided by: User)
 - 2026-11-14: Selected Approach B (Dedicated Promo Document in docs/promo_page.md + README sync) for the Homework 9 promotional showcase. (Decided by: User)
 - 2026-11-14: Approved the design document (docs/designs/career-exploration-promo-page.md) for the Homework 9 promotional showcase, standardizing the four skill quadrants (Universal Currency, Role Superpowers, Niche Specializations, Peripheral Skills), verified empirical metrics from the 24,488-posting snapshot, and the eight-section promo page structure. (Decided by: User)
+- 2026-11-14: Authored standalone promotional page (docs/promo_page.md) and synchronized Section 1 of README.md to feature the EU Data Career Compass showcase. (Decided by: User, implemented by Agent)
