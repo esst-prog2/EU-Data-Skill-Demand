@@ -74,15 +74,15 @@ st.set_page_config(
 )
 
 # =============================================================================
-# Color Palettes (Precision Editorial Console Specification)
+# Color Palettes (Standardized Profession Palette)
 # =============================================================================
 
 CATEGORY_PALETTE: Dict[str, str] = {
-    "data_engineering": "#3b82f6",  # Light / Vibrant Blue (Tailwind 500)
-    "data_analytics": "#10b981",    # Fresh Emerald Green (Tailwind 500)
-    "ai_engineering": "#8b5cf6",    # Bright Violet (Tailwind 500)
-    "data_science": "#f59e0b",      # Warm Golden Amber (Tailwind 500)
-    "ml_ai": "#ec4899",             # Vibrant Rose / Pink (Tailwind 500)
+    "data_engineering": "#10b981",  # Green (Tailwind Emerald 500)
+    "data_analytics": "#3b82f6",    # Blue (Tailwind Blue 500)
+    "data_science": "#8b5cf6",      # Purple (Tailwind Violet 500)
+    "ai_engineering": "#f59e0b",    # Yellow / Amber (Tailwind Amber 500)
+    "ml_ai": "#ec4899",             # Pink / Rose (Tailwind Rose 500)
 }
 
 # Differentiated, accessible skill-family palette to decouple from occupational roles
@@ -404,28 +404,36 @@ def build_europe_map_figure(
     country_counts: Counter[str],
     selected_countries: Sequence[str] | None = None,
     height: int = 400,
+    show_all_countries: bool = False,
 ) -> go.Figure:
     """
     Builds a reframed European choropleth map.
+    By default (show_all_countries=False), displays only qualifying countries with N >= 300.
+    When show_all_countries=True, displays all 27 EU member states, distinguishing sub-300 postings.
     When countries are explicitly selected, highlights all selected countries
     prominently while subduing unselected countries, preserving exact posting counts in hovers.
     """
     selected_set = set(selected_countries) if selected_countries else None
     fig = go.Figure()
 
-    # Case A: Default view (All Countries) -> continuous Blues choropleth
+    # Case A: Default view (All Countries / Unfiltered) -> continuous Blues choropleth
     if not selected_set:
         map_data = []
+        has_qualifying = any(country_counts.get(c, 0) >= 300 for c in EU27_COUNTRIES)
         for code, country_name in EU27_COUNTRIES.items():
             iso3 = ISO2_TO_ISO3.get(code)
             if not iso3:
                 continue
             cnt = country_counts.get(code, 0)
+            if not show_all_countries and has_qualifying and cnt < 300:
+                continue
+            status_text = "Qualified (N ≥ 300)" if cnt >= 300 else "⚠️ Sub-threshold (N < 300)"
             map_data.append({
                 "iso3": iso3,
                 "iso2": code,
                 "country": country_name,
                 "postings": cnt,
+                "sample_status": status_text,
             })
 
         if map_data:
@@ -434,9 +442,15 @@ def build_europe_map_figure(
                 locations="iso3",
                 color="postings",
                 hover_name="country",
-                hover_data={"iso3": False, "iso2": True, "postings": ":,"},
+                hover_data={"iso3": False, "iso2": True, "postings": ":,", "sample_status": True},
                 color_continuous_scale="Blues",
-                labels={"postings": "Matching Postings", "iso2": "Code"},
+                labels={"postings": "Matching Postings", "iso2": "Code", "sample_status": "Sample Size"},
+            )
+        else:
+            fig = go.Figure()
+            fig.add_annotation(
+                text="No countries with ≥ 300 observed postings in current selection (enable 'Show all 27 EU countries' to view all)",
+                xref="paper", yref="paper", x=0.5, y=0.5, showarrow=False,
             )
     else:
         # Case B: Explicit country selection -> prominent highlight for selected, subdued for unselected
@@ -447,7 +461,11 @@ def build_europe_map_figure(
                 iso3 = ISO2_TO_ISO3.get(code)
                 if iso3:
                     unselected_iso3.append(iso3)
-                    unselected_names.append(f"<b>{country_name}</b> ({code})<br>Status: Not selected<extra></extra>")
+                    cnt = country_counts.get(code, 0)
+                    vol_note = f"Matching Postings: {cnt:,}" if cnt > 0 else "Matching Postings: 0"
+                    if cnt < 300 and cnt > 0:
+                        vol_note += " (⚠️ N < 300)"
+                    unselected_names.append(f"<b>{country_name}</b> ({code})<br>{vol_note}<br>Status: Not selected (Click to toggle)<extra></extra>")
 
         # Unselected background trace
         if unselected_iso3:
@@ -476,6 +494,10 @@ def build_europe_map_figure(
             c_name = EU27_COUNTRIES.get(code, code)
             sel_iso3.append(iso3)
             sel_counts.append(cnt)
+            status_note = f"Matching Postings: {cnt:,}" if cnt > 0 else "Matching Postings: 0 (No matching jobs)"
+            if cnt < 300 and cnt > 0:
+                status_note += "<br>⚠️ Sub-threshold Sample Size (N < 300)"
+            sel_texts.append(f"<b>{c_name}</b> ({code}) [Selected]<br>{status_note}<extra></extra>")
             status_note = f"Matching Postings: {cnt:,}" if cnt > 0 else "Matching Postings: 0 (No matching jobs)"
             sel_texts.append(f"<b>{c_name}</b> ({code}) [Selected]<br>{status_note}<extra></extra>")
 
@@ -1039,42 +1061,42 @@ def build_scatter_figure(
         annotation_font=dict(color="#b91c1c", size=11, family="Inter, -apple-system, sans-serif"),
     )
 
-    # Subtle Quadrant Watermark Annotations (Framing the Bivariate Landscape)
+    # High-Contrast Quadrant Watermark Annotations (Framing the Bivariate Landscape)
     if y_upper > 1.2:
         fig_scatter.add_annotation(
-            text="<b>ROLE SUPERPOWERS</b><br><span style='font-size:9px'>High Demand · High Distinctiveness</span>",
+            text="<b>ROLE DISTINCTIVENESS</b><br><span style='font-size:10px'>High Demand · High Distinctiveness</span>",
             xref="x", yref="y",
             x=x_upper * 0.96, y=y_upper * 0.95,
             xanchor="right", yanchor="top",
             showarrow=False,
-            font=dict(size=9.5, color="rgba(4, 120, 87, 0.38)", family="Inter, -apple-system, sans-serif"),
+            font=dict(size=11, color="#047857", family="Inter, -apple-system, sans-serif"),
             align="right",
         )
         fig_scatter.add_annotation(
-            text="<b>NICHE SPECIALIZATIONS</b><br><span style='font-size:9px'>Lower Demand · High Distinctiveness</span>",
+            text="<b>NICHE SPECIALIZATIONS</b><br><span style='font-size:10px'>Lower Demand · High Distinctiveness</span>",
             xref="x", yref="y",
             x=x_upper * 0.03, y=y_upper * 0.95,
             xanchor="left", yanchor="top",
             showarrow=False,
-            font=dict(size=9.5, color="rgba(100, 116, 139, 0.38)", family="Inter, -apple-system, sans-serif"),
+            font=dict(size=11, color="#581c87", family="Inter, -apple-system, sans-serif"),
             align="left",
         )
         fig_scatter.add_annotation(
-            text="<b>UNIVERSAL CURRENCY</b><br><span style='font-size:9px'>High Demand · Market Parity</span>",
+            text="<b>UNIVERSAL CURRENCY</b><br><span style='font-size:10px'>High Demand · Market Parity</span>",
             xref="x", yref="y",
             x=x_upper * 0.96, y=0.15,
             xanchor="right", yanchor="bottom",
             showarrow=False,
-            font=dict(size=9.5, color="rgba(30, 64, 175, 0.35)", family="Inter, -apple-system, sans-serif"),
+            font=dict(size=11, color="#1e3a8a", family="Inter, -apple-system, sans-serif"),
             align="right",
         )
         fig_scatter.add_annotation(
-            text="<b>PERIPHERAL SKILLS</b><br><span style='font-size:9px'>Lower Demand · Sub-Parity</span>",
+            text="<b>PERIPHERAL SKILLS</b><br><span style='font-size:10px'>Lower Demand · Sub-Parity</span>",
             xref="x", yref="y",
             x=x_upper * 0.03, y=0.15,
             xanchor="left", yanchor="bottom",
             showarrow=False,
-            font=dict(size=9.5, color="rgba(148, 163, 184, 0.35)", family="Inter, -apple-system, sans-serif"),
+            font=dict(size=11, color="#334155", family="Inter, -apple-system, sans-serif"),
             align="left",
         )
 
@@ -1434,21 +1456,20 @@ def main() -> None:
         st.caption(f"{pop_kpis['corpus_share_pct']}% of {corpus_total:,} corpus postings")
 
     with k_col2:
-        # Clear, unambiguous metric: Countries with Postings out of 27 EU member states
+        # Number of currently selected countries (prominently displayed) and total available EU countries in caption
         obs_c = pop_kpis["represented_countries_count"]
         sel_c_len = len(active_c_list)
+        country_kpi_val = sel_c_len if sel_c_len > 0 else 27
         if sel_c_len > 0:
-            c_help = f"{obs_c} of 27 EU member states ({obs_c} of {sel_c_len} selected countries have matching postings)."
-            denom_text = f"Across {sel_c_len} selected EU states"
+            c_help = f"{sel_c_len} of 27 EU countries selected ({obs_c} have matching postings in this selection)."
         else:
-            c_help = f"{obs_c} of 27 EU member states have matching job postings in this selection."
-            denom_text = "Across all 27 EU member states"
+            c_help = f"All 27 EU countries included in active selection ({obs_c} have matching postings)."
         st.metric(
             label="Countries with Postings",
-            value=f"{obs_c} / 27",
+            value=f"{country_kpi_val}",
             help=c_help,
         )
-        st.caption(denom_text)
+        st.caption("Of 27 EU countries")
 
     with k_col3:
         fam_note = f"within '{active_family}'" if active_family != "All Families" else "across all families"
@@ -1564,17 +1585,19 @@ def main() -> None:
     # In-situ Lift explainer (collapsible, educational guidance)
     with st.expander("ℹ️ How to Interpret Distinctiveness Lift and the Four Quadrants", expanded=False):
         st.markdown(
-            "**Distinctiveness Lift** quantifies how much more (or less) frequently a technical skill is demanded\n"
-            "within a specific occupational role compared to the overall European data job market baseline:\n\n"
-            r"$$\text{Lift} = \frac{P(\text{skill} \mid \text{occupation})}{P(\text{skill} \mid \text{corpus})}" + "\n\n"
-            "- **Occupational Skill Prevalence ($P_{\\text{role}}$):** The percentage of unique job postings for the selected occupation that explicitly list the skill.\n"
-            "- **Corpus Baseline Prevalence ($P_{\\text{corpus}}$):** The percentage of postings across the entire European data corpus ($N = 23{,}138$) mentioning the skill.\n"
-            "- **Interpretation of Lift values:**\n"
-            "  - **Lift $> 1.00$ (Over-indexed):** The skill is concentrated in this profession relative to the overall market (e.g. **Power BI** in *Data Analytics*: $44.8\\% / 17.1\\% = 2.61\\times$ Lift).\n"
-            "  - **Lift $= 1.00$ (Corpus Parity):** The skill appears at the exact same rate as the general data market baseline.\n"
-            "  - **Lift $< 1.00$ (Under-indexed):** The skill appears less often than across data jobs generally, even if common (e.g. **Python** in *Data Analytics*: $42.2\\% / 57.1\\% = 0.74\\times$ Lift, because it is even more dominant in Engineering and Science).\n\n"
+            "**Distinctiveness Lift** quantifies how much more (or less) frequently a technical skill is demanded "
+            "within a specific occupational role compared to the overall European data job market baseline:"
+        )
+        st.latex(r"\text{Lift} = \frac{P(\text{skill} \mid \text{occupation})}{P(\text{skill} \mid \text{corpus})}")
+        st.markdown(
+            f"- **Occupational Skill Prevalence ($P_{{\\text{{role}}}}$):** The percentage of unique job postings for the selected occupation that explicitly list the skill.\n"
+            f"- **Corpus Baseline Prevalence ($P_{{\\text{{corpus}}}}$):** The percentage of postings across the entire European data corpus ($N = {corpus_total:,}$) mentioning the skill.\n\n"
+            "**Interpretation of Lift Values:**\n"
+            "- **Lift > 1.00 (Over-indexed):** The skill is disproportionately concentrated in this profession relative to the overall market (e.g. **Power BI** in *Data Analytics*: $44.8\\% / 17.1\\% = 2.61\\times$ Lift).\n"
+            "- **Lift = 1.00 (Corpus Parity):** The skill appears at the exact same rate as the general data market baseline.\n"
+            "- **Lift < 1.00 (Under-indexed):** The skill appears less often than across data jobs generally, even if common (e.g. **Python** in *Data Analytics*: $42.2\\% / 57.1\\% = 0.74\\times$ Lift, because it is even more dominant in Engineering and Science).\n\n"
             "**The Four Quadrant Landscape:**\n"
-            "1. **Role Superpowers (Top-Right):** High prevalence ($> 20\\%$) and high distinctiveness ($\\text{Lift} > 1.00$). Defining technical signatures of the role.\n"
+            "1. **Role Distinctiveness (Top-Right):** High prevalence ($> 20\\%$) and high distinctiveness ($\\text{Lift} > 1.00$). Defining technical signatures of the role.\n"
             "2. **Niche Specializations (Top-Left):** Lower prevalence ($< 20\\%$) but high distinctiveness ($\\text{Lift} > 1.00$). Specialized tools unique to this field.\n"
             "3. **Universal Currency (Bottom-Right):** High prevalence ($> 20\\%$) but parity or sub-parity distinctiveness ($\\text{Lift} \\le 1.00$). Baseline skills expected across all data roles.\n"
             "4. **Peripheral Skills (Bottom-Left):** Lower prevalence ($< 20\\%$) and lower distinctiveness ($\\text{Lift} \\le 1.00$). Ancillary or secondary tools.\n\n"
@@ -1779,8 +1802,6 @@ def main() -> None:
     st.subheader("3. European Geographic Distribution & Posting Volumes")
     st.caption("Interactive European job density map paired with country-level posting volume sample sizes.")
 
-    r3_col_map, r3_col_vol = st.columns(2)
-
     # Calculate active postings per country
     country_counts: Counter[str] = Counter()
     for p in active_postings:
@@ -1788,14 +1809,55 @@ def main() -> None:
         if c:
             country_counts[c] += 1
 
+    # Dynamic calculation of qualifying countries (N >= 300)
+    qualifying_countries = [c for c, cnt in country_counts.items() if cnt >= 300 and c in EU27_COUNTRIES]
+    qualifying_count = len(qualifying_countries)
+
+    # Section 3 Control Deck (Reset Geographic Country Selection & EU Scope)
+    with st.container():
+        r3_c_info, r3_c_chk, r3_c_btn = st.columns([3.8, 1.8, 0.7])
+        with r3_c_info:
+            if active_c_list:
+                c_names_str = ", ".join(f"{EU27_COUNTRIES.get(c, c)} ({c})" for c in active_c_list)
+                st.caption(f"**Filtered Countries ({len(active_c_list)} selected):** {c_names_str} — Click an active country on the map to deselect it, or click **Reset** to restore all EU-27 member states.")
+            else:
+                st.caption("Click any country on the map to filter. Click multiple countries for cross-country aggregation. Click an active country again or click **Reset** to restore all countries.")
+        with r3_c_chk:
+            show_all_eu = st.checkbox(
+                "Show all 27 EU countries",
+                value=False,
+                key="show_all_countries_toggle",
+                help="Show all 27 EU member states on the map and volume chart, including sub-threshold countries with N < 300.",
+            )
+        with r3_c_btn:
+            if st.button(
+                "🔄 Reset",
+                key=f"reset_s3_{ver}",
+                help="Reset country selection to include all EU-27 member states (preserves job family and seniority filters)",
+            ):
+                st.session_state["filter_countries"] = []
+                st.session_state["_last_clicked_map_country"] = None
+                st.session_state["filter_version"] += 1
+                st.rerun()
+
+    r3_col_map, r3_col_vol = st.columns(2)
+
     # Left: European Job Distribution Map
     with r3_col_map:
         head_m, btn_m = st.columns([4, 1])
         with head_m:
             st.markdown("**European Job Distribution Map**")
-            st.caption("Click any country on the map to toggle it in the Country multi-select filter.")
+            if show_all_eu:
+                st.caption("Displaying all **27** EU member states (including sub-threshold countries with N < 300).")
+            else:
+                st.caption(f"Displaying **{qualifying_count}** qualifying EU member states (N ≥ 300). Sub-threshold countries are hidden.")
 
-        fig_map = build_europe_map_figure(country_counts, selected_countries=active_c_list, height=400)
+        fig_map = build_europe_map_figure(
+            country_counts,
+            selected_countries=active_c_list,
+            height=400,
+            show_all_countries=show_all_eu,
+        )
 
         with btn_m:
             if st.button("⛶ Expand", key="expand_map"):
@@ -1813,35 +1875,41 @@ def main() -> None:
             use_container_width=True,
         )
 
-        # Synchronize Map Clicks with Searchable Multi-Select
+        # Synchronize Map Clicks with Searchable Multi-Select (Supports Multi-Select Toggle and Deselect)
         if map_selection and map_selection.get("selection", {}).get("points"):
             clicked_pt = map_selection["selection"]["points"][0]
             loc = clicked_pt.get("location")
             clicked_iso2 = ISO3_TO_ISO2.get(loc)
             if clicked_iso2 and clicked_iso2 in EU27_COUNTRIES:
-                if st.session_state["_last_clicked_map_country"] != clicked_iso2:
-                    st.session_state["_last_clicked_map_country"] = clicked_iso2
-                    current_c = list(st.session_state["filter_countries"])
-                    if clicked_iso2 in current_c:
-                        current_c.remove(clicked_iso2)
-                    else:
-                        current_c.append(clicked_iso2)
-                    st.session_state["filter_countries"] = current_c
-                    st.session_state["filter_version"] += 1
-                    st.rerun()
+                current_c = list(st.session_state["filter_countries"])
+                if clicked_iso2 in current_c:
+                    current_c.remove(clicked_iso2)
+                else:
+                    current_c.append(clicked_iso2)
+                st.session_state["filter_countries"] = current_c
+                st.session_state["_last_clicked_map_country"] = clicked_iso2
+                st.session_state["filter_version"] += 1
+                st.rerun()
 
     # Right: Country Posting Volume Comparison
     with r3_col_vol:
         head_v, btn_v = st.columns([4, 1])
         with head_v:
             st.markdown("**Country Posting Volumes (Sample Sizes)**")
-            st.caption("Matching postings per country (amber bars indicate sample size N < 300).")
+            if show_all_eu:
+                st.caption("Observed postings across all EU member states (amber bars indicate sample size N < 300).")
+            else:
+                st.caption(f"Observed postings for qualifying EU member states with N ≥ 300 ({qualifying_count} countries).")
 
-        # Build records for selected countries (or top EU countries if all selected)
+        # Build records for selected countries (or qualifying EU countries if all selected)
         if active_c_list:
             vol_country_codes = [c for c in active_c_list if country_counts[c] > 0]
         else:
-            vol_country_codes = [c for c, cnt in country_counts.most_common(12)]
+            if show_all_eu:
+                vol_country_codes = [c for c, cnt in country_counts.most_common(27) if cnt > 0]
+            else:
+                qualifying_codes = [c for c, cnt in country_counts.most_common() if cnt >= 300]
+                vol_country_codes = qualifying_codes if qualifying_codes else [c for c, cnt in country_counts.most_common(12)]
 
         vol_records = []
         for c in vol_country_codes:
@@ -2033,28 +2101,49 @@ def main() -> None:
 
     # B. Interpreting Prevalence, Lift, and Support Thresholds
     st.markdown("---")
-    st.markdown("### 💡 Interpreting Prevalence, Lift, and Support Thresholds")
-    st.info(
-        "💡 **Interpreting Prevalence vs. Distinctiveness:**\n\n"
-        "- **Within-Selection Prevalence ($P$):** Reflects within-group market demand "
-        "(% of postings in the filtered selection requiring the skill):\n"
-        "  $$P(\\text{skill} \\mid \\text{selection}) = \\frac{\\text{count}(\\text{skill} \\cap \\text{selection})}{N_{\\text{selection}}}$$\n"
-        "- **Distinctiveness Lift:** Measures relative concentration compared to the overall EU data corpus baseline:\n"
-        "  $$\\text{Lift} = \\frac{P(\\text{skill} \\mid \\text{selection})}{P(\\text{skill} \\mid \\text{corpus})} = P(\\text{skill} \\mid \\text{selection}) / P(\\text{skill} \\mid \\text{corpus})$$\n"
-        "  Lift compares the prevalence of a skill in the selected population with its prevalence in the full EU corpus. "
-        "**Lift > 1.00** indicates over-representation (disproportionately characteristic of this role); "
-        "**Lift = 1.00** indicates baseline parity with the broader market; "
-        "**Lift < 1.00** indicates under-representation relative to the broader data job market. "
-        "*(Note: In the All Job Families view, all skills sit at Lift = 1.00 by construction because the active population matches the corpus baseline).*\n"
-        "- **Distinctive Eligibility Thresholds:** Solid high-opacity markers indicate qualified distinctive skills "
-        "($N \\ge 20$, $P \\ge 1.5\\%$, and $\\text{Lift} > 1.00$). Muted markers indicate sub-threshold skills; "
-        "**high lift on a low-count skill indicates uniqueness, not high market demand**.\n"
-        "- **Quadrant Classification:**\n"
-        "  - *High Prevalence + High Lift (Top-Right):* Role-defining core technologies.\n"
-        "  - *High Prevalence + Low Lift (Bottom-Right):* Foundational table-stakes skills (ubiquitous across all data jobs).\n"
-        "  - *Low Prevalence + High Lift (Top-Left):* Specialized niche tools (high distinctiveness, narrow volume).\n"
-        "  - *Low Prevalence + Low Lift (Bottom-Left):* Peripheral / secondary tools."
-    )
+    st.subheader("Methodology: Interpreting Prevalence, Lift, and Support Thresholds")
+    st.caption("Standardized definitions, mathematical formulations, and stability guardrails applied across all analytical views.")
+
+    m_col1, m_col2, m_col3 = st.columns(3)
+    with m_col1:
+        with st.container(border=True):
+            st.markdown("#### Within-Selection Prevalence ($P$)")
+            st.markdown(
+                "Reflects within-group market demand—the percentage of unique job postings "
+                "in the active selection that explicitly require the skill:"
+            )
+            st.latex(r"P(\text{skill} \mid \text{selection}) = \frac{\text{count}(\text{skill} \cap \text{selection})}{N_{\text{selection}}}")
+            st.markdown(
+                "- **Binary Presence:** Counted at most once per posting to prevent repetition bias.\n"
+                "- **Comparable Denominator:** Evaluated strictly against postings matching the active filter criteria."
+            )
+
+    with m_col2:
+        with st.container(border=True):
+            st.markdown("#### Distinctiveness Lift")
+            st.markdown(
+                "Quantifies relative skill concentration compared to the overall EU data corpus baseline:"
+            )
+            st.latex(r"\text{Lift} = \frac{P(\text{skill} \mid \text{selection})}{P(\text{skill} \mid \text{corpus})} = \frac{P_{\text{selection}}}{P_{\text{corpus}}}")
+            st.markdown(
+                "- **Lift > 1.00 (Over-represented):** Disproportionately characteristic of this role.\n"
+                "- **Lift = 1.00 (Corpus Parity):** Appears at the exact market-wide baseline rate.\n"
+                "- **Lift < 1.00 (Under-represented):** Lower prevalence than across data roles generally."
+            )
+
+    with m_col3:
+        with st.container(border=True):
+            st.markdown("#### Support Thresholds")
+            st.markdown(
+                "Stability guardrails protect against mathematical inflation on low-frequency skills. "
+                "Distinctive qualification requires meeting two empirical thresholds:"
+            )
+            st.latex(r"N \ge 20 \quad \text{and} \quad P \ge 1.5\%")
+            st.markdown(
+                "- **N ≥ 20 postings:** Suppresses single-employer or idiosyncratic posting noise.\n"
+                "- **Prevalence ≥ 1.5%:** Prevents fringe tools from dominating distinctive rankings.\n"
+                "- **Rule:** High lift on a low-count skill indicates statistical rarity, not broad labor-market demand."
+            )
 
     # C. Geographic Scope & N >= 300 Small-Sample Methodology
     st.markdown("### 🌍 Geographic Scope & N ≥ 300 Small-Sample Methodology")

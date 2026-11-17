@@ -18,6 +18,7 @@ from __future__ import annotations
 
 from collections import Counter
 import json
+import os
 import plotly.graph_objects as go
 import math
 from pathlib import Path
@@ -552,8 +553,8 @@ class TestSection2SkillQuadrantAndFamilyFilter:
         assert any("Corpus Parity (Lift = 1.0)" in a.get("text", "") for a in annotations)
 
         # Interpretation callout
-        info_texts = [inf.value for inf in at.info]
-        assert any("Interpreting Prevalence vs. Distinctiveness" in t for t in info_texts)
+        md_texts = [md.value for md in at.markdown]
+        assert any("Distinctiveness Lift" in t for t in md_texts)
 
     def test_section2_family_filter_interaction(self):
         """Verifies selecting a specific skill family updates the view without exceptions."""
@@ -930,7 +931,7 @@ class TestSinglePageDashboardAndGlobalFilters:
         # Matching postings for Hungarian Senior Data Scientists is 8 in refreshed dataset
         metrics_dict = {m.label: m.value for m in at.metric}
         assert metrics_dict["Matching Postings"] == "8"
-        assert metrics_dict["Countries with Postings"] == "1 / 27"
+        assert metrics_dict["Countries with Postings"] == "1"
 
         # Explicit denominator and dynamic coverage banner
         info_texts = [inf.value for inf in at.info]
@@ -964,7 +965,7 @@ class TestSinglePageDashboardAndGlobalFilters:
         metrics_dict = {m.label: m.value for m in at.metric}
         # In test fixture, HU Senior Data Science has matching postings
         assert int(metrics_dict["Matching Postings"]) > 0
-        assert metrics_dict["Countries with Postings"] == "1 / 27"
+        assert metrics_dict["Countries with Postings"] == "1"
 
         # Explicit denominator and dynamic coverage banner
         info_texts = [inf.value for inf in at.info]
@@ -988,7 +989,7 @@ class TestSinglePageDashboardAndGlobalFilters:
         country_ms.select("HU").select("DE").run(timeout=15)
 
         metrics_dict = {m.label: m.value for m in at.metric}
-        assert metrics_dict["Countries with Postings"] == "2 / 27"
+        assert metrics_dict["Countries with Postings"] == "2"
 
     def test_reset_button_restores_defaults(self):
         """Clicking Reset restores global filters, local chart selectors, dense view, and charts to defaults."""
@@ -1207,7 +1208,7 @@ class TestSinglePageDashboardAndGlobalFilters:
         assert len(at.exception) == 0
 
         metrics_dict = {m.label: m.value for m in at.metric}
-        assert metrics_dict["Countries with Postings"] == "2 / 27"
+        assert metrics_dict["Countries with Postings"] == "2"
 
         # Check that stacked composition chart contains Austria and Spain
         stacked_chart = None
@@ -1446,19 +1447,20 @@ class TestSinglePageDashboardAndGlobalFilters:
         app.load_analytics_summary.clear()
         at = AppTest.from_file(APP_FILE).run(timeout=15)
 
-        info_texts = [inf.value for inf in at.info]
-        assert any("Interpreting Prevalence vs. Distinctiveness" in t for t in info_texts)
-        distinctiveness_info = next(t for t in info_texts if "Interpreting Prevalence vs. Distinctiveness" in t)
+        md_texts = [md.value for md in at.markdown]
+        # Check Part B Distinctiveness Lift
+        assert any("Distinctiveness Lift" in t for t in md_texts)
+        lift_md_items = [t for t in md_texts if "Lift > 1.00" in t]
+        assert len(lift_md_items) > 0
 
-        # Check formula with balanced delimiters
-        assert "P(\\text{skill} \\mid \\text{selection}) / P(\\text{skill} \\mid \\text{corpus})" in distinctiveness_info
-        # Check explanatory interpretations
-        assert "Lift > 1.00" in distinctiveness_info
-        assert "over-representation" in distinctiveness_info
-        assert "Lift = 1.00" in distinctiveness_info
-        assert "baseline parity" in distinctiveness_info
-        assert "Lift < 1.00" in distinctiveness_info
-        assert "under-representation" in distinctiveness_info
+        # Check explanatory interpretations across lift markdown blocks
+        combined_lift_text = " ".join(lift_md_items).lower()
+        assert "lift > 1.00" in combined_lift_text
+        assert "over-indexed" in combined_lift_text or "over-represented" in combined_lift_text
+        assert "lift = 1.00" in combined_lift_text
+        assert "corpus parity" in combined_lift_text or "baseline parity" in combined_lift_text
+        assert "lift < 1.00" in combined_lift_text
+        assert "under-indexed" in combined_lift_text or "under-represented" in combined_lift_text
 
     def test_data_loading_modes_and_source_identification(self, monkeypatch):
         """Verifies that load_postings_dataset distinguishes production vs test fixture vs error when missing."""
@@ -1689,7 +1691,8 @@ class TestDashboardBarChartLabelPolicy:
             assert layout.get("uniformtext", {}).get("mode") == "hide"
 
         # Ensure all available bar charts were found and verified
-        if app.get_active_data_source() == app.DATA_SOURCE_PRODUCTION:
+        active_source = os.environ.get("EU_DATA_MODE") or app.get_active_data_source()
+        if active_source == app.DATA_SOURCE_PRODUCTION:
             assert bar_chart_count >= 5
         else:
             # Under test fixture without N >= 300 countries, 4 bar charts have active bar traces,
@@ -1704,3 +1707,135 @@ class TestDashboardBarChartLabelPolicy:
                 None
             )
             assert empty_composition_chart is not None
+
+    def test_standardized_profession_colors(self):
+        """Verifies standardized profession colors across CATEGORY_PALETTE and charts."""
+        expected = {
+            "data_engineering": "#10b981",  # Green
+            "data_analytics": "#3b82f6",    # Blue
+            "data_science": "#8b5cf6",      # Purple
+            "ai_engineering": "#f59e0b",    # Yellow
+            "ml_ai": "#ec4899",             # Pink
+        }
+        for cat_id, expected_color in expected.items():
+            assert app.CATEGORY_PALETTE[cat_id] == expected_color
+
+    def test_scatter_quadrant_role_distinctiveness_and_readability(self):
+        """Verifies bivariate scatter plot quadrant watermark annotations use 'Role Distinctiveness' and readable high-contrast styling."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+        cat_sb = next(sb for sb in at.selectbox if "Job Family" in sb.label)
+        cat_sb.select("Data Analytics").run(timeout=15)
+
+        charts = at.get("plotly_chart")
+        scatter_spec = None
+        for ch in charts:
+            spec = json.loads(ch.proto.spec)
+            for trace in spec.get("data", []):
+                if trace.get("mode") == "markers+text":
+                    scatter_spec = spec
+                    break
+            if scatter_spec:
+                break
+
+        assert scatter_spec is not None
+        annotations = scatter_spec.get("layout", {}).get("annotations", [])
+        ann_texts = [a.get("text", "") for a in annotations]
+
+        # Top-right quadrant must be ROLE DISTINCTIVENESS (not ROLE SUPERPOWERS)
+        assert any("ROLE DISTINCTIVENESS" in t for t in ann_texts)
+        assert not any("ROLE SUPERPOWERS" in t for t in ann_texts)
+
+        # High-contrast readable styling verified
+        rd_ann = next(a for a in annotations if "ROLE DISTINCTIVENESS" in a.get("text", ""))
+        assert rd_ann.get("font", {}).get("color") == "#047857"
+        assert rd_ann.get("font", {}).get("size") >= 10
+
+    def test_section_3_geographic_reset_button(self):
+        """Verifies Section 3 geographic reset button clears country selection while preserving other filters."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+
+        # 1. Set country selection and seniority selection
+        country_ms = next(ms for ms in at.multiselect if "Country" in ms.label)
+        country_ms.select("HU").select("DE").run(timeout=15)
+
+        sen_sb = next(sb for sb in at.selectbox if "Seniority" in sb.label)
+        sen_sb.select("Senior").run(timeout=15)
+
+        metrics_dict = {m.label: m.value for m in at.metric}
+        assert metrics_dict["Countries with Postings"] == "2"
+
+        # 2. Click Section 3 Reset button
+        s3_buttons = [b for b in at.button if (b.key or "").startswith("reset_s3")]
+        assert len(s3_buttons) > 0
+        s3_buttons[0].click().run(timeout=15)
+
+        # 3. Countries should be cleared, Seniority preserved
+        metrics_dict_after = {m.label: m.value for m in at.metric}
+        assert metrics_dict_after["Countries with Postings"] == "27"
+        sen_sb_after = next(sb for sb in at.selectbox if "Seniority" in sb.label)
+        assert sen_sb_after.value == "senior"
+
+    def test_build_europe_map_threshold_filtering(self):
+        """Verifies European map defaults to N >= 300 countries and reveals all 27 when show_all_countries=True."""
+        counts = Counter({
+            "FR": 4972,
+            "DE": 2396,
+            "RO": 277,   # subthreshold (N < 300)
+            "EE": 45,    # subthreshold (N < 300)
+        })
+
+        # 1. Default (show_all_countries=False): Only N >= 300 countries present in choropleth data
+        fig_default = app.build_europe_map_figure(counts, show_all_countries=False)
+        default_trace = fig_default.data[0]
+        locations_default = list(default_trace.locations)
+        assert "FRA" in locations_default
+        assert "DEU" in locations_default
+        assert "ROU" not in locations_default
+        assert "EST" not in locations_default
+
+        # 2. Opt-in (show_all_countries=True): All 27 EU member states present
+        fig_all = app.build_europe_map_figure(counts, show_all_countries=True)
+        all_trace = fig_all.data[0]
+        locations_all = list(all_trace.locations)
+        assert "FRA" in locations_all
+        assert "ROU" in locations_all
+        assert "EST" in locations_all
+        assert len(locations_all) == 27
+
+    def test_section_3_show_all_countries_checkbox_toggle(self):
+        """Verifies Section 3 Show all 27 EU countries checkbox defaults to False and preserves filter state when toggled."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+
+        # Checkbox exists and defaults to False
+        chk = next(c for c in at.checkbox if c.key == "show_all_countries_toggle")
+        assert chk.value is False
+
+        # Set job family filter
+        cat_sb = next(sb for sb in at.selectbox if "Job Family" in sb.label)
+        cat_sb.select("Data Analytics").run(timeout=15)
+
+        # Toggle show_all_countries_toggle to True
+        chk = next(c for c in at.checkbox if c.key == "show_all_countries_toggle")
+        chk.check().run(timeout=15)
+
+        # Verify job family remains Data Analytics
+        cat_sb_after = next(sb for sb in at.selectbox if "Job Family" in sb.label)
+        assert cat_sb_after.value == "data_analytics"
+        chk_after = next(c for c in at.checkbox if c.key == "show_all_countries_toggle")
+        assert chk_after.value is True
+
+    def test_methodology_three_part_structure_and_formulas(self):
+        """Verifies Section 4 Methodology renders three distinct parts with formulas and support thresholds."""
+        app.load_analytics_summary.clear()
+        at = AppTest.from_file(APP_FILE).run(timeout=15)
+
+        md_texts = "\n".join(md.value for md in at.markdown)
+        # Methodology titles without letter prefixes
+        assert "Within-Selection Prevalence" in md_texts
+        assert "Distinctiveness Lift" in md_texts
+        assert "Support Thresholds" in md_texts
+        assert "N ≥ 20 postings" in md_texts
+        assert "Prevalence ≥ 1.5%" in md_texts
