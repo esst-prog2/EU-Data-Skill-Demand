@@ -16,3 +16,4 @@ data/processed/.postings_cache.json
 
 # Tooling executables
 *.exe
+/scratch/
