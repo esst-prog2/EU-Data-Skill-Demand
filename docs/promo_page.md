@@ -63,13 +63,13 @@ While the application does not formally partition skills into rigid discrete buc
   Lift=1.0│  ─────── Baseline Parity ─────────┼──────────────────────────────────────────
           │  [Peripheral Skills]              │  [Universal Currency]
      <1.0 │  Lower prevalence, lower lift:    │  Higher prevalence, lower lift:
-          │  Occasional or secondary tools    │  Broad foundational tools (e.g., SQL)
+          │  Occasional or secondary tools    │  Broad foundational tools (e.g., Python)
           └───────────────────────────────────┴─────────────────────────────────────────►
                                                       Within-Category Prevalence (%)
 ```
 
-- **Role Superpowers (Higher Prevalence, Lift > 1.00):** Frequently requested skills that are simultaneously disproportionately concentrated within the selected occupation (e.g., `Power BI` in Data Analytics, `Apache Spark` in Data Engineering, `PyTorch` in ML/AI).
-- **Universal Currency (Higher Prevalence, Lift ≤ 1.00):** Frequently requested technologies that appear across multiple data disciplines (such as `SQL`). They reflect broad market presence rather than occupational specialization.
+- **Role Superpowers (Higher Prevalence, Lift > 1.00):** Frequently requested skills that are simultaneously disproportionately concentrated within the selected occupation (e.g., `SQL` at 63.7% with 1.31× lift and `Power BI` at 44.8% with 2.61× lift in Data Analytics, `SQL` at 55.8% with 1.15× lift and `Apache Spark` at 30.3% with 1.47× lift in Data Engineering, `PyTorch` at 40.0% with 6.70× lift in ML/AI).
+- **Universal Currency (Higher Prevalence, Lift ≤ 1.00):** Frequently requested technologies that appear widely across the market but at or below overall corpus parity for that specific occupation (e.g., `Python` in Data Analytics at 42.2% with 0.74× lift, `Python` in Data Engineering at 53.5% with 0.94× lift, or `SQL` in Data Science at 46.2% with 0.95× lift). They reflect broad market presence rather than occupational specialization.
 - **Niche Specializations (Lower Prevalence, Lift > 1.00):** Tools with lower overall posting volume within the category that nonetheless show strong occupational concentration relative to the rest of the corpus (e.g., `XGBoost` in Data Science, `OpenCV` in ML/AI).
 - **Peripheral Skills (Lower Prevalence, Lift ≤ 1.00):** Tools that appear infrequently within the selected occupation and at rates below or near the broader market baseline.
 
@@ -176,18 +176,30 @@ The EU Data Career Compass is supported by an automated, testable Python pipelin
 
 ---
 
-## 8. Launch the Dashboard
+## 8. Run the Dashboard Locally
 
-The dashboard can be executed locally in seconds using `uv`:
+The interactive Streamlit dashboard is designed to run locally on your machine with `uv`:
 
 ```bash
 # Clone the repository
 git clone https://github.com/esst-prog2/EU-Data-Skill-Demand.git
 cd EU-Data-Skill-Demand
 
-# Launch the Streamlit application using precomputed analytics
+# Launch the Streamlit application
 uv run streamlit run app.py
 ```
+
+### Clean-Clone Behavior & Data Modes
+
+- **Fresh Clone (Test Fixture Mode):** Because the 143 MB raw dataset (`data/raw/freehire_eu_raw.json`) and postings cache (`data/processed/.postings_cache.json`) are Git-ignored, a clean checkout runs automatically using a tracked deterministic test fixture (`data/fixtures/test_postings_fixture.json`, 176 postings) and displays a visible Test Fixture Mode banner. This allows you to explore the interface, layout, and filtering capabilities immediately without downloading large data files.
+- **Headline Statistics vs. Interactive Filter Slices:** The committed summary (`data/processed/analytics_summary.json`) supplies the full 24,488-posting European overview metrics and baseline benchmarks. However, dynamic interactive filters on a fresh clone operate on the 176-posting fixture, which should not be interpreted as full-market results.
+- **Rebuilding Full Data:** To collect a full-scale dataset locally, execute:
+  ```bash
+  uv run python eu27.py
+  uv run python scripts/preprocess.py
+  uv run streamlit run app.py
+  ```
+  *Note on live data:* `eu27.py` queries live vacancies from the FreeHire API, creating a fresh snapshot rather than replicating the exact historical 24,488-posting snapshot.
 
 ### Navigating Career Exploration
 

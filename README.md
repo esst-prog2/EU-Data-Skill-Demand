@@ -28,15 +28,16 @@ The project describes patterns in an observed EU-27 job-posting corpus. For exam
 
 ### Running the Dashboard
 
-The dashboard can run immediately using the committed precomputed analysis in `data/processed/analytics_summary.json`, allowing the dashboard to run without recollecting the raw data:
+The dashboard can run immediately using `uv`:
 
 ```bash
 uv run streamlit run app.py
 ```
 
-Regenerating the processed summary or running the preprocessing pipeline requires a local raw snapshot (`data/raw/freehire_eu_raw.json`), which is retained locally and excluded from Git due to file size.
-
-Collection parameters and audit information for the historical snapshot are recorded in the collection metadata file (`data/raw/collection_metadata_eu.json`). To collect a fresh snapshot from FreeHire, regenerate the analytics summary, and run the test suite:
+#### Clean-Clone Behavior & Data Modes
+- **Clean Checkout (Test Fixture Mode):** The full raw dataset (`data/raw/freehire_eu_raw.json`, ~143 MB) and postings cache (`data/processed/.postings_cache.json`) are Git-ignored due to file size. Consequently, a fresh clone starts automatically in **Test Fixture Mode** with a tracked deterministic fixture (`data/fixtures/test_postings_fixture.json`, 176 postings), displaying a prominent indicator banner. The headline overview metrics and European baseline benchmarks reflect the full precomputed 24,488-posting summary (`data/processed/analytics_summary.json`), but dynamic interactive filter slices operate over the 176-posting test fixture.
+- **Full Dataset Mode:** When the local raw snapshot (`data/raw/freehire_eu_raw.json`) or postings cache is present in the workspace, the dashboard automatically runs in full production mode across all 24,488 postings without the fixture banner.
+- **Collecting a Fresh Snapshot:** To run the full end-to-end data pipeline locally, run:
 
 ```bash
 uv run python eu27.py
@@ -44,7 +45,7 @@ uv run python scripts/preprocess.py
 uv run pytest
 ```
 
-Because FreeHire job postings and search results change continuously over time, running a new collection with `eu27.py` will pull live postings from the API and will not reproduce the historical 24,488-posting snapshot exactly; counts, category shares, and skill rankings in the charts may differ accordingly.
+*Note on Live Data:* Because FreeHire job postings and search results change continuously over time, running a new collection with `eu27.py` will pull live vacancies from the API and will create a fresh snapshot rather than replicating the exact historical 24,488-posting snapshot; counts, category shares, and skill rankings in the charts may differ accordingly.
 
 ### Local Data Refresh and Maintenance
 
